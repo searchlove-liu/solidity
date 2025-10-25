@@ -9,8 +9,13 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "initialOwner",
+						"name": "_vrfCoordinator",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "subscriptionId",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -154,22 +159,42 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "owner",
+						"name": "have",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "want",
 						"type": "address"
 					}
 				],
-				"name": "OwnableInvalidOwner",
+				"name": "OnlyCoordinatorCanFulfill",
 				"type": "error"
 			},
 			{
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "account",
+						"name": "have",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "coordinator",
 						"type": "address"
 					}
 				],
-				"name": "OwnableUnauthorizedAccount",
+				"name": "OnlyOwnerOrCoordinator",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ZeroAddress",
 				"type": "error"
 			},
 			{
@@ -246,6 +271,19 @@
 				"inputs": [
 					{
 						"indexed": false,
+						"internalType": "address",
+						"name": "vrfCoordinator",
+						"type": "address"
+					}
+				],
+				"name": "CoordinatorSet",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
 						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
@@ -260,13 +298,32 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "previousOwner",
+						"name": "from",
 						"type": "address"
 					},
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "newOwner",
+						"name": "to",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferRequested",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
 						"type": "address"
 					}
 				],
@@ -284,6 +341,44 @@
 					}
 				],
 				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "requestId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "randomWords",
+						"type": "uint256[]"
+					}
+				],
+				"name": "RequestFulfilled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "requestId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint32",
+						"name": "numWords",
+						"type": "uint32"
+					}
+				],
+				"name": "RequestSent",
 				"type": "event"
 			},
 			{
@@ -351,6 +446,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "acceptOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address[]",
@@ -414,6 +516,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "callbackGasLimit",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -427,6 +542,30 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_requestId",
+						"type": "uint256"
+					}
+				],
+				"name": "getRequestStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "fulfilled",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "randomWords",
+						"type": "uint256[]"
 					}
 				],
 				"stateMutability": "view",
@@ -458,6 +597,32 @@
 			},
 			{
 				"inputs": [],
+				"name": "keyHash",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastRequestId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "mintWindow",
 				"outputs": [
 					{
@@ -477,6 +642,19 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "numWords",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
 					}
 				],
 				"stateMutability": "view",
@@ -561,10 +739,122 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "renounceOwnership",
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "requestId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "randomWords",
+						"type": "uint256[]"
+					}
+				],
+				"name": "rawFulfillRandomWords",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "requestConfirmations",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "requestIds",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "enableNativePayment",
+						"type": "bool"
+					}
+				],
+				"name": "requestRandomWords",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "requestId",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "s_requests",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "fulfilled",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "s_subscriptionId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "s_vrfCoordinator",
+				"outputs": [
+					{
+						"internalType": "contract IVRFCoordinatorV2Plus",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -645,6 +935,19 @@
 					}
 				],
 				"name": "setApprovalForAll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vrfCoordinator",
+						"type": "address"
+					}
+				],
+				"name": "setCoordinator",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -801,7 +1104,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "newOwner",
+						"name": "to",
 						"type": "address"
 					}
 				],
@@ -925,16 +1228,6 @@
 					{
 						"details": "The operation failed because the contract is not paused."
 					}
-				],
-				"OwnableInvalidOwner(address)": [
-					{
-						"details": "The owner is not a valid owner account. (eg. `address(0)`)"
-					}
-				],
-				"OwnableUnauthorizedAccount(address)": [
-					{
-						"details": "The caller account is not authorized to perform an operation."
-					}
 				]
 			},
 			"events": {
@@ -971,6 +1264,12 @@
 				"burn(uint256)": {
 					"details": "Burns `tokenId`. See {ERC721-_burn}. Requirements: - The caller must own `tokenId` or be an approved operator."
 				},
+				"constructor": {
+					"params": {
+						"_vrfCoordinator": "address of VRFCoordinator contract。参考：https://docs.chain.link/vrf/v2-5/supported-networks#coordinator-parameters 如果是sepolia，则不需要传入，使用默认值：0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B param initialOwner: 这里说明部署这个合约的人不是合约所有者，所以这里传入合约所有者，并将值传递给Ownable(initialOwner)（之前版本） 但因为Ownable被VRFConsumerBaseV2Plus.sol中的ConfirmedOwner所实现，所以不再导入Ownable // 并且在VRFConsumerBaseV2Plus.sol中，将msg.sender作为owner",
+						"subscriptionId": ": 参考https://vrf.chain.link/"
+					}
+				},
 				"getApproved(uint256)": {
 					"details": "Returns the account approved for `tokenId` token. Requirements: - `tokenId` must exist."
 				},
@@ -980,17 +1279,11 @@
 				"name()": {
 					"details": "Returns the token collection name."
 				},
-				"owner()": {
-					"details": "Returns the address of the current owner."
-				},
 				"ownerOf(uint256)": {
 					"details": "Returns the owner of the `tokenId` token. Requirements: - `tokenId` must exist."
 				},
 				"paused()": {
 					"details": "Returns true if the contract is paused, and false otherwise."
-				},
-				"renounceOwnership()": {
-					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
 				},
 				"safeTransferFrom(address,address,uint256)": {
 					"details": "Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients are aware of the ERC-721 protocol to prevent tokens from being forever locked. Requirements: - `from` cannot be the zero address. - `to` cannot be the zero address. - `tokenId` token must exist and be owned by `from`. - If the caller is not `from`, it must have been allowed to move this token by either {approve} or   {setApprovalForAll}. - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon   a safe transfer. Emits a {Transfer} event."
@@ -1015,16 +1308,26 @@
 				},
 				"transferFrom(address,address,uint256)": {
 					"details": "Transfers `tokenId` token from `from` to `to`. WARNING: Note that the caller is responsible to confirm that the recipient is capable of receiving ERC-721 or else they may be permanently lost. Usage of {safeTransferFrom} prevents loss, though the caller must understand this adds an external call which potentially creates a reentrancy vulnerability. Requirements: - `from` cannot be the zero address. - `to` cannot be the zero address. - `tokenId` token must be owned by `from`. - If the caller is not `from`, it must be approved to move this token by either {approve} or {setApprovalForAll}. Emits a {Transfer} event."
-				},
-				"transferOwnership(address)": {
-					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
 				}
 			},
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"acceptOwnership()": {
+					"notice": "Allows an ownership transfer to be completed by the recipient."
+				},
+				"owner()": {
+					"notice": "Get the current owner"
+				},
+				"setCoordinator(address)": {
+					"notice": "Sets the VRF Coordinator addressThis method should only be callable by the coordinator or contract owner"
+				},
+				"transferOwnership(address)": {
+					"notice": "Allows an owner to begin transferring ownership to a new address."
+				}
+			},
 			"version": 1
 		}
 	},
@@ -1044,12 +1347,68 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/access/Ownable.sol": {
-			"keccak256": "0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb",
+		"@chainlink/contracts@1.5.0/src/v0.8/shared/access/ConfirmedOwner.sol": {
+			"keccak256": "0xf73016e2473f54ab8d5c7e3c4ab2fa280a185ccfc80d2be48ac5d18016c3f717",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6",
-				"dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a"
+				"bzz-raw://f051e82857cc14b3a975f8c09eece2ca349d4954e83165a2b56ed659aad40c9e",
+				"dweb:/ipfs/QmRNMQ5jQQ3a9LZgsQqmQxYJxhTQKQrRtP4Wc7TAjYS43N"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/shared/access/ConfirmedOwnerWithProposal.sol": {
+			"keccak256": "0x521cf41e477e502d133e050a5f35625f2ec652327af7f1b21abf5b898f9b8df9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://65198b68ed110b9900174be8b3ef682da28f7645fbaa21e4ccd97e8b4a971501",
+				"dweb:/ipfs/QmfDu99JhbBFnAFdw95jjnGgXEohyRvA7XPQf4NEpheytc"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/shared/interfaces/IOwnable.sol": {
+			"keccak256": "0x19f12817caa863b6785cf1e9085c66a93042fe906e41926bcb4a12bec9558d60",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d1cf3f784c42642747c263cfa7b9462846d5ce8ff84467470ec2703a659b925d",
+				"dweb:/ipfs/Qmbz2qYFMNM3CVYNKgwJV5Kqx5FFHSrb8zXEsYbJXyjFnP"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol": {
+			"keccak256": "0xdc9e9aa5f663f38a23432b9eb20647d62184017be9748e45f54477d417202421",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a7c5fcf5ec7fc7c0454cb764da2b21be91404779410ad8707a54ab51213f9449",
+				"dweb:/ipfs/QmPBAqUhHL5LiGiFjw2ht2QrMbsbWTiBBtzFkMYpdLmb5S"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol": {
+			"keccak256": "0x7fa2fd69fb4a3313506f4d556667fd0c918d43441dbdb6ffa41339ac97e1e5b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d97cea325765ba779ad1b858608da8e1f4e5a297785941a039f2d2b3b0384de0",
+				"dweb:/ipfs/QmawxEDkw6UrJuRJJK8ZdqjT98hjv2rifjEe8MJtKeL7bc"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/interfaces/IVRFMigratableConsumerV2Plus.sol": {
+			"keccak256": "0xd1b8053c786c6771bc5d27ea0cfa6fbf73fbbc0f3d900ac0fea50a7ebcd581b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://48b0ea904bf7f2f9e742a64d074af5bb7895f0ee309990d1088a4fb6361efc96",
+				"dweb:/ipfs/QmauY45Bzw6wDKFKMZHJSRi8ZybjuegLrQp9e1M14CUGFy"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/interfaces/IVRFSubscriptionV2Plus.sol": {
+			"keccak256": "0xb782e66b6a2a87df6f70c2a8aa3aa6e4db5711edfe5a831b9d585a4b975bb7a8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9cf200f084cf8f20c368c1cebeb06f4a1fa2392b282b7ffc1e01f824718b00a1",
+				"dweb:/ipfs/QmbZNV5LxMLD2m9nLYkARyq39ouq28kVPPbUD1yDVeCp8v"
+			]
+		},
+		"@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol": {
+			"keccak256": "0xb0b1a6f3f0d59aca5c805994d8f64c24f570c280422f976dbae20f8b5b24b47c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f50a9db38564469f443866bb1e8067f4f934616195afe282c00733d1c1cc7419",
+				"dweb:/ipfs/QmfKLv5z7KzxNKCZfH9wC9b4ukkXqz8w8HEqmJcYAvdREH"
 			]
 		},
 		"@openzeppelin/contracts/interfaces/IERC165.sol": {
@@ -1237,11 +1596,11 @@
 			]
 		},
 		"dog/dog.sol": {
-			"keccak256": "0x8ce96b7d7912b4faae9f45c8963387d4abe1c4332ba8f55d70bfe9c3813eb3c1",
+			"keccak256": "0x7721726eaab2f160da75316864be5d55672681e495b0c948414f532a6e4a3e6f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://870d9036169408d2e0d2fd45e667eb422a374c308dc72362de08a7b3c4116a47",
-				"dweb:/ipfs/QmNwFRNw6tr5xERmDbHnrx3CjRGwsXw9QoqEeHcUerUr9k"
+				"bzz-raw://ef41feb0198bb3501eab4d90da91a7828429594fbea55d4a021f75899c4276e8",
+				"dweb:/ipfs/QmV1EW4iz1dm5PKvRUjUZe7A4dW5z9cBATEy4yqLygdSeW"
 			]
 		}
 	},
