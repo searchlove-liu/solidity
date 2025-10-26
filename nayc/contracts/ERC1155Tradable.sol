@@ -1,6 +1,9 @@
 pragma solidity ^0.8.4;
 import {ContextMixin} from "./common/meta-transactions/ContentMixin.sol";
 import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {NativeMetaTransaction} from "./common/meta-transactions/NativeMetaTransaction.sol";
+import {Pausable} from " @openzeppelin/contracts/security/Pausable.sol";
 
 contract OwnableDelegateProxy {}
 
