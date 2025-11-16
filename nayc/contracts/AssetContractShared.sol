@@ -1,5 +1,8 @@
 pragma solidity ^0.8.4;
-import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+// 阻止冲入攻击
+import {
+    ReentrancyGuard
+} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {AssetContract} from "./AssetContract.sol";
 
 /*
@@ -10,17 +13,21 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
     // Migration contract address
     AssetContractShared public migrationTarget;
 
+    // 共享代理地址白名单。任何在此 mapping 中为 true 的地址都会被 _isProxyForUser 视为代理（不论 owner 是谁），
+    // 用于让 OpenSea、Rarible 等多个 marketplace 都能代理操作。
     mapping(address => bool) public sharedProxyAddresses;
 
     struct Ownership {
         uint256 id;
         address owner;
     }
-
+    // 导入库以解析 token id 的 creator、index、maxSupply。
     using TokenIdentifiers for uint256;
 
     event CreatorChanged(uint256 indexed _id, address indexed _creator);
 
+    // 允许覆写 token id 中内嵌的 creator。
+    // 某个 creator 可以通过 setCreator() 改变该 token 的"法定创作者"地址（例如转移所有权）。
     mapping(uint256 => address) internal _creatorOverride;
 
     /**
@@ -37,6 +44,8 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
     /**
      * @dev Require the caller to own the full supply of the token
      */
+    //  要求调用者持有该 token 全部 的最大供应量。
+    // 用途：只有完全拥有该 token 的人（通常是原 creator）才能把 URI 改为永久。
     modifier onlyFullTokenOwner(uint256 _id) {
         require(
             _ownsTokenAmount(_msgSender(), _id, _id.tokenMaxSupply()),
@@ -88,6 +97,7 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
     /**
      * @dev Migrate state from previous contract
      */
+    //  从旧合约（migrationTarget）批量迁移数据到新合约。
     function migrate(Ownership[] memory _ownerships) public onlyOwnerOrProxy {
         AssetContractShared _migrationTarget = migrationTarget;
         require(
@@ -158,6 +168,7 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
      *            and the creator must own all of the token supply
      * @param _uri New URI for the token.
      */
+    //  URI 必须还未标记为永久（onlyImpermanentURI）；
     function setURI(
         uint256 _id,
         string memory _uri
@@ -258,3 +269,54 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
         return super._isProxyForUser(_user, _address);
     }
 }
+
+// 典型使用场景
+/*
+场景 1：多 Creator 平台
+部署： 部署 AssetContractShared，设 owner、templateURI、proxy registry。
+Creator A 铸造 token：
+构造 token id（嵌入 A 的地址 + 序号 + 最大供应）；
+调用 mint(_to, id, qty, uri_data)（满足 creatorOnly(id) 需求）；
+合约铸造 qty 个到 _to，并从 uri_data 提取 URI。
+Creator A 改 URI：
+若 URI 还未永久，调用 setURI(id, new_uri)；
+若要锁定，调用 setPermanentURI(id, final_uri) → 之后永不可改。
+Creator A 转移权利：
+调用 setCreator(id, B_addr) → 现在只有 B 能继续 mint 或改该 token 的属性。
+场景 2：版本升级与数据迁移
+旧合约已有大量 token 和持有者数据。
+部署新版合约，设 migrationTarget 指向旧合约。
+调用 migrate([{id1, owner1}, {id2, owner2}, ...])：
+合约逐个查询旧合约的余额；
+在新合约中为每个 owner 补充相同数量；
+复制 URI（如果非模板）并标记为永久。
+完成后调用 disableMigrate() 禁用迁移 → 新合约成为唯一来源。
+场景 3：OpenSea 免 Gas 上架
+OpenSea 在 sharedProxyAddresses 中注册了其 proxy 合约地址。
+用户无需额外 approve，OpenSea proxy 即可代理转移。
+在 balanceOf 中的查询会自动将 proxy 视为被批准的操作者。
+
+Creator 权限是 token id 内嵌的
+
+如果 token id 构造错误（creator 位错位），权限检查会失效。
+生成 token id 的外部系统需确保格式正确。
+URI 永久性一旦设置不可撤销
+
+setPermanentURI 会把 _isPermanentURI[_id] 设为 true；
+此后任何 setURI/setPermanentURI 都会被 onlyImpermanentURI 拒绝；
+这是有意的设计，用于确保 NFT 的元数据不被篡改。
+迁移时的重入保护
+
+migrate 和 batchMint 都用了 nonReentrant，防止迁移中的恶意重入。
+共享代理白名单的风险
+
+sharedProxyAddresses 中的任何地址都自动被视为所有用户的代理（不受 OpenSea registry 限制）。
+所有者应谨慎添加，避免不可信地址获得无限转移权。
+Proxy Registry 依赖
+
+如果 proxyRegistryAddress 指向错误地址或被攻击，用户级代理授权会失效或被滥用。
+MaxSupply 编码在 ID 中
+
+一旦 token id 生成，maxSupply 就固定了。
+如果需要改变某 token 的最大供应，无法在此合约中实现（会需要新 id）。
+*/

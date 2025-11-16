@@ -19,6 +19,7 @@ library TokenIdentifiers {
     uint8 constant SUPPLY_BITS = 40;
 
     uint256 constant SUPPLY_MASK = (uint256(1) << SUPPLY_BITS) - 1;
+    // 中间16位用于 index
     uint256 constant INDEX_MASK =
         ((uint256(1) << INDEX_BITS) - 1) ^ SUPPLY_MASK;
 
