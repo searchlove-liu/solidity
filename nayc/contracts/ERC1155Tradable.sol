@@ -26,6 +26,8 @@ contract ProxyRegistry {
  * ERC1155Tradable - ERC1155 contract that whitelists an operator address, has create and mint functionality, and supports useful standards from OpenZeppelin,
   like exists(), name(), symbol(), and totalSupply()
  */
+//  注意这个合约没有使用 reentrancy guard。
+// 功能：主要实现资产的mint、burn、转移等功能，并集成了 OpenSea 代理合约支持和元交易支持。
 contract ERC1155Tradable is
     ContextMixin /* 获取真实的发送地址 */,
     ERC1155,
@@ -159,15 +161,18 @@ contract ERC1155Tradable is
      * Override isApprovedForAll to whitelist user's OpenSea proxy accounts to enable gas-free listings.
      */
     // 重写以允许将 OpenSea proxy 视为已批准（用 _isProxyForUser 判定），以便实现“免 gas 上架”等体验。
+    //
     function isApprovedForAll(
         address _owner,
         address _operator
     ) public view override returns (bool isOperator) {
         // Whitelist OpenSea proxy contracts for easy trading.
+        // _operator 必须是代理，其实应该是openSea的代理
         if (_isProxyForUser(_owner, _operator)) {
             return true;
         }
-
+        // 再查看_operator是否是否被授权
+        // isApprovedForAll被重写，super可以访问未重写的父合约ERC1155的isApprovedForAll方法
         return super.isApprovedForAll(_owner, _operator);
     }
 
@@ -195,14 +200,19 @@ contract ERC1155Tradable is
      *      这防止了 token 被转账给不支持的合约导致永久丢失。
      */
     function safeTransferFrom(
-        address from,
+        address from, // from 是token的所有者。msg.sender()是调用者.他俩可能相同，也可能不同
         address to,
         uint256 id,
         uint256 amount,
         bytes memory data
+        // whenNotPaused，表示当合约未暂停时才能调用此函数
+        // onlyApproved，表示只有msg.sender被授权才能调用此函数，或者msg.sender==from也可以调用
     ) public virtual override whenNotPaused onlyApproved(from) {
         require(to != address(0), "ERC1155: transfer to the zero address");
 
+        // 获取消息的签名者。不是发送者。
+        // 参考 common/meta-transactions/NativeMetaTransaction.sol的executeMetaTransaction实现
+        // operator应该是from或者被from授权的地址
         address operator = _msgSender();
 
         uint256 fromBalance = balances[id][from];
@@ -364,6 +374,7 @@ contract ERC1155Tradable is
     ) internal virtual override whenNotPaused {
         address operator = _msgSender();
 
+        // 这个_beforeMint函数在本合约的子合约AssetContract.sol中定义
         _beforeMint(_id, _amount);
 
         // Add _amount
@@ -451,6 +462,7 @@ contract ERC1155Tradable is
         require(account != address(0), "ERC1155#_burn: BURN_FROM_ZERO_ADDRESS");
         require(amount > 0, "ERC1155#_burn: AMOUNT_LESS_THAN_ONE");
 
+        // 消息的签名者，可能是token的owenr，也可能是approver
         address operator = _msgSender();
 
         uint256 accountBalance = balances[id][account];

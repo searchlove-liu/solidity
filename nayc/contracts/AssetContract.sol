@@ -7,6 +7,8 @@ import {ERC1155Tradable} from "./ERC1155Tradable.sol";
  * AssetContract - A contract for easily creating non-fungible assets on OpenSea.
  */
 
+// 功能1：AssetContract 继承并复写了ERC1155Tradable中transfer方法，复写中增加了对token剩余可铸造数量的处理逻辑。
+// 功能2：实现了设置永久URI的功能，一旦设置后URI不可更改。
 contract AssetContract is ERC1155Tradable {
     event PermanentURI(string _value, uint256 indexed _id);
 
@@ -17,7 +19,6 @@ contract AssetContract is ERC1155Tradable {
     // 公共的模板 URI，当某个 token 没有单独设置 URI 时返回该 URI。
     string public templateURI;
 
-    // 公共的模板 URI，当某个 token 没有单独设置 URI 时返回该 URI。
     // Optional mapping for token URIs
     mapping(uint256 => string) private _tokenURI;
 
@@ -50,11 +51,12 @@ contract AssetContract is ERC1155Tradable {
     }
 
     constructor(
+        address initialOwner, // 初始合约拥有者
         string memory _name,
         string memory _symbol,
         address _proxyRegistryAddress,
         string memory _templateURI
-    ) ERC1155Tradable(_name, _symbol, _proxyRegistryAddress) {
+    ) ERC1155Tradable(initialOwner, _name, _symbol, _proxyRegistryAddress) {
         if (bytes(_templateURI).length > 0) {
             setTemplateURI(_templateURI);
         }
@@ -72,6 +74,8 @@ contract AssetContract is ERC1155Tradable {
         uint256 _id,
         uint256 _quantity
     ) internal view returns (bool) {
+        // balanceOf(_from, _id)  获取 _from 地址持有的指定 token id 的数量
+        // 如果是owner或代理，则返回铸造的余额加上剩余可铸造数量，否则只返回余额
         return balanceOf(_from, _id) >= _quantity;
     }
 
@@ -121,13 +125,15 @@ contract AssetContract is ERC1155Tradable {
     function balanceOf(
         address _owner,
         uint256 _id
+        // override表示这个代码被复写
     ) public view virtual override returns (uint256) {
-        // 下面代码中super是什么意思，来自哪里？
+        // ERC1155Tradable合约的balanceOf被当前合约复写。
+        // super.balanceOf 调用父合约 ERC1155Tradable 的 原始 balanceOf 方法
         uint256 balance = super.balanceOf(_owner, _id);
         return
-            // _remainingSupply是什么意思
-            _isCreatorOrProxy(_id, _owner)
-                ? balance + _remainingSupply(_id)
+            // 查看某个地址是否为合约所有者或其代理
+            _isCreatorOrProxy(_id, _owner) // 如果是合约的owner或代理，则返回铸造的余额加上剩余可铸造数量
+                ? balance + _remainingSupply(_id) // 如果不是，则只返回余额
                 : balance;
     }
 
@@ -137,13 +143,18 @@ contract AssetContract is ERC1155Tradable {
         uint256 _id,
         uint256 _amount,
         bytes memory _data
+        // 复写来自ERC1155Tradable的 safeTransferFrom 方法
     ) public override {
         // 返回已经铸造的代币余额
+        // 因为 balanceOf 方法被复写过，这里调用 super.balanceOf 以获取原始的铸造余额
         uint256 mintedBalance = super.balanceOf(_from, _id);
         // 如果铸造的余额小于要转移的数量，则先铸造差额部分
         if (mintedBalance < _amount) {
             // Only mint what _from doesn't already have
             // 给目标用户铸造差额部分
+            // TODO:这里为什么不对mint的数量做检查。在父合约ERC1155Tradable中，
+            // 解释：mint方法调用了_beforeMint方法，
+            // 而_beforeMint在当前合约中被复写过，做了剩余可铸造数量的检查。
             mint(_to, _id, _amount - mintedBalance, _data);
             if (mintedBalance > 0) {
                 // 转移已铸造部分
@@ -171,6 +182,9 @@ contract AssetContract is ERC1155Tradable {
         }
     }
 
+    // 父合约ERC1155Tradable中的_beforeMint方法被当前合约复写
+    // 当前合约继承了父合约，当前合约执行mint操作时，会调用用父合约ERC1155Tradable的mint函数，实际执行环境还是当前合约。
+    // 所以父合约在mint函数中调用的_beforeMint方法，实际执行的是当前合约复写后的_beforeMint方法。
     function _beforeMint(
         uint256 _id,
         uint256 _quantity
@@ -219,8 +233,8 @@ contract AssetContract is ERC1155Tradable {
         }
     }
 
-    // 查看某个地址是否是某个 token id 的创建者或其代理
-    // TODO: 为什么不需要用到 token id？
+    // 查看某个地址是否是地址是创建者或其代理
+    // TODO: 为什么不需要用到 token id？因为这是检查某个地址是否为合约的所有者或代理
     function _isCreatorOrProxy(
         uint256,
         address _address

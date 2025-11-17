@@ -4,13 +4,18 @@ import {
     ReentrancyGuard
 } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {AssetContract} from "./AssetContract.sol";
+import {TokenIdentifiers} from "./TokenIdentifiers.sol";
 
 /*
  * @title AssetContractShared
  * OpenSea shared asset contract - A contract for easily creating custom assets on OpenSea
  */
+// AssetContractShared 继承自 AssetContract
+// 功能增加1、实现了从旧合约迁移数据到新合约的功能。
+// 功能增加2、在mint和batchMint中增加了重入保护和设置电、
+// 功能增加3、为每一个token id 设置 creator 地址。
 contract AssetContractShared is AssetContract, ReentrancyGuard {
-    // Migration contract address
+    // Migration contract address，旧合约地址。
     AssetContractShared public migrationTarget;
 
     // 共享代理地址白名单。任何在此 mapping 中为 true 的地址都会被 _isProxyForUser 视为代理（不论 owner 是谁），
@@ -48,6 +53,8 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
     // 用途：只有完全拥有该 token 的人（通常是原 creator）才能把 URI 改为永久。
     modifier onlyFullTokenOwner(uint256 _id) {
         require(
+            // 调用 AssetContract 的 _ownsTokenAmount 函数，判断调用者是否持有该 token id的全部最大供应量。
+            // 如果_msgSender()是owner或代理，_ownsTokenAmount 函数中 balanceOf(_from, _id)会返回 token id的全部最大供应量。
             _ownsTokenAmount(_msgSender(), _id, _id.tokenMaxSupply()),
             "AssetContractShared#onlyFullTokenOwner: ONLY_FULL_TOKEN_OWNER_ALLOWED"
         );
@@ -55,12 +62,21 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
     }
 
     constructor(
+        address initialOwner, // 初始合约拥有者
         string memory _name,
         string memory _symbol,
-        address _proxyRegistryAddress,
+        address _proxyRegistryAddress, // 代理注册表地址
         string memory _templateURI,
         address _migrationAddress
-    ) AssetContract(_name, _symbol, _proxyRegistryAddress, _templateURI) {
+    )
+        AssetContract(
+            initialOwner,
+            _name,
+            _symbol,
+            _proxyRegistryAddress,
+            _templateURI
+        )
+    {
         migrationTarget = AssetContractShared(_migrationAddress);
     }
 
@@ -68,12 +84,15 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
      * @dev Allows owner to change the proxy registry
      */
     function setProxyRegistryAddress(address _address) public onlyOwnerOrProxy {
+        // 更改代理注册表地址，修改父合约TokenIdentifiers中的proxyRegistryAddress变量
         proxyRegistryAddress = _address;
     }
 
     /**
      * @dev Allows owner to add a shared proxy address
      */
+    //  添加一个共享SharedProxy到白名单
+    // 问：SharedProxy和ProxyRegistry的区别？
     function addSharedProxyAddress(address _address) public onlyOwnerOrProxy {
         sharedProxyAddresses[_address] = true;
     }
@@ -139,6 +158,7 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
         uint256 _id,
         uint256 _quantity,
         bytes memory _data
+        // nonReentrant：设置了重入保护
     ) public override nonReentrant creatorOnly(_id) {
         _mint(_to, _id, _quantity, _data);
     }
@@ -177,6 +197,7 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
         override
         creatorOnly(_id)
         onlyImpermanentURI(_id)
+        // 只有持有某个id的最大供应量，才可以设置URI
         onlyFullTokenOwner(_id)
     {
         _setURI(_id, _uri);
@@ -192,8 +213,8 @@ contract AssetContractShared is AssetContract, ReentrancyGuard {
         public
         override
         creatorOnly(_id)
-        onlyImpermanentURI(_id)
-        onlyFullTokenOwner(_id)
+        onlyImpermanentURI(_id) // 当前RUI为临时的
+        onlyFullTokenOwner(_id) // 只有持有某个id的最大供应量，才可以设置URI
     {
         _setPermanentURI(_id, _uri);
     }

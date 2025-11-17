@@ -11,7 +11,7 @@ pragma solidity ^0.8.4;
 // 3. 合约需要能从转发的数据中恢复"真实用户"的身份
 //
 // ContextMixin 支持的转发模式是"自我转发"：
-// - 转发器调用 executeMetaTx(userData, signature)
+// - 转发器调用 executeMetaTx(userData, signature) [在NativeMetaTransaction.sol中定义]
 // - executeMetaTx 验证签名后，通过 address(this).call(originalData + userAddress) 转发
 // - 当原始函数执行时，msg.sender == address(this)（因为是通过 call 调用自己）
 // - ContextMixin.msgSender() 检测到这个条件，从 calldata 末尾提取真实用户地址
