@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.30+commit.73712a01"
+		"version": "0.8.1+commit.df193b15"
 	},
 	"language": "Solidity",
 	"output": {
@@ -166,6 +166,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -519,23 +532,6 @@
 			}
 		],
 		"devdoc": {
-			"events": {
-				"Approval(address,address,uint256)": {
-					"details": "Emitted when `owner` enables `approved` to manage the `tokenId` token."
-				},
-				"ApprovalForAll(address,address,bool)": {
-					"details": "Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets."
-				},
-				"BatchMetadataUpdate(uint256,uint256)": {
-					"details": "This event emits when the metadata of a range of tokens is changed. So that the third-party platforms such as NFT market could timely update the images and related attributes of the NFTs."
-				},
-				"MetadataUpdate(uint256)": {
-					"details": "This event emits when the metadata of a token is changed. So that the third-party platforms such as NFT market could timely update the images and related attributes of the NFT."
-				},
-				"Transfer(address,address,uint256)": {
-					"details": "Emitted when `tokenId` token is transferred from `from` to `to`."
-				}
-			},
 			"kind": "dev",
 			"methods": {
 				"approve(address,uint256)": {
@@ -602,7 +598,7 @@
 		"compilationTarget": {
 			"myToken.sol": "MyToken"
 		},
-		"evmVersion": "prague",
+		"evmVersion": "istanbul",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -727,11 +723,11 @@
 			]
 		},
 		"myToken.sol": {
-			"keccak256": "0x506a5542eb3162dcc8d7f454b0ad67f0240957452c521a0f6f2740eef6dc85a1",
+			"keccak256": "0x589914f4438f89e6707cac7cb4047bdb070520602d1c9c6debd56873fc96818f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f663d91565e93baf8bf23fb920d5dcf41724ab6af500f99a78136179a887cd03",
-				"dweb:/ipfs/QmRnndZFnjKifN74PL7h6yMmze72gaNi8GCsccHrjJzzkr"
+				"bzz-raw://50b482e5b15d893203371bd95d19c770aae4e082aa434a6411320503cb525b23",
+				"dweb:/ipfs/Qme2VhxcwoNkcNShXC4TBKpMr3jwTnuz3fhdprWGiUtiYu"
 			]
 		},
 		"openzeppelin/contracts/proxy/utils/Initializable.sol": {
@@ -743,11 +739,11 @@
 			]
 		},
 		"openzeppelin/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x048ba069b9b0a14892984c7a7d009f679318c311a419c491eabd6f4103ba0889",
+			"keccak256": "0xbbce0628634b5ce54312e5001fdc52fd833f7f1c8b36ceace1df26d13d70432f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bac9a3a2d941ba1d6cd27101346c1ac70bbf4512f60d85d107c7bb7652de1bdf",
-				"dweb:/ipfs/Qme5yMbQGZiKa3VJqeBibQMsy3jM4DYbwmWsYTzmmtzmbB"
+				"bzz-raw://ff1fa8281abd5e20d4244635b75cdda6e135a5a7025a8bc0311dfdfcd72357ed",
+				"dweb:/ipfs/QmeDSP4Nu2JS3ssnJn4eWQSiD1nAFfsiJt8aR75yoxYG9D"
 			]
 		},
 		"openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {

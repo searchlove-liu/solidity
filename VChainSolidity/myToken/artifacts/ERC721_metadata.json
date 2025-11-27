@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.1+commit.df193b15"
+		"version": "0.8.30+commit.73712a01"
 	},
 	"language": "Solidity",
 	"output": {
@@ -338,6 +338,17 @@
 		],
 		"devdoc": {
 			"details": "Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including the Metadata extension, but not including the Enumerable extension, which is available separately as {ERC721Enumerable}.",
+			"events": {
+				"Approval(address,address,uint256)": {
+					"details": "Emitted when `owner` enables `approved` to manage the `tokenId` token."
+				},
+				"ApprovalForAll(address,address,bool)": {
+					"details": "Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets."
+				},
+				"Transfer(address,address,uint256)": {
+					"details": "Emitted when `tokenId` token is transferred from `from` to `to`."
+				}
+			},
 			"kind": "dev",
 			"methods": {
 				"approve(address,uint256)": {
@@ -392,7 +403,7 @@
 		"compilationTarget": {
 			"openzeppelin/contracts/token/ERC721/ERC721.sol": "ERC721"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "prague",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -485,11 +496,11 @@
 			]
 		},
 		"openzeppelin/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x048ba069b9b0a14892984c7a7d009f679318c311a419c491eabd6f4103ba0889",
+			"keccak256": "0xbbce0628634b5ce54312e5001fdc52fd833f7f1c8b36ceace1df26d13d70432f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bac9a3a2d941ba1d6cd27101346c1ac70bbf4512f60d85d107c7bb7652de1bdf",
-				"dweb:/ipfs/Qme5yMbQGZiKa3VJqeBibQMsy3jM4DYbwmWsYTzmmtzmbB"
+				"bzz-raw://ff1fa8281abd5e20d4244635b75cdda6e135a5a7025a8bc0311dfdfcd72357ed",
+				"dweb:/ipfs/QmeDSP4Nu2JS3ssnJn4eWQSiD1nAFfsiJt8aR75yoxYG9D"
 			]
 		},
 		"openzeppelin/contracts/utils/Address.sol": {

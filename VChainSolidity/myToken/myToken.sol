@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 // Compatible with OpenZeppelin Contracts ^5.5.0
-pragma solidity ^0.8.1;
+pragma solidity 0.8.1;
 
 import {ERC721} from "./openzeppelin/contracts/token/ERC721/ERC721.sol"; 
 // import {ERC721} from "@openzeppelin/contracts@4.9.6/token/ERC721/ERC721.sol";
+// 这个ERC721Burnable 实现的burn，内部也是调用erc721的_burn函数
+// import {ERC721Burnable} from "@openzeppelin/contracts@4.9.6/token/ERC721/extensions/ERC721Burnable.sol";
 import {ERC721Enumerable} from "./openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import {ERC721URIStorage} from "./openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {Ownable} from "@openzeppelin/contracts@4.9.6/access/Ownable.sol";
@@ -62,6 +64,12 @@ contract MyToken is Initializable,ERC721, ERC721Enumerable, ERC721URIStorage, Ow
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://crowded-harlequin-skunk.myfilebase.com/ipfs/QmZ3D7Ak6N6VM5cART2U1zWVPJhvdmaS2iyRh3ANDGCNML/";
+    }
+
+    // 烧掉发某个token
+    function burn (uint256 tokenId)public {
+        // 安全检查
+        _burn(tokenId);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {

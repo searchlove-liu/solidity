@@ -104,7 +104,7 @@ contract ERC721 is Context,Initializable, ERC165, IERC721, IERC721Metadata {
 
         string memory baseURI = _baseURI();
         // return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "";
     }
 
     /**
