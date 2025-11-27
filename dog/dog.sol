@@ -3,16 +3,28 @@
 pragma solidity ^0.8.27;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {ERC721Burnable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import {ERC721Pausable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
-import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {
+    ERC721Burnable
+} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import {
+    ERC721Enumerable
+} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import {
+    ERC721Pausable
+} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
+import {
+    ERC721URIStorage
+} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 // 它的方法被@chainlink/contracts@1.5.0/src/v0.8/shared/access/ConfirmedOwnerWithProposal.sol所实现，所以不用再次导入。
 // 至于为什么上面方法没有导入就可以使用，是因为他被VRFConsumerBaseV2Plus.sol中的ConfirmedOwner所调用，
 // 并且在VRFConsumerBaseV2Plus.sol中，将msg.sender作为owner
 // import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {VRFConsumerBaseV2Plus} from "@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
-import {VRFV2PlusClient} from "@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+import {
+    VRFConsumerBaseV2Plus
+} from "@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
+import {
+    VRFV2PlusClient
+} from "@chainlink/contracts@1.5.0/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
 contract MyToken is
     ERC721,
@@ -35,21 +47,26 @@ contract MyToken is
     // mint 开放或关闭标志，true表示可以进行mint
     bool public mintWindow;
 
-     // METADATA of NFT
-    string constant METADATA_SHIBAINU = "ipfs://QmY1mv8RbUibNeWNJUNj6MKh5J4S9G7T4srsyvA5EEsu1J";
-    string constant METADATA_HUSKY = "ipfs://QmWuqpwJqZj7FNSqEXvcVRU3h32bDYQbCuhqh2Y2kprH7J";
-    string constant METADATA_BULLDOG = "ipfs://QmdotKeeQhBFqTr4ksSE7nNDAGG8ydsaCN9tqLP11co6Ai";
-    string constant METADATA_SHEPHERD = "ipfs://QmTTakCHecH9oZR7N4XPhAcAnsA4gaYB4Cq5D57T9MsYXR"; 
+    // METADATA of NFT
+    // 访问：https://ipfs.io/ipfs/QmWuqpwJqZj7FNSqEXvcVRU3h32bDYQbCuhqh2Y2kprH7J
+    string constant METADATA_SHIBAINU =
+        "ipfs://QmY1mv8RbUibNeWNJUNj6MKh5J4S9G7T4srsyvA5EEsu1J";
+    string constant METADATA_HUSKY =
+        "ipfs://QmWuqpwJqZj7FNSqEXvcVRU3h32bDYQbCuhqh2Y2kprH7J";
+    string constant METADATA_BULLDOG =
+        "ipfs://QmdotKeeQhBFqTr4ksSE7nNDAGG8ydsaCN9tqLP11co6Ai";
+    string constant METADATA_SHEPHERD =
+        "ipfs://QmTTakCHecH9oZR7N4XPhAcAnsA4gaYB4Cq5D57T9MsYXR";
 
-// 以下时获取随机数的参数
-//     event RequestSent(uint256 requestId, uint32 numWords);
-//     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
+    // 以下时获取随机数的参数
+    //     event RequestSent(uint256 requestId, uint32 numWords);
+    //     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
-//     struct requestStatus {
-//     bool fulfilled; // whether the request has been successfully fulfilled
-//     bool exists; // whether a requestId exists
-//     uint256[] randomWords;
-//   }
+    //     struct requestStatus {
+    //     bool fulfilled; // whether the request has been successfully fulfilled
+    //     bool exists; // whether a requestId exists
+    //     uint256[] randomWords;
+    //   }
 
     mapping(uint256 => uint256) public reqIdToNFTId;
 
@@ -83,20 +100,20 @@ contract MyToken is
 
     // For this example, retrieve 1 random values in one request.
     // Cannot exceed VRFCoordinatorV2_5.MAX_NUM_WORDS.
-    uint32 public numWords = 1;   
+    uint32 public numWords = 1;
 
     /**
-   * @param _vrfCoordinator address of VRFCoordinator contract。参考：https://docs.chain.link/vrf/v2-5/supported-networks#coordinator-parameters
-   * 如果是sepolia：0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B
-   * 假设要调用一个合约，需要知道目标合约的abi，合约地址，就可以得到一个handler，通过handler就可以调用合约中的函数。vrfCoordinator就是针对vrf合约的handler
-   * param initialOwner: 这里说明部署这个合约的人不是合约所有者，所以这里传入合约所有者，并将值传递给Ownable(initialOwner)（之前版本）
-   * 但因为Ownable被VRFConsumerBaseV2Plus.sol中的ConfirmedOwner所实现，所以不再导入Ownable
-   * 并且在VRFConsumerBaseV2Plus.sol中，将msg.sender作为owner
-   * @param subscriptionId: 参考https://vrf.chain.link/,sepolia网络可使用：
-   * 94668201116556404667932990827623502682118598806400263731078003937484671294555
-   * 在部署这个合约之后，需要复制这个合约地址，并在subscription详情中点击Add consumer，并将合约地址复制进去，不然这个合约将无法使用subscriptionId
-   * 参考：https://vrf.chain.link/#/side-drawer/subscription/sepolia/94668201116556404667932990827623502682118598806400263731078003937484671294555
-   */
+     * @param _vrfCoordinator address of VRFCoordinator contract。参考：https://docs.chain.link/vrf/v2-5/supported-networks#coordinator-parameters
+     * 如果是sepolia：0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B
+     * 假设要调用一个合约，需要知道目标合约的abi，合约地址，就可以得到一个handler，通过handler就可以调用合约中的函数。vrfCoordinator就是针对vrf合约的handler
+     * param initialOwner: 这里说明部署这个合约的人不是合约所有者，所以这里传入合约所有者，并将值传递给Ownable(initialOwner)（之前版本）
+     * 但因为Ownable被VRFConsumerBaseV2Plus.sol中的ConfirmedOwner所实现，所以不再导入Ownable
+     * 并且在VRFConsumerBaseV2Plus.sol中，将msg.sender作为owner
+     * @param subscriptionId: 参考https://vrf.chain.link/,sepolia网络可使用：
+     * 94668201116556404667932990827623502682118598806400263731078003937484671294555
+     * 在部署这个合约之后，需要复制这个合约地址，并在subscription详情中点击Add consumer，并将合约地址复制进去，不然这个合约将无法使用subscriptionId
+     * 参考：https://vrf.chain.link/#/side-drawer/subscription/sepolia/94668201116556404667932990827623502682118598806400263731078003937484671294555
+     */
     constructor(
         address _vrfCoordinator,
         // address initialOwner,
@@ -108,7 +125,7 @@ contract MyToken is
         // }else {
         //     VRFConsumerBaseV2Plus(_vrfCoordinator);
         // }
-        
+
         s_subscriptionId = subscriptionId;
     }
 
@@ -148,7 +165,7 @@ contract MyToken is
         whiteList[msg.sender] = preMintAmount - 1;
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
-        requestRandomWords(false,tokenId);
+        requestRandomWords(false, tokenId);
         // _setTokenURI(tokenId, uri);
         return tokenId;
     }
@@ -170,12 +187,12 @@ contract MyToken is
         require(totalSupply() < MAX_NFT_AMOUNT);
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
-        requestRandomWords(false,tokenId);
+        requestRandomWords(false, tokenId);
         // _setTokenURI(tokenId, uri);
         return tokenId;
     }
 
-    function withdraw(address addr) external onlyOwner{
+    function withdraw(address addr) external onlyOwner {
         payable(addr).transfer(address(this).balance);
     }
 
@@ -252,23 +269,22 @@ contract MyToken is
         return requestId;
     }
 
-// 这个函数时回调函数，不是本合约调用，是发送requestRandomWords请求之后，chainlink合约调用，并把随机数传进来。
+    // 这个函数时回调函数，不是本合约调用，是发送requestRandomWords请求之后，chainlink合约调用，并把随机数传进来。
     function fulfillRandomWords(
         uint256 _requestId,
         uint256[] calldata _randomWords
     ) internal override {
-        uint256 randomNumber = _randomWords[0]%4;
+        uint256 randomNumber = _randomWords[0] % 4;
         uint256 tokenId = reqIdToNFTId[_requestId];
-        if (randomNumber == 0){
-            _setTokenURI(tokenId,METADATA_SHIBAINU);
-        }else if (randomNumber == 1){
-            _setTokenURI(tokenId,METADATA_HUSKY);
-        }else if (randomNumber == 2){
-            _setTokenURI(tokenId,METADATA_BULLDOG);
-        }else {
-            _setTokenURI(tokenId,METADATA_SHEPHERD);
+        if (randomNumber == 0) {
+            _setTokenURI(tokenId, METADATA_SHIBAINU);
+        } else if (randomNumber == 1) {
+            _setTokenURI(tokenId, METADATA_HUSKY);
+        } else if (randomNumber == 2) {
+            _setTokenURI(tokenId, METADATA_BULLDOG);
+        } else {
+            _setTokenURI(tokenId, METADATA_SHEPHERD);
         }
-
 
         // require(s_requests[_requestId].exists, "request not found");
         // s_requests[_requestId].fulfilled = true;

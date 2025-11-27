@@ -1,0 +1,85 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getValue",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "managerAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_value",
+						"type": "bytes32"
+					}
+				],
+				"name": "setValue",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"paramenter_bytes.sol": "sampleContract"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"paramenter_bytes.sol": {
+			"keccak256": "0x666a591bd3b36a080cc51699f974beba2bc03d3eeefb985aafa2f01ba225c646",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9f0c38b7b1331a6ced2b5422f09870df0026f8d32705e2b4edcaa91ba510fc5a",
+				"dweb:/ipfs/QmQfDmhFgna2TccHZzi2sRQqr2vWFcv889rrbeyqFgqko4"
+			]
+		}
+	},
+	"version": 1
+}

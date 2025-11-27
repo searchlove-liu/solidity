@@ -1,0 +1,72 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "a",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "number",
+				"outputs": [
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"testSolidity.sol": "testSolidity"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"testSolidity.sol": {
+			"keccak256": "0x4341fc2cac2b270d1374c68ff1341cd9aa9bf247765cd7531c1d0e23194b0379",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://39bc677cb28dc1e30cf640a3a10eff60772deb802341b7ce25570ba68d7c0a46",
+				"dweb:/ipfs/QmdW5uGJFtLxFxaGTxN12fgCsjxnwVW7A9B8CugvFfBror"
+			]
+		}
+	},
+	"version": 1
+}

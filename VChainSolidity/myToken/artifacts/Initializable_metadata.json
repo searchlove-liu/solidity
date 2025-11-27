@@ -1,0 +1,62 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed behind a proxy. Since proxied contracts do not make use of a constructor, it's common to move constructor logic to an external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer function so it can only be called once. The {initializer} modifier provided by this contract will have this effect. TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}. CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure that all initializers are idempotent. This is not verified automatically as constructors are by Solidity. [CAUTION] ==== Avoid leaving a contract uninitialized. An uninitialized contract can be taken over by an attacker. This applies to both a proxy and its implementation contract, which may impact the proxy. To initialize the implementation contract, you can either invoke the initializer manually, or you can include a constructor to automatically mark it as initialized when it is deployed: [.hljs-theme-light.nopadding] ====",
+			"kind": "dev",
+			"methods": {},
+			"stateVariables": {
+				"_initialized": {
+					"details": "Indicates that the contract has been initialized."
+				},
+				"_initializing": {
+					"details": "Indicates that the contract is in the process of being initialized."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"openzeppelin/contracts/proxy/utils/Initializable.sol": "Initializable"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"openzeppelin/contracts/proxy/utils/Initializable.sol": {
+			"keccak256": "0x224cca71e31d6bf6a46ade54ebe7accb2d1cd4c5be88bfd79fbdb0d31471a423",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aafbc8f3fc7aaa8b09b11248468c0cf730b0025354c67bcf6829ccddb68399fe",
+				"dweb:/ipfs/QmSyxsYEue8AuLAChT9XMALHth2pmFf7qMN9sdnCwKvcjq"
+			]
+		},
+		"openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x4f82ac554df2b88092b0dff60e01918ddb7b4d34935150ad5a82c03ce83ed225",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9d452f560e273b2c7c5b83bb29826ee164deb9aac4a0489452368f303227edd7",
+				"dweb:/ipfs/QmTj2yeCDKwy4pa4oNZ1b5NeQf9X6X4cn5k4pL9EqTpJs5"
+			]
+		}
+	},
+	"version": 1
+}
