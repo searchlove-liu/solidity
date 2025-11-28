@@ -6,29 +6,10 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "_str",
-						"type": "string"
-					}
-				],
-				"name": "getValue",
+				"inputs": [],
+				"name": "setValue",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "msgData",
-				"outputs": [
-					{
-						"internalType": "bytes",
-						"name": "",
-						"type": "bytes"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -73,11 +54,11 @@
 	},
 	"sources": {
 		"testSolidity.sol": {
-			"keccak256": "0x76f8b6dd09f7fae981e5b1046fc9a9dfc7e89ffe1fcce47b01d459cc2f2babfc",
+			"keccak256": "0x68aaaf6da58f4ef0830420be0ff90abaaae9794a6864d4af53e3f772b61069f8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d6f8a3ff141f09960bb0ff64055fda2f8efe29b5b2fc1efd6dc63890cd0cb865",
-				"dweb:/ipfs/Qmf3N1E5DMMy3MpNv9BJZ39fBrhuinjZV2k8ykY6tCtSxb"
+				"bzz-raw://8f98cdcdcce9a271891a72e2a7066ac5ac6fb21bb478e832f2d48dd284eee559",
+				"dweb:/ipfs/QmdvGXfPnQ19NsgmiQHoWcfkLXEMFBHF1cqHNxDmwv39ai"
 			]
 		}
 	},

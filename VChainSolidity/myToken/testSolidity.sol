@@ -1,13 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.1;
 
+
 contract A {
     string public str;
-    bytes public msgData;
 
-    function getValue(string memory _str) public {
-        str = _str;
-        msgData = msg.data;
+    function setValue () public virtual {
+        str = "A";
+    }
+}
+
+contract B is A {
+    function setValue() public virtual override{
+        str = "B";
+    }
+}
+
+contract C is A ,B {
+    function setValue() public override(A,B) {
+        super.setValue();
     }
 }
 

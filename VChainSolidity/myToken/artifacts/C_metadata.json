@@ -7,7 +7,14 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "getValue",
+				"name": "setValue",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "str",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -15,7 +22,7 @@
 						"type": "string"
 					}
 				],
-				"stateMutability": "pure",
+				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -47,11 +54,11 @@
 	},
 	"sources": {
 		"testSolidity.sol": {
-			"keccak256": "0x92e4bb7c740ff2add2bf4a1eb25db3aaba7625396e60f38a11790ca93390173c",
+			"keccak256": "0x68aaaf6da58f4ef0830420be0ff90abaaae9794a6864d4af53e3f772b61069f8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://699c902352d54a0f2fd089b97c10a7d1d3dccce54bdd5cfd945d42eeea7f1e92",
-				"dweb:/ipfs/QmWP7qN3G7sbxUyDgDkJ66dmxweYzZfJyH9VwDxCXAFKsv"
+				"bzz-raw://8f98cdcdcce9a271891a72e2a7066ac5ac6fb21bb478e832f2d48dd284eee559",
+				"dweb:/ipfs/QmdvGXfPnQ19NsgmiQHoWcfkLXEMFBHF1cqHNxDmwv39ai"
 			]
 		}
 	},
