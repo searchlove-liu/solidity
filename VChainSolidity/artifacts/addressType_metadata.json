@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "isContract",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"addressType/addressType.sol": "addressType"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"addressType/addressType.sol": {
+			"keccak256": "0xfc34b3bec578f021051bb2ba8fe288324a86141288be204c801eccd203d469ee",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a8e68f7e11b233a532945c97f9a24b1edaf9d7a1cb47b77a242326eb4263327c",
+				"dweb:/ipfs/QmWbbWDkbWRCYkVz9EEiX4HYzpBWGUBHJNQxm3M7aan7cP"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,66 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "setValue",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "str",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"myToken/testSolidity.sol": "C"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"myToken/testSolidity.sol": {
+			"keccak256": "0x71b5b5a216dcb0a3b4605b4437c85c9f4cef4baad679ee91a38e5315d424abcb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a1fd6907b7cd057fe3ce599cf42bc79ca294fd60a8194ccb6b969f98b708951f",
+				"dweb:/ipfs/Qme7FKn9RDj99t3ECQtJ37GN9ew1AmVC6E2MVrqu3bBZy7"
+			]
+		}
+	},
+	"version": 1
+}
