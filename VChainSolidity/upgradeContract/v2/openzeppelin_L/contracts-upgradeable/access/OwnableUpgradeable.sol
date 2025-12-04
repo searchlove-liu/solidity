@@ -19,7 +19,20 @@ import {Initializable} from "../proxy/utils/Initializable.sol";
  * the owner.
  */
 abstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {
-    address private _owner;
+    // address private _owner;
+    // 使用erc7201
+    struct OwnableStorage {
+        address _owner;
+    }
+
+    // keccak256(abi.encode(uint256(keccak256("openzeppelin.storage.Ownable")) - 1)) & ~bytes32(uint256(0xff))
+    bytes32 private constant OwnableStorageLocation = 0x9016d09d72d40fdae2fd8ceac6b6234c7706214fd39c1cd1e609a0528c199300;
+
+    function _getOwnableStorage() private pure returns ( OwnableStorage storage $){
+        assembly {
+            $.slot := OwnableStorageLocation
+        }
+    }
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -46,7 +59,12 @@ abstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {
      * @dev Returns the address of the current owner.
      */
     function owner() public view virtual returns (address) {
-        return _owner;
+        // return _owner;
+        // 在这里绝对不能将 storage 改为 memory，因为_getOwnableStorage()返回的是指向链上存储位置的引用，如果这里
+        // 使用memory将无法获取数据。
+        // 虽然当前使用memory也会返回正确的数据，但感觉有bug
+        OwnableStorage storage $ = _getOwnableStorage();
+        return $._owner;
     }
 
     /**
@@ -81,8 +99,12 @@ abstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {
      * Internal function without access restriction.
      */
     function _transferOwnership(address newOwner) internal virtual {
-        address oldOwner = _owner;
-        _owner = newOwner;
+        //  address oldOwner = _owner;
+        // _owner = newOwner;
+        // emit OwnershipTransferred(oldOwner, newOwner);
+        OwnableStorage storage $ = _getOwnableStorage();
+        address oldOwner = $._owner;
+        $._owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 

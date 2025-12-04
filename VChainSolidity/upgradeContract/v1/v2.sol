@@ -33,11 +33,16 @@ contract MyToken is OwnableUpgradeable, UUPSUpgradeable {
         $._nextTokenId += 2;
     }
 
-    function getValue() public pure returns (uint256) {
-        MyTokenStorage memory $ = _getMyTokenStorage();
+    function getValue() public view returns (uint256) {
+        // 在这里绝对不能将 storage 改为 memory，因为_getOwnableStorage()返回的是指向链上存储位置的引用，如果这里
+        // 使用memory将无法获取数据。
+        // 虽然当前使用memory也会返回正确的数据，但感觉有bug
+        MyTokenStorage storage $ = _getMyTokenStorage();
         return $._nextTokenId;
     }
 
+// 这个函数必须是private或internal，因为返回值是storage，仅在合约内部使用
+// 如果这个是public，A合约执行这个函数，上下文是A合约，返回的是本合约的数据指针，所以不可以。
     function _getMyTokenStorage()
         private
         pure

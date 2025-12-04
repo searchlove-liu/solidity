@@ -1,20 +1,10 @@
 // SPDX-License-Identifier: MIT
 // 严格使用编译器版本：0.8.1
 // 下面代码如果编译器版本不是0.8.1，会报错
-pragma solidity 0.8.1; 
+pragma solidity ^0.8.1; 
 
 contract sampleContract {
-    bytes32 name = bytes32("nihao");
-    address public  managerAddress;
-
-    function getValue() public view returns(bytes32){
-        return name;
-    }
-
-    function setValue(bytes32 _value)public {
-        managerAddress = msg.sender;
-        name = _value;
+    function point() public pure  returns(bytes32){
+        return keccak256(abi.encode(uint256(keccak256("openzeppelin.storage.ProxyOwnable")) - 1)) & ~bytes32(uint256(0xff));
     }
 }
-
-// 查看他们代码，看bytes设置。

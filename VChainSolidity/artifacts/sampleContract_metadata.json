@@ -1,13 +1,13 @@
 {
 	"compiler": {
-		"version": "0.8.1+commit.df193b15"
+		"version": "0.8.30+commit.73712a01"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
 				"inputs": [],
-				"name": "getValue",
+				"name": "point",
 				"outputs": [
 					{
 						"internalType": "bytes32",
@@ -15,33 +15,7 @@
 						"type": "bytes32"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "managerAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "bytes32",
-						"name": "_value",
-						"type": "bytes32"
-					}
-				],
-				"name": "setValue",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "pure",
 				"type": "function"
 			}
 		],
@@ -60,7 +34,7 @@
 		"compilationTarget": {
 			"paramenter_bytes.sol": "sampleContract"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "prague",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -73,11 +47,11 @@
 	},
 	"sources": {
 		"paramenter_bytes.sol": {
-			"keccak256": "0x666a591bd3b36a080cc51699f974beba2bc03d3eeefb985aafa2f01ba225c646",
+			"keccak256": "0xcdef98479dfcc770a28cf725d459d1d069e6f339636b8fe6dd6e876fc2e1edda",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9f0c38b7b1331a6ced2b5422f09870df0026f8d32705e2b4edcaa91ba510fc5a",
-				"dweb:/ipfs/QmQfDmhFgna2TccHZzi2sRQqr2vWFcv889rrbeyqFgqko4"
+				"bzz-raw://21cbda4d3119a0fc95a51faee6d94167ee9fb4cba0650f9df24c028c9637ea2a",
+				"dweb:/ipfs/QmbX2nparLyvd9skVLHc3W5hxCMf7BhJBAXo5JLNBHeGd1"
 			]
 		}
 	},

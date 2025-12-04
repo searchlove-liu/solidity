@@ -1,0 +1,130 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions. By default, the owner account will be the one that deploys the contract. This can later be changed with {transferOwnership}. This module is used through inheritance. It will make available the modifier `onlyOwner`, which can be applied to your functions to restrict their use to the owner.",
+			"kind": "dev",
+			"methods": {
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			},
+			"stateVariables": {
+				"__gap": {
+					"details": "This empty reserved space is put in place to allow future versions to add new variables without shifting down storage in the inheritance chain. See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/access/OwnableUpgradeable.sol": "OwnableUpgradeable"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/access/OwnableUpgradeable.sol": {
+			"keccak256": "0x7f3b65404d619f07988101a319dea121115f7a6cc3b173a55d15c876c0ef7bfd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2cb2e9574881ae659207069f4986f95f6fd3aed6d319fbf1f20d98689575fe37",
+				"dweb:/ipfs/QmPNy4yQr6jukoqX77Dyja81ZLCXeq1GsHsDtZDMUzULSx"
+			]
+		},
+		"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/proxy/utils/Initializable.sol": {
+			"keccak256": "0x8af0ce2c2624e770fd3155011030e2b3bbb68115979fcff12caf8117f8d5e59a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1d4e11d325cb456ff60b2bf633b6f45192ecfc08666877dd52b43d97e4066d00",
+				"dweb:/ipfs/QmQCJ6cLgPhk3pxuchv9Lh3NvzMcrqLT4iiFYQsjq3tN4f"
+			]
+		},
+		"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/utils/ContextUpgradeable.sol": {
+			"keccak256": "0x6fe11563c93fc5ad071970b24906f2e020413bae54e697d223e5714eaebe2049",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4d8d15e68f11abc9424dff720989f5f5e242a7dfb95d4c4867c649a28a171eae",
+				"dweb:/ipfs/QmfZLwU26yD1rkUfEPavYtLEB8Cg76S5RxFoqBZ7LpTbMA"
+			]
+		}
+	},
+	"version": 1
+}

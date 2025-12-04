@@ -218,7 +218,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"upgradeContract/v2/v1.sol": "MyToken"
+			"upgradeContract/v2/v2.sol": "MyToken"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -273,11 +273,11 @@
 			]
 		},
 		"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/access/OwnableUpgradeable.sol": {
-			"keccak256": "0x42a613c0791482dd66b2f85c2c083324cdbb1097e7e5d56beb1c3bc7f21f69cc",
+			"keccak256": "0x7f3b65404d619f07988101a319dea121115f7a6cc3b173a55d15c876c0ef7bfd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6931c9a47e0f1ec30743c35986790e69b050ae6ce466b1269d7465d0d36a9626",
-				"dweb:/ipfs/QmNY4pkMvZG3kbTJAodbMaFQR9uwXpyRzVU9FHjo8FnG6K"
+				"bzz-raw://2cb2e9574881ae659207069f4986f95f6fd3aed6d319fbf1f20d98689575fe37",
+				"dweb:/ipfs/QmPNy4yQr6jukoqX77Dyja81ZLCXeq1GsHsDtZDMUzULSx"
 			]
 		},
 		"upgradeContract/v2/openzeppelin_L/contracts-upgradeable/proxy/utils/Initializable.sol": {
@@ -312,12 +312,12 @@
 				"dweb:/ipfs/QmciizFmFBFB2rZLpGgNtHTyXL728rtDJZHk9HARrgYQpo"
 			]
 		},
-		"upgradeContract/v2/v1.sol": {
-			"keccak256": "0x740ede5e9173c60a9274e094fe60c417c970207689d7c9fff214810ae3009b43",
+		"upgradeContract/v2/v2.sol": {
+			"keccak256": "0xd89896221c8cebc4df4c5428d276c4828a8641efb5ba3c83a24ebf3545355afa",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://54528bd610bfca7c67a1f03a141e132bf24cb9691bc5e75164a05dde35756a3d",
-				"dweb:/ipfs/QmeyFH1LgKfvY5c9LnuP5awSUoBz5foTmidahNTCXS5bXR"
+				"bzz-raw://146a11c1ff58da0893897e480f15b4abf72e05393534658b4810d8704d2c0f85",
+				"dweb:/ipfs/QmQeF57sRAe5jvuWAYWjA5H9uTrU8xY8Jk1j5qPB8DMvwc"
 			]
 		}
 	},
