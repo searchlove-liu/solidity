@@ -9,7 +9,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "account",
+						"name": "_addr",
 						"type": "address"
 					}
 				],
@@ -38,7 +38,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"addressType/addressType.sol": "addressType"
+			"one_test_solidity.sol": "addressType"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -52,12 +52,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"addressType/addressType.sol": {
-			"keccak256": "0xfc34b3bec578f021051bb2ba8fe288324a86141288be204c801eccd203d469ee",
+		"one_test_solidity.sol": {
+			"keccak256": "0xad01a171830470e21552ae2aac77bebd682b754f85f79a7fa64e37ec70f01898",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a8e68f7e11b233a532945c97f9a24b1edaf9d7a1cb47b77a242326eb4263327c",
-				"dweb:/ipfs/QmWbbWDkbWRCYkVz9EEiX4HYzpBWGUBHJNQxm3M7aan7cP"
+				"bzz-raw://9932e52c0a6b56fa2ffb85e0ab1358c5db035c2e7b4a48f2e4d1d9026ef4e065",
+				"dweb:/ipfs/QmR5hsZSAyyzgtqJYm3HW2DrbSUhXwLFYuUbvRVAzzX2Ab"
 			]
 		}
 	},

@@ -7,14 +7,7 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "setValue",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "str",
+				"name": "a1",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -22,7 +15,20 @@
 						"type": "string"
 					}
 				],
-				"stateMutability": "view",
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "a2",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
 				"type": "function"
 			}
 		],
@@ -39,7 +45,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"myToken/testSolidity.sol": "B"
+			"test_solidity.sol": "B"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -53,12 +59,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"myToken/testSolidity.sol": {
-			"keccak256": "0x71b5b5a216dcb0a3b4605b4437c85c9f4cef4baad679ee91a38e5315d424abcb",
+		"test_solidity.sol": {
+			"keccak256": "0x46005d84c2d9313a898180042e3e2b13d7b58b6bc4b36249206113933d86df51",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a1fd6907b7cd057fe3ce599cf42bc79ca294fd60a8194ccb6b969f98b708951f",
-				"dweb:/ipfs/Qme7FKn9RDj99t3ECQtJ37GN9ew1AmVC6E2MVrqu3bBZy7"
+				"bzz-raw://278e27603f30c57711d8dd86fc318ecf2250ab2d7d2caf360f8defad417ab365",
+				"dweb:/ipfs/QmdrcYYwkhgZbTdmyHWc7xLzS1is7aartobWLukJcpypTW"
 			]
 		}
 	},
