@@ -3,9 +3,9 @@
 // 下面代码如果编译器版本不是0.8.1，会报错
 pragma solidity ^0.8.1; 
 
-contract sampleContract {
+contract hash {
     function point() public pure  returns(bytes32){
-        return keccak256(abi.encode(uint256(keccak256("openzeppelin.storage.ProxyOwnable")) - 1)) & ~bytes32(uint256(0xff));
+        return keccak256(abi.encode(uint256(keccak256("openzeppelin.storage.Pausable")) - 1)) & ~bytes32(uint256(0xff));
     }
 }
 

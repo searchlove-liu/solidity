@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.1+commit.df193b15"
+		"version": "0.8.30+commit.73712a01"
 	},
 	"language": "Solidity",
 	"output": {
@@ -47,7 +47,7 @@
 		"compilationTarget": {
 			"test_solidity.sol": "A"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "prague",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -60,11 +60,11 @@
 	},
 	"sources": {
 		"test_solidity.sol": {
-			"keccak256": "0x46005d84c2d9313a898180042e3e2b13d7b58b6bc4b36249206113933d86df51",
+			"keccak256": "0x064ee37afd5de8ee7ba70a34e7ed716326543c5f8f8b4582df5b2dc30c899b65",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://278e27603f30c57711d8dd86fc318ecf2250ab2d7d2caf360f8defad417ab365",
-				"dweb:/ipfs/QmdrcYYwkhgZbTdmyHWc7xLzS1is7aartobWLukJcpypTW"
+				"bzz-raw://074a6c4014f9445e23fd8b7086e007f39d4f6e6d23dda8480a4d6aa0f716e0f8",
+				"dweb:/ipfs/QmYxiLH7pLnNRSk8SexSQqGSJPBR9nV1Z8sUpUX9DgXXGD"
 			]
 		}
 	},

@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "point",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"test_solidity.sol": "hash"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"test_solidity.sol": {
+			"keccak256": "0x064ee37afd5de8ee7ba70a34e7ed716326543c5f8f8b4582df5b2dc30c899b65",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://074a6c4014f9445e23fd8b7086e007f39d4f6e6d23dda8480a4d6aa0f716e0f8",
+				"dweb:/ipfs/QmYxiLH7pLnNRSk8SexSQqGSJPBR9nV1Z8sUpUX9DgXXGD"
+			]
+		}
+	},
+	"version": 1
+}
