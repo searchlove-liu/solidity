@@ -763,11 +763,11 @@
 			]
 		},
 		"myToken.sol": {
-			"keccak256": "0x193ff8576fb839d9f509a1c49025dd34430b61f47d31661ca07baaeb69e768d7",
+			"keccak256": "0x1a5c1dd7b5bfe31faa445c7ebd9511327120593accf67bbb8c22ec47a9e234c4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://01e39ace7f65be2fa147020df730be32516923e88891c9d0bb0df11003b78082",
-				"dweb:/ipfs/QmejkSM82cmU2xLvjJTaZd6g1xxdKYPCExfM1khnP8sGKR"
+				"bzz-raw://26ea8f7122bb475ff959d441470c0611b4e5521541a512fb5603ef367206120f",
+				"dweb:/ipfs/QmYVMhzTbVzsxejJtop35CbofMtDqiu5Y8XomNdUzS4Gcd"
 			]
 		},
 		"openzeppelin_l/contracts/access/Ownable.sol": {
@@ -795,11 +795,11 @@
 			]
 		},
 		"openzeppelin_l/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x7b2cb4206d18b5b4992dabde964aa6eb6febe3906d0136ca17beb92b24c0dec8",
+			"keccak256": "0xe354cc2c1ec046c4e9f08d11611e308562852350cf700474556de301b6466d5a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f3e7fe20ba9de9d88dd30f4e31b6a9e2b4b66f00564403d15808c8223c96765c",
-				"dweb:/ipfs/QmWsZjqNodJHgR8CjNV8nzuDDXAvrRaz5Utm3XGMTCouu8"
+				"bzz-raw://a61cfcfc696c5c445d4bf9f5b6a56ac39d084777d952a0a48a43e450ed3eb07b",
+				"dweb:/ipfs/QmQKSouXKJCSnmRdNEW41RfkAs83KaQRmsJm78yYcUhDw3"
 			]
 		},
 		"openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
@@ -840,6 +840,30 @@
 			"urls": [
 				"bzz-raw://76d2a38391592bd07ef3fe3fe8dde5dcea7c1da7c7f6816660d6355ed54fff80",
 				"dweb:/ipfs/QmcM8UjdGcz8DQ2K4dbjwTGfsecqr6pA3DTRSjGo5d1ugq"
+			]
+		},
+		"openzeppelin_l/contracts/utils/String.sol": {
+			"keccak256": "0x33dabc28124774d38cd3cbf24437182310079c0370c281e47b0f5321ed6a01a0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1313e3dbbd03f0a0391d0ec4b7d709da72562eb4197f014772015758af192097",
+				"dweb:/ipfs/QmWoEiSUYQDvjFtiXsjF2YfJkSpoDf7W9QEJcT4uifW37x"
+			]
+		},
+		"openzeppelin_l/contracts/utils/math/Math.sol": {
+			"keccak256": "0xbf672c6a2594a9756172866e54e2e499e8be05030f3f0a53c0b768461004660b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9130ae94908358375af6f112d7be407b3affa690518c80c0bc34b987ec9f5799",
+				"dweb:/ipfs/QmcEQfZiHX86NNvSKS16AtpvzKH47LHL2noY2KvyaB23oA"
+			]
+		},
+		"openzeppelin_l/contracts/utils/math/SignedMath.sol": {
+			"keccak256": "0x7b249694790ca2ae6a813e28025e0ebb9bccb5940a6cba637911fd9c17012055",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2431f8875ede10b23dee66740a19fb1b2aa7cf57ea8430e7bce97be414c58748",
+				"dweb:/ipfs/QmbCvNgrYi2kk7wBKJkwyRRrbwabhoxaNJjyK5frPkNvng"
 			]
 		}
 	},

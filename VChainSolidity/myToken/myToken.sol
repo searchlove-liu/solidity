@@ -41,6 +41,7 @@ contract MyToken is
     ERC721URIStorage
 {
     uint256 private _nextTokenId;
+    uint8 private constant uriSupplyAmount = 202;
 
     // constructor(address initialOwner)
     //     ERC721("MyToken", "MTK")
@@ -60,6 +61,10 @@ contract MyToken is
         bytes memory uri
     ) public onlyOwner returns (uint256) {
         uint256 tokenId = _nextTokenId++;
+        // 当前filebase中只有202个json文件
+        if (tokenId > uriSupplyAmount-1) {
+            require(uri.length > 0,"MyToken:uri is required");
+        }
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, string(uri));
         return tokenId;
@@ -93,7 +98,7 @@ contract MyToken is
 
     function _baseURI() internal pure override returns (string memory) {
         return
-            "https://crowded-harlequin-skunk.myfilebase.com/ipfs/QmZ3D7Ak6N6VM5cART2U1zWVPJhvdmaS2iyRh3ANDGCNML/";
+            "https://ipfs.io/ipfs/QmT72uJzk6RMeoXJ1YQyCC7A9bcPDc5o1KgBEkcX6cQq7J/";
     }
 
     // 烧掉发某个token,这里可以直接覆写ERC721Burnable的burn

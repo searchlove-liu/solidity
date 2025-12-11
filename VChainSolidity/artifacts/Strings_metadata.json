@@ -1,0 +1,62 @@
+{
+	"compiler": {
+		"version": "0.8.1+commit.df193b15"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "String operations.",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"myToken/openzeppelin_l/contracts/utils/String.sol": "Strings"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"myToken/openzeppelin_l/contracts/utils/String.sol": {
+			"keccak256": "0x33dabc28124774d38cd3cbf24437182310079c0370c281e47b0f5321ed6a01a0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1313e3dbbd03f0a0391d0ec4b7d709da72562eb4197f014772015758af192097",
+				"dweb:/ipfs/QmWoEiSUYQDvjFtiXsjF2YfJkSpoDf7W9QEJcT4uifW37x"
+			]
+		},
+		"myToken/openzeppelin_l/contracts/utils/math/Math.sol": {
+			"keccak256": "0xbf672c6a2594a9756172866e54e2e499e8be05030f3f0a53c0b768461004660b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9130ae94908358375af6f112d7be407b3affa690518c80c0bc34b987ec9f5799",
+				"dweb:/ipfs/QmcEQfZiHX86NNvSKS16AtpvzKH47LHL2noY2KvyaB23oA"
+			]
+		},
+		"myToken/openzeppelin_l/contracts/utils/math/SignedMath.sol": {
+			"keccak256": "0x7b249694790ca2ae6a813e28025e0ebb9bccb5940a6cba637911fd9c17012055",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2431f8875ede10b23dee66740a19fb1b2aa7cf57ea8430e7bce97be414c58748",
+				"dweb:/ipfs/QmbCvNgrYi2kk7wBKJkwyRRrbwabhoxaNJjyK5frPkNvng"
+			]
+		}
+	},
+	"version": 1
+}

@@ -102,7 +102,6 @@ contract ERC721 is Context,Initializable, ERC165, IERC721, IERC721Metadata {
     //  一般执行到这里，说明baseURI不为空，且mint的时候没有设置uri。
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         _requireMinted(tokenId);
-
         string memory baseURI = _baseURI();
         // return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(),".json")) : "";

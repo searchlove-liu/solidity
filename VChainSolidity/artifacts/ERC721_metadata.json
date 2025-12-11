@@ -390,7 +390,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"upgradeContract/v3_erc721/openzeppelin_L/contracts/token/ERC721/ERC721.sol": "ERC721"
+			"myToken/openzeppelin_l/contracts/token/ERC721/ERC721.sol": "ERC721"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -468,23 +468,23 @@
 				"dweb:/ipfs/QmcEW85JRzvDkQggxiBBLVAasXWdkhEysqypj9EaB6H2g6"
 			]
 		},
-		"upgradeContract/v3_erc721/openzeppelin_L/contracts/proxy/utils/Initializable.sol": {
-			"keccak256": "0x1d2edf58cd16a8886e23e62dae0d5a9d23c55bb82b4062563790c8ec4a2e9ec0",
+		"myToken/openzeppelin_l/contracts/proxy/utils/Initializable.sol": {
+			"keccak256": "0x7c31bc73fd4bd908c826fa10fad7182eea1aaa0e9820dd27460321a33eab4a73",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f8d753962c05db74e5c062b45413d5b5b50f86fe7c282e0d3f165fbc52eb6733",
-				"dweb:/ipfs/QmVx1CCWTqsHmkkWm7LQhgCmo2rgEb8ezWknRsyRKhERDL"
+				"bzz-raw://dbed77f8898651214760f7dd20928d8bedd6c04ad3da5448524cd05b27a32219",
+				"dweb:/ipfs/QmTv8z4tQwyvawHtNuNGSV3QFRqwJd3Xw2DN84Gh1X7ZEb"
 			]
 		},
-		"upgradeContract/v3_erc721/openzeppelin_L/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0xd2e05aa2bc74007bb4adbd6867d0fe8c0289217733d3bd7395a3facf6761d8a9",
+		"myToken/openzeppelin_l/contracts/token/ERC721/ERC721.sol": {
+			"keccak256": "0xe354cc2c1ec046c4e9f08d11611e308562852350cf700474556de301b6466d5a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0e6f33a4309627ba65a794f1aea6990e8d4cc9b3a5bb4e545e5918207581fc34",
-				"dweb:/ipfs/Qmbzr7gk4rz6w6r8khnzFqXBLdRwiFErqYDcNCQUbe3T7B"
+				"bzz-raw://a61cfcfc696c5c445d4bf9f5b6a56ac39d084777d952a0a48a43e450ed3eb07b",
+				"dweb:/ipfs/QmQKSouXKJCSnmRdNEW41RfkAs83KaQRmsJm78yYcUhDw3"
 			]
 		},
-		"upgradeContract/v3_erc721/openzeppelin_L/contracts/utils/Address.sol": {
+		"myToken/openzeppelin_l/contracts/utils/Address.sol": {
 			"keccak256": "0x4f82ac554df2b88092b0dff60e01918ddb7b4d34935150ad5a82c03ce83ed225",
 			"license": "MIT",
 			"urls": [
@@ -492,7 +492,7 @@
 				"dweb:/ipfs/QmTj2yeCDKwy4pa4oNZ1b5NeQf9X6X4cn5k4pL9EqTpJs5"
 			]
 		},
-		"upgradeContract/v3_erc721/openzeppelin_L/contracts/utils/Context.sol": {
+		"myToken/openzeppelin_l/contracts/utils/Context.sol": {
 			"keccak256": "0xef320168c89f0928606f4baf62131f67a759b0aed0ea445871758821a8c37b99",
 			"license": "MIT",
 			"urls": [

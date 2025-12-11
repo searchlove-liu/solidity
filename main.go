@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // 将hex转为字符串
@@ -80,15 +82,34 @@ func HexToNum(hexNum string) {
 	fmt.Println(result)
 }
 
+func IntArray() {
+	array := make([]int, 100)
+	rand.New(rand.NewSource(time.Now().UnixMicro()))
+	for i := range 100 {
+		array[i] = rand.Intn(1000)
+	}
+
+	a := "["
+	for i := range array {
+		a += strconv.Itoa(array[i]) + ","
+	}
+	a += "]"
+	fmt.Println(a)
+}
+
 // TODO:将数字转为hex，将hex转为数字
 func main() {
-	// StringToHex("15.json")
+	// StringToHex("0")
 	// HexToString("4d79546f6b656e")
-	// HexAddressAppend0To32("0xa5c245a738e59a166b00a528abe7cbef12009ab3")
+	// HexAddressAppend0To32("0x")
 	// NumTo64Hex(0)
-	// fmt.Println(len("68747470733a2f2f63726f776465642d6861726c657175696e2d736b756e6b2e6d7966696c65626173652e636f6d2f697066732f516d5a334437416b364e36564d35634152543255317a5756504a6876646d6153326979526833414e4447434e4d4c2f302e6a736f6e"))
-	StringToHex("MTK")
+	// fmt.Println(len("0x0000000000000000000000000000000000000000"))
+	// StringToHex("MTK")
 	// HexToNum("")
+
+	IntArray()
 
 	//0x0e0b9e120000000000000000000000000000000000000000000000000000000000000000
 }
+
+// 0x0000000000000000000000000000000000000000

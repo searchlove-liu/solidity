@@ -1,0 +1,15 @@
+链外签名过程
+用户签名 transfer(bob, 100)
+    ↓
+转发器调用 executeMetaTx(user, transferData)
+    ↓
+executeMetaTx 验证签名，然后执行：（在NativeMetaTransaction.sol）
+address(this).call(transferData + user_address)  ← 关键！
+    ↓
+transfer() 被触发
+    ↓
+在 transfer() 内：
+- msg.sender == address(this) ✓
+- msgSender() 检测到这个条件
+- 从 msg.data 末尾（由 abi.encodePacked 追加）提取真实用户地址
+- 返回真实用户地址而非转发器地址
