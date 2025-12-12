@@ -25,4 +25,9 @@
 4. 如果你既没有设置`baseURI`，在`safemint`时也没有传入uri，那么你调用`tokenURI`来获取某个token的URI时，会返回空。
 
 
+在hardhat中部署
+运行本地节点：npx hardhat node
+编译：npx hardhat compile   生成generated目录。
+
+
 
