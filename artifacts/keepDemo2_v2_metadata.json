@@ -1,0 +1,160 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "array",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"name": "checkUpkeep",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "upkeepNeeded",
+						"type": "bool"
+					},
+					{
+						"internalType": "bytes",
+						"name": "performData",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "performData",
+						"type": "bytes"
+					}
+				],
+				"name": "performUpkeep",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "indexs",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"performUpkeep(bytes)": {
+					"details": "The input to this method should not be trusted, and the caller of the method should not even be restricted to any single registry. Anyone should be able call it, and the input should be validated, there is no guarantee that the data passed in is the performData returned from checkUpkeep. This could happen due to malicious keepers, racing keepers, or simply a state change while the performUpkeep transaction is waiting for confirmation. Always validate the data passed in.",
+					"params": {
+						"performData": "is the data which was passed back from the checkData simulation. If it is encoded, it can easily be decoded into other types by calling `abi.decode`. This data should not be trusted, and should be validated against the contract's current state."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"performUpkeep(bytes)": {
+					"notice": "method that is actually executed by the keepers, via the registry. The data returned by the checkUpkeep simulation will be passed into this method to actually be executed."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"auto_excuit_contract/keeperDemo.sol": "keepDemo2_v2"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@chainlink/contracts/src/v0.8/automation/AutomationBase.sol": {
+			"keccak256": "0x8c97744adc25cf30d1a2509bff6c0ddc9b36feb75f8e38c85d5c62b8ec773159",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1c53c8736dacbf8c517c63937d556c3e4873a62f509c5d84b89e32fc5c9c6c2c",
+				"dweb:/ipfs/QmeR6RSce5dTDcPgbwBnG7E8U89716bqsUcv1NeWnX5RJf"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol": {
+			"keccak256": "0xce623f3e7fa4addf240032d2817b2b489ac08e79fae14a5cc5850ed3f1acddf8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0546b2739f3989b897c5cb591d01211e2db22e1a8578f68117f1a8a692abd85c",
+				"dweb:/ipfs/QmW6guw8uUk2Dq49PWdjeZeEvnDDRg3CVX2BVcVNcT6QNL"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/automation/interfaces/AutomationCompatibleInterface.sol": {
+			"keccak256": "0xabb5a81f9380914fe192ba9e16aea6a948f8f949ad96052849207de2f40a2e3b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://039c114331e7d1b2b8ebf2aebb730f67e9217508e75e442d980b3364e040321d",
+				"dweb:/ipfs/QmV8rBwm6tpCLaXPmy3nYB11R9Eg5qatUKxQDau3sRKnfo"
+			]
+		},
+		"auto_excuit_contract/keeperDemo.sol": {
+			"keccak256": "0xd0eef28dabbd41061c0a7231f053c26a0f1e829c2aaf50f8eed8ee9af58f91d3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://467c61d69df6af48efdfa2be7b50b42339385049ab6f94b873ec06ac20a90f32",
+				"dweb:/ipfs/QmXXsHGhLtvVoiqvYvBQgP2KTLbrqckSMXDfovzbBA6EBm"
+			]
+		}
+	},
+	"version": 1
+}
