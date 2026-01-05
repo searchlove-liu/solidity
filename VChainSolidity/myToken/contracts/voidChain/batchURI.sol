@@ -2,18 +2,6 @@
 
 pragma solidity 0.8.1;
 
-// import {
-//     ERC721Upgradeable
-// } from "../openzeppelin_L/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-
-// import {
-//     ERC721EnumerableUpgradeable
-// } from "../openzeppelin_L/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
-
-// import {
-//     ERC721URIStorageUpgradeable
-// } from "../openzeppelin_L/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-
 import {MyToken} from "./../myToken.sol";
 import {Strings} from "../openzeppelin_l/contracts/utils/String.sol";
 
@@ -36,10 +24,17 @@ contract batchURIAndId is MyToken {
     }
 
     struct response {
+        //状态码 0表示成功，1表示失败
         uint8 code;
         string message;
         NFT[] NFTs;
         PageConfig page_config;
+    }
+
+    struct responseForGetOneNFTURI {
+        uint8 code;
+        string message;
+        NFT nft;
     }
 
     /***
@@ -122,7 +117,7 @@ contract batchURIAndId is MyToken {
 
         // 使用for语句向这个数组中填充
         uint256 endIndex = startIndex + reallyAmount;
-        uint256 j=0;
+        uint256 j = 0;
         for (uint256 i = startIndex; i < endIndex; ++i) {
             // uint256 tokenId = tokenOfOwnerByIndex(owner,i);
             // string memory tokenUri = tokenURI(tokenId);
@@ -144,6 +139,66 @@ contract batchURIAndId is MyToken {
         resp.NFTs = NFTs;
         resp.page_config = pc;
 
+        return resp;
+    }
+
+    /***
+     * @dev 获取单个NFT的uri
+     * @param tokenID 请求的tokenID
+     * @return response 包含code,message,NFTs,page_config
+     */
+    function getOneTokenURI(
+        uint256 tokenID
+    ) external view returns (responseForGetOneNFTURI memory resp) {
+        // 检查tokenID对应的NFT是否存在（不需要检查，因为前端从getBatchURI中获取之后，然后从其中获取的tokenID,所以不会不存在）
+        // 检查tokenID是否大于等于总供给量
+        uint256 maxIndex = totalSupply() - 1;
+        if (tokenID > maxIndex) {
+            return resp = revertTokenIndexOutOfRange(tokenID);
+        }
+
+        // 检查tokenID是否被烧掉
+        uint8 burned = _burnedtToken[tokenID];
+        if (burned == 1) {
+            return resp = revert_TokenBurned(tokenID);
+        }
+
+        // 获取tokenID URI
+        string memory tokenURI = tokenURI(tokenID);
+        resp.code = 0;
+        resp.nft.contractAddress = address(this);
+        resp.message = "success";
+        resp.nft.id = tokenID;
+        resp.nft.tokenStandard = "ERC721";
+        resp.nft.uri = tokenURI;
+        return resp;
+    }
+
+    // tokenIndex is out of range
+    function revert_TokenBurned(
+        uint256 tokenID
+    ) internal view returns (responseForGetOneNFTURI memory) {
+        responseForGetOneNFTURI memory resp;
+        resp.code = 1;
+        // tokenID 对应的NFT被销毁
+        resp.message = "batchURIAndId:NFT is burned";
+        resp.nft.id = tokenID;
+        resp.nft.contractAddress = address(this);
+        resp.nft.tokenStandard = "ERC721";
+        return resp;
+    }
+
+    // tokenIndex is out of range
+    function revertTokenIndexOutOfRange(
+        uint256 tokenID
+    ) internal view returns (responseForGetOneNFTURI memory) {
+        responseForGetOneNFTURI memory resp;
+        resp.code = 1;
+        // tokenID不正确，超过le最大tokenID
+        resp.message = "batchURIAndId:NFT index out of range";
+        resp.nft.id = tokenID;
+        resp.nft.contractAddress = address(this);
+        resp.nft.tokenStandard = "ERC721";
         return resp;
     }
 
@@ -230,7 +285,7 @@ contract batchURIAndId is MyToken {
         uint256 balanceOfOwner = balanceOf(owner);
         NFT[] memory NFTs = new NFT[](balanceOfOwner);
         for (uint256 i = 0; i < balanceOfOwner; ++i) {
-            uint256 tokenId = tokenOfOwnerByIndex(owner,i);
+            uint256 tokenId = tokenOfOwnerByIndex(owner, i);
             string memory tokenUri = tokenURI(tokenId);
             NFTs[i] = NFT({
                 uri: tokenUri,
@@ -241,37 +296,37 @@ contract batchURIAndId is MyToken {
         }
         // 对NFT列表进行排序
         uint256 n = NFTs.length;
-        
+
         // 边界情况处理
         if (n <= 1) {
             return NFTs;
         }
-        
+
         // 使用Knuth增量序列：1, 4, 13, 40, 121, ...
         uint256 gap = 1;
         while (gap < n / 3) {
             gap = gap * 3 + 1;
         }
-        
+
         // 逐步缩小间隔进行排序
         while (gap > 0) {
             // 对每个间隔进行插入排序
             for (uint256 i = gap; i < n; i++) {
                 NFT memory temp = NFTs[i];
                 int256 j = int256(i) - int256(gap);
-                
+
                 // 在分组内进行插入排序
                 while (j >= 0 && NFTs[uint256(j)].id > temp.id) {
                     NFTs[uint256(j + int256(gap))] = NFTs[uint256(j)];
                     j -= int256(gap);
                 }
-                
+
                 NFTs[uint256(j + int256(gap))] = temp;
             }
-            
+
             gap /= 3; // 缩小间隔
         }
-        
+
         return NFTs;
     }
 }

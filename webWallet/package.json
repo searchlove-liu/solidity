@@ -1,0 +1,19 @@
+{
+  "name": "webwallet",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@reown/walletkit": "^1.4.1",
+    "@types/node": "^25.0.3",
+    "@walletconnect/core": "^2.23.1",
+    "@walletconnect/utils": "^2.23.1",
+    "dotenv": "^17.2.3"
+  }
+}

@@ -13,4 +13,6 @@ export {Artifact_Context as Context} from './Context.js';
 export {Artifact_Strings as Strings} from './Strings.js';
 export {Artifact_Math as Math} from './Math.js';
 export {Artifact_SignedMath as SignedMath} from './SignedMath.js';
+export {Artifact_EventEmitter as EventEmitter} from './EventEmitter.js';
 export {Artifact_batchURIAndId as batchURIAndId} from './batchURIAndId.js';
+export {Artifact_VoidChainToken as VoidChainToken} from './VoidChainToken.js';

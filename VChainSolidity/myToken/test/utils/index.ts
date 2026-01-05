@@ -1,4 +1,4 @@
-import { Abi_MyToken } from "#generated/abis/MyToken.js";
+import { Abi_batchURIAndId } from "#generated/abis/batchURIAndId.js";
 
 import { loadAndExecuteDeployments } from '#rocketh';
 
@@ -14,7 +14,7 @@ export function setupFixtures(provider: EthereumProvider) {
 
             // Deployment are inherently untyped since they can vary from network or even before different from current artifacts
             // so here we type them manually assuming the artifact is still matching
-            const MyToken = env.get<Abi_MyToken>('MyToken');
+            const MyToken = env.get<Abi_batchURIAndId>('batchURIAndId');
 
 
             return {

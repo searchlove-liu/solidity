@@ -39,8 +39,14 @@ contract MyToken is
     //     ERC721("MyToken", "MTK")
     // {}
 
+    // mapping for burned token
+    // 1表示NFT被烧掉
+    // 0表示NFT没有被烧掉
+    mapping(uint256 => uint8) public _burnedtToken;
+
     // 注意修饰器为initializer，意思是，如果当前合约正在执行这个初始化函数，
     // 那么别人无法再次进去这个函数（）。
+    // baseURI案例：https://ipfs.io/ipfs/QmciqT3pUud6sa2U8E41ac2q7Mxd34DyNyyJ2YewGPAYkt/
     function initialize(
         bytes calldata _tokenName,
         bytes calldata _tokenSymbol,
@@ -91,7 +97,7 @@ contract MyToken is
     }
 
     // 烧掉发某个token,这里可以直接覆写ERC721Burnable的burn
-    function burn(uint256 tokenId) public {
+    function burn(uint256 tokenId) public onlyOwner {
         // 安全检查
         _burn(tokenId);
     }
@@ -106,6 +112,7 @@ contract MyToken is
         );
         // super调用继承链上最近的父合约，也就是ERC721URIStorage中的burn。
         super._burn(tokenId);
+        _burnedtToken[tokenId] = 1;
     }
 
     // 合约暂停
