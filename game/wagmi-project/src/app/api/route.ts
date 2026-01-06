@@ -36,12 +36,14 @@ const gameStatus: {
     dealerHand: Card[],
     // 存放分发卡牌之后的剩余的牌
     deck: Card[],
-    message: string
+    message: string,
+    score: number
 } = {
     playerHand: [],
     dealerHand: [],
     deck: initialDeck,
-    message: ""
+    message: "",
+    score: 0
 }
 
 function getRandomCard(desk: Card[], count: number) {
@@ -74,7 +76,8 @@ export function GET() {
     return new Response(JSON.stringify({
         playerHand: gameStatus.playerHand,
         dealerHand: [gameStatus.dealerHand[0], { rank: "?", suit: "?" }],
-        message: gameStatus.message
+        message: gameStatus.message,
+        score: gameStatus.score
     }), {
         status: 200
     });
@@ -93,9 +96,11 @@ export async function POST(request: Request) {
         // player's hand value exceeds 21,dealer wins
         // player's hand value is less than 21,player can choose to hit or stand
         if (playerHandValue === 21) {
-            gameStatus.message = "Black Jack! Player wins!";
+            gameStatus.message = "Player wins!";
+            gameStatus.score += 100;
         } else if (playerHandValue > 21) {
-            gameStatus.message = "Dealer wins! Player busts!";
+            gameStatus.message = "Dealer wins!";
+            gameStatus.score -= 10;
         }
     } else if (action === "stand") {
         // when stand button is clicked,get a random card from the deck and add to dealer's hand until dealer's hand value is >=17
@@ -106,20 +111,45 @@ export async function POST(request: Request) {
         }
         // calculate dealer's hand value
         const dealerHandValue = calculateHandValue(gameStatus.dealerHand)
-        if (dealerHandValue > 21) {
-            gameStatus.message = "Black Jack! Player wins!"
-        }
-
-        // dealer's hand value is 21,dealer wins,black jack!
         // dealer's hand value exceeds 21,player wins
+        if (dealerHandValue > 21) {
+            gameStatus.message = "Player wins!"
+            gameStatus.score += 100;
+        }
+        // dealer's hand value is 21,dealer wins,black jack!
+        else if (dealerHandValue === 21) {
+            gameStatus.message = "Dealer wins!";
+            gameStatus.score -= 10;
+        }
         // dealer's hand value is less than 21
-        // compare player's hand value and dealer's hand value,
-        // player's hand value is greater,player wins
-        // dealer's hand value is greater,dealer wins
-        // if both hand values are equal,draw
+        else {
+            // compare player's hand value and dealer's hand value
+            // player's hand value is greater,player wins
+            // dealer's hand value is greater,dealer wins
+            // if both hand values are equal,draw
+            const playerHandValue = calculateHandValue(gameStatus.playerHand);
+            if (playerHandValue > dealerHandValue) {
+                gameStatus.message = "Player wins! ";
+                gameStatus.score += 100;
+            } else if (playerHandValue < dealerHandValue) {
+                gameStatus.message = "Dealer wins!";
+                gameStatus.score -= 10;
+            } else {
+                gameStatus.message = "It's a draw!";
+            }
+        }
     } else {
         return new Response(JSON.stringify({ message: "Invalid action" }), { status: 400 });
     }
+
+    return new Response(JSON.stringify({
+        playerHand: gameStatus.playerHand,
+        dealerHand: gameStatus.message === "" ? [gameStatus.dealerHand[0], { rank: "?", suit: "?" } as Card] : gameStatus.dealerHand,
+        message: gameStatus.message,
+        score: gameStatus.score
+    }), {
+        status: 200
+    });
 }
 
 function calculateHandValue(hand: Card[]) {

@@ -6,6 +6,9 @@
 ![alt text](.img/image-1.png)
 
 
+依赖安装,不能加-D，否则next命令不能使用
+pnpm install
+
 创建项目：
 pnpm create wagmi
 选择react 和next
