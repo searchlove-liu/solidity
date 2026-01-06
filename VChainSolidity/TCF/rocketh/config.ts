@@ -13,8 +13,11 @@ export const config = {
         deployer: {
             default: 0,
         },
-        admin: {
+        admin1: {
             default: 1,
+        },
+        admin2: {
+            default: 2,
         },
     },
     data: {},

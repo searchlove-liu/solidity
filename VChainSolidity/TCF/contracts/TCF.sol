@@ -27,4 +27,5 @@ contract TCF is Initializable, ERC20, Ownable {
     function mint(address to, uint256 amount) internal onlyOwner {
         _mint(to, amount);
     }
+    // 实现转账,对应每天给合约A和合约B转账
 }

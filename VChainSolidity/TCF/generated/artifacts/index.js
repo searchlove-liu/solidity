@@ -5,6 +5,8 @@ export {Artifact_Pausable as Pausable} from './Pausable.js';
 export {Artifact_ERC20 as ERC20} from './ERC20.js';
 export {Artifact_IERC20 as IERC20} from './IERC20.js';
 export {Artifact_IERC20Metadata as IERC20Metadata} from './IERC20Metadata.js';
+export {Artifact_IERC20Permit as IERC20Permit} from './IERC20Permit.js';
+export {Artifact_SafeERC20 as SafeERC20} from './SafeERC20.js';
 export {Artifact_ERC721 as ERC721} from './ERC721.js';
 export {Artifact_ERC721Enumerable as ERC721Enumerable} from './ERC721Enumerable.js';
 export {Artifact_ERC721Pausable as ERC721Pausable} from './ERC721Pausable.js';
