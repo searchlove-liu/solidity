@@ -1,6 +1,7 @@
 // when the game is inited,get player and dealer 2 random cards respectively
 
 import { get } from "http";
+import { json } from "stream/consumers";
 
 // when hit button is clicked ,get a random card from the deck and add to player's hand
 // calculate player's hand value
@@ -55,7 +56,7 @@ function getRandomCard(desk: Card[], count: number) {
     return [randomCards, remainingDesk];
 }
 
-// 每一次游戏执行一次
+// 每一次游戏执行一次,用于初始化游戏状态
 export function GET() {
     // reset game status
     gameStatus.playerHand = [];
@@ -78,20 +79,70 @@ export function GET() {
         status: 200
     });
 }
-// when hit button is clicked ,get a random card from the deck and add to player's hand
-// calculate player's hand value
-// player's hand value is 21,player wins,black jack!
-// player's hand value exceeds 21,dealer wins
-// player's hand value is less than 21,player can choose to hit or stand
 
-// when stand button is clicked,get a random card from the deck and add to dealer's hand until dealer's hand value is >=17
-// calculate dealer's hand value
-// dealer's hand value is 21,dealer wins,black jack!
-// dealer's hand value exceeds 21,player wins
-// dealer's hand value is less than 21
-// compare player's hand value and dealer's hand value,
-// player's hand value is greater,player wins
-// dealer's hand value is greater,dealer wins
-// if both hand values are equal,draw
+export async function POST(request: Request) {
+    const { action } = await request.json();
+    if (action === "hit") {
+        // when hit button is clicked ,get a random card from the deck and add to player's hand
+        const [card, remainingDesk] = getRandomCard(gameStatus.deck, 1);
+        gameStatus.playerHand.push(...card);
+        gameStatus.deck = remainingDesk;
+        // calculate player's hand value
+        const playerHandValue = calculateHandValue(gameStatus.playerHand);
+        // player's hand value is 21,player wins,black jack!
+        // player's hand value exceeds 21,dealer wins
+        // player's hand value is less than 21,player can choose to hit or stand
+        if (playerHandValue === 21) {
+            gameStatus.message = "Black Jack! Player wins!";
+        } else if (playerHandValue > 21) {
+            gameStatus.message = "Dealer wins! Player busts!";
+        }
+    } else if (action === "stand") {
+        // when stand button is clicked,get a random card from the deck and add to dealer's hand until dealer's hand value is >=17
+        while (calculateHandValue(gameStatus.dealerHand) < 17) {
+            const [card, remainingDesk] = getRandomCard(gameStatus.deck, 1);
+            gameStatus.dealerHand.push(...card);
+            gameStatus.deck = remainingDesk;
+        }
+        // calculate dealer's hand value
+        const dealerHandValue = calculateHandValue(gameStatus.dealerHand)
+        if (dealerHandValue > 21) {
+            gameStatus.message = "Black Jack! Player wins!"
+        }
+
+        // dealer's hand value is 21,dealer wins,black jack!
+        // dealer's hand value exceeds 21,player wins
+        // dealer's hand value is less than 21
+        // compare player's hand value and dealer's hand value,
+        // player's hand value is greater,player wins
+        // dealer's hand value is greater,dealer wins
+        // if both hand values are equal,draw
+    } else {
+        return new Response(JSON.stringify({ message: "Invalid action" }), { status: 400 });
+    }
+}
+
+function calculateHandValue(hand: Card[]) {
+    let value = 0;
+    // A的数量，如果NewValue = 11（A） + olderVale > 21,则将A按1计算,否则按11计算 
+    let aceCount = 0;
+    hand.forEach(card => {
+        if (card.rank === "A") {
+            aceCount += 1;
+            value += 11;
+            // 这三者都按10计算
+        } else if (["K", "Q", "J"].includes(card.rank)) {
+            value += 10;
+        } else {
+            value += parseInt(card.rank);
+        }
+    });
+    while (value > 21 && aceCount > 0) {
+        value -= 10;
+        aceCount -= 1;
+    }
+    return value;
+}
+
 
 // 如果都大于咋办
