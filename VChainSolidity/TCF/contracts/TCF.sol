@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Compatible with OpenZeppelin Contracts ^5.5.0
+// Compatible with OpenZeppelin Contracts 4.9.6
 pragma solidity ^0.8.1;
 
 import {ERC20} from "./openzeppelin_l/contracts/token/ERC20/ERC20.sol";
@@ -17,9 +17,9 @@ contract TCF is Initializable, ERC20, Ownable {
         bytes calldata _tokenSymbol,
         address addr_3,
         address addr_7
-    ) public initializer onlyOwner {
+    ) external initializer onlyOwner {
         ERC20.__ERC20_init(string(_tokenName), string(_tokenSymbol));
-        mint(Ownable.owner(), 368000);
+        mint(Ownable.owner(), 4680000);
         mint(addr_3, 156000);
         mint(addr_7, 364000);
     }
@@ -27,5 +27,4 @@ contract TCF is Initializable, ERC20, Ownable {
     function mint(address to, uint256 amount) internal onlyOwner {
         _mint(to, amount);
     }
-    // 实现转账,对应每天给合约A和合约B转账
 }

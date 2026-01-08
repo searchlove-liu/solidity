@@ -12,12 +12,16 @@ export function setupFixtures(provider: EthereumProvider) {
 
             // Type the deployments for better IDE support
             const TCF = env.get<typeof artifacts.TCF.abi>("TCF");
+            const testGasUsed = env.get<typeof artifacts.testGasUsed.abi>("testGasUsed");
+            // const TCF_NFTPrice = env.get<typeof artifacts.TCF_NFTPrice.abi>("TCF_NFTPrice");
 
             return {
                 env,
                 TCF,
                 namedAccounts: env.namedAccounts,
                 unnamedAccounts: env.unnamedAccounts,
+                testGasUsed,
+                // TCF_NFTPrice
             };
         },
     };

@@ -1,7 +1,7 @@
 // test/Greeter.test.ts
 // 需要安装这个插件hardhat-ethers-chai-matchers
 import { expect } from "chai";
-import { describe, it } from "node:test"; // using node:test as hardhat v3 do not support vitest
+import { before, beforeEach, describe, it } from "node:test"; // using node:test as hardhat v3 do not support vitest
 import { network } from "hardhat";
 import { setupFixtures } from "./utils/index.js";
 import { stringToHexString } from "./utils/stringToHex.ts"
@@ -9,11 +9,18 @@ import { stringToHexString } from "./utils/stringToHex.ts"
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
 
+let { env, TCF, namedAccounts } = await networkHelpers.loadFixture(
+    deployAll
+);
+
 describe("TCF", function () {
-    it("Init the TCF,get token name and token symbol", async function () {
-        const { env, TCF, namedAccounts, unnamedAccounts } = await networkHelpers.loadFixture(
+    beforeEach(async () => {
+        ({ env, TCF, namedAccounts } = await networkHelpers.loadFixture(
             deployAll
-        );
+        ));
+    })
+
+    it("Init the TCF,get token name and token symbol", async function () {
         const tokenName = stringToHexString("TCF");
         const tokenSymbol = stringToHexString("TCF");
         await env.execute(TCF, {
@@ -36,9 +43,7 @@ describe("TCF", function () {
     });
 
     it("Initial two times of TCF,expect reverted with 'Initializable: contract is already initialized'", async function () {
-        const { env, TCF, namedAccounts, unnamedAccounts } = await networkHelpers.loadFixture(
-            deployAll
-        );
+
         let tokenName = stringToHexString("TCF");
         let tokenSymbol = stringToHexString("TCF");
         await env.execute(TCF, {
@@ -58,16 +63,20 @@ describe("TCF", function () {
         ).to.be.revertedWith("Initializable: contract is already initialized");
     })
 
+})
+
+describe("test token amount", function () {
+    // 暂且将下面地址作为保存总量的3%和7%的地址
     // 代币发行总量为5200000，
     // address_3（156000）表示初始化持有3%的代币地址
     // address_7 (364000) 表示初始化持有7%的代币地址
-    it("Init the TCF,get owner amount,expect amount1 of address_7 is equal to 3840000,address_3 is equal to 364000", async function () {
-        const { env, TCF, namedAccounts, unnamedAccounts } = await networkHelpers.loadFixture(
+    const address_3 = namedAccounts.admin1;
+    const address_7 = namedAccounts.admin2;
+
+    beforeEach(async () => {
+        ({ env, TCF, namedAccounts } = await networkHelpers.loadFixture(
             deployAll
-        );
-        // 暂且将下面地址作为保存总量的3%和7%的地址
-        const address_3 = namedAccounts.admin1;
-        const address_7 = namedAccounts.admin2;
+        ));
 
         const tokenName = stringToHexString("TCF");
         const tokenSymbol = stringToHexString("TCF");
@@ -76,7 +85,10 @@ describe("TCF", function () {
             args: [`0x${tokenName}`, `0x${tokenSymbol}`, address_3, address_7],
             account: namedAccounts.deployer
         });
+    })
 
+
+    it("Init the TCF,get owner amount,expect amount1 of address_7 is equal to 3840000,address_3 is equal to 364000", async function () {
         // 获取占比3%地址的代币量
         expect(
             await env.read(TCF, {
@@ -99,7 +111,7 @@ describe("TCF", function () {
                 functionName: "balanceOf",
                 args: [namedAccounts.deployer]
             })
-        ).to.equal(3680000)
+        ).to.equal(4680000)
     })
 
 })
