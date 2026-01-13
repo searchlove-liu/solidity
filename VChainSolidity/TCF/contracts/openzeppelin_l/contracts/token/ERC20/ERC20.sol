@@ -7,6 +7,7 @@ import "./IERC20.sol";
 import "./extensions/IERC20Metadata.sol";
 import "../../utils/Context.sol";
 import "./../../proxy/utils/Initializable.sol";
+import {ERC165} from "../../utils/introspection/ERC165.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -36,7 +37,7 @@ import "./../../proxy/utils/Initializable.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-contract ERC20 is Context, Initializable, IERC20, IERC20Metadata {
+contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
     mapping(address => uint256) private _balances;
 
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -76,6 +77,15 @@ contract ERC20 is Context, Initializable, IERC20, IERC20Metadata {
     ) internal onlyInitializing {
         _name = name_;
         _symbol = symbol_;
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override(ERC165) returns (bool) {
+        return
+            interfaceId == type(IERC20).interfaceId ||
+            interfaceId == type(IERC20Metadata).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /**

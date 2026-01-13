@@ -3,19 +3,19 @@
 import { expect } from "chai";
 import { before, beforeEach, describe, it } from "node:test"; // using node:test as hardhat v3 do not support vitest
 import { network } from "hardhat";
-import { setupFixtures } from "./utils/index.js";
+import { setupFixtures } from "./utils/index.ts";
 import { stringToHexString } from "./utils/stringToHex.ts"
 
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
 
-let { env, TCF, namedAccounts } = await networkHelpers.loadFixture(
+let { env, TCF1, namedAccounts } = await networkHelpers.loadFixture(
     deployAll
 );
 
 describe("TCF", function () {
     beforeEach(async () => {
-        ({ env, TCF, namedAccounts } = await networkHelpers.loadFixture(
+        ({ env, TCF1, namedAccounts } = await networkHelpers.loadFixture(
             deployAll
         ));
     })
@@ -23,20 +23,20 @@ describe("TCF", function () {
     it("Init the TCF,get token name and token symbol", async function () {
         const tokenName = stringToHexString("TCF");
         const tokenSymbol = stringToHexString("TCF");
-        await env.execute(TCF, {
+        await env.execute(TCF1, {
             functionName: "initialize",
             args: [`0x${tokenName}`, `0x${tokenSymbol}`, namedAccounts.deployer, namedAccounts.deployer],
             account: namedAccounts.deployer
         });
 
         expect(
-            await env.read(TCF, {
+            await env.read(TCF1, {
                 functionName: "name"
             })
         ).to.equal("TCF")
 
         expect(
-            await env.read(TCF, {
+            await env.read(TCF1, {
                 functionName: "symbol"
             })
         ).to.equal("TCF")
@@ -46,7 +46,7 @@ describe("TCF", function () {
 
         let tokenName = stringToHexString("TCF");
         let tokenSymbol = stringToHexString("TCF");
-        await env.execute(TCF, {
+        await env.execute(TCF1, {
             functionName: "initialize",
             args: [`0x${tokenName}`, `0x${tokenSymbol}`, namedAccounts.deployer, namedAccounts.deployer],
             account: namedAccounts.deployer
@@ -55,7 +55,7 @@ describe("TCF", function () {
         tokenName = stringToHexString("TCF2");
         tokenSymbol = stringToHexString("TCF2");
         await expect(
-            env.execute(TCF, {
+            env.execute(TCF1, {
                 functionName: "initialize",
                 args: [`0x${tokenName}`, `0x${tokenSymbol}`, namedAccounts.deployer, namedAccounts.deployer],
                 account: namedAccounts.deployer
@@ -74,13 +74,13 @@ describe("test token amount", function () {
     const address_7 = namedAccounts.admin2;
 
     beforeEach(async () => {
-        ({ env, TCF, namedAccounts } = await networkHelpers.loadFixture(
+        ({ env, TCF1, namedAccounts } = await networkHelpers.loadFixture(
             deployAll
         ));
 
         const tokenName = stringToHexString("TCF");
         const tokenSymbol = stringToHexString("TCF");
-        await env.execute(TCF, {
+        await env.execute(TCF1, {
             functionName: "initialize",
             args: [`0x${tokenName}`, `0x${tokenSymbol}`, address_3, address_7],
             account: namedAccounts.deployer
@@ -91,7 +91,7 @@ describe("test token amount", function () {
     it("Init the TCF,get owner amount,expect amount1 of address_7 is equal to 3840000,address_3 is equal to 364000", async function () {
         // 获取占比3%地址的代币量
         expect(
-            await env.read(TCF, {
+            await env.read(TCF1, {
                 functionName: "balanceOf",
                 args: [address_3]
             })
@@ -99,7 +99,7 @@ describe("test token amount", function () {
 
         // 获取占比7%地址的代币量
         expect(
-            await env.read(TCF, {
+            await env.read(TCF1, {
                 functionName: "balanceOf",
                 args: [address_7]
             })
@@ -107,11 +107,20 @@ describe("test token amount", function () {
 
         // deployer是owner，他获取剩余的NFT,3680000
         expect(
-            await env.read(TCF, {
+            await env.read(TCF1, {
                 functionName: "balanceOf",
                 args: [namedAccounts.deployer]
             })
         ).to.equal(4680000)
+    })
+
+    it("tcf: test supportsInterface", async function () {
+        const ercMetadataInterfaceID = "0xa219a025" as `0x${string}`
+        expect(await env.read(TCF1, {
+            functionName: "supportsInterface",
+            args: [ercMetadataInterfaceID],
+            account: namedAccounts.deployer
+        })).to.equal(true)
     })
 
 })

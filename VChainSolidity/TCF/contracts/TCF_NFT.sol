@@ -4,18 +4,15 @@
 pragma solidity ^0.8.1;
 
 import {ERC1155} from "./openzeppelin_l/contracts/token/ERC1155/ERC1155.sol";
-import {ERC1155Pausable} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Pausable.sol";
-import {ERC1155Supply} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-import {Ownable} from "./openzeppelin_l/contracts/access/Ownable.sol";
-import {ERC1155URIStorage} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
-
-contract TCF_NFT is
-    ERC1155,
-    Ownable,
-    ERC1155URIStorage,
-    ERC1155Pausable,
+import {
     ERC1155Supply
-{
+} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import {Ownable} from "./openzeppelin_l/contracts/access/Ownable.sol";
+import {
+    ERC1155URIStorage
+} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
+
+contract TCF_NFT is ERC1155, Ownable, ERC1155URIStorage, ERC1155Supply {
     constructor() {}
 
     // 创建6个NFT
@@ -43,14 +40,6 @@ contract TCF_NFT is
     // 返回用户有效的NFT
     // 返回用户所有的NFT
 
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
     function mint(
         address account,
         uint256 id,
@@ -76,7 +65,7 @@ contract TCF_NFT is
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(ERC1155, ERC1155Pausable, ERC1155Supply) {
+    ) internal virtual override(ERC1155, ERC1155Supply) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 

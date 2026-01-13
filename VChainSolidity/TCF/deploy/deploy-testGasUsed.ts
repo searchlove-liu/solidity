@@ -4,11 +4,24 @@ export default deployScript(
     async ({ deploy, namedAccounts }) => {
         const { deployer } = namedAccounts;
 
-        await deploy("testGasUsed", {
+        const testGasUsed = await deploy("testGasUsed", {
             account: deployer,
             artifact: artifacts.testGasUsed,
             args: [],
         });
+
+        await deploy("testMapping", {
+            account: deployer,
+            artifact: artifacts.testMapping,
+            args: [],
+        });
+
+        await deploy("testCallContractFunction", {
+            account: deployer,
+            artifact: artifacts.testCallContractFunction,
+            args: []
+        })
+
     },
     // finally you can pass tags and dependencies
     { tags: ["testGasUsed"] }

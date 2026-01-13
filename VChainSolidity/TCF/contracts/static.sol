@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Compatible with OpenZeppelin Contracts 4.9.6
 
-import {TCF} from "./TCF.sol";
+// import {TCF} from "./TCF.sol";
 
 /***
  * @dev 静态合约，继承了TCF合约。功能：计算算力，NFT过期之后让NFT无效（不再作为算力计算的依据）。
@@ -11,6 +11,6 @@ import {TCF} from "./TCF.sol";
  * 用户需要手动提款。（因为静态合约和动态合约极度依赖NFT合约，所以先写NFT合约）
  */
 
-contract StaticContract is TCF {
+contract StaticContract {
     //
 }

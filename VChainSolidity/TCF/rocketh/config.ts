@@ -2,6 +2,7 @@
 // Typed Config
 // ----------------------------------------------------------------------------
 import type { UserConfig } from 'rocketh/types';
+import { hardhat } from 'viem/chains';
 
 // this one provide a protocol supporting private key as account
 import { privateKey } from '@rocketh/signer';
@@ -21,6 +22,12 @@ export const config = {
         },
     },
     data: {},
+    chains: {
+        31337: {
+            info: hardhat,
+            rpcUrl: 'http://127.0.0.1:8545',
+        },
+    },
     signerProtocols: {
         privateKey,
     },

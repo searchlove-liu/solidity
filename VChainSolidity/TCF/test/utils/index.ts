@@ -7,21 +7,28 @@ export function setupFixtures(provider: EthereumProvider) {
     return {
         async deployAll() {
             const env = await loadAndExecuteDeploymentsFromFiles({
-                provider: provider,
+                provider,
+                environment: 'localhost',
             });
 
             // Type the deployments for better IDE support
-            const TCF = env.get<typeof artifacts.TCF.abi>("TCF");
+            const TCF1 = env.get<typeof artifacts.TCF.abi>("TCF");
+            const TCF2 = env.get<typeof artifacts.TCF_copy.abi>("TCF_copy");
             const testGasUsed = env.get<typeof artifacts.testGasUsed.abi>("testGasUsed");
-            // const TCF_NFTPrice = env.get<typeof artifacts.TCF_NFTPrice.abi>("TCF_NFTPrice");
+            const testMapping = env.get<typeof artifacts.testMapping.abi>("testMapping");
+            const testCallContractFunction = env.get<typeof artifacts.testCallContractFunction.abi>("testCallContractFunction");
+            const TCF_NFTPrice = env.get<typeof artifacts.TCF_NFTPrice.abi>("TCF_NFTPrice");
 
             return {
                 env,
-                TCF,
+                TCF1,
+                TCF2,
                 namedAccounts: env.namedAccounts,
                 unnamedAccounts: env.unnamedAccounts,
                 testGasUsed,
-                // TCF_NFTPrice
+                TCF_NFTPrice,
+                testMapping,
+                testCallContractFunction
             };
         },
     };
