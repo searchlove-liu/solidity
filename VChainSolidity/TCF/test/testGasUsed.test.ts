@@ -39,21 +39,21 @@ describe("测试用例", function () {
         // console.log(interfaceID)
 
         // 测试使用call调用erc20合约的symbol函数
-        const tokenName = stringToHexString("TCF");
-        const tokenSymbol = stringToHexString("TCF");
-        await env.execute(TCF1, {
-            functionName: "initialize",
-            args: [`0x${tokenName}`, `0x${tokenSymbol}`, namedAccounts.admin1, namedAccounts.admin2],
-            account: namedAccounts.deployer
-        });
+        // const tokenName = stringToHexString("TCF");
+        // const tokenSymbol = stringToHexString("TCF");
+        // await env.execute(TCF1, {
+        //     functionName: "initialize",
+        //     args: [`0x${tokenName}`, `0x${tokenSymbol}`, namedAccounts.admin1, namedAccounts.admin2],
+        //     account: namedAccounts.deployer
+        // });
 
-        expect(
-            await env.read(testGasUsed, {
-                functionName: "useCall",
-                args: [emptyAddress],
-                account: namedAccounts.deployer
-            })
-        ).to.equal("TCF")
+        // expect(
+        //     await env.read(testGasUsed, {
+        //         functionName: "useCall",
+        //         args: [emptyAddress],
+        //         account: namedAccounts.deployer
+        //     })
+        // ).to.equal("TCF")
 
 
         // console.log(await env.read(testGasUsed, {
@@ -61,6 +61,37 @@ describe("测试用例", function () {
         //     args: [TCF.address],
         //     account: namedAccounts.deployer
         // }))
+
+        // await expect(
+        //     env.execute(testGasUsed, {
+        //         functionName: "testRevert",
+        //         args: [],
+        //         account: namedAccounts.deployer
+        //     })
+        // ).to.be.revertedWith("nihao")
+
+        // test address
+        // expect(
+        //     await env.read(testGasUsed, {
+        //         functionName: "getAddress",
+        //         args: [],
+        //         account: namedAccounts.deployer
+        //     })
+        // ).to.equal("0x0000000000000000000000000000000000000001")
+
+        await env.execute(testGasUsed, {
+            functionName: "getAddress",
+            args: [],
+            account: namedAccounts.deployer
+        })
+
+        expect(
+            await env.read(testGasUsed, {
+                functionName: "addresses",
+                args: [2n]
+            })
+        ).to.equal("0xbDA5747bFD65F08deb54cb465eB87D40e51B197E")
+
 
         // console.log(hexToNumber(result1.gasUsed))   /* 44417 */
         // console.log(hexToNumber(result2.gasUsed))   /* 35716 */

@@ -4,16 +4,34 @@
 pragma solidity ^0.8.1;
 
 import {TCF_NFT} from "./TCF_NFT.sol";
-import {String} from "./String.sol";
 
-// TODO:response_CheckTokenAddressesParams删除，检查参数只返回string，正确返回空，不正确，返回提示信息
-// TODO:number临时变量，改为uint8,增加length检查,继续使用uint256，改为uint8不会减少智能合约容量
-// TODO:设置支持的token 数目和token的地址，地址使用数组保存。
-// TODO:删除初始化支持的token函数
+// 获取支持的token地址
+// 1、获取支持的token数
+// 2、遍历调用tokenAddress_array
+
+// 查看某个地址是否支持
+// 调用supportedTokenAmount
+
+// 查看比例和权限时长
+// 调用NFTS(uint256 tokenID)函数，参数是NFT id
+// 返回数组，第一个元素是比例，第二个元素是有效时长
+
+/**
+ * @dev 管理tcf——nft的价格，比例，有效时长，支持的token地址
+ */
 
 contract TCF_NFTPrice is TCF_NFT {
-    using String for address;
-    using String for string;
+    string private constant ERR_ADDR_LEN = "ADDR_LEN";
+    string private constant ERR_ADDR_EXISTS = "ADDR_EXISTS";
+    string private constant ERR_NOT_TCF_USDT = "NOT_TCF_USDT";
+    string private constant ERR_DUP_TCF = "DUP_TCF";
+    string private constant ERR_DUP_USDT = "DUP_USDT";
+    string private constant ERR_PRICES_LEN = "PRICES_LEN";
+    string private constant ERR_TOKEN_UNSUPPORTED = "TOKEN_UNSUPPORTED";
+    string private constant ERR_TOKENID_RANGE = "TOKENID_RANGE";
+    string private constant ERR_NATURE_TOKEN_DEL = "NATURE_TOKEN_DEL";
+    string private constant ERR_PRICES_INITIALIZED = "PRICES_INITIALIZED";
+
     // 支持的支付方式，常量TC,TCF,USDT(后期确定TCF和USDT的合约地址之后再写)
     // TC原生代币的没有地址不在这里面存放
     // 0表示不支持，1表示支持
@@ -37,197 +55,152 @@ contract TCF_NFTPrice is TCF_NFT {
         uint256 amount;
     }
 
-    // 一种NFT的支付方式，用于参数传递
-    struct oneTokenPriceTypeAndAomut_parm {
-        priceTypeAndAomut[] priceData;
-    }
-
-    // 一种NFT的支付方式，用于存储数据
-    struct oneTokenPriceTypeAndAomut_store {
-        // 原生代币没有地址，使用0x1来代替
-        mapping(address => uint256) priceData;
-    }
-
     // 权益：保存价格，比例，有限期
-    struct equities_parm {
-        // 三种支付方式的价格，TC,TCF,USDT
-        priceTypeAndAomut[] price;
-        // 动态比例，10% ,这里就为10
-        uint256 ratio;
-        // 有效期
-        uint256 indate;
-    }
-
-    // 权益：保存价格，比例，有限期
-    // 用于存储数据
+    // 可优化，使用两个map用于存储素具，一份是ratio与indate集合，另一份是价格
+    // 对于某一个NFT的ratio和indate，先赋值给memory，然后一次性保存在storage，比当前少一次对storage的存储，但增加了代码量。
+    // 所以还是算了
     struct equities_store {
         // 三种支付方式的价格，TC,TCF,USDT
         mapping(address => uint256) prices;
         // 动态比例，10% ,这里就为10
-        uint256 ratio;
+        uint8 ratio;
         // 有效期
-        uint256 indate;
+        uint32 indate;
     }
 
     // 6种NFT的权益。如果使用mapping如果后期想要增加产品，修改合约代码量会小一些
     // NFTS使用mapping，在初始化的时候进行了大量写操作，消耗了大量gas。但在mint操作，获取对应NFT价格时，减少了便利操作，降低了gas消耗。
     // mapping不支持memory，不能设置临时变量一次性给NFTS赋值
     // 因为只有6种，所以使用uint256
-    mapping(uint256 => equities_store) NFTS;
+    mapping(uint256 => equities_store) public NFTS;
 
-    /***
-     * @dev 初始化函数
-     * @param prices 每个NFT的三种价格
-     * @param tokenAddresses 支持的token 地址
+    /**
+     * @dev 初始化价格，需要再初始化支持的token列表之后进行。TC代币的地址设为0
+     * @param prices 6种NFT,每中NFT的三类价格
+     * @param checkParams 是否需要检查参数
      */
-    function TCF_NFTPrice_init(
-        oneTokenPriceTypeAndAomut_parm[6] calldata prices,
-        address[] memory tokenAddresses
-    ) public onlyOwner {
-        // __ERC1155_init("");
-        // initSupportToken(tokenAddresses);
-        // 必须在initSupportToken和initEquities之间
-        // initSupportToken初始化了支持的代币（supportTokenType），_NFTPrice_checkInitializeParams使用supportTokenType
-        // 且_NFTPrice_checkInitializeParams检查的参数主要用于initEquities
-        // _NFTPrice_checkInitializeParams(prices, tokenAddresses);
-        // initEquities(prices);
-    }
+    function initPrice(
+        priceTypeAndAomut[][6] calldata prices,
+        bool checkParams
+    ) external onlyOwner {
+        require(NFTPrice_initialized == 0, ERR_PRICES_INITIALIZED);
 
-    // 初始化NFT权益
-    // TC代币的地址设为0
-    function initEquities(priceTypeAndAomut[][6] calldata prices) internal {
+        if (checkParams) {
+            string memory code = checkInitPricesParams(prices);
+            if (bytes(code).length != 0) {
+                revert(code);
+            }
+        }
+
         // 有效时长，分别对应 180 200 240 280 320 360  单位是天
         // 测试的时候：天数*每天的秒
-        uint256[6] memory indetes = [
-            uint256(15552000),
-            uint256(17280000),
-            uint256(20736000),
-            uint256(24192000),
-            uint256(27648000),
-            uint256(31104000)
+        uint32[6] memory indetes = [
+            15552000,
+            17280000,
+            20736000,
+            24192000,
+            27648000,
+            31104000
         ];
         // 动态比例
-        uint256[6] memory ratios = [
-            40,
-            uint256(50),
-            uint256(60),
-            uint256(80),
-            uint256(90),
-            uint256(100)
-        ];
+        uint8[6] memory ratios = [40, 50, 60, 80, 90, 100];
 
         // equities_parm[6] memory NFTS_;
-        mapping(uint256 => equities_store) storage NFTS_ = NFTS;
-        equities_parm memory NFT;
+        uint256 addressLen = prices[0].length;
 
         for (uint256 i = 0; i < 6; ++i) {
-            // 获取支付方式,这里不设置数组长度为3(TC TCF USDT)，是因为前期可能不支持USDT
-            priceTypeAndAomut[] memory priceTypeAndAomuts = prices[i];
-
             // 跟新NFTS数据
-            NFTS_[i].indate = indetes[i];
-            NFTS_[i].ratio = ratios[i];
-            for (uint j = 0; j < priceTypeAndAomuts.length; i++) {
-                address tokenAddress = priceTypeAndAomuts[j].tokenAddress;
+            NFTS[i].indate = indetes[i];
+            NFTS[i].ratio = ratios[i];
+            for (uint256 j = 0; j < addressLen; j++) {
+                address tokenAddress = prices[i][j].tokenAddress;
                 // 如果为原生代币，地址设为0x1
                 if (tokenAddress == address(0)) {
                     tokenAddress = address(0x1);
                 }
-                NFTS_[i].prices[tokenAddress] = priceTypeAndAomuts[j].amount;
+                NFTS[i].prices[tokenAddress] = prices[i][j].amount;
             }
         }
         NFTPrice_initialized = 1;
     }
 
-    // 设置单个NFT价格
-    function setNFTPrice(
+    /**
+     * @dev 修改单个NFT价格
+     * @param tokenID NFT类型/ID（0-5）
+     * @param tokenAddress 支付代币地址；原生代币传入address(0)
+     * @param amount 新价格
+     */
+    function changeNFTPrice(
         uint256 tokenID,
         address tokenAddress,
         uint256 amount
-    ) external {
-        require(
-            tokenID < 6,
-            "SetNFTPrice: TokenID must be one of 0,1,2,3,4 or 5"
-        );
-        require(
-            supportTokenType[tokenAddress] == 1,
-            "SetNFTPrice: TokenAddress Isn't support or tokenAddress is error"
-        );
+    ) external onlyOwner {
+        string memory code = _checkAccessPriceDetail(tokenID, tokenAddress);
+        if (bytes(code).length != 0) {
+            revert(code);
+        }
+
+        if (tokenAddress == address(0)) {
+            tokenAddress = address(0x1);
+        }
         NFTS[tokenID].prices[tokenAddress] = amount;
     }
 
-    // 检查就tokenAddress是否被初始化过
-    // 后期改为数组，为了方便操作，操作改为calldata
-    // 应该改为delSupportToken和addSupportToken
-    function deleteSupportedToken(address oldTokenAddress) external onlyOwner {
-        require(
-            supportTokenType[oldTokenAddress] == 1,
-            "ChangeSupportedToken: old token address is not exist"
+    /**
+     * @dev 获取某个NFT在某种支付方式下的价格。
+     * @param tokenID NFT类型/ID（0-5）
+     * @param tokenAddress_ 支付代币地址；原生代币传入address(0)
+     * @return errorMessage 错误码/错误信息；成功时为空字符串
+     * @return price 价格；当errorMessage非空时为0
+     */
+    function getNFTPrice(
+        uint256 tokenID,
+        address tokenAddress_
+    ) external view returns (string memory, uint256) {
+        string memory errorMessage = _checkAccessPriceDetail(
+            tokenID,
+            tokenAddress_
         );
-
-        delete supportTokenType[oldTokenAddress];
-        // supportedTokenAmount包含原生代币数，但原生token没有地址，所以tokenAddress_array元素数=supportedTokenAmount-1
-        for (uint256 i = 0; i < supportedTokenAmount - 1; i++) {
-            if (tokenAddress_array[i] == oldTokenAddress) {
-                // supportedTokenAmount包含原生代币数，但原生代币地址为空，不保存，所以减2
-                // 将最后一个元素放置在删除的位置
-                tokenAddress_array[i] = tokenAddress_array[
-                    supportedTokenAmount - 2
-                ];
-                // 删除最后一个元素
-                tokenAddress_array[supportedTokenAmount - 2] = address(0);
-            }
+        if (bytes(errorMessage).length != 0) {
+            return (errorMessage, 0);
         }
-        supportedTokenAmount -= 1;
+
+        if (tokenAddress_ == address(0)) {
+            tokenAddress_ = address(0x1);
+        }
+        return ("", NFTS[tokenID].prices[tokenAddress_]);
     }
 
-    function addSupportedToken(
-        address[] memory tokenAddresses,
-        bool checkParams
-    ) external onlyOwner {
-        if (checkParams) {
-            string memory response = checkTokenAddressesParams(tokenAddresses);
-            if (!response.equal("")) {
-                revert(response);
-            }
+    function _checkAccessPriceDetail(
+        uint256 tokenID,
+        address tokenAddress
+    ) private view returns (string memory) {
+        if (tokenID > 5) {
+            return ERR_TOKENID_RANGE;
         }
-
-        uint256 len = tokenAddresses.length;
-        for (uint256 i = 0; i < len; i++) {
-            supportTokenType[tokenAddresses[i]] = 1;
-            tokenAddress_array.push(tokenAddresses[i]);
+        if (tokenAddress != address(0) && supportTokenType[tokenAddress] != 1) {
+            return _detailAddr(tokenAddress, ERR_TOKEN_UNSUPPORTED);
         }
-
-        if (initedTokenAddress == 1) {
-            supportedTokenAmount += len;
-        } else {
-            initedTokenAddress = 1;
-            supportedTokenAmount = len + 1;
-        }
+        return "";
     }
 
-    function getSupportTokenAddress() external view returns (address[] memory) {
-        return tokenAddress_array;
-    }
-
-    // 为什么要单独进行检查参数，因为如果把每个检查的目标发在不同位置进行检查，
-    // 每次都需要进行遍历，需要消耗比较多的gas，所以放在一起，减少gas消耗
-    // 后台需要检查的：不要传入相同的地址
-    function checkPricesParams(
+    /**
+     * @dev 初始化价格参数检查：长度、代币是否在支持列表内等。
+     * @param prices 6种NFT的价格参数（每种NFT包含 supportedTokenAmount 个价格项）
+     * @return 错误码/错误信息；成功时为空字符串
+     */
+    function checkInitPricesParams(
         priceTypeAndAomut[][6] calldata prices
     ) public view returns (string memory) {
         // 1、检查tokenAddresses和prices[i].priceData.length相同
         // 2、价格里面必须支持原生代币
         // 3、检查价格参数中每个NFT支持的token Address 是否在所支持的tokenAddress列表之内
-        // 4、检查支持的tokenAddress是否被初始化
 
-        address tokenAddress;
         for (uint256 i = 0; i < 6; ++i) {
             // 计划支持3种代币，包括USDT,TC,TCF
             // 1、不强制要求tokenAddresses长度为2的原因：项目可能暂时不支持USDT。为什么是2，因为TC是原生代币，所以不需要传入地址
             if (prices[i].length != supportedTokenAmount) {
-                return
-                    "The pairs amount of price and token address must equal to SupportedTokenAmount";
+                return ERR_PRICES_LEN;
             }
 
             // 要求支付方式为支持的代币类型
@@ -242,7 +215,10 @@ contract TCF_NFTPrice is TCF_NFT {
                     supportTokenType[price[j].tokenAddress] != 1
                 ) {
                     return
-                        "TokenAddress Isn't support or supported token not initialized";
+                        _detailAddr(
+                            price[j].tokenAddress,
+                            ERR_TOKEN_UNSUPPORTED
+                        );
                 }
 
                 // 代码量过大，删除一些不必要的检查
@@ -264,17 +240,84 @@ contract TCF_NFTPrice is TCF_NFT {
         return "";
     }
 
-    // 在设置支持的合约地址之前，检查传入的参数,用于外部调用
-    function checkTokenAddressesParams_external(
-        address[] memory tokenAddresses
-    ) external view returns (string memory) {
-        return checkTokenAddressesParams(tokenAddresses);
+    /**
+     * @dev 删除某个支持的代币地址（不允许删除原生代币）。
+     * @param oldTokenAddress 要删除的代币合约地址
+     */
+    function deleteSupportedToken(address oldTokenAddress) external onlyOwner {
+        // 原生代币不能被删除
+        require(oldTokenAddress != address(0), ERR_NATURE_TOKEN_DEL);
+        // 检查就tokenAddress是否被初始化过
+        require(
+            supportTokenType[oldTokenAddress] == 1,
+            _detailAddr(oldTokenAddress, ERR_TOKEN_UNSUPPORTED)
+        );
+
+        // 删除map列表中要删除的地址
+        delete supportTokenType[oldTokenAddress];
+        // supportedTokenAmount包含原生代币数，但原生token没有地址，所以tokenAddress_array元素数=supportedTokenAmount-1
+        for (uint256 i = 0; i < supportedTokenAmount - 1; i++) {
+            if (tokenAddress_array[i] == oldTokenAddress) {
+                // supportedTokenAmount包含原生代币数，但原生代币地址为空，不保存，所以减2
+                // 将最后一个元素放置在删除的位置
+                tokenAddress_array[i] = tokenAddress_array[
+                    supportedTokenAmount - 2
+                ];
+                // 删除最后一个元素
+                // 必须使用pop完成删除最后一个元素，数组的数据长度减一
+                // 在增加数据时，使用push，在原数据的基础上进行增加。
+                // 如果赋值为空，在增加时，就会在空地址后面增加新的元素，不符合预期
+                tokenAddress_array.pop();
+            }
+        }
+        supportedTokenAmount -= 1;
     }
 
-    // 在设置支持的合约地址之前，检查传入的参数，降低gas费
-    function checkTokenAddressesParams(
+    /**
+     * @dev 添加支持的代币地址列表（原生代币不需要传入地址）。
+     * @param tokenAddresses 代币合约地址数组（例如TCF、USDT）
+     * @param checkParams 是否执行参数校验
+     */
+    function addSupportedToken(
+        address[] memory tokenAddresses,
+        bool checkParams
+    ) public onlyOwner {
+        if (checkParams) {
+            string memory code = _checkTokenAddressesCode(tokenAddresses);
+            if (bytes(code).length != 0) {
+                revert(code);
+            }
+        }
+
+        uint256 len = tokenAddresses.length;
+        for (uint256 i = 0; i < len; i++) {
+            supportTokenType[tokenAddresses[i]] = 1;
+            tokenAddress_array.push(tokenAddresses[i]);
+        }
+
+        if (initedTokenAddress == 1) {
+            supportedTokenAmount += len;
+        } else {
+            initedTokenAddress = 1;
+            supportedTokenAmount = len + 1;
+        }
+    }
+
+    /**
+     * @dev 对新增的支持代币地址进行校验（地址数量、重复、是否为TCF/USDT等）。
+     * @param _tokenAddresses 代币合约地址数组
+     * @return 错误码/错误信息；成功时为空字符串
+     */
+    function checkTokenAddressesCode(
+        address[] memory _tokenAddresses
+    ) external view returns (string memory) {
+        return _checkTokenAddressesCode(_tokenAddresses);
+    }
+
+    // 设置支持的token时，进行参数检查
+    function _checkTokenAddressesCode(
         address[] memory tokenAddresses
-    ) internal view returns (string memory response) {
+    ) private view returns (string memory) {
         //在修改合约地址时，也会调用这个函数，但修改合约地址时，已经初始化链外，所以不可以加初始化检查
         // if (initedTokenAddress == 1) {
         //     response.message = "Token addresses had been initialized";
@@ -284,7 +327,7 @@ contract TCF_NFTPrice is TCF_NFT {
         uint256 len = tokenAddresses.length;
         // 检查数据长度
         if (len > 2) {
-            return "Address length must < 3,TCF or USDT";
+            return ERR_ADDR_LEN;
         }
 
         // 检查是否为TCF或USDT,在检查是否合约地址之后
@@ -293,13 +336,7 @@ contract TCF_NFTPrice is TCF_NFT {
         for (uint256 i = 0; i < len; i++) {
             // 检查地址是否已经存在
             if (supportTokenType[tokenAddresses[i]] == 1) {
-                return
-                    string(
-                        abi.encodePacked(
-                            tokenAddresses[i].toHexString(),
-                            " exists"
-                        )
-                    );
+                return _detailAddr(tokenAddresses[i], ERR_ADDR_EXISTS);
             }
 
             // 检查是否为TCF合约和USDT合约，没有继续操作是因为，在继续之前需要检查这两个合约是否为erc20合约
@@ -314,39 +351,54 @@ contract TCF_NFTPrice is TCF_NFT {
             if (success && data.length > 0) {
                 string memory symbol = abi.decode(data, (string));
                 // 必须是TCF或USDT合约
-                if (!symbol.equal("TCF") && !symbol.equal("USDT")) {
-                    return
-                        string(
-                            abi.encodePacked(
-                                tokenAddresses[i].toHexString(),
-                                " isn't TCF or USDT"
-                            )
-                        );
-                } else if (symbol.equal("TCF")) {
+                bytes32 symbolHash = keccak256(bytes(symbol));
+                if (
+                    symbolHash != keccak256(bytes("TCF")) &&
+                    symbolHash != keccak256(bytes("USDT"))
+                ) {
+                    return _detailAddr(tokenAddresses[i], ERR_NOT_TCF_USDT);
+                } else if (symbolHash == keccak256(bytes("TCF"))) {
                     // 上一个地址是TCF,并且这个地址也是TCF
                     if (TCFExist) {
-                        return "Both address are TCF";
+                        return ERR_DUP_TCF;
                     } else {
                         TCFExist = true;
                     }
                 } else {
                     // 上一个地址是USDT,并且这个地址也是USDT
                     if (USDTExist) {
-                        return "Both address are USDT";
+                        return ERR_DUP_USDT;
                     } else {
                         USDTExist = true;
                     }
                 }
             } else {
-                return
-                    string(
-                        abi.encodePacked(
-                            tokenAddresses[i].toHexString(),
-                            " isn't TCF or USDT"
-                        )
-                    );
+                return _detailAddr(tokenAddresses[i], ERR_NOT_TCF_USDT);
             }
         }
         return "";
+    }
+
+    function _toHexString(
+        address account
+    ) private pure returns (string memory) {
+        bytes20 data = bytes20(account);
+        bytes16 hexSymbols = 0x30313233343536373839616263646566;
+        bytes memory str = new bytes(42);
+        str[0] = "0";
+        str[1] = "x";
+        for (uint256 i = 0; i < 20; i++) {
+            uint8 b = uint8(data[i]);
+            str[2 + i * 2] = bytes1(hexSymbols[b >> 4]);
+            str[3 + i * 2] = bytes1(hexSymbols[b & 0x0f]);
+        }
+        return string(str);
+    }
+
+    function _detailAddr(
+        address addr,
+        string memory code
+    ) private pure returns (string memory) {
+        return string(abi.encodePacked(code, " ", _toHexString(addr)));
     }
 }

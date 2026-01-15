@@ -9,6 +9,7 @@ import "./extensions/IERC1155MetadataURI.sol";
 import "../../utils/Address.sol";
 import "../../utils/Context.sol";
 import "../../utils/introspection/ERC165.sol";
+// 不需要，这个不需要
 import "./../../proxy/utils/Initializable.sol";
 
 /**

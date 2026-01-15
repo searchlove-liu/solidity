@@ -15,8 +15,6 @@ export function setupFixtures(provider: EthereumProvider) {
             const TCF1 = env.get<typeof artifacts.TCF.abi>("TCF");
             const TCF2 = env.get<typeof artifacts.TCF_copy.abi>("TCF_copy");
             const testGasUsed = env.get<typeof artifacts.testGasUsed.abi>("testGasUsed");
-            const testMapping = env.get<typeof artifacts.testMapping.abi>("testMapping");
-            const testCallContractFunction = env.get<typeof artifacts.testCallContractFunction.abi>("testCallContractFunction");
             const TCF_NFTPrice = env.get<typeof artifacts.TCF_NFTPrice.abi>("TCF_NFTPrice");
 
             return {
@@ -26,9 +24,7 @@ export function setupFixtures(provider: EthereumProvider) {
                 namedAccounts: env.namedAccounts,
                 unnamedAccounts: env.unnamedAccounts,
                 testGasUsed,
-                TCF_NFTPrice,
-                testMapping,
-                testCallContractFunction
+                TCF_NFTPrice
             };
         },
     };

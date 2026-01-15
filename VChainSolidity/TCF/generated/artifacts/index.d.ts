@@ -32,8 +32,4 @@ export {Artifact_TCF_copy as TCF_copy} from './TCF_copy.js';
 export {Artifact_TCF as TCF} from './TCF.js';
 export {Artifact_TCF_NFT as TCF_NFT} from './TCF_NFT.js';
 export {Artifact_TCF_NFTPrice as TCF_NFTPrice} from './TCF_NFTPrice.js';
-export {Artifact_testCallContractFunction as testCallContractFunction} from './testCallContractFunction.js';
 export {Artifact_testGasUsed as testGasUsed} from './testGasUsed.js';
-export {Artifact_testInterfaceID as testInterfaceID} from './testInterfaceID.js';
-export {Artifact_testMapping as testMapping} from './testMapping.js';
-export {Artifact_testTwodimensionalArray as testTwodimensionalArray} from './testTwodimensionalArray.js';

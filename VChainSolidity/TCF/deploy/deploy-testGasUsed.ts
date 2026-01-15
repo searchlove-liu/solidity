@@ -10,18 +10,6 @@ export default deployScript(
             args: [],
         });
 
-        await deploy("testMapping", {
-            account: deployer,
-            artifact: artifacts.testMapping,
-            args: [],
-        });
-
-        await deploy("testCallContractFunction", {
-            account: deployer,
-            artifact: artifacts.testCallContractFunction,
-            args: []
-        })
-
     },
     // finally you can pass tags and dependencies
     { tags: ["testGasUsed"] }

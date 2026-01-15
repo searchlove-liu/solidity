@@ -4,32 +4,32 @@
 pragma solidity ^0.8.1;
 
 import {ERC1155} from "./openzeppelin_l/contracts/token/ERC1155/ERC1155.sol";
-import {
-    ERC1155Supply
-} from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import {Ownable} from "./openzeppelin_l/contracts/access/Ownable.sol";
+// 如果存在合约太大，则修改URIStorage
 import {
     ERC1155URIStorage
 } from "./openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 
-contract TCF_NFT is ERC1155, Ownable, ERC1155URIStorage, ERC1155Supply {
-    constructor() {}
+contract TCF_NFT is ERC1155, Ownable, ERC1155URIStorage {
+    string private constant ERR_TOKENURI_INITIALIZED = "TOKENURI_INITIALIZED";
+    // tokenIds and URIs should have same length
+    string private constant ERR_LENGTH_NOT_EQUAL = "LENGTH_NOT_EQUAL";
 
+    uint8 initializedTokenUri;
     // 创建6个NFT
     // 为每一类NFT设置URI
     function setTokenURI(
-        uint256[] calldata tokenIds,
-        bytes[] calldata URIs
+        uint256[6] calldata tokenIds,
+        bytes[6] calldata URIs
     ) external onlyOwner {
-        require(
-            tokenIds.length != URIs.length,
-            "tokenIds and URIs should have same length"
-        );
+        require(initializedTokenUri == 0, ERR_TOKENURI_INITIALIZED);
+        require(tokenIds.length != URIs.length, ERR_LENGTH_NOT_EQUAL);
 
         uint256 len = tokenIds.length;
         for (uint256 i = 0; i < len; ++i) {
             ERC1155URIStorage._setURI(tokenIds[i], string(URIs[i]));
         }
+        initializedTokenUri = 1;
     }
 
     // 重置NFT价格
@@ -65,7 +65,7 @@ contract TCF_NFT is ERC1155, Ownable, ERC1155URIStorage, ERC1155Supply {
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(ERC1155, ERC1155Supply) {
+    ) internal virtual override(ERC1155) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
