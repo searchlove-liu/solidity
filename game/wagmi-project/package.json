@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.968.0",
+    "@aws-sdk/lib-dynamodb": "^3.968.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "latest",
     "@wagmi/connectors": "^7.0.6",
     "@wagmi/core": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "dotenv-export": "^2.0.0",
     "next": "latest",
+    "pnpm": "^10.28.0",
     "postcss": "^8.5.6",
     "react": "latest",
     "react-dom": "latest",

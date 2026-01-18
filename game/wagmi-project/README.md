@@ -5,6 +5,8 @@
 
 ![alt text](.img/image-1.png)
 
+![alt text](.img/存储.png)
+
 
 依赖安装,不能加-D，否则next命令不能使用
 pnpm install
@@ -39,3 +41,9 @@ export default {
 在CSS文件中添加：@import "tailwindcss";
 
 扑克牌花色：https://www.piliapp.com/emoji/list/playing-cards/
+
+数据存储：https://aws.amazon.com/cn/
+
+使用AWS中的IAM给用户设置权限
+
+无法连接AWS，所以没法继续进行这个小项目了
