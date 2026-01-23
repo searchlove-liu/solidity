@@ -2,10 +2,9 @@
 
 pragma solidity ^0.8.1;
 
-import {
-    IERC20Metadata
-} from "./openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {IERC20Metadata} from "./openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {IERC20} from "./openzeppelin_l/contracts/token/ERC20/IERC20.sol";
+
 /**
  * @dev 测试删除map数据消耗的gas
  */
@@ -13,7 +12,7 @@ import {IERC20} from "./openzeppelin_l/contracts/token/ERC20/IERC20.sol";
 contract testGasUsed {
     mapping(uint256 => uint256) public NFTDeadline;
     uint256 number;
-    address tokenAddress;
+    // address tokenAddress;
     mapping(address => uint8) public supportTokenAddress;
     address[] public addresses;
 
@@ -43,19 +42,58 @@ contract testGasUsed {
         return "false";
     }
 
-    function testRevert() public {
+    function testRevert() public pure {
         revert("nihao");
-        number = 1;
     }
 
-    function getAddress() public {
+    function setAddress1(uint256 addAmount) public {
         addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
-        addresses.push(0xdD2FD4581271e230360230F9337D5c0430Bf44C0);
-        addresses.push(0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
 
-        addresses.pop();
+        address[] memory addresses_temp = addresses;
+        address[] memory addresses_ = new address[](
+            addresses_temp.length + addAmount
+        );
+        uint256 len = addresses_temp.length;
+        for (uint256 i = 0; i < len; i++) {
+            addresses_[i] = addresses_temp[i];
+        }
 
-        addresses.push(0xbDA5747bFD65F08deb54cb465eB87D40e51B197E);
+        for (uint256 i = 0; i < addAmount; i++) {
+            addresses_[len + i] = 0xdD2FD4581271e230360230F9337D5c0430Bf44C0;
+        }
+
+        addresses = addresses_;
+    }
+
+    function setAddress2(uint256 addAmount) public {
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+        addresses.push(0x8A791620dd6260079BF849Dc5567aDC3F2FdC318);
+
+        // address[] memory addresses_temp = addresses;
+        // address[] memory addresses_ = new address[](addresses_temp.length+3);
+        // uint256 len = addresses_temp.length;
+        // for (uint256 i=0;i<len;i++){
+        //     addresses_[i] =addresses_temp[i];
+        // }
+
+        // for (uint256 i=0;i<3;i++){
+        //     addresses_[len+i]= 0xdD2FD4581271e230360230F9337D5c0430Bf44C0;
+        // }
+
+        for (uint256 i = 0; i < addAmount; i++) {
+            addresses.push(0xdD2FD4581271e230360230F9337D5c0430Bf44C0);
+        }
     }
 
     function init(address[] calldata tokenAddresses) public {
@@ -70,14 +108,40 @@ contract testGasUsed {
     }
 
     function testInternalCallContractFunction(
-        address tokenAddress
+        address _tokenAddress
     ) public view returns (string memory) {
-        IERC20Metadata IERC20TokenAddress = IERC20Metadata(tokenAddress);
+        IERC20Metadata IERC20TokenAddress = IERC20Metadata(_tokenAddress);
         string memory symbol = IERC20TokenAddress.symbol();
         return symbol;
     }
 
-    function getValue() public {
+    function getValue() public pure {
         revert("nihao");
+    }
+
+    function getTimestamp() public view returns (uint256) {
+        return block.timestamp;
+    }
+
+    function testencodePacked() public pure returns (uint256, uint256) {
+        string memory result = string(
+            abi.encodePacked(uint256(3), uint256(100))
+        );
+        (uint256 tokenId, uint256 amount) = abi.decode(
+            bytes(result),
+            (uint256, uint256)
+        );
+        return (tokenId, amount);
+    }
+
+    function testDecodeData(
+        bytes calldata decodeData
+    ) public pure returns (uint256, uint256) {
+        require(decodeData.length == 64, "Invalid data length");
+        (uint256 tokenId, uint256 amount) = abi.decode(
+            decodeData,
+            (uint256, uint256)
+        );
+        return (tokenId, amount);
     }
 }

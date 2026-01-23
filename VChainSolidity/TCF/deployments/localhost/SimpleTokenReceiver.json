@@ -1,0 +1,222 @@
+{
+  "address": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "TokensReceived",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "deposited",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "onTransferReceived",
+      "outputs": [
+        {
+          "internalType": "bytes4",
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tokenAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "contractName": "SimpleTokenReceiver",
+  "sourceName": "contracts/test/SimpleTokenReceiver.sol",
+  "bytecode": "0x608060405234801561001057600080fd5b506105c0806100206000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c806301ffc9a71461005c57806388a7ca5c146100855780639d76ea58146100a5578063cb13cddb146100ba578063f3fef3a3146100da575b600080fd5b61006f61006a366004610401565b6100ef565b60405161007c919061048f565b60405180910390f35b610098610093366004610342565b61011c565b60405161007c919061049a565b6100ad6101b6565b60405161007c9190610462565b6100cd6100c8366004610321565b6101c5565b60405161007c9190610506565b6100ed6100e83660046103d8565b6101d7565b005b60006001600160e01b03198216632229f29760e21b14806101145750610114826102f1565b90505b919050565b6001600160a01b038416600090815260208190526040812080548591908390610146908490610545565b9091555050600180546001600160a01b031916331790556040516001600160a01b038616907f0f611859dc94a66d9bec0e66c7485098c0d5e4662896ff2f523c47f962a7abef9061019c9087908790879061050f565b60405180910390a250632229f29760e21b95945050505050565b6001546001600160a01b031681565b60006020819052908152604090205481565b3360009081526020819052604090205481111561020f5760405162461bcd60e51b8152600401610206906104d8565b60405180910390fd5b336000908152602081905260408120805483929061022e90849061055d565b925050819055506000826001600160a01b03163383604051602401610254929190610476565b60408051601f198184030181529181526020820180516001600160e01b031663a9059cbb60e01b179052516102899190610429565b6000604051808303816000865af19150503d80600081146102c6576040519150601f19603f3d011682016040523d82523d6000602084013e6102cb565b606091505b50509050806102ec5760405162461bcd60e51b8152600401610206906104af565b505050565b6001600160e01b031981166301ffc9a760e01b14919050565b80356001600160a01b038116811461011757600080fd5b600060208284031215610332578081fd5b61033b8261030a565b9392505050565b600080600080600060808688031215610359578081fd5b6103628661030a565b94506103706020870161030a565b935060408601359250606086013567ffffffffffffffff80821115610393578283fd5b818801915088601f8301126103a6578283fd5b8135818111156103b4578384fd5b8960208285010111156103c5578384fd5b9699959850939650602001949392505050565b600080604083850312156103ea578182fd5b6103f38361030a565b946020939093013593505050565b600060208284031215610412578081fd5b81356001600160e01b03198116811461033b578182fd5b60008251815b81811015610449576020818601810151858301520161042f565b818111156104575782828501525b509190910192915050565b6001600160a01b0391909116815260200190565b6001600160a01b03929092168252602082015260400190565b901515815260200190565b6001600160e01b031991909116815260200190565b6020808252600f908201526e151c985b9cd9995c8819985a5b1959608a1b604082015260600190565b602080825260149082015273125b9cdd59999a58da595b9d0819195c1bdcda5d60621b604082015260600190565b90815260200190565b60008482526040602083015282604083015282846060840137818301606090810191909152601f909201601f1916010192915050565b6000821982111561055857610558610574565b500190565b60008282101561056f5761056f610574565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220fe1c28ae73f951eaf652aed6d57eb52b35d14a3b8e165834a65f379c8c32a98064736f6c63430008010033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100575760003560e01c806301ffc9a71461005c57806388a7ca5c146100855780639d76ea58146100a5578063cb13cddb146100ba578063f3fef3a3146100da575b600080fd5b61006f61006a366004610401565b6100ef565b60405161007c919061048f565b60405180910390f35b610098610093366004610342565b61011c565b60405161007c919061049a565b6100ad6101b6565b60405161007c9190610462565b6100cd6100c8366004610321565b6101c5565b60405161007c9190610506565b6100ed6100e83660046103d8565b6101d7565b005b60006001600160e01b03198216632229f29760e21b14806101145750610114826102f1565b90505b919050565b6001600160a01b038416600090815260208190526040812080548591908390610146908490610545565b9091555050600180546001600160a01b031916331790556040516001600160a01b038616907f0f611859dc94a66d9bec0e66c7485098c0d5e4662896ff2f523c47f962a7abef9061019c9087908790879061050f565b60405180910390a250632229f29760e21b95945050505050565b6001546001600160a01b031681565b60006020819052908152604090205481565b3360009081526020819052604090205481111561020f5760405162461bcd60e51b8152600401610206906104d8565b60405180910390fd5b336000908152602081905260408120805483929061022e90849061055d565b925050819055506000826001600160a01b03163383604051602401610254929190610476565b60408051601f198184030181529181526020820180516001600160e01b031663a9059cbb60e01b179052516102899190610429565b6000604051808303816000865af19150503d80600081146102c6576040519150601f19603f3d011682016040523d82523d6000602084013e6102cb565b606091505b50509050806102ec5760405162461bcd60e51b8152600401610206906104af565b505050565b6001600160e01b031981166301ffc9a760e01b14919050565b80356001600160a01b038116811461011757600080fd5b600060208284031215610332578081fd5b61033b8261030a565b9392505050565b600080600080600060808688031215610359578081fd5b6103628661030a565b94506103706020870161030a565b935060408601359250606086013567ffffffffffffffff80821115610393578283fd5b818801915088601f8301126103a6578283fd5b8135818111156103b4578384fd5b8960208285010111156103c5578384fd5b9699959850939650602001949392505050565b600080604083850312156103ea578182fd5b6103f38361030a565b946020939093013593505050565b600060208284031215610412578081fd5b81356001600160e01b03198116811461033b578182fd5b60008251815b81811015610449576020818601810151858301520161042f565b818111156104575782828501525b509190910192915050565b6001600160a01b0391909116815260200190565b6001600160a01b03929092168252602082015260400190565b901515815260200190565b6001600160e01b031991909116815260200190565b6020808252600f908201526e151c985b9cd9995c8819985a5b1959608a1b604082015260600190565b602080825260149082015273125b9cdd59999a58da595b9d0819195c1bdcda5d60621b604082015260600190565b90815260200190565b60008482526040602083015282604083015282846060840137818301606090810191909152601f909201601f1916010192915050565b6000821982111561055857610558610574565b500190565b60008282101561056f5761056f610574565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220fe1c28ae73f951eaf652aed6d57eb52b35d14a3b8e165834a65f379c8c32a98064736f6c63430008010033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/test/SimpleTokenReceiver.sol",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "supportsInterface(bytes4)": {
+        "details": "See {IERC165-supportsInterface}."
+      }
+    },
+    "version": 1
+  },
+  "evm": {
+    "gasEstimates": {
+      "creation": {
+        "codeDepositCost": "294400",
+        "executionCost": "331",
+        "totalCost": "294731"
+      },
+      "external": {
+        "deposited(address)": "1299",
+        "onTransferReceived(address,address,uint256,bytes)": "infinite",
+        "supportsInterface(bytes4)": "474",
+        "tokenAddress()": "1092",
+        "withdraw(address,uint256)": "infinite"
+      }
+    }
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.1+commit.df193b15\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"TokensReceived\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"deposited\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"onTransferReceived\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"tokenAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"See {IERC165-supportsInterface}.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project/contracts/test/SimpleTokenReceiver.sol\":\"SimpleTokenReceiver\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project/contracts/openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.0) (interfaces/IERC1363Receiver.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Interface for any contract that wants to support {IERC1363-transferAndCall}\\r\\n * or {IERC1363-transferFromAndCall} from {ERC1363} token contracts.\\r\\n */\\r\\ninterface IERC1363Receiver {\\r\\n    /*\\r\\n     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.\\r\\n     * 0x88a7ca5c === bytes4(keccak256(\\\"onTransferReceived(address,address,uint256,bytes)\\\"))\\r\\n     */\\r\\n\\r\\n    /**\\r\\n     * @notice Handle the receipt of ERC1363 tokens\\r\\n     * @dev Any ERC1363 smart contract calls this function on the recipient\\r\\n     * after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the\\r\\n     * transfer. Return of other than the magic value MUST result in the\\r\\n     * transaction being reverted.\\r\\n     * Note: the token contract address is always the message sender.\\r\\n     * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function\\r\\n     * @param from address The address which are token transferred from\\r\\n     * @param amount uint256 The amount of tokens transferred\\r\\n     * @param data bytes Additional data with no specified format\\r\\n     * @return `bytes4(keccak256(\\\"onTransferReceived(address,address,uint256,bytes)\\\"))` unless throwing\\r\\n     */\\r\\n    function onTransferReceived(\\r\\n        address operator,\\r\\n        address from,\\r\\n        uint256 amount,\\r\\n        bytes memory data\\r\\n    ) external returns (bytes4);\\r\\n}\\r\\n\",\"keccak256\":\"0xc149a479b8c794103eeb3c93fa50226aa0eee57d42e38c16a898d9a9d3beff9e\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/introspection/ERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"./IERC165.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Implementation of the {IERC165} interface.\\r\\n *\\r\\n * Contracts that want to implement ERC165 should inherit from this contract and override {supportsInterface} to check\\r\\n * for the additional interface id that will be supported. For example:\\r\\n *\\r\\n * ```solidity\\r\\n * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\\r\\n *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);\\r\\n * }\\r\\n * ```\\r\\n *\\r\\n * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.\\r\\n */\\r\\nabstract contract ERC165 is IERC165 {\\r\\n    /**\\r\\n     * @dev See {IERC165-supportsInterface}.\\r\\n     */\\r\\n    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\\r\\n        return interfaceId == type(IERC165).interfaceId;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x3d3fe7b1901114d50828f5c77ba7f09a2a6a65223620c837364d31b60e5982ac\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/introspection/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Interface of the ERC165 standard, as defined in the\\r\\n * https://eips.ethereum.org/EIPS/eip-165[EIP].\\r\\n *\\r\\n * Implementers can declare support of contract interfaces, which can then be\\r\\n * queried by others ({ERC165Checker}).\\r\\n *\\r\\n * For an implementation, see {ERC165}.\\r\\n */\\r\\ninterface IERC165 {\\r\\n    /**\\r\\n     * @dev Returns true if this contract implements the interface defined by\\r\\n     * `interfaceId`. See the corresponding\\r\\n     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]\\r\\n     * to learn more about how these ids are created.\\r\\n     *\\r\\n     * This function call must use less than 30 000 gas.\\r\\n     */\\r\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\r\\n}\\r\\n\",\"keccak256\":\"0x540685d7ece3faa56f38253270ff11b18e63949fb8659c408123b1874674492e\",\"license\":\"MIT\"},\"project/contracts/test/SimpleTokenReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\nimport \\\"../openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol\\\";\\r\\nimport \\\"../openzeppelin_l/contracts/utils/introspection/ERC165.sol\\\";\\r\\n\\r\\ncontract SimpleTokenReceiver is IERC1363Receiver, ERC165 {\\r\\n    event TokensReceived(address indexed from, uint256 value, bytes data);\\r\\n\\r\\n    // \\u8bb0\\u5f55\\u7528\\u6237\\u5b58\\u5165\\u7684\\u4ee3\\u5e01\\u6570\\u91cf\\r\\n    mapping(address => uint256) public deposited;\\r\\n    address public tokenAddress;\\r\\n\\r\\n    // \\u544a\\u8bc9\\u522b\\u4eba\\u6211\\u652f\\u6301 IERC1363Receiver \\u63a5\\u53e3\\r\\n    function supportsInterface(\\r\\n        bytes4 interfaceId\\r\\n    ) public view virtual override returns (bool) {\\r\\n        return\\r\\n            interfaceId == type(IERC1363Receiver).interfaceId ||\\r\\n            super.supportsInterface(interfaceId);\\r\\n    }\\r\\n\\r\\n    function onTransferReceived(\\r\\n        address operator,\\r\\n        address from,\\r\\n        uint256 value,\\r\\n        bytes calldata data\\r\\n    ) external override returns (bytes4) {\\r\\n        // \\u53ef\\u4ee5\\u5728\\u8fd9\\u91cc\\u505a\\u4e00\\u4e9b\\u9a8c\\u8bc1\\uff0c\\u4f8b\\u5982\\u68c0\\u67e5 data \\u662f\\u5426\\u7b26\\u5408\\u9884\\u671f\\u683c\\u5f0f\\r\\n        // \\u7b80\\u5355\\u793a\\u4f8b\\uff1a\\u76f4\\u63a5\\u8bb0\\u5f55\\u5b58\\u6b3e\\r\\n        deposited[from] += value;\\r\\n\\r\\n        tokenAddress = msg.sender;\\r\\n\\r\\n        emit TokensReceived(from, value, data);\\r\\n\\r\\n        // \\u5fc5\\u987b\\u8fd4\\u56de\\u8fd9\\u4e2a\\u9b54\\u672f\\u503c\\uff0c\\u5426\\u5219\\u8f6c\\u8d26\\u4f1a\\u56de\\u6eda\\r\\n        return IERC1363Receiver.onTransferReceived.selector;\\r\\n    }\\r\\n\\r\\n    // \\u63d0\\u53d6\\u4ee3\\u5e01\\uff08\\u4ec5\\u793a\\u4f8b\\uff0c\\u751f\\u4ea7\\u73af\\u5883\\u8981\\u52a0\\u6743\\u9650\\u63a7\\u5236\\uff09\\r\\n    function withdraw(address token, uint256 amount) external {\\r\\n        require(deposited[msg.sender] >= amount, \\\"Insufficient deposit\\\");\\r\\n        deposited[msg.sender] -= amount;\\r\\n\\r\\n        // \\u8c03\\u7528 transfer \\u9000\\u56de\\u4ee3\\u5e01\\r\\n        (bool success, ) = token.call(\\r\\n            abi.encodeWithSignature(\\r\\n                \\\"transfer(address,uint256)\\\",\\r\\n                msg.sender,\\r\\n                amount\\r\\n            )\\r\\n        );\\r\\n        require(success, \\\"Transfer failed\\\");\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x4ba99c2684c06ed6a1d15a920aa220fe65c2f02c50d9dd1780f2964289e94a34\",\"license\":\"MIT\"}},\"version\":1}",
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 4555,
+        "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
+        "label": "deposited",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 4557,
+        "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
+        "label": "tokenAddress",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "argsData": "0x",
+  "transaction": {
+    "hash": "0x98b187d074a8d68491043e8cf8fcc39682dfa6c96ef4503863a02345a8164bef",
+    "nonce": "0x7",
+    "origin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+  },
+  "receipt": {
+    "blockHash": "0xeeb0b6ef81b9ae42fb22bb45b33c0b11f26a226a2574132d5fc7ee4f76a42828",
+    "blockNumber": "0x8",
+    "transactionIndex": "0x0"
+  }
+}

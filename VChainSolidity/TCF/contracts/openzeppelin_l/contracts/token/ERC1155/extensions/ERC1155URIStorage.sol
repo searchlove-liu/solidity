@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../../../utils/Strings.sol";
+// import "../../../utils/Strings.sol";
 import "../ERC1155.sol";
 
 /**
@@ -13,7 +13,7 @@ import "../ERC1155.sol";
  * _Available since v4.6._
  */
 abstract contract ERC1155URIStorage is ERC1155 {
-    using Strings for uint256;
+    // using Strings for uint256;
 
     // Optional base URI
     string private _baseURI = "";

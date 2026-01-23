@@ -1,0 +1,70 @@
+{
+  "address": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "testUintToString",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "contractName": "testUtils",
+  "sourceName": "contracts/test/test_utils.sol",
+  "bytecode": "0x608060405234801561001057600080fd5b506102d4806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c80639de6111e14610030575b600080fd5b61004361003e366004610195565b610059565b60405161005091906101ad565b60405180910390f35b60606100648261006c565b90505b919050565b60608161009157506040805180820190915260018152600360fc1b6020820152610067565b8160005b81156100bb57806100a581610243565b91506100b49050600a83610218565b9150610095565b60008167ffffffffffffffff8111156100e457634e487b7160e01b600052604160045260246000fd5b6040519080825280601f01601f19166020018201604052801561010e576020820181803683370190505b508593509050815b831561018c57806101268161022c565b91506101359050600a8561025e565b610140906030610200565b60f81b82828151811061016357634e487b7160e01b600052603260045260246000fd5b60200101906001600160f81b031916908160001a905350610185600a85610218565b9350610116565b50949350505050565b6000602082840312156101a6578081fd5b5035919050565b6000602080835283518082850152825b818110156101d9578581018301518582016040015282016101bd565b818111156101ea5783604083870101525b50601f01601f1916929092016040019392505050565b6000821982111561021357610213610272565b500190565b60008261022757610227610288565b500490565b60008161023b5761023b610272565b506000190190565b600060001982141561025757610257610272565b5060010190565b60008261026d5761026d610288565b500690565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fdfea2646970667358221220a47cb321989aadab9a3cf752a6a7a4f1956f6b9e093aee609572efabdd0c617e64736f6c63430008010033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c80639de6111e14610030575b600080fd5b61004361003e366004610195565b610059565b60405161005091906101ad565b60405180910390f35b60606100648261006c565b90505b919050565b60608161009157506040805180820190915260018152600360fc1b6020820152610067565b8160005b81156100bb57806100a581610243565b91506100b49050600a83610218565b9150610095565b60008167ffffffffffffffff8111156100e457634e487b7160e01b600052604160045260246000fd5b6040519080825280601f01601f19166020018201604052801561010e576020820181803683370190505b508593509050815b831561018c57806101268161022c565b91506101359050600a8561025e565b610140906030610200565b60f81b82828151811061016357634e487b7160e01b600052603260045260246000fd5b60200101906001600160f81b031916908160001a905350610185600a85610218565b9350610116565b50949350505050565b6000602082840312156101a6578081fd5b5035919050565b6000602080835283518082850152825b818110156101d9578581018301518582016040015282016101bd565b818111156101ea5783604083870101525b50601f01601f1916929092016040019392505050565b6000821982111561021357610213610272565b500190565b60008261022757610227610288565b500490565b60008161023b5761023b610272565b506000190190565b600060001982141561025757610257610272565b5060010190565b60008261026d5761026d610288565b500690565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052601260045260246000fdfea2646970667358221220a47cb321989aadab9a3cf752a6a7a4f1956f6b9e093aee609572efabdd0c617e64736f6c63430008010033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/test/test_utils.sol",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "evm": {
+    "gasEstimates": {
+      "creation": {
+        "codeDepositCost": "144800",
+        "executionCost": "190",
+        "totalCost": "144990"
+      },
+      "external": {
+        "testUintToString(uint256)": "infinite"
+      }
+    }
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.1+commit.df193b15\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"testUintToString\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project/contracts/test/test_utils.sol\":\"testUtils\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project/contracts/test/test_utils.sol\":{\"content\":\"// SPDX-License-Identifier:MIT\\r\\n\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\nimport {utils} from \\\"../utils.sol\\\";\\r\\n\\r\\ncontract testUtils is utils {\\r\\n    function testUintToString(\\r\\n        uint256 value\\r\\n    ) public pure returns (string memory) {\\r\\n        return uintToString(value);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xb11ec76468659c6863df5c58e5ea3fc4e90dbeda7c04282a1753a694b90f825d\",\"license\":\"MIT\"},\"project/contracts/utils.sol\":{\"content\":\"// SPDX-License-Identifier:MIT\\r\\n\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\ncontract utils {\\r\\n    function uintToString(uint256 value) internal pure returns (string memory) {\\r\\n        if (value == 0) {\\r\\n            return \\\"0\\\";\\r\\n        }\\r\\n\\r\\n        uint256 temp = value;\\r\\n        uint256 digits;\\r\\n\\r\\n        // \\u8ba1\\u7b97\\u9700\\u8981\\u591a\\u5c11\\u4f4d\\r\\n        while (temp != 0) {\\r\\n            digits++;\\r\\n            temp /= 10;\\r\\n        }\\r\\n\\r\\n        bytes memory buffer = new bytes(digits);\\r\\n        uint256 writeIndex = digits;\\r\\n\\r\\n        // \\u4ece\\u4f4e\\u4f4d\\u586b\\u5165\\u5b57\\u7b26\\r\\n        temp = value;\\r\\n        while (temp != 0) {\\r\\n            writeIndex--;\\r\\n            buffer[writeIndex] = bytes1(uint8(48 + (temp % 10))); // '0' \\u7684 ascii \\u662f 48\\r\\n            temp /= 10;\\r\\n        }\\r\\n        return string(buffer);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xcc8be5ed79f7a541ed76a6482c8d3dd8750e30910ee1ebd5dfee8f260e6f3a9b\",\"license\":\"MIT\"}},\"version\":1}",
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "argsData": "0x",
+  "transaction": {
+    "hash": "0x8c40da6d64bf66a4c827ff27d551f1dd6740628d3e4f1e8fa7eefe1193957474",
+    "nonce": "0xb",
+    "origin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+  },
+  "receipt": {
+    "blockHash": "0xd9dc9a65fea75efe16ba59089035003d884d652d0e68f0192bf57c7570ff8525",
+    "blockNumber": "0xc",
+    "transactionIndex": "0x0"
+  }
+}
