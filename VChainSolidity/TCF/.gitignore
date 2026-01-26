@@ -1,3 +1,5 @@
+# tooling
+.tools/
 # Node modules
 /node_modules
 
@@ -18,3 +20,6 @@
 
 # Hardhat coverage reports
 /coverage
+
+# tools directory
+/.tools/
