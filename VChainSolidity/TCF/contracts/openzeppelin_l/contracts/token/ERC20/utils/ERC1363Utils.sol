@@ -4,7 +4,6 @@
 pragma solidity ^0.8.1;
 
 import {IERC1363Receiver} from "../../../interfaces/IERC1363Receiver.sol";
-import {IERC1363Spender} from "../../../interfaces/IERC1363Spender.sol";
 
 /**
  * @dev Library that provides common ERC-1363 utility functions.
@@ -33,7 +32,7 @@ library ERC1363Utils {
         try
             IERC1363Receiver(to).onTransferReceived(operator, from, value, data)
         returns (bytes4 retval) {
-            // 错误信息表示接收者合约没有正确实现接口IERC1363Receiver或IERC1363Spender
+            // 错误信息,使用DCF购买NFT时，第三个参数地址“to”(接受合约地址)没有正确实现接口IERC1363Receiver或IERC1363Spender
             // 或者更通俗第说，to合约地址不正确
             require(
                 retval == IERC1363Receiver.onTransferReceived.selector,
@@ -41,7 +40,7 @@ library ERC1363Utils {
             );
         } catch (bytes memory reason) {
             if (reason.length == 0) {
-                // 这里表示接受者（to），不是合约或者没有实现IERC1363Receiver接口或IERC1363Spender
+                // 使用DCF购买NFT时，第三个参数地址“to”(接受合约地址)，没有实现IERC1363Receiver接口或IERC1363Spender
                 // 或者更通俗的说，to合约地址不正确
                 revert("ERC1363: to is a incorrect address");
             } else {
@@ -50,40 +49,5 @@ library ERC1363Utils {
                 }
             }
         }
-    }
-
-    /**
-     * @dev Performs a call to {IERC1363Spender-onApprovalReceived} on a target address.
-     *
-     * Requirements:
-     *
-     * - The target has code (i.e. is a contract).
-     * - The target `spender` must implement the {IERC1363Spender} interface.
-     * - The target must return the {IERC1363Spender-onApprovalReceived} selector to accept the approval.
-     */
-    function checkOnERC1363ApprovalReceived(
-        address,
-        address,
-        uint256,
-        bytes memory
-    ) internal pure {
-        revert("Not allowed to be invoked");
-        // require(spender.code.length != 0, "ERC1363: approve to non-contract");
-
-        // try
-        //     IERC1363Spender(spender).onApprovalReceived(operator, value, data)
-        // returns (bytes4 retval) {
-        //     if (retval != IERC1363Spender.onApprovalReceived.selector) {
-        //         revert("ERC1363: invalid spender");
-        //     }
-        // } catch (bytes memory reason) {
-        //     if (reason.length == 0) {
-        //         revert("ERC1363: invalid spender");
-        //     } else {
-        //         assembly {
-        //             revert(add(reason, 0x20), mload(reason))
-        //         }
-        //     }
-        // }
     }
 }

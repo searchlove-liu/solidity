@@ -1,19 +1,25 @@
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
-import HardhatDeploy from 'hardhat-deploy';
+import HardhatDeploy from "hardhat-deploy";
 import hardhatEthersChaiMatchers from "@nomicfoundation/hardhat-ethers-chai-matchers";
-import hardhatBytecodeExporter from '@solidstate/hardhat-bytecode-exporter';
+import hardhatBytecodeExporter from "@solidstate/hardhat-bytecode-exporter";
+import hardhatEthers from "@nomicfoundation/hardhat-ethers";
 import { localhost } from "viem/chains";
 
-
 export default defineConfig({
-  plugins: [hardhatToolboxViemPlugin, HardhatDeploy, hardhatEthersChaiMatchers, hardhatBytecodeExporter],
+  plugins: [
+    hardhatToolboxViemPlugin,
+    HardhatDeploy,
+    hardhatEthersChaiMatchers,
+    hardhatBytecodeExporter,
+    hardhatEthers,
+  ],
   bytecodeExporter: {
-    path: './bytecode',
+    path: "./bytecode",
     runOnCompile: true,
     clear: true,
     flat: true,
-    only: [/:TCF_NFTPrice$/],
+    only: [/:TCF_NFT$/],
   },
   chainDescriptors: {
     31337: {
@@ -57,13 +63,17 @@ export default defineConfig({
       type: "edr-simulated",
       chainType: "l1",
       gas: 12000000,
-      gasPrice: 8000000000
+      gasPrice: 8000000000,
     },
     sepolia: {
       type: "http",
       chainType: "l1",
       url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY"), configVariable("SEPOLIA_PRIVATE_KEY1"), configVariable("SEPOLIA_PRIVATE_KEY2")],
+      accounts: [
+        configVariable("SEPOLIA_PRIVATE_KEY"),
+        configVariable("SEPOLIA_PRIVATE_KEY1"),
+        configVariable("SEPOLIA_PRIVATE_KEY2"),
+      ],
     },
   },
 });

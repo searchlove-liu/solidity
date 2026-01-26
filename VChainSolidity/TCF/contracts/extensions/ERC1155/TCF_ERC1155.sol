@@ -5,10 +5,8 @@ pragma solidity ^0.8.0;
 import "../../openzeppelin_l/contracts/token/ERC1155/IERC1155.sol";
 import "../../openzeppelin_l/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "../../openzeppelin_l/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol";
-// import "../openzeppelin_l/contracts/utils/Address.sol";
 import "../../openzeppelin_l/contracts/utils/Context.sol";
 import "../../openzeppelin_l/contracts/utils/introspection/ERC165.sol";
-import {TCF_ErrorCode as E} from "../TCF_ErrorCode.sol";
 
 contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     // 将ERC1155赋值到这个函数
@@ -44,19 +42,18 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
             super.supportsInterface(interfaceId);
     }
 
-    /**
-     * @dev See {IERC1155MetadataURI-uri}.
-     *
-     * This implementation returns the same URI for *all* token types. It relies
-     * on the token type ID substitution mechanism
-     * https://eips.ethereum.org/EIPS/eip-1155#metadata[defined in the EIP].
-     *
-     * Clients calling this function must replace the `\{id\}` substring with the
-     * actual token type ID.
-     */
+    // /**
+    //  * @dev See {IERC1155MetadataURI-uri}.
+    //  *
+    //  * This implementation returns the same URI for *all* token types. It relies
+    //  * on the token type ID substitution mechanism
+    //  * https://eips.ethereum.org/EIPS/eip-1155#metadata[defined in the EIP].
+    //  *
+    //  * Clients calling this function must replace the `\{id\}` substring with the
+    //  * actual token type ID.
+    //  */
     function uri(uint256) public view virtual override returns (string memory) {
-        // return _uri;
-        return "";
+        revert("USE_Euri");
     }
 
     // owner
@@ -64,7 +61,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         uint256 tokenId,
         uint256 editionId
     ) public view returns (address) {
-        require(tokenId < 6, E.ERR_TOKENID_RANGE);
+        require(tokenId < 6, "TOKENID_RANGE");
         address owner = _owners[tokenId][editionId];
         return owner;
     }
@@ -80,11 +77,8 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         address account,
         uint256 id
     ) public view virtual override returns (uint256) {
-        require(
-            account != address(0),
-            "ERC1155: address zero is not a valid owner"
-        );
-        require(id < 6, E.ERR_TOKENID_RANGE);
+        require(account != address(0), "ZERO_ADDRESS");
+        require(id < 6, "ERR_TOKENID_RANGE");
         return _balances[id][account];
     }
 
@@ -96,18 +90,10 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * - `accounts` and `ids` must have the same length.
      */
     function balanceOfBatch(
-        address[] memory accounts,
-        uint256[] memory ids
+        address[] memory,
+        uint256[] memory
     ) public view virtual override returns (uint256[] memory) {
-        // require(
-        //     accounts.length == ids.length,
-        //     "ERC1155: accounts and ids length mismatch"
-        // );
-        // uint256[] memory batchBalances = new uint256[](accounts.length);
-        // for (uint256 i = 0; i < accounts.length; ++i) {
-        //     batchBalances[i] = balanceOf(accounts[i], ids[i]);
-        // }
-        // return batchBalances;
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -134,24 +120,20 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * @dev See {IERC1155-safeTransferFrom}.没有实现
      */
     function safeTransferFrom(
-        address from,
-        address to,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
+        address,
+        address,
+        uint256,
+        uint256,
+        bytes memory
     ) public virtual override {
-        // require(
-        //     from == _msgSender() || isApprovedForAll(from, _msgSender()),
-        //     "ERC1155: caller is not token owner or approved"
-        // );
-        // _safeTransferFrom(from, to, id, amount, data);
+        revert("USE_ESafeTransferFrom");
     }
 
     /**
      * @dev 安全转移无效的token，可以删除，因为后面会在TCF_NFT中实现
      * @param indexes 无效token在mintTimes数组中的位置
      */
-    function test_SafeTransferFrom(
+    function ESafeTransferFrom(
         address from,
         address to,
         uint256 id,
@@ -160,7 +142,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     ) public virtual {
         require(
             from == _msgSender() || isApprovedForAll(from, _msgSender()),
-            "ERC1155: caller is not token owner or approved"
+            "CALLER_NOT_OWNER_APPROVED"
         );
         _safeTransferFrom(from, to, id, indexes, data);
     }
@@ -169,17 +151,13 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * @dev See {IERC1155-safeBatchTransferFrom}.
      */
     function safeBatchTransferFrom(
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
+        address,
+        address,
+        uint256[] memory,
+        uint256[] memory,
+        bytes memory
     ) public virtual override {
-        // require(
-        //     from == _msgSender() || isApprovedForAll(from, _msgSender()),
-        //     "ERC1155: caller is not token owner or approved"
-        // );
-        // _safeBatchTransferFrom(from, to, ids, amounts, data);
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -201,13 +179,10 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         uint256[] calldata indexes,
         bytes memory data
     ) internal virtual {
-        require(to != address(0), "ERC1155: transfer to the zero address");
-        require(tokenId < 6, E.ERR_TOKENID_RANGE);
+        require(to != address(0), "ZERO_ADDRESS");
+        require(tokenId < 6, "TOKENID_RANGE");
         for (uint i = 0; i < indexes.length; i++) {
-            require(
-                _owners[tokenId][indexes[i]] == from,
-                "ERC1155: transfer of token that is not own"
-            );
+            require(_owners[tokenId][indexes[i]] == from, "TOKEN_NOT_OWNED");
         }
         // 不需要检查余额，因为，如果owners中存在这个tokenId和editionId的记录，表示用户拥有这个NFT
 
@@ -218,10 +193,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
 
         // 检查两次，防止在beforeTokenTransfer中被修改
         for (uint i = 0; i < indexes.length; i++) {
-            require(
-                _owners[tokenId][indexes[i]] == from,
-                "ERC1155: transfer of token that is not own"
-            );
+            require(_owners[tokenId][indexes[i]] == from, "TOKEN_NOT_OWNED");
         }
 
         uint256 fromBalance = _balances[tokenId][from];
@@ -255,42 +227,13 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * acceptance magic value.
      */
     function _safeBatchTransferFrom(
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
+        address,
+        address,
+        uint256[] memory,
+        uint256[] memory,
+        bytes memory
     ) internal virtual {
-        // require(
-        //     ids.length == amounts.length,
-        //     "ERC1155: ids and amounts length mismatch"
-        // );
-        // require(to != address(0), "ERC1155: transfer to the zero address");
-        // address operator = _msgSender();
-        // _beforeTokenTransfer(operator, from, to, ids, amounts, data);
-        // for (uint256 i = 0; i < ids.length; ++i) {
-        //     uint256 id = ids[i];
-        //     uint256 amount = amounts[i];
-        //     uint256 fromBalance = _balances[id][from].amount;
-        //     require(
-        //         fromBalance >= amount,
-        //         "ERC1155: insufficient balance for transfer"
-        //     );
-        //     unchecked {
-        //         _balances[id][from].amount = fromBalance - amount;
-        //     }
-        //     _balances[id][to].amount += amount;
-        // }
-        // emit TransferBatch(operator, from, to, ids, amounts);
-        // _afterTokenTransfer(operator, from, to, ids, amounts, data);
-        // _doSafeBatchTransferAcceptanceCheck(
-        //     operator,
-        //     from,
-        //     to,
-        //     ids,
-        //     amounts,
-        //     data
-        // );
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -312,7 +255,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * Because these URIs cannot be meaningfully represented by the {URI} event,
      * this function emits no events.
      */
-    function _setURI(string memory newuri) internal virtual {
+    function _setURI(string memory) internal virtual {
         // _uri = newuri;
     }
 
@@ -333,8 +276,8 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         uint256 amount,
         bytes memory data
     ) internal virtual {
-        require(id < 6, E.ERR_TOKENID_RANGE);
-        require(to != address(0), "ERC1155: mint to the zero address");
+        require(id < 6, "TOKENID_RANGE");
+        require(to != address(0), "ZERO_ADDRESS");
 
         address operator = _msgSender();
         uint256[] memory ids = _asSingletonArray(id);
@@ -376,37 +319,12 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * acceptance magic value.
      */
     function _mintBatch(
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
+        address,
+        uint256[] memory,
+        uint256[] memory,
+        bytes memory
     ) internal virtual {
-        // require(to != address(0), "ERC1155: mint to the zero address");
-        // require(
-        //     ids.length == amounts.length,
-        //     "ERC1155: ids and amounts length mismatch"
-        // );
-        // for (uint256 i = 0; i < ids.length; i++) {
-        //     require(ids[i] < 6, E.ERR_TOKENID_RANGE);
-        // }
-        // address operator = _msgSender();
-        // _beforeTokenTransfer(operator, address(0), to, ids, amounts, data);
-        // for (uint256 i = 0; i < ids.length; i++) {
-        //     _balances[ids[i]][to].amount += amounts[i];
-        //     for (uint j = 0; j < amounts[i]; j++) {
-        //         _balances[ids[i]][to].mintTimes.push(block.timestamp);
-        //     }
-        // }
-        // emit TransferBatch(operator, address(0), to, ids, amounts);
-        // _afterTokenTransfer(operator, address(0), to, ids, amounts, data);
-        // _doSafeBatchTransferAcceptanceCheck(
-        //     operator,
-        //     address(0),
-        //     to,
-        //     ids,
-        //     amounts,
-        //     data
-        // );
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -419,19 +337,8 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * - `from` cannot be the zero address.
      * - `from` must have at least `amount` tokens of token type `id`.
      */
-    function _burn(address from, uint256 id, uint256 amount) internal virtual {
-        // require(from != address(0), "ERC1155: burn from the zero address");
-        // address operator = _msgSender();
-        // uint256[] memory ids = _asSingletonArray(id);
-        // uint256[] memory amounts = _asSingletonArray(amount);
-        // _beforeTokenTransfer(operator, from, address(0), ids, amounts, "");
-        // uint256 fromBalance = _balances[id][from];
-        // require(fromBalance >= amount, "ERC1155: burn amount exceeds balance");
-        // unchecked {
-        //     _balances[id][from] = fromBalance - amount;
-        // }
-        // emit TransferSingle(operator, from, address(0), id, amount);
-        // _afterTokenTransfer(operator, from, address(0), ids, amounts, "");
+    function _burn(address, uint256, uint256) internal virtual {
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -444,31 +351,11 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * - `ids` and `amounts` must have the same length.
      */
     function _burnBatch(
-        address from,
-        uint256[] memory ids,
-        uint256[] memory amounts
+        address,
+        uint256[] memory,
+        uint256[] memory
     ) internal virtual {
-        // require(from != address(0), "ERC1155: burn from the zero address");
-        // require(
-        //     ids.length == amounts.length,
-        //     "ERC1155: ids and amounts length mismatch"
-        // );
-        // address operator = _msgSender();
-        // _beforeTokenTransfer(operator, from, address(0), ids, amounts, "");
-        // for (uint256 i = 0; i < ids.length; i++) {
-        //     uint256 id = ids[i];
-        //     uint256 amount = amounts[i];
-        //     uint256 fromBalance = _balances[id][from];
-        //     require(
-        //         fromBalance >= amount,
-        //         "ERC1155: burn amount exceeds balance"
-        //     );
-        //     unchecked {
-        //         _balances[id][from] = fromBalance - amount;
-        //     }
-        // }
-        // emit TransferBatch(operator, from, address(0), ids, amounts);
-        // _afterTokenTransfer(operator, from, address(0), ids, amounts, "");
+        revert("NOT_IMPLEMENTED");
     }
 
     /**
@@ -481,7 +368,8 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         address operator,
         bool approved
     ) internal virtual {
-        require(owner != operator, "ERC1155: setting approval status for self");
+        // 不可以授权给自己
+        require(owner != operator, "APPROVAL_SELF");
         _operatorApprovals[owner][operator] = approved;
         emit ApprovalForAll(owner, operator, approved);
     }
@@ -563,45 +451,25 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
                 )
             returns (bytes4 response) {
                 if (response != IERC1155Receiver.onERC1155Received.selector) {
-                    revert("ERC1155: ERC1155Receiver rejected tokens");
+                    revert("ERC1155RECEIVER_REJECTED_TOKENS");
                 }
             } catch Error(string memory reason) {
                 revert(reason);
             } catch {
-                revert("ERC1155: transfer to non-ERC1155Receiver implementer");
+                revert("transfer_to_non-ERC1155Receiver_implementer");
             }
         }
     }
 
     function _doSafeBatchTransferAcceptanceCheck(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) private {
-        if (to.code.length > 0) {
-            try
-                IERC1155Receiver(to).onERC1155BatchReceived(
-                    operator,
-                    from,
-                    ids,
-                    amounts,
-                    data
-                )
-            returns (bytes4 response) {
-                if (
-                    response != IERC1155Receiver.onERC1155BatchReceived.selector
-                ) {
-                    revert("ERC1155: ERC1155Receiver rejected tokens");
-                }
-            } catch Error(string memory reason) {
-                revert(reason);
-            } catch {
-                revert("ERC1155: transfer to non-ERC1155Receiver implementer");
-            }
-        }
+        address,
+        address,
+        address,
+        uint256[] memory,
+        uint256[] memory,
+        bytes memory
+    ) private pure {
+        revert("NOT_IMPLEMENTED");
     }
 
     function _asSingletonArray(

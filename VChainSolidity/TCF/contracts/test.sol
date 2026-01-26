@@ -2,7 +2,9 @@
 
 pragma solidity ^0.8.1;
 
-import {IERC20Metadata} from "./openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {
+    IERC20Metadata
+} from "./openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {IERC20} from "./openzeppelin_l/contracts/token/ERC20/IERC20.sol";
 
 /**
@@ -29,7 +31,18 @@ contract testGasUsed {
     }
 
     function getIERC20MetadataInterfaceId() public pure returns (bytes4) {
-        return type(IERC20Metadata).interfaceId;
+        // Avoid `type(IERC20Metadata).interfaceId` for compatibility with older parsers/linters.
+        // ERC165 interface id is XOR of all function selectors in the interface.
+        return
+            bytes4(keccak256("totalSupply()")) ^
+            bytes4(keccak256("balanceOf(address)")) ^
+            bytes4(keccak256("transfer(address,uint256)")) ^
+            bytes4(keccak256("allowance(address,address)")) ^
+            bytes4(keccak256("approve(address,uint256)")) ^
+            bytes4(keccak256("transferFrom(address,address,uint256)")) ^
+            bytes4(keccak256("name()")) ^
+            bytes4(keccak256("symbol()")) ^
+            bytes4(keccak256("decimals()"));
     }
 
     function useCall(address tokenAddress) public view returns (string memory) {
@@ -143,5 +156,12 @@ contract testGasUsed {
             (uint256, uint256)
         );
         return (tokenId, amount);
+    }
+
+    receive() external payable {}
+
+    function transferNatureToken(address to, uint256 amount) public {
+        (bool success, ) = to.call{value: amount}("");
+        require(success, "call failed");
     }
 }

@@ -4,7 +4,6 @@
 pragma solidity ^0.8.1;
 import {TCF_ERC1155} from "./TCF_ERC1155.sol";
 import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
-import {TCF_ErrorCode as E} from "../TCF_ErrorCode.sol";
 
 // 获取支持的token地址
 // 1、获取支持的token数
@@ -20,9 +19,6 @@ import {TCF_ErrorCode as E} from "../TCF_ErrorCode.sol";
 // 查看支持的token地址
 // hasupportedTokenAmount函数，获取支持的token数量
 // 调用tokenAddress_array(uint256 index)函数，参数是索引，返回对应地址。原生代币返回0x1地址
-
-// TODO:修改动态比例
-// TODO:增加价格检查函数的检查逻辑
 
 /**
  * @dev 管理tcf——nft的价格，比例，有效时长，支持的token地址
@@ -88,7 +84,8 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         priceTypeAndAomut[][6] calldata prices
     ) external onlyOwner {
         // 这里不对token是否初始化进行检查，是因为在构造函数中，初始化了TC
-        require(NFTPrice_initialized == 0, E.ERR_PRICES_INITIALIZED);
+        require(initedTokenAddress == 1, "TOKEN_NOT_INITIALIZED");
+        require(NFTPrice_initialized == 0, "PRICES_INITIALIZED");
 
         string memory code = checkInitPricesParams(prices);
         if (bytes(code).length != 0) {
@@ -173,7 +170,12 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
             _tokenAddress = address(0x1);
         }
 
-        return ("", NFTS[tokenID].prices[_tokenAddress]);
+        uint256 price = NFTS[tokenID].prices[_tokenAddress];
+        if (price == 0) {
+            return ("PRICE_NOT_SET", 0);
+        }
+
+        return ("", price);
     }
 
     function _checkAccessPriceDetail(
@@ -181,17 +183,17 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         address _tokenAddress
     ) private view returns (string memory) {
         if (NFTPrice_initialized != 1) {
-            return E.ERR_PRICES_NOT_INITIALIZED;
+            return "PRICES_NOT_INITIALIZED";
         }
         if (_tokenID > 5) {
-            return E.ERR_TOKENID_RANGE;
+            return "TOKENID_RANGE";
         }
         // 防止价格没有初始化，然后调用getNFTPrice函数，导致获取价格为0
         if (_tokenAddress == address(0x0)) {
             _tokenAddress = address(0x1);
         }
         if (supportTokenType[_tokenAddress] != 1) {
-            return _detailAddr(_tokenAddress, E.ERR_TOKEN_UNSUPPORTED);
+            return _detailAddr(_tokenAddress, "TOKEN_UNSUPPORTED");
         }
         return "";
     }
@@ -207,19 +209,27 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         // 1、检查tokenAddresses和prices[i].priceData.length相同
         // 2、价格里面必须支持原生代币
         // 3、检查价格参数中每个NFT支持的token Address 是否在所支持的tokenAddress列表之内
-
+        // 4、强制每个 NFT 的价格列表包含原生代币项且各 tokenAddress 唯一，避免重复地址导致的价格覆盖或漏配风险
         for (uint256 i = 0; i < 6; ++i) {
             // 计划支持3种代币，包括USDT,TC,DCF
             // 1、不强制要求tokenAddresses长度为2的原因：项目可能暂时不支持USDT。为什么是2，因为TC是原生代币，所以不需要传入地址
             if (prices[i].length != supportedTokenAmount) {
-                return E.ERR_PRICES_LEN;
+                return "PRICES_LEN";
             }
 
             // 要求支付方式为支持的代币类型
             // 要求价格里面必须支持原生代币
+            bool TCExist;
+            bool DCFExist;
             priceTypeAndAomut[] memory price = prices[i];
-            // bool TCExist = false;
             for (uint256 j = 0; j < supportedTokenAmount; ++j) {
+                // 保证每个NFT的价格列表中，都包含原生代币，除原生代币外，其他代币地址必须唯一
+                address tokenAddress = price[j].tokenAddress;
+                if (tokenAddress == address(0)) {
+                    TCExist = true;
+                } else {
+                    DCFExist = true;
+                }
                 // 获取购买某个NFT时，支持的某种支付方式的合约地址
                 if (
                     price[j].tokenAddress != address(0) &&
@@ -227,90 +237,80 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
                     supportTokenType[price[j].tokenAddress] != 1
                 ) {
                     return
-                        _detailAddr(
-                            price[j].tokenAddress,
-                            E.ERR_TOKEN_UNSUPPORTED
-                        );
+                        _detailAddr(price[j].tokenAddress, "TOKEN_UNSUPPORTED");
                 }
-
-                // 代码量过大，删除一些不必要的检查
-                // if (tokenAddress == address(0)) {
-                //     if (TCExist == true) {
-                //         return
-                //             "Only one zero address representing TC is allowed";
-                //     } else {
-                //         TCExist = true;
-                //     }
-                // }
             }
 
-            // if (!TCExist) {
-            //     return "One zero address representing TC must exist";
-            // }
+            // 强制每个 NFT 的价格列表包含原生代币项和 DCF 代币项
+            if (!TCExist) {
+                return "TC_PRICE_MUST_EXIST";
+            }
+            if (!DCFExist) {
+                return "DCF_PRICE_MUST_EXIST";
+            }
         }
 
         return "";
     }
 
-    /**
-     * @dev 删除某个支持的代币地址（不允许删除原生代币）。
-     * @param oldTokenAddress 要删除的代币合约地址
-     */
-    function deleteSupportedToken(address oldTokenAddress) external onlyOwner {
-        // 原生代币不能被删除
-        require(oldTokenAddress != address(0), E.ERR_NATURE_TOKEN_DEL);
-        // 检查就tokenAddress是否被初始化过
-        require(
-            supportTokenType[oldTokenAddress] == 1,
-            _detailAddr(oldTokenAddress, E.ERR_TOKEN_UNSUPPORTED)
-        );
+    // /**
+    //  * @dev 删除某个支持的代币地址（不允许删除原生代币）。
+    //  * @param oldTokenAddress 要删除的代币合约地址
+    //  */
+    // function deleteSupportedToken(address oldTokenAddress) external onlyOwner {
+    //     // 原生代币不能被删除
+    //     require(oldTokenAddress != address(0), "NATURE_TOKEN_DEL");
+    //     // 检查就tokenAddress是否被初始化过
+    //     require(
+    //         supportTokenType[oldTokenAddress] == 1,
+    //         _detailAddr(oldTokenAddress, "TOKEN_UNSUPPORTED")
+    //     );
 
-        // 删除map列表中要删除的地址
-        delete supportTokenType[oldTokenAddress];
-        // supportedTokenAmount包含原生代币数，但原生token没有地址，所以tokenAddress_array元素数=supportedTokenAmount-1
-        for (uint256 i = 0; i < supportedTokenAmount - 1; i++) {
-            if (tokenAddress_array[i] == oldTokenAddress) {
-                // supportedTokenAmount包含原生代币数，但原生代币地址为空，不保存，所以减2
-                // 将最后一个元素放置在删除的位置
-                tokenAddress_array[i] = tokenAddress_array[
-                    supportedTokenAmount - 2
-                ];
-                // 删除最后一个元素
-                // 必须使用pop完成删除最后一个元素，数组的数据长度减一
-                // 在增加数据时，使用push，在原数据的基础上进行增加。
-                // 如果赋值为空，在增加时，就会在空地址后面增加新的元素，不符合预期
-                tokenAddress_array.pop();
-            }
-        }
-        supportedTokenAmount -= 1;
-    }
+    //     // 删除map列表中要删除的地址
+    //     delete supportTokenType[oldTokenAddress];
+    //     // supportedTokenAmount包含原生代币数，但原生token没有地址，所以tokenAddress_array元素数=supportedTokenAmount-1
+    //     for (uint256 i = 0; i < supportedTokenAmount - 1; i++) {
+    //         if (tokenAddress_array[i] == oldTokenAddress) {
+    //             // supportedTokenAmount包含原生代币数，但原生代币地址为空，不保存，所以减2
+    //             // 将最后一个元素放置在删除的位置
+    //             tokenAddress_array[i] = tokenAddress_array[
+    //                 supportedTokenAmount - 2
+    //             ];
+    //             // 删除最后一个元素
+    //             // 必须使用pop完成删除最后一个元素，数组的数据长度减一
+    //             // 在增加数据时，使用push，在原数据的基础上进行增加。
+    //             // 如果赋值为空，在增加时，就会在空地址后面增加新的元素，不符合预期
+    //             tokenAddress_array.pop();
+    //         }
+    //     }
+    //     supportedTokenAmount -= 1;
+    // }
 
     /**
      * @dev 添加支持的代币地址列表（原生代币不需要传入地址）。构造函数中已经添加了原生代币TC。
      * 如果项目只支持TC，则不需要调用这个函数。
-     * @param tokenAddresses 代币合约地址数组（例如DCF、USDT）
+     * @param _tokenAddress 代币合约地址
      */
-    function addSupportedToken(
-        address[] memory tokenAddresses
-    ) public onlyOwner {
-        string memory code = _checkTokenAddressesCode(tokenAddresses);
+    function addSupportedToken(address _tokenAddress) public onlyOwner {
+        require(initedTokenAddress == 0, "TOKEN_INITIALIZED");
+        string memory code = _checkTokenAddressesCode(_tokenAddress);
         if (bytes(code).length != 0) {
             revert(code);
         }
+        // uint256 len = tokenAddresses.length;
+        // for (uint256 i = 0; i < len; i++) {
+        // 如果传入0地址，参数检查无法通过，所以这里不需要进行检查
+        // if (tokenAddresses[i] == address(0)) {
+        //     // 原生代币不允许添加
+        //     supportTokenType[address(0x1)] = 1;
+        //     tokenAddress_array.push(address(0x1));
+        // } else {}
+        supportTokenType[_tokenAddress] = 1;
+        tokenAddress_array.push(_tokenAddress);
+        // }
 
-        uint256 len = tokenAddresses.length;
-        for (uint256 i = 0; i < len; i++) {
-            // 如果传入0地址，参数检查无法通过，所以这里不需要进行检查
-            // if (tokenAddresses[i] == address(0)) {
-            //     // 原生代币不允许添加
-            //     supportTokenType[address(0x1)] = 1;
-            //     tokenAddress_array.push(address(0x1));
-            // } else {}
-            supportTokenType[tokenAddresses[i]] = 1;
-            tokenAddress_array.push(tokenAddresses[i]);
-        }
-
-        supportedTokenAmount += len;
+        supportedTokenAmount += 1;
+        initedTokenAddress = 1;
     }
 
     // 查看某个地址是否支持
@@ -321,69 +321,55 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         return supportTokenType[token];
     }
 
-    /**
-     * @dev 对新增的支持代币地址进行校验（地址数量、重复、是否为DCF/USDT等）。
-     * @param _tokenAddresses 代币合约地址数组
-     * @return 错误码/错误信息；成功时为空字符串
-     */
-    function checkTokenAddressesCode(
-        address[] memory _tokenAddresses
-    ) external view returns (string memory) {
-        return _checkTokenAddressesCode(_tokenAddresses);
+    // 修改动态比例
+    // 40%的动态比例是40，而不是0.4
+    function changeDynamicRatio(
+        uint256 tokenID,
+        uint8 newRatio
+    ) external onlyOwner {
+        require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED");
+        require(tokenID < 6, "TOKENID_RANGE");
+        NFTS[tokenID].ratio = newRatio;
     }
+
+    // /**
+    //  * @dev 对新增的支持代币地址进行校验（地址数量、重复、是否为DCF/USDT等）。
+    //  * @param _tokenAddresses 代币合约地址数组
+    //  * @return 错误码/错误信息；成功时为空字符串
+    //  */
+    // function checkTokenAddressesCode(
+    //     address _tokenAddress
+    // ) external view returns (string memory) {
+    //     return _checkTokenAddressesCode(_tokenAddress);
+    // }
 
     // 设置支持的token时，进行参数检查
     function _checkTokenAddressesCode(
-        address[] memory tokenAddresses
+        address tokenAddress
     ) private view returns (string memory) {
-        uint256 len = tokenAddresses.length;
-
-        // 检查是否为DCF或USDT,在检查是否合约地址之后
-        bool DCFExist;
-        bool USDTExist;
-        for (uint256 i = 0; i < len; i++) {
-            // 检查地址是否已经存在
-            if (supportTokenType[tokenAddresses[i]] == 1) {
-                return _detailAddr(tokenAddresses[i], E.ERR_ADDR_EXISTS);
-            }
-
-            // 检查是否为DCF合约和USDT合约，没有继续操作是因为，在继续之前需要检查这两个合约是否为erc20合约
-            // 不可以通过erc163合约来实现（USDT没有实现erc163），直接使用call调用
-            bytes memory callData = abi.encodeWithSignature("symbol()");
-            // 如果传入EOA地址，会返回success，但长度为0
-            (bool success, bytes memory data) = tokenAddresses[i].staticcall(
-                callData
-            );
-            // 如果地址和EOA地址返回success，但data长度为0
-            // 地址为零也会返回错误信息
-            if (success && data.length > 0) {
-                string memory symbol = abi.decode(data, (string));
-                // 必须是DCF或USDT合约
-                bytes32 symbolHash = keccak256(bytes(symbol));
-                if (
-                    symbolHash != keccak256(bytes("DCF")) &&
-                    symbolHash != keccak256(bytes("USDT"))
-                ) {
-                    return _detailAddr(tokenAddresses[i], E.ERR_NOT_DCF_USDT);
-                } else if (symbolHash == keccak256(bytes("DCF"))) {
-                    // 上一个地址是DCF,并且这个地址也是DCF
-                    if (DCFExist) {
-                        return E.ERR_DUP_DCF;
-                    } else {
-                        DCFExist = true;
-                    }
-                } else {
-                    // 上一个地址是USDT,并且这个地址也是USDT
-                    if (USDTExist) {
-                        return E.ERR_DUP_USDT;
-                    } else {
-                        USDTExist = true;
-                    }
-                }
-            } else {
-                return _detailAddr(tokenAddresses[i], E.ERR_NOT_DCF_USDT);
-            }
+        // 检查地址是否已经存在
+        if (supportTokenType[tokenAddress] == 1) {
+            return _detailAddr(tokenAddress, "ADDR_EXISTS");
         }
+
+        // 检查是否为DCF合约，没有继续操作是因为，在继续之前需要检查这两个合约是否为erc20合约
+        // 不可以通过erc163合约来实现（USDT没有实现erc163），直接使用call调用
+        bytes memory callData = abi.encodeWithSignature("symbol()");
+        // 如果传入EOA地址，会返回success，但长度为0
+        (bool success, bytes memory data) = tokenAddress.staticcall(callData);
+        // 如果地址和EOA地址返回success，但data长度为0
+        // 地址为零也会返回错误信息
+        if (success && data.length > 0) {
+            string memory symbol = abi.decode(data, (string));
+            // 必须是DCF或USDT合约
+            bytes32 symbolHash = keccak256(bytes(symbol));
+            if (symbolHash != keccak256(bytes("DCF"))) {
+                return _detailAddr(tokenAddress, "NOT_DCF");
+            }
+        } else {
+            return _detailAddr(tokenAddress, "NOT_DCF");
+        }
+
         return "";
     }
 

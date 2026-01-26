@@ -34,14 +34,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
     // 初始化支持的token
     await env.execute(test_TCF_ERC1155MintTime, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses, true],
+      args: [tokenAddresses],
       account: namedAccounts.deployer,
     });
 
     // 设置 NFT 的 indate/ratio
     await env.execute(test_TCF_ERC1155MintTime, {
       functionName: "initPrice",
-      args: [getPrices(TCF1Address), true],
+      args: [getPrices(TCF1Address)],
       account: namedAccounts.deployer,
     });
   });
@@ -63,14 +63,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 6n],
         }),
       ).to.equal(timestamp);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 0n],
         }),
       ).to.equal(timestamp);
@@ -93,14 +93,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 13n],
         }),
       ).to.equal(timestamp);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 7n],
         }),
       ).to.equal(timestamp);
@@ -121,7 +121,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       });
 
       const ownedTokenIds0 = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "test_OwnedTokenIds",
+        functionName: "getUserTokenIds",
         args: [namedAccounts.deployer, 0n],
       });
 
@@ -140,6 +140,24 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
         11n,
       ]);
     });
+
+    it("getNftMintTime: tokenId 超出范围 revert", async function () {
+      await expect(
+        env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getNftMintTime",
+          args: [10n, namedAccounts.deployer, 0n],
+        }),
+      ).to.be.rejectedWith("TOKENID_RANGE");
+    });
+
+    it("getUserTokenIds: tokenId 超出范围 revert", async function () {
+      await expect(
+        env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.deployer, 10n],
+        }),
+      ).to.be.rejectedWith("TOKENID_RANGE");
+    });
   });
 
   describe("testSafeTransferFrom: 对 testSafeTransferFrom函数进行测试", function () {
@@ -154,7 +172,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // tokenid 超过范围 revert
       await expect(
         env.execute(test_TCF_ERC1155MintTime, {
-          functionName: "test_SafeTransferFrom",
+          functionName: "ESafeTransferFrom",
           args: [
             namedAccounts.deployer,
             namedAccounts.admin1,
@@ -178,7 +196,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 接收方是0地址 revert
       await expect(
         env.execute(test_TCF_ERC1155MintTime, {
-          functionName: "test_SafeTransferFrom",
+          functionName: "ESafeTransferFrom",
           args: [
             namedAccounts.deployer,
             zeroAddress,
@@ -188,7 +206,29 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
           ],
           account: namedAccounts.deployer,
         }),
-      ).to.be.revertedWith("ERC1155: transfer to the zero address");
+      ).to.be.revertedWith("ZERO_ADDRESS");
+    });
+
+    it("ESafeTransferFrom: 未授权调用者 revert", async function () {
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 1n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      await expect(
+        env.execute(test_TCF_ERC1155MintTime, {
+          functionName: "ESafeTransferFrom",
+          args: [
+            namedAccounts.deployer,
+            namedAccounts.admin1,
+            0n,
+            [0n],
+            "0x" as `0x${string}`,
+          ],
+          account: namedAccounts.admin1,
+        }),
+      ).to.be.revertedWith("CALLER_NOT_OWNER_APPROVED");
     });
 
     // 转移已转移的token revert
@@ -220,7 +260,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 转移一次token
       await env.execute(test_TCF_ERC1155MintTime, {
-        functionName: "test_SafeTransferFrom",
+        functionName: "ESafeTransferFrom",
         args: [
           namedAccounts.deployer,
           namedAccounts.admin1,
@@ -234,7 +274,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 再次转移已转移的token revert
       await expect(
         env.execute(test_TCF_ERC1155MintTime, {
-          functionName: "test_SafeTransferFrom",
+          functionName: "ESafeTransferFrom",
           args: [
             namedAccounts.deployer,
             namedAccounts.admin1,
@@ -277,7 +317,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 转移不存在的token revert
       await expect(
         env.execute(test_TCF_ERC1155MintTime, {
-          functionName: "test_SafeTransferFrom",
+          functionName: "ESafeTransferFrom",
           args: [
             namedAccounts.deployer,
             namedAccounts.admin1,
@@ -288,6 +328,69 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
           account: namedAccounts.deployer,
         }),
       ).to.be.revertedWith("TOKEN_NOT_OWNED");
+    });
+
+    it("ESafeTransferFrom: 获得授权的操作员可以转移过期NFT", async function () {
+      let result = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 2n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "NFTS",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin1, true],
+        account: namedAccounts.deployer,
+      });
+
+      let blockNumber = result.blockNumber;
+      let block = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(blockNumber)),
+      });
+      let timestamp = BigInt(block.timestamp);
+      let nextBlockTime = timestamp + BigInt(indate) + 20n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "ESafeTransferFrom",
+        args: [
+          namedAccounts.deployer,
+          namedAccounts.admin2,
+          0n,
+          [0n],
+          "0x" as `0x${string}`,
+        ],
+        account: namedAccounts.admin1,
+      });
+
+      expect(
+        (
+          await env.read(test_TCF_ERC1155MintTime, {
+            functionName: "ownerOf",
+            args: [0n, 0n],
+          })
+        ).toLowerCase(),
+      ).to.equal(namedAccounts.admin2);
+
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.deep.equal([1n]);
+
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.admin2, 0n],
+        }),
+      ).to.deep.equal([0n]);
     });
 
     // 接受一个NFT,然后发送这个nft
@@ -319,7 +422,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 转移NFT
       result = await env.execute(test_TCF_ERC1155MintTime, {
-        functionName: "test_SafeTransferFrom",
+        functionName: "ESafeTransferFrom",
         args: [
           namedAccounts.admin1,
           namedAccounts.admin2,
@@ -341,7 +444,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
 
       await env.execute(test_TCF_ERC1155MintTime, {
-        functionName: "test_SafeTransferFrom",
+        functionName: "ESafeTransferFrom",
         args: [
           namedAccounts.admin2,
           namedAccounts.deployer,
@@ -366,10 +469,58 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 检查admin2的indexs
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_OwnedTokenIds",
+          functionName: "getUserTokenIds",
           args: [namedAccounts.admin2, 0n],
         }),
       ).to.deep.equal([]);
+    });
+
+    it("ESafeTransferFrom: 更新ownedTokenIds", async function () {
+      let result = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 3n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "NFTS",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      let blockNumber = result.blockNumber;
+      let block = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(blockNumber)),
+      });
+      let timestamp = BigInt(block.timestamp);
+      let nextBlockTime = timestamp + BigInt(indate) + 20n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "ESafeTransferFrom",
+        args: [
+          namedAccounts.deployer,
+          namedAccounts.admin1,
+          0n,
+          [1n],
+          "0x" as `0x${string}`,
+        ],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.deep.equal([0n, 2n]);
+
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.admin1, 0n],
+        }),
+      ).to.deep.equal([1n]);
     });
 
     // 转移还在有效期的token revert
@@ -384,7 +535,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 转移还在有效期的token revert
       await expect(
         env.execute(test_TCF_ERC1155MintTime, {
-          functionName: "test_SafeTransferFrom",
+          functionName: "ESafeTransferFrom",
           args: [
             namedAccounts.deployer,
             namedAccounts.admin1,
@@ -394,7 +545,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
           ],
           account: namedAccounts.deployer,
         }),
-      ).to.be.revertedWith("NFT_SENDED_VALID");
+      ).to.be.revertedWith("SEND_VALID_NFT");
     });
 
     // 正常转移token，测试from地址的mintTimes是否正确更新
@@ -426,7 +577,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 转移代币
       await env.execute(test_TCF_ERC1155MintTime, {
-        functionName: "test_SafeTransferFrom",
+        functionName: "ESafeTransferFrom",
         args: [
           namedAccounts.deployer,
           namedAccounts.admin1,
@@ -440,14 +591,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 检查mintTimes是否正确更新
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 0n],
         }),
       ).to.equal(0n);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.deployer, 1n],
         }),
       ).to.equal(0n);
@@ -482,7 +633,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 转移代币
       await env.execute(test_TCF_ERC1155MintTime, {
-        functionName: "test_SafeTransferFrom",
+        functionName: "ESafeTransferFrom",
         args: [
           namedAccounts.deployer,
           namedAccounts.admin1,
@@ -496,14 +647,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       // 检查mintTimes是否正确更新
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.admin1, 0n],
         }),
       ).to.equal(0n);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
-          functionName: "test_MintTimes",
+          functionName: "getNftMintTime",
           args: [0n, namedAccounts.admin1, 1n],
         }),
       ).to.equal(0n);
@@ -528,7 +679,6 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
         }),
       ).to.equal(3n);
 
-
       let result = await env.execute(test_TCF_ERC1155MintTime, {
         functionName: "testMint",
         args: [namedAccounts.deployer, 1n, 3n, "0x" as `0x${string}`],
@@ -549,7 +699,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
         args: [0n],
       });
       const indate0 = equities[1];
-  
+
       let blockNumber = result.blockNumber;
       let block = await env.viem.publicClient.getBlock({
         blockNumber: BigInt(hexToNumber(blockNumber)),
@@ -566,7 +716,6 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
           args: [namedAccounts.deployer],
         }),
       ).to.equal(6n);
-
     });
 
     // 测试传入0地址时revert
@@ -578,6 +727,5 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
         }),
       ).to.be.revertedWith("ZERO_ADDRESS");
     });
-    
   });
 });

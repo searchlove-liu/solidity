@@ -107,7 +107,7 @@ export const Artifact_Ownable = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 2707,
+        "astId": 5515,
         "contract": "project/contracts/openzeppelin_l/contracts/access/Ownable.sol:Ownable",
         "label": "_owner",
         "offset": 0,

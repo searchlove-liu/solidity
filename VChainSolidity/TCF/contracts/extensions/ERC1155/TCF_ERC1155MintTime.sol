@@ -4,11 +4,9 @@ pragma solidity ^0.8.0;
 
 import "./TCF_NFTPrice.sol";
 
-// TODO: 获取所有NFT的mint时间
-
 contract TCF_ERC1155MintTime is TCF_NFTPrice {
     // Mapping from token ID to account to mint time array
-    // 用户拥有的id,mapping(owner => mapping(tokenId => uint256[]))
+    // 用户拥有的id,mapping(owner => mapping(tokenId => editionIds))
     mapping(address => mapping(uint256 => uint256[])) private _ownedTokenIds;
     // 用户nft的创建时间，mapping(tokenId => mapping(owner => mapping(editionId => mintTime)))
     // mintTime == 0 表示该NFT已经被转移
@@ -16,20 +14,21 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         private _mintTimes;
 
     // test _mintTimes
-    function test_MintTimes(
+    function getNftMintTime(
         uint256 tokenId,
         address account,
         uint256 editionId
     ) public view returns (uint256) {
-        require(tokenId < 6, E.ERR_TOKENID_RANGE);
+        require(tokenId < 6, "TOKENID_RANGE");
         return _mintTimes[tokenId][account][editionId];
     }
 
     // test _ownedTokenIds
-    function test_OwnedTokenIds(
+    function getUserTokenIds(
         address account,
         uint256 tokenId
     ) public view returns (uint256[] memory) {
+        require(tokenId < 6, "TOKENID_RANGE");
         return _ownedTokenIds[account][tokenId];
     }
 
@@ -42,24 +41,21 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         bytes memory data
     ) internal virtual override(TCF_ERC1155) {
         // 防止后面代码发生错误，被revert不可预期的错误
-        require(to != address(0), "ERC1155: transfer to the zero address");
-        require(tokenId < 6, E.ERR_TOKENID_RANGE);
+        require(to != address(0), "ZERO_ADDRESS");
+        require(tokenId < 6, "TOKENID_RANGE");
 
         // 处理mintTimes and _ownedTokenIds
         for (uint256 i = 0; i < indexes.length; i++) {
             // 检查是否过期，过期之后才可以转
             uint256 index = indexes[i];
             uint256 mintTime = _mintTimes[tokenId][from][index];
-            uint256 indate = TCF_NFTPrice.NFTS[tokenId].indate;
+            uint256 indate = NFTS[tokenId].indate;
             require(
                 TCF_ERC1155.ownerOf(tokenId, index) == from,
-                E.ERR_TOKEN_NOT_OWNED
+                "TOKEN_NOT_OWNED"
             );
 
-            require(
-                block.timestamp > mintTime + indate,
-                E.ERR_NFT_SENDED_VALID
-            );
+            require(block.timestamp > mintTime + indate, "SEND_VALID_NFT");
 
             // 将mintTime变为0，表示转移
             _mintTimes[tokenId][to][index] = 0;
@@ -106,7 +102,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
     // 如果NFT过期，不在计算之列
     function getTotalNFTWorth(address owner) public view returns (uint256) {
         // 对owner进行检查
-        require(owner != address(0), E.ERR_ADDRESS_ZERO);
+        require(owner != address(0), "ZERO_ADDRESS");
         uint256 totalValue = 0;
         for (uint256 tokenId = 0; tokenId < 6; tokenId++) {
             // 获取该地址拥有的该tokenId的indexes

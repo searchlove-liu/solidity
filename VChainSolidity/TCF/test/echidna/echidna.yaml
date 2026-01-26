@@ -1,0 +1,15 @@
+testMode: assertion
+format: text
+testLimit: 2000
+cryticArgs:
+  - "--compile-force-framework"
+  - "solc"
+  - "--solc"
+  - "D:/project/solidity/VChainSolidity/TCF/.tools/solc/solc-0.8.20.exe"
+  - "--solc-working-dir"
+  - "D:/project/solidity/VChainSolidity/TCF"
+  - "--solc-remaps"
+  - "@openzeppelin/contracts/=contracts/openzeppelin_l/contracts/"
+  - "--solc-args"
+  - "--allow-paths D:/project/solidity/VChainSolidity/TCF"
+  - "--solc-disable-warnings"

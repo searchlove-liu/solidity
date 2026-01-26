@@ -74,7 +74,7 @@ describe("BinaryTree", function () {
       tree.write.initRoot([deployer.account.address], {
         account: deployer.account,
       }),
-      "BinaryTree: root already initialized",
+      "ROOT_ALREADY_INITIALIZED",
     );
   });
 
@@ -84,7 +84,7 @@ describe("BinaryTree", function () {
       tree.write.initRoot(["0x0000000000000000000000000000000000000000"], {
         account: deployer.account,
       }),
-      "BinaryTree: zero address",
+      "ZERO_ADDRESS",
     );
   });
 
@@ -100,7 +100,7 @@ describe("BinaryTree", function () {
         ],
         { account: deployer.account },
       ),
-      "BinaryTree: root not initialized",
+      "ROOT_NOT_INITIALIZED",
     );
   });
 
@@ -133,8 +133,8 @@ describe("BinaryTree", function () {
       { account: deployer.account },
     );
 
-    expect(await tree.read.exists([n1.account.address])).to.equal(true);
-    expect(await tree.read.exists([n2.account.address])).to.equal(true);
+    expect(await tree.read.isExist([n1.account.address])).to.equal(true);
+    expect(await tree.read.isExist([n2.account.address])).to.equal(true);
 
     // children
     const [left, right] = await tree.read.getChildren([
@@ -175,7 +175,7 @@ describe("BinaryTree", function () {
         ],
         { account: deployer.account },
       ),
-      "BinaryTree: zero address",
+      "ZERO_ADDRESS",
     );
 
     // parent does not exist
@@ -191,7 +191,7 @@ describe("BinaryTree", function () {
           account: deployer.account,
         },
       ),
-      "BinaryTree: parent does not exist",
+      "PARENT_NOT_EXIST",
     );
 
     // recommender does not exist
@@ -207,7 +207,7 @@ describe("BinaryTree", function () {
           account: deployer.account,
         },
       ),
-      "BinaryTree: recommender does not exist",
+      "RECOMMENDER_NOT_EXIST",
     );
 
     // first insert ok
@@ -232,7 +232,7 @@ describe("BinaryTree", function () {
         ],
         { account: deployer.account },
       ),
-      "BinaryTree: node already exists",
+      "NODE_EXISTS",
     );
   });
 
@@ -275,11 +275,11 @@ describe("BinaryTree", function () {
           account: deployer.account,
         },
       ),
-      "BinaryTree: parent not in recommender subtree",
+      "PARENT_NOT_RECOMMENDER_SUBTREE",
     );
   });
 
-  it("insert: if parent already has two children => revert", async function () {
+  it("insert: parent with two children cannot accept more nodes", async function () {
     const [deployer, c1, c2, c3] = walletClients;
 
     await tree.write.initRoot([deployer.account.address], {
@@ -310,7 +310,7 @@ describe("BinaryTree", function () {
       },
     );
 
-    // now any further insert under root should revert (even before side-check)
+    // now any further insert under root should revert regardless of side preference
     await expectRevert(
       tree.write.insert(
         [
@@ -323,7 +323,101 @@ describe("BinaryTree", function () {
           account: deployer.account,
         },
       ),
-      "BinaryTree: parent already has two children",
+      "PARENT_HAS_TWO_CHILDREN",
+    );
+
+    await expectRevert(
+      tree.write.insert(
+        [
+          c3.account.address,
+          deployer.account.address,
+          deployer.account.address,
+          false,
+        ],
+        {
+          account: deployer.account,
+        },
+      ),
+      "PARENT_HAS_TWO_CHILDREN",
+    );
+  });
+
+  it("insert: prefers requested branch but falls back to free slot", async function () {
+    const [deployer, leftFirst, rightViaFallback, childRight, childFallback] =
+      walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // left is empty, prefer left
+    await tree.write.insert(
+      [
+        leftFirst.account.address,
+        deployer.account.address,
+        deployer.account.address,
+        true,
+      ],
+      {
+        account: deployer.account,
+      },
+    );
+
+    // prefer left again but left already taken, should fall back to right
+    await tree.write.insert(
+      [
+        rightViaFallback.account.address,
+        deployer.account.address,
+        deployer.account.address,
+        true,
+      ],
+      {
+        account: deployer.account,
+      },
+    );
+
+    let [left, right] = await tree.read.getChildren([
+      deployer.account.address,
+    ]);
+    expect(normAddress(left)).to.equal(
+      normAddress(leftFirst.account.address),
+    );
+    expect(normAddress(right)).to.equal(
+      normAddress(rightViaFallback.account.address),
+    );
+
+    // Under leftFirst: first prefer right (empty so occupied)
+    await tree.write.insert(
+      [
+        childRight.account.address,
+        leftFirst.account.address,
+        leftFirst.account.address,
+        false,
+      ],
+      {
+        account: deployer.account,
+      },
+    );
+
+    // Prefer right again but right already taken, expect fallback to left
+    await tree.write.insert(
+      [
+        childFallback.account.address,
+        leftFirst.account.address,
+        leftFirst.account.address,
+        false,
+      ],
+      {
+        account: deployer.account,
+      },
+    );
+
+    [left, right] = await tree.read.getChildren([leftFirst.account.address]);
+    expect(normAddress(right)).to.equal(
+      normAddress(childRight.account.address),
+    );
+    expect(normAddress(left)).to.equal(
+      normAddress(childFallback.account.address),
     );
   });
 
@@ -371,25 +465,25 @@ describe("BinaryTree", function () {
 
     await expectRevert(
       tree.read.getNodeBalance([n1.account.address]),
-      "BinaryTree: node does not exist",
+      "NODE_NOT_EXISTS",
     );
     await expectRevert(
       tree.read.getRecommender([n1.account.address]),
-      "BinaryTree: node does not exist",
+      "NODE_NOT_EXISTS",
     );
     await expectRevert(
       tree.read.getChildren([n1.account.address]),
-      "BinaryTree: node does not exist",
+      "NODE_NOT_EXISTS",
     );
     await expectRevert(
       tree.read.getParent([n1.account.address]),
-      "BinaryTree: node does not exist",
+      "NODE_NOT_EXISTS",
     );
 
     await tree.write.initRoot([deployer.account.address], {
       account: deployer.account,
     });
-    expect(await tree.read.exists([n1.account.address])).to.equal(false);
+    expect(await tree.read.isExist([n1.account.address])).to.equal(false);
   });
 
   it("tree sums: totalTreeBalance / subtreeBalance / minChildSubtreeBalance", async function () {
@@ -480,7 +574,7 @@ describe("BinaryTree", function () {
     // reverts
     await expectRevert(
       tree.read.subtreeBalance([accounts[9] ?? accounts[0]]),
-      "BinaryTree: node does not exist",
+      "NODE_NOT_EXISTS",
     );
   });
 
@@ -490,7 +584,7 @@ describe("BinaryTree", function () {
     // root not initialized
     await expectRevert(
       tree.read.getRecommendedParent([deployer.account.address]),
-      "BinaryTree: root not initialized",
+      "ROOT_NOT_INITIALIZED",
     );
 
     await tree.write.initRoot([deployer.account.address], {

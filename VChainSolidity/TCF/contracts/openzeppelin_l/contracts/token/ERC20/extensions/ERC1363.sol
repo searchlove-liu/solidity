@@ -42,16 +42,18 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
         address,
         uint256
     ) public pure override returns (bool) {
-        revert("Not allowed to be invoked");
+        revert("NOT_IMPLEMENTED");
         // return transferAndCall(to, value, "");
     }
 
     /**
      * @dev Variant of {transferAndCall} that accepts an additional `data` parameter with
      * no specified format.
+     * 用户调用transferAndCall函数，使用DCF购买NFT时，最后一个参数需要传入 tokenID + buyAmount 的hex格式
+     *（tokenID和buyAmount 都是uint256类型），前缀为0x，总共长度为66字节。
      * @param data tokenID + buyAmount (each uint256), 64 bytes total
      * @param to NFT合约的地址，花费value的token购买“buyAmount”数量的NFT
-     * @param value 花费的token数量
+     * @param value 花费的token数量,单位是最小单位,花费1个token,则value=1*10^9
      */
     function transferAndCall(
         address to,
@@ -89,7 +91,7 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
         address,
         uint256
     ) public pure override returns (bool) {
-        revert("Not allowed to be invoked");
+        revert("NOT_IMPLEMENTED");
         // return transferFromAndCall(from, to, value, "");
     }
 
@@ -104,7 +106,7 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
         uint256,
         bytes memory
     ) public pure virtual override returns (bool) {
-        revert("Not allowed to be invoked");
+        revert("NOT_IMPLEMENTED");
         // require(transferFrom(from, to, value), "ERC1363: transferFrom failed");
         // ERC1363Utils.checkOnERC1363TransferReceived(
         //     _msgSender(),
@@ -133,7 +135,7 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
         address,
         uint256
     ) public pure override returns (bool) {
-        revert("Not allowed to be invoked");
+        revert("NOT_IMPLEMENTED");
         // return approveAndCall(spender, value, "");
     }
 
@@ -147,7 +149,7 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
         uint256,
         bytes memory
     ) public pure virtual override returns (bool) {
-        revert("Not allowed to be invoked");
+        revert("NOT_IMPLEMENTED");
         // require(approve(spender, value), "ERC1363: approve failed");
         // ERC1363Utils.checkOnERC1363ApprovalReceived(
         //     _msgSender(),

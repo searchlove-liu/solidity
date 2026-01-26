@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./TCF_ERC1155.sol";
 import {utils} from "../../utils.sol";
+import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
 
 /**
  * @dev ERC1155 token with storage based token URI management.
@@ -12,14 +13,18 @@ import {utils} from "../../utils.sol";
  *
  * _Available since v4.6._
  */
-abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, utils {
+
+//  TODO: 查看Pinata等IPFS存储服务商的使用情况
+// 删除baseURI
+
+abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, Ownable, utils {
     // using Strings for uint256;
 
     // Optional base URI
     string[6] private _baseURI;
 
     // 标识是否被初始化
-    uint8 private _initializedURIStorage = 0;
+    uint8 public _initializedURIStorage;
 
     // Optional mapping for token URIs
     mapping(uint256 => mapping(uint256 => string)) private _tokenURIs;
@@ -29,45 +34,28 @@ abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, utils {
     //     return _baseURI;
     // }
 
-    function _uri(
-        uint256 tokenId,
-        uint256 editionId
-    ) public view virtual returns (string memory) {
-        require(tokenId < 6, E.ERR_TOKENID_RANGE);
-        require(
-            TCF_ERC1155.ownerOf(tokenId, editionId) != address(0),
-            E.ERR_INVALID_EDITIONID
-        );
-        // string memory tokenURI = _tokenURIs[tokenId][editionId];
-        // If token URI is set, concatenate base URI and tokenURI (via abi.encodePacked).
-        return
-            string(
-                abi.encodePacked(
-                    _baseURI[tokenId],
-                    utils.uintToString(editionId),
-                    ".json"
-                )
-            );
+    function Euri(uint256 tokenId) public view virtual returns (string memory) {
+        require(_initializedURIStorage == 1, "BASEURI_NOT_INITIALIZED");
+        require(tokenId < 6, "TOKENID_RANGE");
+        return _baseURI[tokenId];
     }
 
-    /**
-     * @dev Sets `tokenURI` as the tokenURI of `tokenId`.
-     */
-    function _setURI(
-        uint256 tokenId,
-        uint256 editionId,
-        string memory tokenURI
-    ) internal virtual {
-        _tokenURIs[tokenId][editionId] = tokenURI;
-        emit URI(uri(tokenId), tokenId);
-    }
+    // /**
+    //  * @dev Sets `tokenURI` as the tokenURI of `tokenId`.
+    //  */
+    // function _setURI(uint256, uint256, string memory) internal virtual {
+    //     // 没有实现设置单个URI的功能
+    //     revert(E.ERR_FUNCTION_NOT_SUPPORTED);
+    //     // _tokenURIs[tokenId][editionId] = tokenURI;
+    //     // emit URI(uri(tokenId), tokenId);
+    // }
 
     /**
      * @dev Sets `baseURI` as the `_baseURI` for all tokens
+     * Only callable by the owner.可以被设置多次
      */
     //  todo :将string改为bytes
-    function _setBaseURI(bytes[6] memory baseURI) internal virtual {
-        require(_initializedURIStorage == 0, "Base URI already initialized");
+    function setBaseURI(bytes[6] memory baseURI) external virtual onlyOwner {
         for (uint256 i = 0; i < 6; i++) {
             _baseURI[i] = string(baseURI[i]);
         }

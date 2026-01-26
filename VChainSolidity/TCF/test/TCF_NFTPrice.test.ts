@@ -36,138 +36,144 @@ describe("TCF_NFTPrice", function () {
   beforeEach(async () => {
     ({ env, TCF1, TCF2, namedAccounts, TCF_NFTPrice } =
       await networkHelpers.loadFixture(deployAll));
-    await ensureTCFInitialized(TCF1);
-    await ensureTCFInitialized(TCF2);
-  });
-
-  it("checkTokenAddressesParams_external:对 初始化合约地址的参数检查函数 进行测试 ", async function () {
-    const TCF1Address = TCF1.address;
-    const TCF2Address = TCF2.address;
-    const tokenAddresses1 = [TCF1Address, zeroAddress];
-    let result = await env.read(TCF_NFTPrice, {
-      functionName: "checkTokenAddressesCode",
-      args: [tokenAddresses1],
-    });
-
-    expect(result).to.equal("NOT_DCF_USDT " + zeroAddress);
-
-    // 检查传入两个的DCF地址
-    let tokenAddresses = [TCF1Address, TCF2Address];
-    result = await env.read(TCF_NFTPrice, {
-      functionName: "checkTokenAddressesCode",
-      args: [tokenAddresses],
-    });
-    expect(result).to.equal("DUP_DCF");
-
-    // 检查是否为合约地址
-    const EOAAddress =
-      "0xdd2fd4581271e230360230f9337d5c0430bf44c0" as `0x${string}`;
-    tokenAddresses = [TCF1Address, EOAAddress];
-    result = await env.read(TCF_NFTPrice, {
-      functionName: "checkTokenAddressesCode",
-      args: [tokenAddresses],
-    });
-    expect(result).to.equal("NOT_DCF_USDT " + EOAAddress);
-
-    // 检查其是否为TCF或USDT
-    result = await env.read(TCF_NFTPrice, {
-      functionName: "checkTokenAddressesCode",
-      args: [[TCF_NFTPrice.address]],
-    });
-    expect(result).to.equal("NOT_DCF_USDT " + TCF_NFTPrice.address);
-
-    // 测试成功
-    result = await env.read(TCF_NFTPrice, {
-      functionName: "checkTokenAddressesCode",
-      args: [[TCF1Address]],
-    });
-    expect(result).to.equal("");
-  });
-
-  it("delSupportedToken:对 删除支持的token 进行测试", async function () {
-    const TCF1Address = TCF1.address;
-    const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
-
-    // 初始化
-    tokenAddresses = [TCF1Address];
-    await env.execute(TCF_NFTPrice, {
-      functionName: "addSupportedToken",
-      args: [tokenAddresses],
+    await env.execute(TCF1, {
+      functionName: "initialize",
+      args: [namedAccounts.deployer, namedAccounts.deployer],
       account: namedAccounts.deployer,
     });
-
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "isSupported",
-        args: [TCF1Address],
-      }),
-    ).to.equal(1);
-
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "supportedTokenAmount",
-        args: [],
-      }),
-    ).to.equal(2);
-
-    expect(
-      (
-        await env.read(TCF_NFTPrice, {
-          functionName: "tokenAddress_array",
-          args: [1n],
-        })
-      ).toLowerCase(),
-    ).to.equal(TCF1Address);
-
-    // 删除空地址
-    await expect(
-      env.execute(TCF_NFTPrice, {
-        functionName: "deleteSupportedToken",
-        args: [zeroAddress],
-        account: namedAccounts.deployer,
-      }),
-    ).to.be.revertedWith("NATURE_TOKEN_DEL");
-
-    // TCF2Address不在初始化列表中
-    try {
-      await env.execute(TCF_NFTPrice, {
-        functionName: "deleteSupportedToken",
-        args: [TCF2Address],
-        account: namedAccounts.deployer,
-      });
-    } catch (err: any) {
-      expect(err.message ?? err.shortMessage).to.equal(
-        revertMessage + "'" + "TOKEN_UNSUPPORTED " + TCF2Address + "'",
-      );
-    }
-
-    // 正确测试
-
-    await env.execute(TCF_NFTPrice, {
-      functionName: "deleteSupportedToken",
-      args: [TCF1Address],
+    await env.execute(TCF2, {
+      functionName: "initialize",
+      args: [namedAccounts.deployer, namedAccounts.deployer],
       account: namedAccounts.deployer,
     });
-
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "isSupported",
-        args: [TCF1Address],
-      }),
-    ).to.equal(0n);
   });
+
+  // it("checkTokenAddressesParams_external:对 初始化合约地址的参数检查函数 进行测试 ", async function () {
+  //   const TCF1Address = TCF1.address;
+  //   const TCF2Address = TCF2.address;
+  //   const tokenAddresses1 = [TCF1Address, zeroAddress];
+  //   let result = await env.read(TCF_NFTPrice, {
+  //     functionName: "checkTokenAddressesCode",
+  //     args: [tokenAddresses1],
+  //   });
+
+  //   expect(result).to.equal("NOT_DCF_USDT " + zeroAddress);
+
+  //   // 检查传入两个的DCF地址
+  //   let tokenAddresses = [TCF1Address, TCF2Address];
+  //   result = await env.read(TCF_NFTPrice, {
+  //     functionName: "checkTokenAddressesCode",
+  //     args: [tokenAddresses],
+  //   });
+  //   expect(result).to.equal("DUP_DCF");
+
+  //   // 检查是否为合约地址
+  //   const EOAAddress =
+  //     "0xdd2fd4581271e230360230f9337d5c0430bf44c0" as `0x${string}`;
+  //   tokenAddresses = [TCF1Address, EOAAddress];
+  //   result = await env.read(TCF_NFTPrice, {
+  //     functionName: "checkTokenAddressesCode",
+  //     args: [tokenAddresses],
+  //   });
+  //   expect(result).to.equal("NOT_DCF_USDT " + EOAAddress);
+
+  //   // 检查其是否为TCF或USDT
+  //   result = await env.read(TCF_NFTPrice, {
+  //     functionName: "checkTokenAddressesCode",
+  //     args: [[TCF_NFTPrice.address]],
+  //   });
+  //   expect(result).to.equal("NOT_DCF_USDT " + TCF_NFTPrice.address);
+
+  //   // 测试成功
+  //   result = await env.read(TCF_NFTPrice, {
+  //     functionName: "checkTokenAddressesCode",
+  //     args: [[TCF1Address]],
+  //   });
+  //   expect(result).to.equal("");
+  // });
+
+  // it("delSupportedToken:对 删除支持的token 进行测试", async function () {
+  //   const TCF1Address = TCF1.address;
+  //   const TCF2Address = TCF2.address;
+  //   let tokenAddresses = [TCF1Address];
+
+  //   // 初始化
+  //   tokenAddresses = [TCF1Address];
+  //   await env.execute(TCF_NFTPrice, {
+  //     functionName: "addSupportedToken",
+  //     args: [tokenAddresses],
+  //     account: namedAccounts.deployer,
+  //   });
+
+  //   expect(
+  //     await env.read(TCF_NFTPrice, {
+  //       functionName: "isSupported",
+  //       args: [TCF1Address],
+  //     }),
+  //   ).to.equal(1);
+
+  //   expect(
+  //     await env.read(TCF_NFTPrice, {
+  //       functionName: "supportedTokenAmount",
+  //       args: [],
+  //     }),
+  //   ).to.equal(2);
+
+  //   expect(
+  //     (
+  //       await env.read(TCF_NFTPrice, {
+  //         functionName: "tokenAddress_array",
+  //         args: [1n],
+  //       })
+  //     ).toLowerCase(),
+  //   ).to.equal(TCF1Address);
+
+  //   // 删除空地址
+  //   await expect(
+  //     env.execute(TCF_NFTPrice, {
+  //       functionName: "deleteSupportedToken",
+  //       args: [zeroAddress],
+  //       account: namedAccounts.deployer,
+  //     }),
+  //   ).to.be.revertedWith("NATURE_TOKEN_DEL");
+
+  //   // TCF2Address不在初始化列表中
+  //   try {
+  //     await env.execute(TCF_NFTPrice, {
+  //       functionName: "deleteSupportedToken",
+  //       args: [TCF2Address],
+  //       account: namedAccounts.deployer,
+  //     });
+  //   } catch (err: any) {
+  //     expect(err.message ?? err.shortMessage).to.equal(
+  //       revertMessage + "'" + "TOKEN_UNSUPPORTED " + TCF2Address + "'",
+  //     );
+  //   }
+
+  //   // 正确测试
+
+  //   await env.execute(TCF_NFTPrice, {
+  //     functionName: "deleteSupportedToken",
+  //     args: [TCF1Address],
+  //     account: namedAccounts.deployer,
+  //   });
+
+  //   expect(
+  //     await env.read(TCF_NFTPrice, {
+  //       functionName: "isSupported",
+  //       args: [TCF1Address],
+  //     }),
+  //   ).to.equal(0n);
+  // });
 
   it("addSupportedToken:对 增加支持的token 进行测试", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
 
     // 初始化
-    tokenAddresses = [TCF1Address];
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -194,53 +200,82 @@ describe("TCF_NFTPrice", function () {
         })
       ).toLowerCase(),
     ).to.equal(ONEAddress);
+  });
 
-    // TCF2Address不在初始化列表中
+  it("addSupportedToken: 非 owner 调用失败", async function () {
     await expect(
       env.execute(TCF_NFTPrice, {
         functionName: "addSupportedToken",
-        args: [[TCF_NFTPrice.address]],
+        args: [TCF1.address],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+  });
+
+  it("addSupportedToken: 拒绝非 DCF 地址", async function () {
+    const eoa = namedAccounts.admin1;
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "addSupportedToken",
+        args: [eoa],
         account: namedAccounts.deployer,
       }),
-    ).to.to.revertedWith("NOT_DCF_USDT" + " " + TCF_NFTPrice.address);
+    ).to.be.revertedWith("NOT_DCF " + eoa.toLowerCase());
+  });
 
-    // 正确测试
+  it("addSupportedToken: 不允许重复添加同一地址", async function () {
+    const TCF1Address = TCF1.address;
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [[TCF2Address]],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "isSupported",
-        args: [TCF2Address],
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "addSupportedToken",
+        args: [TCF1Address],
+        account: namedAccounts.deployer,
       }),
-    ).to.equal(1);
-
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "supportedTokenAmount",
-        args: [],
-      }),
-    ).to.equal(3n);
-
-    expect(
-      (
-        await env.read(TCF_NFTPrice, {
-          functionName: "tokenAddress_array",
-          args: [2n],
-        })
-      ).toLowerCase(),
-    ).to.equal(TCF2Address);
+    ).to.be.revertedWith("TOKEN_INITIALIZED");
   });
+
+  it("addSupportedToken: 初始化后禁止再次添加新地址", async function () {
+    const TCF1Address = TCF1.address;
+    const TCF2Address = TCF2.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "addSupportedToken",
+        args: [TCF2Address],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("TOKEN_INITIALIZED");
+  });
+
+  // it("addSupportedToken: 不允许一次性传入两个DCF地址", async function () {
+  //   const TCF1Address = TCF1.address;
+  //   const TCF2Address = TCF2.address;
+
+  //   await expect(
+  //     env.execute(TCF_NFTPrice, {
+  //       functionName: "addSupportedToken",
+  //       args: [TCF1Address],
+  //       account: namedAccounts.deployer,
+  //     }),
+  //   ).to.be.revertedWith("DUP_DCF");
+  // });
 
   it("checkInitPricesParams:对 检查价格参数函数 进行测试", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
     // 初始化
-    tokenAddresses = [TCF1Address];
     expect(
       await env.read(TCF_NFTPrice, {
         functionName: "checkInitPricesParams",
@@ -252,7 +287,7 @@ describe("TCF_NFTPrice", function () {
     // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -283,15 +318,83 @@ describe("TCF_NFTPrice", function () {
     ).to.equal("");
   });
 
+  it("checkInitPricesParams: 缺少原生代币价格", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    const pricesNoTC = Array.from({ length: 6 }, (_, i) => [
+      { tokenAddress: TCF1Address, amount: BigInt(i + 1) },
+      { tokenAddress: TCF1Address, amount: BigInt(i + 1) },
+    ]);
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "checkInitPricesParams",
+        args: [pricesNoTC],
+        account: namedAccounts.deployer,
+      }),
+    ).to.equal("TC_PRICE_MUST_EXIST");
+  });
+
+  it("checkInitPricesParams: 缺少 DCF 价格", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    const pricesNoDCF = Array.from({ length: 6 }, (_, i) => [
+      { tokenAddress: zeroAddress, amount: BigInt(i + 1) },
+      { tokenAddress: zeroAddress, amount: BigInt(i + 1) },
+    ]);
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "checkInitPricesParams",
+        args: [pricesNoDCF],
+        account: namedAccounts.deployer,
+      }),
+    ).to.equal("DCF_PRICE_MUST_EXIST");
+  });
+
+  it("checkInitPricesParams: 地址顺序不影响校验", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    const pricesReordered = Array.from({ length: 6 }, (_, i) => [
+      { tokenAddress: TCF1Address, amount: BigInt(i + 1) },
+      { tokenAddress: zeroAddress, amount: BigInt(i + 1) },
+    ]);
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "checkInitPricesParams",
+        args: [pricesReordered],
+        account: namedAccounts.deployer,
+      }),
+    ).to.equal("");
+  });
+
   it("NFTPrice_init:对 初始化NFT价格函数 进行测试", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
 
     // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -321,15 +424,77 @@ describe("TCF_NFTPrice", function () {
     ).to.be.revertedWith("PRICES_INITIALIZED");
   });
 
+  it("NFTPrice_init: 缺少原生代币价格时失败", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    const pricesNoTC = Array.from({ length: 6 }, (_, i) => [
+      { tokenAddress: TCF1Address, amount: BigInt(i + 1) },
+      { tokenAddress: TCF1Address, amount: BigInt(i + 1) },
+    ]);
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "initPrice",
+        args: [pricesNoTC],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("TC_PRICE_MUST_EXIST");
+  });
+
+  it("NFTPrice_init: 缺少 DCF 价格时失败", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    const pricesNoDCF = Array.from({ length: 6 }, (_, i) => [
+      { tokenAddress: zeroAddress, amount: BigInt(i + 1) },
+      { tokenAddress: zeroAddress, amount: BigInt(i + 1) },
+    ]);
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "initPrice",
+        args: [pricesNoDCF],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("DCF_PRICE_MUST_EXIST");
+  });
+
+  it("initPrice: 非 owner 调用失败", async function () {
+    const TCF1Address = TCF1.address;
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "initPrice",
+        args: [getPrices(TCF1Address)],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+  });
+
   it("changeNFTPrice:对 修改NFT价格函数 进行测试", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
 
     // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -366,15 +531,37 @@ describe("TCF_NFTPrice", function () {
     });
   });
 
+  it("changeNFTPrice: 非 owner 调用失败", async function () {
+    const TCF1Address = TCF1.address;
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "changeNFTPrice",
+        args: [0n, zeroAddress, 1n],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+  });
+
   it("getNFTPrice:对 获取NFT价格函数 进行测试", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
 
     // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -402,6 +589,134 @@ describe("TCF_NFTPrice", function () {
     expect(result[1]).to.equal(100n);
   });
 
+  it("getNFTPrice: 获取 DCF 价格", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    const result = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTPrice",
+      args: [1n, TCF1Address],
+    });
+
+    expect(result[0]).to.equal("");
+    expect(result[1]).to.equal(2n);
+  });
+
+  it("getNFTPrice: 传入 address(0x1) 与 address(0) 结果一致", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    const byZero = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTPrice",
+      args: [0n, zeroAddress],
+    });
+
+    const byOne = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTPrice",
+      args: [0n, ONEAddress],
+    });
+
+    expect(byOne).to.deep.equal(byZero);
+  });
+
+  it("getNFTPrice: tokenID 超出范围", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "getNFTPrice",
+        args: [10n, zeroAddress],
+      }),
+    ).to.deep.equal(["TOKENID_RANGE", 0n]);
+  });
+
+  it("getNFTPrice: 查询不支持的token地址", async function () {
+    const TCF1Address = TCF1.address;
+    const TCF2Address = TCF2.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "getNFTPrice",
+        args: [0n, TCF2Address],
+      }),
+    ).to.deep.equal(["TOKEN_UNSUPPORTED " + TCF2Address.toLowerCase(), 0n]);
+  });
+
+  it("getNFTPrice: 价格被清零后返回 PRICE_NOT_SET", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "changeNFTPrice",
+      args: [0n, zeroAddress, 0n],
+      account: namedAccounts.deployer,
+    });
+
+    expect(
+      await env.read(TCF_NFTPrice, {
+        functionName: "getNFTPrice",
+        args: [0n, zeroAddress],
+      }),
+    ).to.deep.equal(["PRICE_NOT_SET", 0n]);
+  });
+
   it("getNFTPrice:对 未初始化价格，获取NFT价格", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
@@ -419,11 +734,10 @@ describe("TCF_NFTPrice", function () {
   it("获取比例和权限时长", async function () {
     const TCF1Address = TCF1.address;
     const TCF2Address = TCF2.address;
-    let tokenAddresses = [TCF1Address];
     // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -465,42 +779,153 @@ describe("TCF_NFTPrice", function () {
         args: [getPrices(TCF1Address)],
         account: namedAccounts.deployer,
       }),
-    ).to.be.revertedWith("PRICES_LEN");
+    ).to.be.revertedWith("TOKEN_NOT_INITIALIZED");
   });
 
   // 在没有初始化地址之前，只初始化TC价格，期望成功
-  it("在没有初始化token地址时，只初始化TC价格，期望成功", async function () {
+  // it("在没有初始化token地址时，只初始化TC价格，期望成功", async function () {
+  //   await env.execute(TCF_NFTPrice, {
+  //     functionName: "initPrice",
+  //     args: [getTCPrices()],
+  //     account: namedAccounts.deployer,
+  //   });
+
+  //   expect(
+  //     await env.read(TCF_NFTPrice, {
+  //       functionName: "getNFTPrice",
+  //       args: [0n, zeroAddress],
+  //     }),
+  //   ).to.deep.equal(["", 1n]);
+
+  //   // 获取比例和权限时长
+  //   let result = await env.read(TCF_NFTPrice, {
+  //     functionName: "NFTS",
+  //     args: [0n],
+  //   });
+  //   expect(result[0]).to.equal(40);
+  //   expect(result[1]).to.equal(15552000);
+
+  //   // 获取支持的token数量和地址
+  //   let supportedTokenAmount = await env.read(TCF_NFTPrice, {
+  //     functionName: "supportedTokenAmount",
+  //   });
+  //   expect(supportedTokenAmount).to.equal(1);
+  //   let tokenAddress = await env.read(TCF_NFTPrice, {
+  //     functionName: "tokenAddress_array",
+  //     args: [0n],
+  //   });
+  //   expect(tokenAddress).to.equal(ONEAddress);
+  // });
+
+  // 检查changeDynamicRatio 函数
+  it("检查动态比例设置函数，tokenID 不对", async function () {
+    const TCF1Address = TCF1.address;
+
+    // 初始化支持的token
     await env.execute(TCF_NFTPrice, {
-      functionName: "initPrice",
-      args: [getTCPrices()],
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "getNFTPrice",
-        args: [0n, zeroAddress],
-      }),
-    ).to.deep.equal(["", 1n]);
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
 
-    // 获取比例和权限时长
+    // 查看当前动态比例
+    let dynamicRatio = await env.read(TCF_NFTPrice, {
+      functionName: "NFTS",
+      args: [0n],
+    });
+    expect(dynamicRatio[0]).to.equal(40);
+
+    // 设置动态比例
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "changeDynamicRatio",
+        args: [6n, 50],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("TOKENID_RANGE");
+  });
+
+  // 检查changeDynamicRatio 函数，没有初始化
+  it("检查动态比例设置函数，未初始化时调用", async function () {
+    ({ env, TCF1, TCF2, namedAccounts, TCF_NFTPrice } =
+      await networkHelpers.loadFixture(deployAll));
+    // 设置动态比例
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "changeDynamicRatio",
+        args: [0n, 50],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
+  });
+
+  // z检查changeDynamicRatio 函数，正确修改
+  it("检查动态比例设置函数，正确修改", async function () {
+    const TCF1Address = TCF1.address;
+    const TCF2Address = TCF2.address;
+
+    // 初始化支持的token
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
+    });
+
+    // 查看当前动态比例
+    let dynamicRatio = await env.read(TCF_NFTPrice, {
+      functionName: "NFTS",
+      args: [0n],
+    });
+    expect(dynamicRatio[0]).to.equal(40);
+
+    // 设置动态比例
+    await env.execute(TCF_NFTPrice, {
+      functionName: "changeDynamicRatio",
+      args: [0n, 50],
+      account: namedAccounts.deployer,
+    });
+
     let result = await env.read(TCF_NFTPrice, {
       functionName: "NFTS",
       args: [0n],
     });
-    expect(result[0]).to.equal(40);
-    expect(result[1]).to.equal(15552000);
+    expect(result[0]).to.equal(50);
+  });
 
-    // 获取支持的token数量和地址
-    let supportedTokenAmount = await env.read(TCF_NFTPrice, {
-      functionName: "supportedTokenAmount",
+  it("changeDynamicRatio: 非 owner 调用失败", async function () {
+    const TCF1Address = TCF1.address;
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "addSupportedToken",
+      args: [TCF1Address],
+      account: namedAccounts.deployer,
     });
-    expect(supportedTokenAmount).to.equal(1);
-    let tokenAddress = await env.read(TCF_NFTPrice, {
-      functionName: "tokenAddress_array",
-      args: [0n],
+
+    await env.execute(TCF_NFTPrice, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1Address)],
+      account: namedAccounts.deployer,
     });
-    expect(tokenAddress).to.equal(ONEAddress);
+
+    await expect(
+      env.execute(TCF_NFTPrice, {
+        functionName: "changeDynamicRatio",
+        args: [0n, 99],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Ownable: caller is not the owner");
   });
 
   // 检查在没有初始化地址和价格之前调用 所有函数的情况
@@ -561,27 +986,6 @@ describe("TCF_NFTPrice", function () {
             account: namedAccounts.deployer,
           }),
         ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
-      });
-
-      // deleteSupportedToken
-      it("deleteSupportedToken", async function () {
-        const TCF1Address = TCF1.address;
-        const TCF2Address = TCF2.address;
-        await expect(
-          env.execute(TCF_NFTPrice, {
-            functionName: "deleteSupportedToken",
-            args: [zeroAddress],
-            account: namedAccounts.deployer,
-          }),
-        ).to.be.revertedWith("NATURE_TOKEN_DEL");
-
-        await expect(
-          env.execute(TCF_NFTPrice, {
-            functionName: "deleteSupportedToken",
-            args: [TCF1Address],
-            account: namedAccounts.deployer,
-          }),
-        ).to.be.revertedWith("TOKEN_UNSUPPORTED" + " " + TCF1Address);
       });
     });
   });

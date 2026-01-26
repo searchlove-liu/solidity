@@ -1,0 +1,674 @@
+export declare const Artifact_ERC1363: {
+  "contractName": "ERC1363",
+  "sourceName": "contracts/extensions/ERC20/ERC1363.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "approveAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "name": "approveAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "subtractedValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "decreaseAllowance",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "addedValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "increaseAllowance",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "transferAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "name": "transferFromAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFromAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/extensions/ERC20/ERC1363.sol",
+  "devdoc": {
+    "details": "Extension of {ERC20} tokens that adds support for code execution after transfers and approvals on recipient contracts. Calls after transfers are enabled through the {ERC1363-transferAndCall} and {ERC1363-transferFromAndCall} methods while calls after approvals can be made with {ERC1363-approveAndCall} _Available since v5.1._",
+    "kind": "dev",
+    "methods": {
+      "allowance(address,address)": {
+        "details": "See {IERC20-allowance}."
+      },
+      "approve(address,uint256)": {
+        "details": "See {IERC20-approve}. NOTE: If `amount` is the maximum `uint256`, the allowance is not updated on `transferFrom`. This is semantically equivalent to an infinite approval. Requirements: - `spender` cannot be the zero address."
+      },
+      "approveAndCall(address,uint256)": {
+        "details": "Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`. Returns a flag that indicates if the call succeeded. 没有实现 Requirements: - The target has code (i.e. is a contract). - The target `spender` must implement the {IERC1363Spender} interface. - The target must return the {IERC1363Spender-onApprovalReceived} selector to accept the approval. - The internal {approve} must succeed (returned `true`)."
+      },
+      "approveAndCall(address,uint256,bytes)": {
+        "details": "Variant of {approveAndCall} that accepts an additional `data` parameter with no specified format. 没有实现"
+      },
+      "balanceOf(address)": {
+        "details": "See {IERC20-balanceOf}."
+      },
+      "decimals()": {
+        "details": "Returns the number of decimals used to get its user representation. For example, if `decimals` equals `2`, a balance of `505` tokens should be displayed to a user as `5.05` (`505 / 10 ** 2`). Tokens usually opt for a value of 18, imitating the relationship between Ether and Wei. This is the default value returned by this function, unless it's overridden. NOTE: This information is only used for _display_ purposes: it in no way affects any of the arithmetic of the contract, including {IERC20-balanceOf} and {IERC20-transfer}."
+      },
+      "decreaseAllowance(address,uint256)": {
+        "details": "Atomically decreases the allowance granted to `spender` by the caller. This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}. Emits an {Approval} event indicating the updated allowance. Requirements: - `spender` cannot be the zero address. - `spender` must have allowance for the caller of at least `subtractedValue`."
+      },
+      "increaseAllowance(address,uint256)": {
+        "details": "Atomically increases the allowance granted to `spender` by the caller. This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}. Emits an {Approval} event indicating the updated allowance. Requirements: - `spender` cannot be the zero address."
+      },
+      "name()": {
+        "details": "Returns the name of the token."
+      },
+      "symbol()": {
+        "details": "Returns the symbol of the token, usually a shorter version of the name."
+      },
+      "totalSupply()": {
+        "details": "See {IERC20-totalSupply}."
+      },
+      "transfer(address,uint256)": {
+        "details": "See {IERC20-transfer}. Requirements: - `to` cannot be the zero address. - the caller must have a balance of at least `amount`."
+      },
+      "transferAndCall(address,uint256)": {
+        "details": "Moves a `value` amount of tokens from the caller's account to `to` and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates if the call succeeded. Requirements: - The target has code (i.e. is a contract). - The target `to` must implement the {IERC1363Receiver} interface. - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer. - The internal {transfer} must succeed (returned `true`)."
+      },
+      "transferAndCall(address,uint256,bytes)": {
+        "details": "Variant of {transferAndCall} that accepts an additional `data` parameter with no specified format.",
+        "params": {
+          "data": "tokenID + buyAmount (each uint256), 64 bytes total",
+          "to": "NFT合约的地址，花费value的token购买“buyAmount”数量的NFT",
+          "value": "花费的token数量"
+        }
+      },
+      "transferFrom(address,address,uint256)": {
+        "details": "See {IERC20-transferFrom}. Emits an {Approval} event indicating the updated allowance. This is not required by the EIP. See the note at the beginning of {ERC20}. NOTE: Does not update the allowance if the current allowance is the maximum `uint256`. Requirements: - `from` and `to` cannot be the zero address. - `from` must have a balance of at least `amount`. - the caller must have allowance for ``from``'s tokens of at least `amount`."
+      },
+      "transferFromAndCall(address,address,uint256)": {
+        "details": "Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates if the call succeeded. 没有实现 Requirements: - The target has code (i.e. is a contract). - The target `to` must implement the {IERC1363Receiver} interface. - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer. - The internal {transferFrom} must succeed (returned `true`)."
+      },
+      "transferFromAndCall(address,address,uint256,bytes)": {
+        "details": "Variant of {transferFromAndCall} that accepts an additional `data` parameter with no specified format. 没有实现"
+      }
+    },
+    "title": "ERC1363",
+    "version": 1
+  },
+  "evm": {
+    "bytecode": {
+      "generatedSources": [],
+      "linkReferences": {},
+      "object": "",
+      "opcodes": "",
+      "sourceMap": ""
+    },
+    "deployedBytecode": {
+      "generatedSources": [],
+      "immutableReferences": {},
+      "linkReferences": {},
+      "object": "",
+      "opcodes": "",
+      "sourceMap": ""
+    },
+    "gasEstimates": null,
+    "methodIdentifiers": {
+      "allowance(address,address)": "dd62ed3e",
+      "approve(address,uint256)": "095ea7b3",
+      "approveAndCall(address,uint256)": "3177029f",
+      "approveAndCall(address,uint256,bytes)": "cae9ca51",
+      "balanceOf(address)": "70a08231",
+      "decimals()": "313ce567",
+      "decreaseAllowance(address,uint256)": "a457c2d7",
+      "increaseAllowance(address,uint256)": "39509351",
+      "name()": "06fdde03",
+      "supportsInterface(bytes4)": "01ffc9a7",
+      "symbol()": "95d89b41",
+      "totalSupply()": "18160ddd",
+      "transfer(address,uint256)": "a9059cbb",
+      "transferAndCall(address,uint256)": "1296ee62",
+      "transferAndCall(address,uint256,bytes)": "4000aea0",
+      "transferFrom(address,address,uint256)": "23b872dd",
+      "transferFromAndCall(address,address,uint256)": "d8fbe994",
+      "transferFromAndCall(address,address,uint256,bytes)": "c1d34b89"
+    }
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.1+commit.df193b15\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"approveAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"approveAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"subtractedValue\",\"type\":\"uint256\"}],\"name\":\"decreaseAllowance\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"addedValue\",\"type\":\"uint256\"}],\"name\":\"increaseAllowance\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"transferAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"transferAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"transferFromAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"transferFromAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Extension of {ERC20} tokens that adds support for code execution after transfers and approvals on recipient contracts. Calls after transfers are enabled through the {ERC1363-transferAndCall} and {ERC1363-transferFromAndCall} methods while calls after approvals can be made with {ERC1363-approveAndCall} _Available since v5.1._\",\"kind\":\"dev\",\"methods\":{\"allowance(address,address)\":{\"details\":\"See {IERC20-allowance}.\"},\"approve(address,uint256)\":{\"details\":\"See {IERC20-approve}. NOTE: If `amount` is the maximum `uint256`, the allowance is not updated on `transferFrom`. This is semantically equivalent to an infinite approval. Requirements: - `spender` cannot be the zero address.\"},\"approveAndCall(address,uint256)\":{\"details\":\"Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`. Returns a flag that indicates if the call succeeded. \\u6ca1\\u6709\\u5b9e\\u73b0 Requirements: - The target has code (i.e. is a contract). - The target `spender` must implement the {IERC1363Spender} interface. - The target must return the {IERC1363Spender-onApprovalReceived} selector to accept the approval. - The internal {approve} must succeed (returned `true`).\"},\"approveAndCall(address,uint256,bytes)\":{\"details\":\"Variant of {approveAndCall} that accepts an additional `data` parameter with no specified format. \\u6ca1\\u6709\\u5b9e\\u73b0\"},\"balanceOf(address)\":{\"details\":\"See {IERC20-balanceOf}.\"},\"decimals()\":{\"details\":\"Returns the number of decimals used to get its user representation. For example, if `decimals` equals `2`, a balance of `505` tokens should be displayed to a user as `5.05` (`505 / 10 ** 2`). Tokens usually opt for a value of 18, imitating the relationship between Ether and Wei. This is the default value returned by this function, unless it's overridden. NOTE: This information is only used for _display_ purposes: it in no way affects any of the arithmetic of the contract, including {IERC20-balanceOf} and {IERC20-transfer}.\"},\"decreaseAllowance(address,uint256)\":{\"details\":\"Atomically decreases the allowance granted to `spender` by the caller. This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}. Emits an {Approval} event indicating the updated allowance. Requirements: - `spender` cannot be the zero address. - `spender` must have allowance for the caller of at least `subtractedValue`.\"},\"increaseAllowance(address,uint256)\":{\"details\":\"Atomically increases the allowance granted to `spender` by the caller. This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}. Emits an {Approval} event indicating the updated allowance. Requirements: - `spender` cannot be the zero address.\"},\"name()\":{\"details\":\"Returns the name of the token.\"},\"symbol()\":{\"details\":\"Returns the symbol of the token, usually a shorter version of the name.\"},\"totalSupply()\":{\"details\":\"See {IERC20-totalSupply}.\"},\"transfer(address,uint256)\":{\"details\":\"See {IERC20-transfer}. Requirements: - `to` cannot be the zero address. - the caller must have a balance of at least `amount`.\"},\"transferAndCall(address,uint256)\":{\"details\":\"Moves a `value` amount of tokens from the caller's account to `to` and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates if the call succeeded. Requirements: - The target has code (i.e. is a contract). - The target `to` must implement the {IERC1363Receiver} interface. - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer. - The internal {transfer} must succeed (returned `true`).\"},\"transferAndCall(address,uint256,bytes)\":{\"details\":\"Variant of {transferAndCall} that accepts an additional `data` parameter with no specified format.\",\"params\":{\"data\":\"tokenID + buyAmount (each uint256), 64 bytes total\",\"to\":\"NFT\\u5408\\u7ea6\\u7684\\u5730\\u5740\\uff0c\\u82b1\\u8d39value\\u7684token\\u8d2d\\u4e70\\u201cbuyAmount\\u201d\\u6570\\u91cf\\u7684NFT\",\"value\":\"\\u82b1\\u8d39\\u7684token\\u6570\\u91cf\"}},\"transferFrom(address,address,uint256)\":{\"details\":\"See {IERC20-transferFrom}. Emits an {Approval} event indicating the updated allowance. This is not required by the EIP. See the note at the beginning of {ERC20}. NOTE: Does not update the allowance if the current allowance is the maximum `uint256`. Requirements: - `from` and `to` cannot be the zero address. - `from` must have a balance of at least `amount`. - the caller must have allowance for ``from``'s tokens of at least `amount`.\"},\"transferFromAndCall(address,address,uint256)\":{\"details\":\"Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates if the call succeeded. \\u6ca1\\u6709\\u5b9e\\u73b0 Requirements: - The target has code (i.e. is a contract). - The target `to` must implement the {IERC1363Receiver} interface. - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer. - The internal {transferFrom} must succeed (returned `true`).\"},\"transferFromAndCall(address,address,uint256,bytes)\":{\"details\":\"Variant of {transferFromAndCall} that accepts an additional `data` parameter with no specified format. \\u6ca1\\u6709\\u5b9e\\u73b0\"}},\"title\":\"ERC1363\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project/contracts/extensions/ERC20/ERC1363.sol\":\"ERC1363\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project/contracts/extensions/ERC20/ERC1363.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/extensions/ERC1363.sol)\\r\\n\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\nimport {ERC20} from \\\"./ERC20.sol\\\";\\r\\nimport {\\r\\n    ERC165,\\r\\n    IERC165\\r\\n} from \\\"../../openzeppelin_l/contracts/utils/introspection/ERC165.sol\\\";\\r\\nimport {IERC1363} from \\\"../../openzeppelin_l/contracts/interfaces/IERC1363.sol\\\";\\r\\nimport {ERC1363Utils} from \\\"./ERC1363Utils.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title ERC1363\\r\\n * @dev Extension of {ERC20} tokens that adds support for code execution after transfers and approvals\\r\\n * on recipient contracts. Calls after transfers are enabled through the {ERC1363-transferAndCall} and\\r\\n * {ERC1363-transferFromAndCall} methods while calls after approvals can be made with {ERC1363-approveAndCall}\\r\\n *\\r\\n * _Available since v5.1._\\r\\n */\\r\\n\\r\\nabstract contract ERC1363 is ERC165, ERC20, IERC1363 {\\r\\n    function supportsInterface(\\r\\n        bytes4 interfaceId\\r\\n    ) public view virtual override(ERC165, IERC165, ERC20) returns (bool) {\\r\\n        return\\r\\n            interfaceId == type(IERC1363).interfaceId ||\\r\\n            super.supportsInterface(interfaceId);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`\\r\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates\\r\\n     * if the call succeeded.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - The target has code (i.e. is a contract).\\r\\n     * - The target `to` must implement the {IERC1363Receiver} interface.\\r\\n     * - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer.\\r\\n     * - The internal {transfer} must succeed (returned `true`).\\r\\n     */\\r\\n    function transferAndCall(\\r\\n        address,\\r\\n        uint256\\r\\n    ) public pure override returns (bool) {\\r\\n        revert(\\\"Not allowed to be invoked\\\");\\r\\n        // return transferAndCall(to, value, \\\"\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Variant of {transferAndCall} that accepts an additional `data` parameter with\\r\\n     * no specified format.\\r\\n     * @param data tokenID + buyAmount (each uint256), 64 bytes total\\r\\n     * @param to NFT\\u5408\\u7ea6\\u7684\\u5730\\u5740\\uff0c\\u82b1\\u8d39value\\u7684token\\u8d2d\\u4e70\\u201cbuyAmount\\u201d\\u6570\\u91cf\\u7684NFT\\r\\n     * @param value \\u82b1\\u8d39\\u7684token\\u6570\\u91cf\\r\\n     */\\r\\n    function transferAndCall(\\r\\n        address to,\\r\\n        uint256 value,\\r\\n        bytes memory data\\r\\n    ) public virtual override returns (bool) {\\r\\n        // \\u68c0\\u67e5\\u6570\\u636e\\u683c\\u5f0f\\u662f\\u5426\\u6b63\\u786e\\r\\n        require(data.length == 64, \\\"ERC1363: invalid data format\\\");\\r\\n        require(transfer(to, value), \\\"ERC1363: transfer failed\\\");\\r\\n        ERC1363Utils.checkOnERC1363TransferReceived(\\r\\n            _msgSender(),\\r\\n            _msgSender(),\\r\\n            to,\\r\\n            value,\\r\\n            data\\r\\n        );\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism\\r\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`. Returns a flag that indicates\\r\\n     * if the call succeeded.\\r\\n     * \\u6ca1\\u6709\\u5b9e\\u73b0\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - The target has code (i.e. is a contract).\\r\\n     * - The target `to` must implement the {IERC1363Receiver} interface.\\r\\n     * - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer.\\r\\n     * - The internal {transferFrom} must succeed (returned `true`).\\r\\n     */\\r\\n    function transferFromAndCall(\\r\\n        address,\\r\\n        address,\\r\\n        uint256\\r\\n    ) public pure override returns (bool) {\\r\\n        revert(\\\"Not allowed to be invoked\\\");\\r\\n        // return transferFromAndCall(from, to, value, \\\"\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Variant of {transferFromAndCall} that accepts an additional `data` parameter with\\r\\n     * no specified format.\\r\\n     * \\u6ca1\\u6709\\u5b9e\\u73b0\\r\\n     */\\r\\n    function transferFromAndCall(\\r\\n        address,\\r\\n        address,\\r\\n        uint256,\\r\\n        bytes memory\\r\\n    ) public pure virtual override returns (bool) {\\r\\n        revert(\\\"Not allowed to be invoked\\\");\\r\\n        // require(transferFrom(from, to, value), \\\"ERC1363: transferFrom failed\\\");\\r\\n        // ERC1363Utils.checkOnERC1363TransferReceived(\\r\\n        //     _msgSender(),\\r\\n        //     from,\\r\\n        //     to,\\r\\n        //     value,\\r\\n        //     data\\r\\n        // );\\r\\n        // return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\r\\n     * caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`.\\r\\n     * Returns a flag that indicates if the call succeeded.\\r\\n     * \\u6ca1\\u6709\\u5b9e\\u73b0\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - The target has code (i.e. is a contract).\\r\\n     * - The target `spender` must implement the {IERC1363Spender} interface.\\r\\n     * - The target must return the {IERC1363Spender-onApprovalReceived} selector to accept the approval.\\r\\n     * - The internal {approve} must succeed (returned `true`).\\r\\n     */\\r\\n    function approveAndCall(\\r\\n        address,\\r\\n        uint256\\r\\n    ) public pure override returns (bool) {\\r\\n        revert(\\\"Not allowed to be invoked\\\");\\r\\n        // return approveAndCall(spender, value, \\\"\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Variant of {approveAndCall} that accepts an additional `data` parameter with\\r\\n     * no specified format.\\r\\n     * \\u6ca1\\u6709\\u5b9e\\u73b0\\r\\n     */\\r\\n    function approveAndCall(\\r\\n        address,\\r\\n        uint256,\\r\\n        bytes memory\\r\\n    ) public pure virtual override returns (bool) {\\r\\n        revert(\\\"Not allowed to be invoked\\\");\\r\\n        // require(approve(spender, value), \\\"ERC1363: approve failed\\\");\\r\\n        // ERC1363Utils.checkOnERC1363ApprovalReceived(\\r\\n        //     _msgSender(),\\r\\n        //     spender,\\r\\n        //     value,\\r\\n        //     data\\r\\n        // );\\r\\n        // return true;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x512947e03f64fa2ffde7d363e7dbd388c50109373209114fe9b3bb0c04b892a6\",\"license\":\"MIT\"},\"project/contracts/extensions/ERC20/ERC1363Utils.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/utils/ERC1363Utils.sol)\\r\\n\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\nimport {\\r\\n    IERC1363Receiver\\r\\n} from \\\"../../openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Library that provides common ERC-1363 utility functions.\\r\\n *\\r\\n * See https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].\\r\\n */\\r\\nlibrary ERC1363Utils {\\r\\n    /**\\r\\n     * @dev Performs a call to {IERC1363Receiver-onTransferReceived} on a target address.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - The target has code (i.e. is a contract).\\r\\n     * - The target `to` must implement the {IERC1363Receiver} interface.\\r\\n     * - The target must return the {IERC1363Receiver-onTransferReceived} selector to accept the transfer.\\r\\n     */\\r\\n    function checkOnERC1363TransferReceived(\\r\\n        address operator,\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 value,\\r\\n        bytes memory data\\r\\n    ) internal {\\r\\n        require(to.code.length != 0, \\\"ERC1363: transfer to non-contract\\\");\\r\\n\\r\\n        try\\r\\n            IERC1363Receiver(to).onTransferReceived(operator, from, value, data)\\r\\n        returns (bytes4 retval) {\\r\\n            // \\u9519\\u8bef\\u4fe1\\u606f\\u8868\\u793a\\u63a5\\u6536\\u8005\\u5408\\u7ea6\\u6ca1\\u6709\\u6b63\\u786e\\u5b9e\\u73b0\\u63a5\\u53e3IERC1363Receiver\\u6216IERC1363Spender\\r\\n            // \\u6216\\u8005\\u66f4\\u901a\\u4fd7\\u7b2c\\u8bf4\\uff0cto\\u5408\\u7ea6\\u5730\\u5740\\u4e0d\\u6b63\\u786e\\r\\n            require(\\r\\n                retval == IERC1363Receiver.onTransferReceived.selector,\\r\\n                \\\"ERC1363: to is a incorrect address\\\"\\r\\n            );\\r\\n        } catch (bytes memory reason) {\\r\\n            if (reason.length == 0) {\\r\\n                // \\u8fd9\\u91cc\\u8868\\u793a\\u63a5\\u53d7\\u8005\\uff08to\\uff09\\uff0c\\u4e0d\\u662f\\u5408\\u7ea6\\u6216\\u8005\\u6ca1\\u6709\\u5b9e\\u73b0IERC1363Receiver\\u63a5\\u53e3\\u6216IERC1363Spender\\r\\n                // \\u6216\\u8005\\u66f4\\u901a\\u4fd7\\u7684\\u8bf4\\uff0cto\\u5408\\u7ea6\\u5730\\u5740\\u4e0d\\u6b63\\u786e\\r\\n                revert(\\\"ERC1363: to is a incorrect address\\\");\\r\\n            } else {\\r\\n                assembly {\\r\\n                    revert(add(reason, 0x20), mload(reason))\\r\\n                }\\r\\n            }\\r\\n        }\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x1990f99945888d70787ceb1018b2e8375d8982b1f60336e21f38323ec4f79402\",\"license\":\"MIT\"},\"project/contracts/extensions/ERC20/ERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/ERC20.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../../openzeppelin_l/contracts/token/ERC20/IERC20.sol\\\";\\r\\nimport \\\"../../openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol\\\";\\r\\nimport \\\"../../openzeppelin_l/contracts/utils/Context.sol\\\";\\r\\nimport \\\"./Initializable.sol\\\";\\r\\nimport {\\r\\n    ERC165\\r\\n} from \\\"../../openzeppelin_l/contracts/utils/introspection/ERC165.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Implementation of the {IERC20} interface.\\r\\n *\\r\\n * This implementation is agnostic to the way tokens are created. This means\\r\\n * that a supply mechanism has to be added in a derived contract using {_mint}.\\r\\n * For a generic mechanism see {ERC20PresetMinterPauser}.\\r\\n *\\r\\n * TIP: For a detailed writeup see our guide\\r\\n * https://forum.openzeppelin.com/t/how-to-implement-erc20-supply-mechanisms/226[How\\r\\n * to implement supply mechanisms].\\r\\n *\\r\\n * The default value of {decimals} is 18. To change this, you should override\\r\\n * this function so it returns a different value.\\r\\n *\\r\\n * We have followed general OpenZeppelin Contracts guidelines: functions revert\\r\\n * instead returning `false` on failure. This behavior is nonetheless\\r\\n * conventional and does not conflict with the expectations of ERC20\\r\\n * applications.\\r\\n *\\r\\n * Additionally, an {Approval} event is emitted on calls to {transferFrom}.\\r\\n * This allows applications to reconstruct the allowance for all accounts just\\r\\n * by listening to said events. Other implementations of the EIP may not emit\\r\\n * these events, as it isn't required by the specification.\\r\\n *\\r\\n * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}\\r\\n * functions have been added to mitigate the well-known issues around setting\\r\\n * allowances. See {IERC20-approve}.\\r\\n */\\r\\ncontract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {\\r\\n    mapping(address => uint256) private _balances;\\r\\n\\r\\n    mapping(address => mapping(address => uint256)) private _allowances;\\r\\n\\r\\n    uint256 private _totalSupply;\\r\\n\\r\\n    string private _name;\\r\\n    string private _symbol;\\r\\n\\r\\n    /**\\r\\n     * @dev Sets the values for {name} and {symbol}.\\r\\n     *\\r\\n     * All two of these values are immutable: they can only be set once during\\r\\n     * construction.\\r\\n     */\\r\\n    // constructor(string memory name_, string memory symbol_) {\\r\\n    //     _name = name_;\\r\\n    //     _symbol = symbol_;\\r\\n    // }\\r\\n\\r\\n    /**\\r\\n     * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.\\r\\n     */\\r\\n    function __ERC20_init(\\r\\n        string memory name_,\\r\\n        string memory symbol_\\r\\n    ) internal onlyInitializing {\\r\\n        __ERC20_init_unchained(name_, symbol_);\\r\\n    }\\r\\n\\r\\n    // \\u6ce8\\u610f\\u4fee\\u9970\\u5668\\u4e3aonlyInitializing\\uff0c\\u610f\\u601d\\u662f\\uff0c\\u5982\\u679cB\\u5408\\u7ea6\\u88abA\\u5408\\u7ea6\\u7ee7\\u627f\\uff0cA\\u5408\\u7ea6\\u540c\\u6837\\u6709\\u521d\\u59cb\\u5316\\u51fd\\u6570\\uff0c\\r\\n    // \\u5f53A\\u5408\\u7ea6\\u4f7f\\u7528initializer\\u4fee\\u9970\\u5668\\uff0c\\u4fee\\u9970\\u5668init\\u51fd\\u6570\\u3002\\u5e76\\u4e14\\u8c03\\u7528\\u8fd9\\u4e2ainit\\u51fd\\u6570\\u4e4b\\u540e\\uff0c_initializing\\u8bbe\\u4e3atrue.\\r\\n    // \\u4f46B\\u5408\\u7ea6\\u4e5f\\u9700\\u8981\\u521d\\u59cb\\u5316\\uff0c\\u4f46\\u56e0\\u4e3aA\\u5408\\u7ea6\\u7684\\u521d\\u59cb\\u5316\\u51fd\\u6570\\u7684\\u4fee\\u9970\\u5668\\u4e3aonlyInitializing\\uff0c\\u6240\\u4ee5B\\u5408\\u7ea6\\u4e5f\\u53ef\\u4ee5\\u6b63\\u786e\\u88ab\\u521d\\u59cb\\u5316\\u6210\\u529f\\r\\n    function __ERC20_init_unchained(\\r\\n        string memory name_,\\r\\n        string memory symbol_\\r\\n    ) internal onlyInitializing {\\r\\n        _name = name_;\\r\\n        _symbol = symbol_;\\r\\n    }\\r\\n\\r\\n    function supportsInterface(\\r\\n        bytes4 interfaceId\\r\\n    ) public view virtual override(ERC165) returns (bool) {\\r\\n        return\\r\\n            interfaceId == type(IERC20).interfaceId ||\\r\\n            interfaceId == type(IERC20Metadata).interfaceId ||\\r\\n            super.supportsInterface(interfaceId);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the name of the token.\\r\\n     */\\r\\n    function name() public view virtual override returns (string memory) {\\r\\n        return _name;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the symbol of the token, usually a shorter version of the\\r\\n     * name.\\r\\n     */\\r\\n    function symbol() public view virtual override returns (string memory) {\\r\\n        return _symbol;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the number of decimals used to get its user representation.\\r\\n     * For example, if `decimals` equals `2`, a balance of `505` tokens should\\r\\n     * be displayed to a user as `5.05` (`505 / 10 ** 2`).\\r\\n     *\\r\\n     * Tokens usually opt for a value of 18, imitating the relationship between\\r\\n     * Ether and Wei. This is the default value returned by this function, unless\\r\\n     * it's overridden.\\r\\n     *\\r\\n     * NOTE: This information is only used for _display_ purposes: it in\\r\\n     * no way affects any of the arithmetic of the contract, including\\r\\n     * {IERC20-balanceOf} and {IERC20-transfer}.\\r\\n     */\\r\\n    function decimals() public view virtual override returns (uint8) {\\r\\n        return 9;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-totalSupply}.\\r\\n     */\\r\\n    function totalSupply() public view virtual override returns (uint256) {\\r\\n        return _totalSupply;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-balanceOf}.\\r\\n     */\\r\\n    function balanceOf(\\r\\n        address account\\r\\n    ) public view virtual override returns (uint256) {\\r\\n        return _balances[account];\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-transfer}.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `to` cannot be the zero address.\\r\\n     * - the caller must have a balance of at least `amount`.\\r\\n     */\\r\\n    function transfer(\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) public virtual override returns (bool) {\\r\\n        address owner = _msgSender();\\r\\n        _transfer(owner, to, amount);\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-allowance}.\\r\\n     */\\r\\n    function allowance(\\r\\n        address owner,\\r\\n        address spender\\r\\n    ) public view virtual override returns (uint256) {\\r\\n        return _allowances[owner][spender];\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-approve}.\\r\\n     *\\r\\n     * NOTE: If `amount` is the maximum `uint256`, the allowance is not updated on\\r\\n     * `transferFrom`. This is semantically equivalent to an infinite approval.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `spender` cannot be the zero address.\\r\\n     */\\r\\n    function approve(\\r\\n        address spender,\\r\\n        uint256 amount\\r\\n    ) public virtual override returns (bool) {\\r\\n        address owner = _msgSender();\\r\\n        _approve(owner, spender, amount);\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev See {IERC20-transferFrom}.\\r\\n     *\\r\\n     * Emits an {Approval} event indicating the updated allowance. This is not\\r\\n     * required by the EIP. See the note at the beginning of {ERC20}.\\r\\n     *\\r\\n     * NOTE: Does not update the allowance if the current allowance\\r\\n     * is the maximum `uint256`.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `from` and `to` cannot be the zero address.\\r\\n     * - `from` must have a balance of at least `amount`.\\r\\n     * - the caller must have allowance for ``from``'s tokens of at least\\r\\n     * `amount`.\\r\\n     */\\r\\n    function transferFrom(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) public virtual override returns (bool) {\\r\\n        address spender = _msgSender();\\r\\n        _spendAllowance(from, spender, amount);\\r\\n        _transfer(from, to, amount);\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Atomically increases the allowance granted to `spender` by the caller.\\r\\n     *\\r\\n     * This is an alternative to {approve} that can be used as a mitigation for\\r\\n     * problems described in {IERC20-approve}.\\r\\n     *\\r\\n     * Emits an {Approval} event indicating the updated allowance.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `spender` cannot be the zero address.\\r\\n     */\\r\\n    function increaseAllowance(\\r\\n        address spender,\\r\\n        uint256 addedValue\\r\\n    ) public virtual returns (bool) {\\r\\n        address owner = _msgSender();\\r\\n        _approve(owner, spender, allowance(owner, spender) + addedValue);\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Atomically decreases the allowance granted to `spender` by the caller.\\r\\n     *\\r\\n     * This is an alternative to {approve} that can be used as a mitigation for\\r\\n     * problems described in {IERC20-approve}.\\r\\n     *\\r\\n     * Emits an {Approval} event indicating the updated allowance.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `spender` cannot be the zero address.\\r\\n     * - `spender` must have allowance for the caller of at least\\r\\n     * `subtractedValue`.\\r\\n     */\\r\\n    function decreaseAllowance(\\r\\n        address spender,\\r\\n        uint256 subtractedValue\\r\\n    ) public virtual returns (bool) {\\r\\n        address owner = _msgSender();\\r\\n        uint256 currentAllowance = allowance(owner, spender);\\r\\n        require(\\r\\n            currentAllowance >= subtractedValue,\\r\\n            \\\"ERC20: decreased allowance below zero\\\"\\r\\n        );\\r\\n        unchecked {\\r\\n            _approve(owner, spender, currentAllowance - subtractedValue);\\r\\n        }\\r\\n\\r\\n        return true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Moves `amount` of tokens from `from` to `to`.\\r\\n     *\\r\\n     * This internal function is equivalent to {transfer}, and can be used to\\r\\n     * e.g. implement automatic token fees, slashing mechanisms, etc.\\r\\n     *\\r\\n     * Emits a {Transfer} event.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `from` cannot be the zero address.\\r\\n     * - `to` cannot be the zero address.\\r\\n     * - `from` must have a balance of at least `amount`.\\r\\n     */\\r\\n    function _transfer(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) internal virtual {\\r\\n        require(from != address(0), \\\"ERC20: transfer from the zero address\\\");\\r\\n        require(to != address(0), \\\"ERC20: transfer to the zero address\\\");\\r\\n\\r\\n        _beforeTokenTransfer(from, to, amount);\\r\\n\\r\\n        uint256 fromBalance = _balances[from];\\r\\n        require(\\r\\n            fromBalance >= amount,\\r\\n            \\\"ERC20: transfer amount exceeds balance\\\"\\r\\n        );\\r\\n        unchecked {\\r\\n            _balances[from] = fromBalance - amount;\\r\\n            // Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by\\r\\n            // decrementing then incrementing.\\r\\n            _balances[to] += amount;\\r\\n        }\\r\\n\\r\\n        emit Transfer(from, to, amount);\\r\\n\\r\\n        _afterTokenTransfer(from, to, amount);\\r\\n    }\\r\\n\\r\\n    /** @dev Creates `amount` tokens and assigns them to `account`, increasing\\r\\n     * the total supply.\\r\\n     *\\r\\n     * Emits a {Transfer} event with `from` set to the zero address.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `account` cannot be the zero address.\\r\\n     */\\r\\n    function _mint(address account, uint256 amount) internal virtual {\\r\\n        require(account != address(0), \\\"ERC20: mint to the zero address\\\");\\r\\n\\r\\n        _beforeTokenTransfer(address(0), account, amount);\\r\\n\\r\\n        _totalSupply += amount;\\r\\n        unchecked {\\r\\n            // Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.\\r\\n            _balances[account] += amount;\\r\\n        }\\r\\n        emit Transfer(address(0), account, amount);\\r\\n\\r\\n        _afterTokenTransfer(address(0), account, amount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Destroys `amount` tokens from `account`, reducing the\\r\\n     * total supply.\\r\\n     *\\r\\n     * Emits a {Transfer} event with `to` set to the zero address.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `account` cannot be the zero address.\\r\\n     * - `account` must have at least `amount` tokens.\\r\\n     */\\r\\n    function _burn(address account, uint256 amount) internal virtual {\\r\\n        require(account != address(0), \\\"ERC20: burn from the zero address\\\");\\r\\n\\r\\n        _beforeTokenTransfer(account, address(0), amount);\\r\\n\\r\\n        uint256 accountBalance = _balances[account];\\r\\n        require(accountBalance >= amount, \\\"ERC20: burn amount exceeds balance\\\");\\r\\n        unchecked {\\r\\n            _balances[account] = accountBalance - amount;\\r\\n            // Overflow not possible: amount <= accountBalance <= totalSupply.\\r\\n            _totalSupply -= amount;\\r\\n        }\\r\\n\\r\\n        emit Transfer(account, address(0), amount);\\r\\n\\r\\n        _afterTokenTransfer(account, address(0), amount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Sets `amount` as the allowance of `spender` over the `owner` s tokens.\\r\\n     *\\r\\n     * This internal function is equivalent to `approve`, and can be used to\\r\\n     * e.g. set automatic allowances for certain subsystems, etc.\\r\\n     *\\r\\n     * Emits an {Approval} event.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `owner` cannot be the zero address.\\r\\n     * - `spender` cannot be the zero address.\\r\\n     */\\r\\n    function _approve(\\r\\n        address owner,\\r\\n        address spender,\\r\\n        uint256 amount\\r\\n    ) internal virtual {\\r\\n        require(owner != address(0), \\\"ERC20: approve from the zero address\\\");\\r\\n        require(spender != address(0), \\\"ERC20: approve to the zero address\\\");\\r\\n\\r\\n        _allowances[owner][spender] = amount;\\r\\n        emit Approval(owner, spender, amount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Updates `owner` s allowance for `spender` based on spent `amount`.\\r\\n     *\\r\\n     * Does not update the allowance amount in case of infinite allowance.\\r\\n     * Revert if not enough allowance is available.\\r\\n     *\\r\\n     * Might emit an {Approval} event.\\r\\n     */\\r\\n    function _spendAllowance(\\r\\n        address owner,\\r\\n        address spender,\\r\\n        uint256 amount\\r\\n    ) internal virtual {\\r\\n        uint256 currentAllowance = allowance(owner, spender);\\r\\n        if (currentAllowance != type(uint256).max) {\\r\\n            require(\\r\\n                currentAllowance >= amount,\\r\\n                \\\"ERC20: insufficient allowance\\\"\\r\\n            );\\r\\n            unchecked {\\r\\n                _approve(owner, spender, currentAllowance - amount);\\r\\n            }\\r\\n        }\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Hook that is called before any transfer of tokens. This includes\\r\\n     * minting and burning.\\r\\n     *\\r\\n     * Calling conditions:\\r\\n     *\\r\\n     * - when `from` and `to` are both non-zero, `amount` of ``from``'s tokens\\r\\n     * will be transferred to `to`.\\r\\n     * - when `from` is zero, `amount` tokens will be minted for `to`.\\r\\n     * - when `to` is zero, `amount` of ``from``'s tokens will be burned.\\r\\n     * - `from` and `to` are never both zero.\\r\\n     *\\r\\n     * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].\\r\\n     */\\r\\n    function _beforeTokenTransfer(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) internal virtual {}\\r\\n\\r\\n    /**\\r\\n     * @dev Hook that is called after any transfer of tokens. This includes\\r\\n     * minting and burning.\\r\\n     *\\r\\n     * Calling conditions:\\r\\n     *\\r\\n     * - when `from` and `to` are both non-zero, `amount` of ``from``'s tokens\\r\\n     * has been transferred to `to`.\\r\\n     * - when `from` is zero, `amount` tokens have been minted for `to`.\\r\\n     * - when `to` is zero, `amount` of ``from``'s tokens have been burned.\\r\\n     * - `from` and `to` are never both zero.\\r\\n     *\\r\\n     * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].\\r\\n     */\\r\\n    function _afterTokenTransfer(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) internal virtual {}\\r\\n}\\r\\n\",\"keccak256\":\"0x7d7f25d2831d69fa70e6f86de6e23015a3a0955750f5e062bd317ceb50a97c7d\",\"license\":\"MIT\"},\"project/contracts/extensions/ERC20/Initializable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.5.0) (proxy/utils/Initializable.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../../openzeppelin_l/contracts/utils/Address.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed\\r\\n * behind a proxy. Since proxied contracts do not make use of a constructor, it's common to move constructor logic to an\\r\\n * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer\\r\\n * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.\\r\\n *\\r\\n * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as\\r\\n * possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}.\\r\\n *\\r\\n * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure\\r\\n * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.\\r\\n *\\r\\n * [CAUTION]\\r\\n * ====\\r\\n * Avoid leaving a contract uninitialized.\\r\\n *\\r\\n * An uninitialized contract can be taken over by an attacker. This applies to both a proxy and its implementation\\r\\n * contract, which may impact the proxy. To initialize the implementation contract, you can either invoke the\\r\\n * initializer manually, or you can include a constructor to automatically mark it as initialized when it is deployed:\\r\\n *\\r\\n * [.hljs-theme-light.nopadding]\\r\\n * ====\\r\\n */\\r\\nabstract contract Initializable {\\r\\n    /**\\r\\n     * @dev Indicates that the contract has been initialized.\\r\\n     */\\r\\n    bool private _initialized;\\r\\n\\r\\n    /**\\r\\n     * @dev Indicates that the contract is in the process of being initialized.\\r\\n     */\\r\\n    bool private _initializing;\\r\\n\\r\\n    /**\\r\\n     * @dev Modifier to protect an initializer function from being invoked twice.\\r\\n     */\\r\\n    modifier initializer() {\\r\\n        // If the contract is initializing we ignore whether _initialized is set in order to support multiple\\r\\n        // inheritance patterns, but we only do this in the context of a constructor, because in other contexts the\\r\\n        // contract may have been reentered.\\r\\n        require(\\r\\n            _initializing ? _isConstructor() : !_initialized,\\r\\n            \\\"Initializable: contract is already initialized\\\"\\r\\n        );\\r\\n\\r\\n        bool isTopLevelCall = !_initializing;\\r\\n        if (isTopLevelCall) {\\r\\n            _initializing = true;\\r\\n            _initialized = true;\\r\\n        }\\r\\n\\r\\n        _;\\r\\n\\r\\n        if (isTopLevelCall) {\\r\\n            _initializing = false;\\r\\n        }\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Modifier to protect an initialization function so that it can only be invoked by functions with the\\r\\n     * {initializer} modifier, directly or indirectly.\\r\\n     */\\r\\n    modifier onlyInitializing() {\\r\\n        require(_initializing, \\\"Initializable: contract is not initializing\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    function _isConstructor() private view returns (bool) {\\r\\n        // \\u5982\\u679c\\u662f\\u5408\\u7ea6\\u7684\\u8bdd\\u8fd4\\u56defalse\\r\\n        return !Address.isContract(address(this));\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x19500c59dbb60f22baf0399020b14e0de2c65b1ebab28958188363f312a75426\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/interfaces/IERC1363.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.0) (interfaces/IERC1363.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"./IERC20.sol\\\";\\r\\nimport \\\"./IERC165.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Interface of an ERC1363 compliant contract, as defined in the\\r\\n * https://eips.ethereum.org/EIPS/eip-1363[EIP].\\r\\n *\\r\\n * Defines a interface for ERC20 tokens that supports executing recipient\\r\\n * code after `transfer` or `transferFrom`, or spender code after `approve`.\\r\\n */\\r\\ninterface IERC1363 is IERC165, IERC20 {\\r\\n    /*\\r\\n     * Note: the ERC-165 identifier for this interface is 0xb0202a11.\\r\\n     * 0xb0202a11 ===\\r\\n     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^\\r\\n     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^\\r\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^\\r\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)')) ^\\r\\n     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^\\r\\n     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))\\r\\n     */\\r\\n\\r\\n    /**\\r\\n     * @dev Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver\\r\\n     * @param to address The address which you want to transfer to\\r\\n     * @param amount uint256 The amount of tokens to be transferred\\r\\n     * @return true unless throwing\\r\\n     */\\r\\n    function transferAndCall(\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver\\r\\n     * @param to address The address which you want to transfer to\\r\\n     * @param amount uint256 The amount of tokens to be transferred\\r\\n     * @param data bytes Additional data with no specified format, sent in call to `to`\\r\\n     * @return true unless throwing\\r\\n     */\\r\\n    function transferAndCall(\\r\\n        address to,\\r\\n        uint256 amount,\\r\\n        bytes memory data\\r\\n    ) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Transfer tokens from one address to another and then call `onTransferReceived` on receiver\\r\\n     * @param from address The address which you want to send tokens from\\r\\n     * @param to address The address which you want to transfer to\\r\\n     * @param amount uint256 The amount of tokens to be transferred\\r\\n     * @return true unless throwing\\r\\n     */\\r\\n    function transferFromAndCall(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Transfer tokens from one address to another and then call `onTransferReceived` on receiver\\r\\n     * @param from address The address which you want to send tokens from\\r\\n     * @param to address The address which you want to transfer to\\r\\n     * @param amount uint256 The amount of tokens to be transferred\\r\\n     * @param data bytes Additional data with no specified format, sent in call to `to`\\r\\n     * @return true unless throwing\\r\\n     */\\r\\n    function transferFromAndCall(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount,\\r\\n        bytes memory data\\r\\n    ) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender\\r\\n     * and then call `onApprovalReceived` on spender.\\r\\n     * @param spender address The address which will spend the funds\\r\\n     * @param amount uint256 The amount of tokens to be spent\\r\\n     */\\r\\n    function approveAndCall(\\r\\n        address spender,\\r\\n        uint256 amount\\r\\n    ) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender\\r\\n     * and then call `onApprovalReceived` on spender.\\r\\n     * @param spender address The address which will spend the funds\\r\\n     * @param amount uint256 The amount of tokens to be spent\\r\\n     * @param data bytes Additional data with no specified format, sent in call to `spender`\\r\\n     */\\r\\n    function approveAndCall(\\r\\n        address spender,\\r\\n        uint256 amount,\\r\\n        bytes memory data\\r\\n    ) external returns (bool);\\r\\n}\\r\\n\",\"keccak256\":\"0x3cd3e6ab33a4f5205d8dacedc538c7b8c8104439c2be4d5de5d136267fc54faa\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.0) (interfaces/IERC1363Receiver.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Interface for any contract that wants to support {IERC1363-transferAndCall}\\r\\n * or {IERC1363-transferFromAndCall} from {ERC1363} token contracts.\\r\\n */\\r\\ninterface IERC1363Receiver {\\r\\n    /*\\r\\n     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.\\r\\n     * 0x88a7ca5c === bytes4(keccak256(\\\"onTransferReceived(address,address,uint256,bytes)\\\"))\\r\\n     */\\r\\n\\r\\n    /**\\r\\n     * @notice Handle the receipt of ERC1363 tokens\\r\\n     * @dev Any ERC1363 smart contract calls this function on the recipient\\r\\n     * after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the\\r\\n     * transfer. Return of other than the magic value MUST result in the\\r\\n     * transaction being reverted.\\r\\n     * Note: the token contract address is always the message sender.\\r\\n     * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function\\r\\n     * @param from address The address which are token transferred from\\r\\n     * @param amount uint256 The amount of tokens transferred\\r\\n     * @param data bytes Additional data with no specified format\\r\\n     * @return `bytes4(keccak256(\\\"onTransferReceived(address,address,uint256,bytes)\\\"))` unless throwing\\r\\n     */\\r\\n    function onTransferReceived(\\r\\n        address operator,\\r\\n        address from,\\r\\n        uint256 amount,\\r\\n        bytes memory data\\r\\n    ) external returns (bytes4);\\r\\n}\\r\\n\",\"keccak256\":\"0xc149a479b8c794103eeb3c93fa50226aa0eee57d42e38c16a898d9a9d3beff9e\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/interfaces/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (interfaces/IERC165.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../utils/introspection/IERC165.sol\\\";\\r\\n\",\"keccak256\":\"0x8045f7d526dd93c933f0f46b1637bace1ecb8282f150e004ada0bda898f8715f\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/interfaces/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (interfaces/IERC20.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../token/ERC20/IERC20.sol\\\";\\r\\n\",\"keccak256\":\"0x704c9b04b6cdd778ac5ac4bc8e9b37aeda16730c99c8980224fff2938190f82a\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/IERC20.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\r\\n */\\r\\ninterface IERC20 {\\r\\n    /**\\r\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\r\\n     * another (`to`).\\r\\n     *\\r\\n     * Note that `value` may be zero.\\r\\n     */\\r\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\r\\n\\r\\n    /**\\r\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\r\\n     * a call to {approve}. `value` is the new allowance.\\r\\n     */\\r\\n    event Approval(\\r\\n        address indexed owner,\\r\\n        address indexed spender,\\r\\n        uint256 value\\r\\n    );\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the amount of tokens in existence.\\r\\n     */\\r\\n    function totalSupply() external view returns (uint256);\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the amount of tokens owned by `account`.\\r\\n     */\\r\\n    function balanceOf(address account) external view returns (uint256);\\r\\n\\r\\n    /**\\r\\n     * @dev Moves `amount` tokens from the caller's account to `to`.\\r\\n     *\\r\\n     * Returns a boolean value indicating whether the operation succeeded.\\r\\n     *\\r\\n     * Emits a {Transfer} event.\\r\\n     */\\r\\n    function transfer(address to, uint256 amount) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the remaining number of tokens that `spender` will be\\r\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\r\\n     * zero by default.\\r\\n     *\\r\\n     * This value changes when {approve} or {transferFrom} are called.\\r\\n     */\\r\\n    function allowance(\\r\\n        address owner,\\r\\n        address spender\\r\\n    ) external view returns (uint256);\\r\\n\\r\\n    /**\\r\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\r\\n     *\\r\\n     * Returns a boolean value indicating whether the operation succeeded.\\r\\n     *\\r\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\r\\n     * that someone may use both the old and the new allowance by unfortunate\\r\\n     * transaction ordering. One possible solution to mitigate this race\\r\\n     * condition is to first reduce the spender's allowance to 0 and set the\\r\\n     * desired value afterwards:\\r\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\r\\n     *\\r\\n     * Emits an {Approval} event.\\r\\n     */\\r\\n    function approve(address spender, uint256 amount) external returns (bool);\\r\\n\\r\\n    /**\\r\\n     * @dev Moves `amount` tokens from `from` to `to` using the\\r\\n     * allowance mechanism. `amount` is then deducted from the caller's\\r\\n     * allowance.\\r\\n     *\\r\\n     * Returns a boolean value indicating whether the operation succeeded.\\r\\n     *\\r\\n     * Emits a {Transfer} event.\\r\\n     */\\r\\n    function transferFrom(\\r\\n        address from,\\r\\n        address to,\\r\\n        uint256 amount\\r\\n    ) external returns (bool);\\r\\n}\\r\\n\",\"keccak256\":\"0x0daeecf13274cee034f010e0b6d63166eae133e1b0f6f5ca1e6ade67b16c5808\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/token/ERC20/extensions/IERC20Metadata.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (token/ERC20/extensions/IERC20Metadata.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../IERC20.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Interface for the optional metadata functions from the ERC20 standard.\\r\\n *\\r\\n * _Available since v4.1._\\r\\n */\\r\\ninterface IERC20Metadata is IERC20 {\\r\\n    /**\\r\\n     * @dev Returns the name of the token.\\r\\n     */\\r\\n    function name() external view returns (string memory);\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the symbol of the token.\\r\\n     */\\r\\n    function symbol() external view returns (string memory);\\r\\n\\r\\n    /**\\r\\n     * @dev Returns the decimals places of the token.\\r\\n     */\\r\\n    function decimals() external view returns (uint8);\\r\\n}\\r\\n\",\"keccak256\":\"0x0270cb4e50d6bcdd780df229606076d39df796860d266b5426f374c36f34fe89\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.5.0) (utils/Address.sol)\\r\\n\\r\\npragma solidity ^0.8.1;\\r\\n\\r\\n/**\\r\\n * @dev Collection of functions related to the address type\\r\\n */\\r\\nlibrary Address {\\r\\n    /**\\r\\n     * @dev Returns true if `account` is a contract.\\r\\n     *\\r\\n     * [IMPORTANT]\\r\\n     * ====\\r\\n     * It is unsafe to assume that an address for which this function returns\\r\\n     * false is an externally-owned account (EOA) and not a contract.\\r\\n     *\\r\\n     * Among others, `isContract` will return false for the following\\r\\n     * types of addresses:\\r\\n     *\\r\\n     *  - an externally-owned account\\r\\n     *  - a contract in construction\\r\\n     *  - an address where a contract will be created\\r\\n     *  - an address where a contract lived, but was destroyed\\r\\n     * ====\\r\\n     *\\r\\n     * [IMPORTANT]\\r\\n     * ====\\r\\n     * You shouldn't rely on `isContract` to protect against flash loan attacks!\\r\\n     *\\r\\n     * Preventing calls from contracts is highly discouraged. It breaks composability, breaks support for smart wallets\\r\\n     * like Gnosis Safe, and does not provide security since it can be circumvented by calling from a contract\\r\\n     * constructor.\\r\\n     * ====\\r\\n     */\\r\\n    function isContract(address account) internal view returns (bool) {\\r\\n        // This method relies on extcodesize/address.code.length, which returns 0\\r\\n        // for contracts in construction, since the code is only stored at the end\\r\\n        // of the constructor execution.\\r\\n\\r\\n        return account.code.length > 0;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Replacement for Solidity's `transfer`: sends `amount` wei to\\r\\n     * `recipient`, forwarding all available gas and reverting on errors.\\r\\n     *\\r\\n     * https://eips.ethereum.org/EIPS/eip-1884[EIP1884] increases the gas cost\\r\\n     * of certain opcodes, possibly making contracts go over the 2300 gas limit\\r\\n     * imposed by `transfer`, making them unable to receive funds via\\r\\n     * `transfer`. {sendValue} removes this limitation.\\r\\n     *\\r\\n     * https://diligence.consensys.net/posts/2019/09/stop-using-soliditys-transfer-now/[Learn more].\\r\\n     *\\r\\n     * IMPORTANT: because control is transferred to `recipient`, care must be\\r\\n     * taken to not create reentrancy vulnerabilities. Consider using\\r\\n     * {ReentrancyGuard} or the\\r\\n     * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].\\r\\n     */\\r\\n    function sendValue(address payable recipient, uint256 amount) internal {\\r\\n        require(address(this).balance >= amount, \\\"Address: insufficient balance\\\");\\r\\n\\r\\n        (bool success, ) = recipient.call{value: amount}(\\\"\\\");\\r\\n        require(success, \\\"Address: unable to send value, recipient may have reverted\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Performs a Solidity function call using a low level `call`. A\\r\\n     * plain `call` is an unsafe replacement for a function call: use this\\r\\n     * function instead.\\r\\n     *\\r\\n     * If `target` reverts with a revert reason, it is bubbled up by this\\r\\n     * function (like regular Solidity function calls).\\r\\n     *\\r\\n     * Returns the raw returned data. To convert to the expected return value,\\r\\n     * use https://solidity.readthedocs.io/en/latest/units-and-global-variables.html?highlight=abi.decode#abi-encoding-and-decoding-functions[`abi.decode`].\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - `target` must be a contract.\\r\\n     * - calling `target` with `data` must not revert.\\r\\n     *\\r\\n     * _Available since v3.1._\\r\\n     */\\r\\n    function functionCall(address target, bytes memory data) internal returns (bytes memory) {\\r\\n        return functionCall(target, data, \\\"Address: low-level call failed\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`], but with\\r\\n     * `errorMessage` as a fallback revert reason when `target` reverts.\\r\\n     *\\r\\n     * _Available since v3.1._\\r\\n     */\\r\\n    function functionCall(\\r\\n        address target,\\r\\n        bytes memory data,\\r\\n        string memory errorMessage\\r\\n    ) internal returns (bytes memory) {\\r\\n        return functionCallWithValue(target, data, 0, errorMessage);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],\\r\\n     * but also transferring `value` wei to `target`.\\r\\n     *\\r\\n     * Requirements:\\r\\n     *\\r\\n     * - the calling contract must have an ETH balance of at least `value`.\\r\\n     * - the called Solidity function must be `payable`.\\r\\n     *\\r\\n     * _Available since v3.1._\\r\\n     */\\r\\n    function functionCallWithValue(\\r\\n        address target,\\r\\n        bytes memory data,\\r\\n        uint256 value\\r\\n    ) internal returns (bytes memory) {\\r\\n        return functionCallWithValue(target, data, value, \\\"Address: low-level call with value failed\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCallWithValue-address-bytes-uint256-}[`functionCallWithValue`], but\\r\\n     * with `errorMessage` as a fallback revert reason when `target` reverts.\\r\\n     *\\r\\n     * _Available since v3.1._\\r\\n     */\\r\\n    function functionCallWithValue(\\r\\n        address target,\\r\\n        bytes memory data,\\r\\n        uint256 value,\\r\\n        string memory errorMessage\\r\\n    ) internal returns (bytes memory) {\\r\\n        require(address(this).balance >= value, \\\"Address: insufficient balance for call\\\");\\r\\n        require(isContract(target), \\\"Address: call to non-contract\\\");\\r\\n\\r\\n        (bool success, bytes memory returndata) = target.call{value: value}(data);\\r\\n        return verifyCallResult(success, returndata, errorMessage);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],\\r\\n     * but performing a static call.\\r\\n     *\\r\\n     * _Available since v3.3._\\r\\n     */\\r\\n    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {\\r\\n        return functionStaticCall(target, data, \\\"Address: low-level static call failed\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-string-}[`functionCall`],\\r\\n     * but performing a static call.\\r\\n     *\\r\\n     * _Available since v3.3._\\r\\n     */\\r\\n    function functionStaticCall(\\r\\n        address target,\\r\\n        bytes memory data,\\r\\n        string memory errorMessage\\r\\n    ) internal view returns (bytes memory) {\\r\\n        require(isContract(target), \\\"Address: static call to non-contract\\\");\\r\\n\\r\\n        (bool success, bytes memory returndata) = target.staticcall(data);\\r\\n        return verifyCallResult(success, returndata, errorMessage);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],\\r\\n     * but performing a delegate call.\\r\\n     *\\r\\n     * _Available since v3.4._\\r\\n     */\\r\\n    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory) {\\r\\n        return functionDelegateCall(target, data, \\\"Address: low-level delegate call failed\\\");\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Same as {xref-Address-functionCall-address-bytes-string-}[`functionCall`],\\r\\n     * but performing a delegate call.\\r\\n     *\\r\\n     * _Available since v3.4._\\r\\n     */\\r\\n    function functionDelegateCall(\\r\\n        address target,\\r\\n        bytes memory data,\\r\\n        string memory errorMessage\\r\\n    ) internal returns (bytes memory) {\\r\\n        require(isContract(target), \\\"Address: delegate call to non-contract\\\");\\r\\n\\r\\n        (bool success, bytes memory returndata) = target.delegatecall(data);\\r\\n        return verifyCallResult(success, returndata, errorMessage);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Tool to verifies that a low level call was successful, and revert if it wasn't, either by bubbling the\\r\\n     * revert reason using the provided one.\\r\\n     *\\r\\n     * _Available since v4.3._\\r\\n     */\\r\\n    function verifyCallResult(\\r\\n        bool success,\\r\\n        bytes memory returndata,\\r\\n        string memory errorMessage\\r\\n    ) internal pure returns (bytes memory) {\\r\\n        if (success) {\\r\\n            return returndata;\\r\\n        } else {\\r\\n            // Look for revert reason and bubble it up if present\\r\\n            if (returndata.length > 0) {\\r\\n                // The easiest way to bubble the revert reason is using memory via assembly\\r\\n\\r\\n                assembly {\\r\\n                    let returndata_size := mload(returndata)\\r\\n                    revert(add(32, returndata), returndata_size)\\r\\n                }\\r\\n            } else {\\r\\n                revert(errorMessage);\\r\\n            }\\r\\n        }\\r\\n    }\\r\\n}\",\"keccak256\":\"0x4f82ac554df2b88092b0dff60e01918ddb7b4d34935150ad5a82c03ce83ed225\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts (last updated v4.9.4) (utils/Context.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Provides information about the current execution context, including the\\r\\n * sender of the transaction and its data. While these are generally available\\r\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\r\\n * manner, since when dealing with meta-transactions the account sending and\\r\\n * paying for execution may not be the actual sender (as far as an application\\r\\n * is concerned).\\r\\n *\\r\\n * This contract is only required for intermediate, library-like contracts.\\r\\n */\\r\\nabstract contract Context {\\r\\n    function _msgSender() internal view virtual returns (address) {\\r\\n        return msg.sender;\\r\\n    }\\r\\n\\r\\n    function _msgData() internal view virtual returns (bytes calldata) {\\r\\n        return msg.data;\\r\\n    }\\r\\n\\r\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\r\\n        return 0;\\r\\n    }\\r\\n}\",\"keccak256\":\"0xef320168c89f0928606f4baf62131f67a759b0aed0ea445871758821a8c37b99\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/introspection/ERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"./IERC165.sol\\\";\\r\\n\\r\\n/**\\r\\n * @dev Implementation of the {IERC165} interface.\\r\\n *\\r\\n * Contracts that want to implement ERC165 should inherit from this contract and override {supportsInterface} to check\\r\\n * for the additional interface id that will be supported. For example:\\r\\n *\\r\\n * ```solidity\\r\\n * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\\r\\n *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);\\r\\n * }\\r\\n * ```\\r\\n *\\r\\n * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.\\r\\n */\\r\\nabstract contract ERC165 is IERC165 {\\r\\n    /**\\r\\n     * @dev See {IERC165-supportsInterface}.\\r\\n     */\\r\\n    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\\r\\n        return interfaceId == type(IERC165).interfaceId;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x3d3fe7b1901114d50828f5c77ba7f09a2a6a65223620c837364d31b60e5982ac\",\"license\":\"MIT\"},\"project/contracts/openzeppelin_l/contracts/utils/introspection/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)\\r\\n\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\n/**\\r\\n * @dev Interface of the ERC165 standard, as defined in the\\r\\n * https://eips.ethereum.org/EIPS/eip-165[EIP].\\r\\n *\\r\\n * Implementers can declare support of contract interfaces, which can then be\\r\\n * queried by others ({ERC165Checker}).\\r\\n *\\r\\n * For an implementation, see {ERC165}.\\r\\n */\\r\\ninterface IERC165 {\\r\\n    /**\\r\\n     * @dev Returns true if this contract implements the interface defined by\\r\\n     * `interfaceId`. See the corresponding\\r\\n     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section]\\r\\n     * to learn more about how these ids are created.\\r\\n     *\\r\\n     * This function call must use less than 30 000 gas.\\r\\n     */\\r\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\r\\n}\\r\\n\",\"keccak256\":\"0x540685d7ece3faa56f38253270ff11b18e63949fb8659c408123b1874674492e\",\"license\":\"MIT\"}},\"version\":1}",
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3878,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_initialized",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 3881,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_initializing",
+        "offset": 1,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 3254,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_balances",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 3260,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_allowances",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+      },
+      {
+        "astId": 3262,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_totalSupply",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 3264,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_name",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 3266,
+        "contract": "project/contracts/extensions/ERC20/ERC1363.sol:ERC1363",
+        "label": "_symbol",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_string_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => mapping(address => uint256))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_address,t_uint256)"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+};
