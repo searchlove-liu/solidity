@@ -323,7 +323,6 @@ contract batchURIAndId is MyToken {
 
                 NFTs[uint256(j + int256(gap))] = temp;
             }
-
             gap /= 3; // 缩小间隔
         }
 

@@ -13,6 +13,12 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
     mapping(uint256 => mapping(address => mapping(uint256 => uint256)))
         private _mintTimes;
 
+    event TokenEditionMinted(
+        address indexed to,
+        uint256 indexed tokenId,
+        uint256 editionId,
+        uint256 mintedAt
+    );
     // test _mintTimes
     function getNftMintTime(
         uint256 tokenId,
@@ -90,10 +96,13 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
     ) internal virtual override(TCF_ERC1155) {
         uint256 currentTime = block.timestamp;
         for (uint256 i = 0; i < amount; i++) {
+            uint256 editionId = _nextTokenId[id] + i;
             // 记录mintTime
-            _mintTimes[id][account][_nextTokenId[id] + i] = currentTime;
+            _mintTimes[id][account][editionId] = currentTime;
             // 记录ownedTokenIds
-            _ownedTokenIds[account][id].push(_nextTokenId[id] + i);
+            _ownedTokenIds[account][id].push(editionId);
+
+            emit TokenEditionMinted(account, id, editionId, currentTime);
         }
         super._mint(account, id, amount, data);
     }

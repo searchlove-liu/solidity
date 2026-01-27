@@ -14,10 +14,15 @@ import {
 import {
     IERC1363Receiver
 } from "./openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol";
+import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
-// TODO: 设置提款地址，修改提款地址，自动将TC转入提款地址
 // TODO: 设置重入攻击防护
-contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
+contract TCF_NFT is
+    IERC1363Receiver,
+    TCF_ERC1155URIStorage,
+    BinaryTree,
+    Pausable
+{
     // 1、用户mint
     // (4):mint时获取上一区块的创建时间作为NFT的创建时间。
     // (1):在erc1155合约中，定义tcf_mint函数，函数通过call和tcf地址调用授权函数，然后再转TCF，最后再调用mint函数。
@@ -35,11 +40,32 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
     address public withdrawAddress;
     uint8 public withdrawAddress_initialized;
 
+    event NFTPurchasedWithTC(
+        address indexed buyer,
+        uint256 indexed tokenId,
+        uint256 amount,
+        uint256 pricePerUnit
+    );
+
+    event NFTPurchasedWithToken(
+        address indexed buyer,
+        address indexed paymentToken,
+        uint256 indexed tokenId,
+        uint256 amount,
+        uint256 pricePerUnit
+    );
+
+    event WithdrawAddressUpdated(
+        address indexed operator,
+        address indexed previousAddress,
+        address indexed newAddress
+    );
+
     function buyNFTByTC(
         address account,
         uint256 id,
         uint256 buyAmount
-    ) public payable {
+    ) public payable whenNotPaused {
         require(
             withdrawAddress_initialized == 1,
             "WITHDRAW_ADDR_NOT_INITIALIZED"
@@ -56,6 +82,7 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
             "INCORRECT_FUNDS"
         );
         _mint(account, id, buyAmount, "");
+        emit NFTPurchasedWithTC(account, id, buyAmount, nftPrice);
 
         (bool success, ) = withdrawAddress.call{value: msg.value}("");
         require(success, "TC_TRANSFER_FAILED");
@@ -67,7 +94,7 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
         address from,
         uint256 amount,
         bytes memory data
-    ) external override returns (bytes4) {
+    ) external override whenNotPaused returns (bytes4) {
         require(
             withdrawAddress_initialized == 1,
             "WITHDRAW_ADDR_NOT_INITIALIZED"
@@ -97,6 +124,13 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
             "INCORRECT_FUNDS"
         );
         _mint(from, tokenId, buyAmount, "");
+        emit NFTPurchasedWithToken(
+            from,
+            tokenAddress,
+            tokenId,
+            buyAmount,
+            nftPrice
+        );
         return IERC1363Receiver.onTransferReceived.selector;
     }
 
@@ -104,10 +138,12 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
     function setWithdrawAddress(address addr) external onlyOwner {
         require(addr != address(0), "ZERO_ADDRESS");
         require(addr.code.length == 0, "ADDRESS_IS_CONTRACT");
+        address previousAddress = withdrawAddress;
         withdrawAddress = addr;
         if (withdrawAddress_initialized == 0) {
             withdrawAddress_initialized = 1;
         }
+        emit WithdrawAddressUpdated(msg.sender, previousAddress, addr);
     }
 
     function _mint(
@@ -153,5 +189,15 @@ contract TCF_NFT is IERC1363Receiver, TCF_ERC1155URIStorage, BinaryTree {
         return
             interfaceId == type(IERC1363Receiver).interfaceId ||
             super.supportsInterface(interfaceId);
+    }
+
+    // 合约暂停
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    // 合约解除暂停
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }

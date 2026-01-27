@@ -54,7 +54,8 @@ abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, Ownable, utils {
      * @dev Sets `baseURI` as the `_baseURI` for all tokens
      * Only callable by the owner.可以被设置多次
      */
-    //  todo :将string改为bytes
+    // 如果代码量允许，可以删除onlyOwner修饰器，修饰器改为internal，在TCF_NFT中覆写，然后加上onlyOwner修饰器
+    // 因为那样更容易扩展
     function setBaseURI(bytes[6] memory baseURI) external virtual onlyOwner {
         for (uint256 i = 0; i < 6; i++) {
             _baseURI[i] = string(baseURI[i]);

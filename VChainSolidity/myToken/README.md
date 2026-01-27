@@ -28,5 +28,5 @@
 运行本地节点：npx hardhat node
 编译：npx hardhat compile   生成generated目录。
 
-
-
+### node版本
+24.11.0

@@ -6,6 +6,7 @@ import { hexToNumber } from "./utils/stringToHex.ts";
 import { getPrices, zeroAddress, getErrorPrices } from "./price.ts";
 import { stringToHexString, numberTo32ByteHex } from "./utils/stringToHex.ts";
 import { baseURI } from "./baseURI.ts";
+import { parseAbiItem } from "viem";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
 let { env, namedAccounts, TCF1, TCF2, TCF_NFT } =
@@ -503,6 +504,59 @@ describe("TCF_NFT 合约测试", function () {
         namedAccounts.admin2.toLocaleLowerCase(),
       );
     });
+
+    // 测试暂停后无法使用tc购买
+    it("测试暂停后无法使用tc购买", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "buyNFTByTC",
+          args: [namedAccounts.admin1, 1n, 1n],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+    });
+
+    // 测试getUserTokenIds
+    it("测试 getUserTokenIds 方法", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [namedAccounts.deployer, 2n, 3n],
+        account: namedAccounts.deployer,
+        value: 9n,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [namedAccounts.deployer, 2n, 3n],
+        account: namedAccounts.deployer,
+        value: 9n,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "getUserTokenIds",
+          args: [namedAccounts.deployer, 2n],
+        }),
+      ).to.deep.equal([0n, 1n, 2n, 3n, 4n, 5n]);
+    });
   });
 
   // 测试使用DCT购买NFT
@@ -841,6 +895,54 @@ describe("TCF_NFT 合约测试", function () {
       ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
     });
 
+    // TCF_NFT暂停
+    it("正确测试，检测余额", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      // 代表购买第4类NFT，数量为4
+      let data = numberTo32ByteHex(3);
+      data += numberTo32ByteHex(4).slice(2);
+
+      await expect(
+        env.execute(TCF1, {
+          functionName: "transferAndCall",
+          args: [TCF_NFT.address, 16n, data as `0x${string}`],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+
+      await env.execute(TCF_NFT, {
+        functionName: "unpause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF1, {
+        functionName: "transferAndCall",
+        args: [TCF_NFT.address, 16n, data as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      // 检查余额
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 3n],
+          account: namedAccounts.deployer,
+        }),
+      ).to.equal(4n);
+    });
+
     // 检查有哪些可写的函数
     it("检查未初始化函数，获取价格", async function () {
       // const writableFunctions = await env.execute(TCF_NFT, {
@@ -877,6 +979,116 @@ describe("TCF_NFT 合约测试", function () {
           args: [randomId],
         }),
       ).to.equal(false);
+    });
+  });
+
+  // 事件测试
+  describe("事件测试", function () {
+    it("setWithdrawAddress 触发 WithdrawAddressUpdated 事件", async function () {
+      const filter = await env.viem.publicClient.createEventFilter({
+        address: TCF_NFT.address,
+        event: parseAbiItem(
+          `event WithdrawAddressUpdated(address indexed operator,address indexed previousAddress,address indexed newAddress)`,
+        ),
+        strict: true,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "setWithdrawAddress",
+        args: [namedAccounts.admin1],
+        account: namedAccounts.deployer,
+      });
+
+      // 这里它获取了两个日志，第一次是beforeEach里面的调用产生的，第二次是本次调用产生的
+      // 这里它获取了两个日志，第一次是beforeEach里面的调用产生的，第二次是本次调用产生的
+      const logs = await env.viem.publicClient.getFilterLogs({ filter });
+      expect(logs[0].args.newAddress.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+      expect(logs[0].args.previousAddress.toLowerCase()).to.equal(
+        zeroAddress.toLowerCase(),
+      );
+      expect(logs[0].args.operator.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+      expect(logs[1].args.newAddress.toLowerCase()).to.equal(
+        namedAccounts.admin1.toLowerCase(),
+      );
+      expect(logs[1].args.previousAddress.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+      expect(logs[1].args.operator.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+    });
+
+    it("buyNFTByTC 触发 NFTPurchasedWithTC 事件", async function () {
+      const filter = await env.viem.publicClient.createEventFilter({
+        address: TCF_NFT.address,
+        event: parseAbiItem(
+          `event NFTPurchasedWithTC(address indexed buyer,uint256 indexed tokenId,uint256 amount,uint256 pricePerUnit)`,
+        ),
+        strict: true,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      // deployer购买3个1类NFT
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [namedAccounts.deployer, 1n, 3n],
+        account: namedAccounts.deployer,
+        value: 6n,
+      });
+
+      const logs = await env.viem.publicClient.getFilterLogs({ filter });
+      expect(logs[0].args.buyer.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+      expect(logs[0].args.tokenId).to.equal(1n);
+      expect(logs[0].args.amount).to.equal(3n);
+      expect(logs[0].args.pricePerUnit).to.equal(2n);
+    });
+
+    it("buyNFTByDCT 触发 NFTPurchasedWithDCT 事件", async function () {
+      const filter = await env.viem.publicClient.createEventFilter({
+        address: TCF_NFT.address,
+        event: parseAbiItem(
+          `event NFTPurchasedWithToken(address indexed buyer,address indexed paymentToken,uint256 indexed tokenId,uint256 amount,uint256 pricePerUnit)`,
+        ),
+        strict: true,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      // 代表购买第2类NFT，数量为2
+      let data = numberTo32ByteHex(1);
+      data += numberTo32ByteHex(2).slice(2);
+      await env.execute(TCF1, {
+        functionName: "transferAndCall",
+        args: [TCF_NFT.address, 4n, data as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const logs = await env.viem.publicClient.getFilterLogs({ filter });
+
+      expect(logs[0].args.buyer.toLowerCase()).to.equal(
+        namedAccounts.deployer.toLowerCase(),
+      );
+      expect(logs[0].args.paymentToken.toLowerCase()).to.equal(
+        TCF1.address.toLowerCase(),
+      );
+      expect(logs[0].args.tokenId).to.equal(1n);
+      expect(logs[0].args.amount).to.equal(2n);
+      expect(logs[0].args.pricePerUnit).to.equal(2n);
     });
   });
 });

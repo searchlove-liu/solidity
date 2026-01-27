@@ -11,11 +11,12 @@ import {
     Initializable
 } from "./openzeppelin_l/contracts/proxy/utils/Initializable.sol";
 import {vault} from "./extensions/vault/vault.sol";
+import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
 // TODO: 在voidChain中部署合约，并测试功能
 // TODO: 增加暂停功能
 
-contract TCF is Initializable, ERC1363, Ownable {
+contract TCF is Initializable, ERC1363, Ownable, Pausable {
     constructor() {
         staticVault = new vault();
         dynamicVault = new vault();
@@ -27,12 +28,6 @@ contract TCF is Initializable, ERC1363, Ownable {
     }
 
     // 事件：记录接收和提取
-    event TokensReceived(
-        address indexed token,
-        address indexed from,
-        address indexed to,
-        uint256 amount
-    );
 
     event TokensWithdrawn(
         address indexed token,
@@ -40,6 +35,8 @@ contract TCF is Initializable, ERC1363, Ownable {
         address indexed to,
         uint256 amount
     );
+
+    event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
     // 静态合约和动态合约
     vault public staticVault;
@@ -66,29 +63,18 @@ contract TCF is Initializable, ERC1363, Ownable {
     // 这个函数可以和链上预言机服务结合使用，实现自动化调用
     // 如果固定时间执行一次，可以设置上一次调用的时间戳，用于检测是否在一定时间范围之内
     // 例如，如果24小时执行一次，上一个时间戳和当前时间戳之间的差值可以设置为23小时到25小时之间
-    function releaseDailyTokens() external onlyOwner {
+    function releaseDailyTokens() external onlyOwner whenNotPaused {
         // 每天释放40个给静态合约，60个给动态合约
         _transfer(address(this), address(staticVault), 40000000000);
-        emit TokensReceived(
-            address(this),
-            address(this),
-            address(staticVault),
-            40000000000
-        );
         _transfer(address(this), address(dynamicVault), 60000000000);
-        emit TokensReceived(
-            address(this),
-            address(this),
-            address(dynamicVault),
-            60000000000
-        );
+        emit DailyTokensReleased(msg.sender, block.timestamp);
     }
 
     // 提取静态合约和动态合约中的代币
     function withdrawFromStaticVault(
         address to,
         uint256 staticAmount
-    ) external onlyOwner {
+    ) external onlyOwner whenNotPaused {
         require(staticAmount > 0, "TCF: Amount must be greater than 0");
         transferFrom(address(staticVault), to, staticAmount);
         emit TokensWithdrawn(
@@ -103,7 +89,7 @@ contract TCF is Initializable, ERC1363, Ownable {
     function withdrawFromDynamicVault(
         address to,
         uint256 dynamicAmount
-    ) external onlyOwner {
+    ) external onlyOwner whenNotPaused {
         require(dynamicAmount > 0, "TCF: Amount must be greater than 0");
         transferFrom(address(dynamicVault), to, dynamicAmount);
         emit TokensWithdrawn(
@@ -112,5 +98,27 @@ contract TCF is Initializable, ERC1363, Ownable {
             to,
             dynamicAmount
         );
+    }
+
+    function transferAndCall(
+        address to,
+        uint256 value,
+        bytes memory data
+    ) public virtual override(ERC1363) whenNotPaused returns (bool) {
+        // 检查数据格式是否正确
+        super.transferAndCall(to, value, data);
+        return true;
+    }
+
+    // 合约暂停
+    function pause() public onlyOwner {
+        _pause();
+        emit Paused(msg.sender);
+    }
+
+    // 合约解除暂停
+    function unpause() public onlyOwner {
+        _unpause();
+        emit Unpaused(msg.sender);
     }
 }

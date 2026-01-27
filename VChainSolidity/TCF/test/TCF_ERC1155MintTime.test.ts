@@ -7,6 +7,9 @@ import { setupFixtures } from "./utils/index.ts";
 import { hexToNumber } from "./utils/stringToHex.ts";
 import { getPrices, zeroAddress, getErrorPrices } from "./price.ts";
 import { stringToHexString } from "./utils/stringToHex.ts";
+import { Address } from "../generated/artifacts/index.js";
+import { parseAbiItem } from "viem";
+import strict from "assert/strict";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
 let { env, namedAccounts, TCF1, test_TCF_ERC1155MintTime } =
@@ -29,12 +32,11 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
     // 初始化 NFT 的 indate/ratio（否则默认 indate=0，会导致“有效期”相关测试失真）
     const TCF1Address = TCF1.address;
-    let tokenAddresses = [TCF1Address];
 
     // 初始化支持的token
     await env.execute(test_TCF_ERC1155MintTime, {
       functionName: "addSupportedToken",
-      args: [tokenAddresses],
+      args: [TCF1Address],
       account: namedAccounts.deployer,
     });
 
@@ -157,6 +159,43 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
           args: [namedAccounts.deployer, 10n],
         }),
       ).to.be.rejectedWith("TOKENID_RANGE");
+    });
+
+    // 测试TokenEditionMinted
+    it("应该触发 TokenEditionMinted 事件", async function () {
+      // 创建过滤器
+      const filter = await env.viem.publicClient.createEventFilter({
+        address: test_TCF_ERC1155MintTime.address,
+        event: parseAbiItem(
+          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint256 mintedAt)`,
+        ),
+        strict: true,
+      });
+
+      // 先铸造一些代币
+      let result = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 7n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      // 获取第一次mint的区块时间戳
+      let blockNumber = result.blockNumber;
+      let block = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(blockNumber)),
+      });
+      let timestamp = BigInt(block.timestamp);
+
+      const logs = await env.viem.publicClient.getFilterLogs({ filter });
+      expect(logs.length).to.equal(7);
+      expect(logs[0].args.editionId).to.equal(0);
+      expect(logs[0].args.tokenId).to.equal(0);
+      expect(logs[0].args.mintedAt).to.equal(timestamp);
+      expect(logs[0].args.to.toLowerCase()).to.equal(namedAccounts.deployer);
+      expect(logs[6].args.editionId).to.equal(6);
+      expect(logs[6].args.tokenId).to.equal(0);
+      expect(logs[6].args.mintedAt).to.equal(timestamp);
+      expect(logs[6].args.to.toLowerCase()).to.equal(namedAccounts.deployer);
     });
   });
 

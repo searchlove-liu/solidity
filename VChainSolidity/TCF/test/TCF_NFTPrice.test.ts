@@ -11,9 +11,11 @@ import {
   ONEAddress,
   getTCPrices,
 } from "./price.ts";
+import { hexToNumber } from "./utils/stringToHex.ts";
+import { parseAbiItem } from "viem";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
-let { env, TCF1, TCF2, namedAccounts, TCF_NFTPrice } =
+let { env, TCF1, TCF2, namedAccounts, TCF_NFTPrice, test_TCF_ERC1155MintTime } =
   await networkHelpers.loadFixture(deployAll);
 
 const revertMessage =
@@ -34,8 +36,14 @@ describe("TCF_NFTPrice", function () {
   };
 
   beforeEach(async () => {
-    ({ env, TCF1, TCF2, namedAccounts, TCF_NFTPrice } =
-      await networkHelpers.loadFixture(deployAll));
+    ({
+      env,
+      TCF1,
+      TCF2,
+      namedAccounts,
+      TCF_NFTPrice,
+      test_TCF_ERC1155MintTime,
+    } = await networkHelpers.loadFixture(deployAll));
     await env.execute(TCF1, {
       functionName: "initialize",
       args: [namedAccounts.deployer, namedAccounts.deployer],
@@ -986,6 +994,54 @@ describe("TCF_NFTPrice", function () {
             account: namedAccounts.deployer,
           }),
         ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
+      });
+    });
+  });
+
+  // 测试事件
+  describe("测试事件", function () {
+    it("TokenEditionMinted: 通过测试合约铸造时会正确触发事件", async function () {
+      const filter = await env.viem.publicClient.createEventFilter({
+        address: test_TCF_ERC1155MintTime.address,
+        event: parseAbiItem(
+          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint256 mintedAt)`,
+        ),
+        strict: true,
+      });
+
+      const tcf1Address = TCF1.address;
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "addSupportedToken",
+        args: [tcf1Address],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "initPrice",
+        args: [getPrices(tcf1Address)],
+        account: namedAccounts.deployer,
+      });
+
+      const mintResult = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 3n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const block = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintResult.blockNumber)),
+      });
+      const mintedAt = BigInt(block.timestamp);
+
+      const logs = await env.viem.publicClient.getFilterLogs({ filter });
+      expect(logs.length).to.equal(3);
+
+      logs.forEach((log, index) => {
+        expect(log.args.tokenId).to.equal(0n);
+        expect(log.args.editionId).to.equal(BigInt(index));
+        expect(log.args.to.toLowerCase()).to.equal(namedAccounts.deployer);
+        expect(log.args.mintedAt).to.equal(mintedAt);
       });
     });
   });

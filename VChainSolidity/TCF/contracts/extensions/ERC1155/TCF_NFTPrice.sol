@@ -75,6 +75,19 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         supportedTokenAmount = 1;
     }
 
+    event NFTPriceChanged(
+        uint256 indexed tokenID,
+        address indexed paymentToken,
+        uint256 oldPrice,
+        uint256 newPrice
+    );
+
+    event DynamicRatioChanged(
+        uint256 indexed tokenID,
+        uint8 previousRatio,
+        uint8 newRatio
+    );
+
     /**
      * @dev 初始化价格.TC代币的地址设为0
      * @notice 只能调用一次，调用前必须确保支持的代币地址已经初始化，不需要检查token地址是否初始化，因为在构造函数中，初始化了TC
@@ -143,7 +156,9 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         if (tokenAddress == address(0)) {
             tokenAddress = address(0x1);
         }
+        uint256 oldPrice = NFTS[tokenID].prices[tokenAddress];
         NFTS[tokenID].prices[tokenAddress] = amount;
+        emit NFTPriceChanged(tokenID, tokenAddress, oldPrice, amount);
     }
 
     /**
@@ -329,7 +344,9 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     ) external onlyOwner {
         require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED");
         require(tokenID < 6, "TOKENID_RANGE");
+        uint8 previousRatio = NFTS[tokenID].ratio;
         NFTS[tokenID].ratio = newRatio;
+        emit DynamicRatioChanged(tokenID, previousRatio, newRatio);
     }
 
     // /**

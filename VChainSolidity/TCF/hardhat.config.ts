@@ -19,7 +19,7 @@ export default defineConfig({
     runOnCompile: true,
     clear: true,
     flat: true,
-    only: [/:TCF_NFT$/],
+    only: [/TCF_NFT$/, /TCF$/],
   },
   chainDescriptors: {
     31337: {

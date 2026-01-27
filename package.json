@@ -2,7 +2,7 @@
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.958.0",
     "@aws-sdk/client-s3": "^3.958.0",
-    "@openzeppelin/contracts": "^4.9.6",
+    "@openzeppelin/contracts": "^5.5.0",
     "@openzeppelin/contracts-upgradeable": "^4.9.6",
     "@reown/walletkit": "^1.4.1",
     "@walletconnect/core": "^2.23.1",
