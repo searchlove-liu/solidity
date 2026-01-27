@@ -70,6 +70,7 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363 {
             value,
             data
         );
+        _burn(to, value); // 花费的token直接销毁
         return true;
     }
 

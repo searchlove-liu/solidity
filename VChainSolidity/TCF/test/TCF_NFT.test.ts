@@ -609,6 +609,11 @@ describe("TCF_NFT 合约测试", function () {
       let data = numberTo32ByteHex(3);
       data += numberTo32ByteHex(4).slice(2);
 
+      const beforeTotalSupply = await env.read(TCF1, {
+        functionName: "totalSupply",
+        account: namedAccounts.deployer,
+      });
+
       await env.execute(TCF1, {
         functionName: "transferAndCall",
         args: [TCF_NFT.address, 16n, data as `0x${string}`],
@@ -623,6 +628,23 @@ describe("TCF_NFT 合约测试", function () {
           account: namedAccounts.deployer,
         }),
       ).to.equal(4n);
+
+      // 检查TCF_NFT拥有的TCF1余额
+      expect(
+        await env.read(TCF1, {
+          functionName: "balanceOf",
+          args: [TCF_NFT.address],
+          account: namedAccounts.deployer,
+        }),
+      ).to.equal(0n);
+
+      // 检查totalSupply
+      const afterTotalSupply = await env.read(TCF1, {
+        functionName: "totalSupply",
+        account: namedAccounts.deployer,
+      });
+
+      expect(beforeTotalSupply - afterTotalSupply).to.equal(16n);
     });
 
     // 错误测试，余额不足
