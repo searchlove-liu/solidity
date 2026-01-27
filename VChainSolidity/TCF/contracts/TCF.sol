@@ -29,8 +29,8 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
     event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
     // 静态合约和动态合约
-    vault public staticVault;
-    vault public dynamicVault;
+    vault private staticVault;
+    vault private dynamicVault;
 
     constructor() {
         staticVault = new vault();
@@ -44,6 +44,10 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
 
     function getStaticContractAddress() external view returns (string memory) {
         return _toHexString(address(staticVault));
+    }
+
+    function getDynamicContractAddress() external view returns (string memory) {
+        return _toHexString(address(dynamicVault));
     }
 
     // 注意修饰器为initializer，意思是，如果当前合约正在执行这个初始化函数，
