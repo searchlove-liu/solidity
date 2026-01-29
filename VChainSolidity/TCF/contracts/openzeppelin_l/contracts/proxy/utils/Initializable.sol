@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.5.0) (proxy/utils/Initializable.sol)
 
-pragma solidity ^0.8.0;
+// pragma solidity ^0.8.0;
+pragma solidity ^0.8.1;
 
 import "../../utils/Address.sol";
 
@@ -46,7 +47,10 @@ abstract contract Initializable {
         // If the contract is initializing we ignore whether _initialized is set in order to support multiple
         // inheritance patterns, but we only do this in the context of a constructor, because in other contexts the
         // contract may have been reentered.
-        require(_initializing ? _isConstructor() : !_initialized, "Initializable: contract is already initialized");
+        require(
+            _initializing ? _isConstructor() : !_initialized,
+            "Initializable: contract is already initialized"
+        );
 
         bool isTopLevelCall = !_initializing;
         if (isTopLevelCall) {
@@ -74,5 +78,4 @@ abstract contract Initializable {
         // 如果是合约的话返回false
         return !Address.isContract(address(this));
     }
-
 }

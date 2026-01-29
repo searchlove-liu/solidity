@@ -37,7 +37,7 @@ contract TCF_NFT is
     // 返回用户有效的NFT
     // 返回用户所有的NFT
 
-    address public withdrawAddress;
+    address private withdrawAddress;
     uint8 public withdrawAddress_initialized;
 
     event NFTPurchasedWithTC(
@@ -144,6 +144,14 @@ contract TCF_NFT is
             withdrawAddress_initialized = 1;
         }
         emit WithdrawAddressUpdated(msg.sender, previousAddress, addr);
+    }
+
+    function getWithdrawAddress() external view onlyOwner returns (address) {
+        require(
+            withdrawAddress_initialized == 1,
+            "WITHDRAW_ADDR_NOT_INITIALIZED"
+        );
+        return withdrawAddress;
     }
 
     function _mint(

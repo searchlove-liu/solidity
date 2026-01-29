@@ -1,9 +1,7 @@
 # ==================== Node.js ====================
 
 # 忽略所有层级的 node_modules
-node_modules/
 **/node_modules/
 
 # 忽略当前文件的readme
 README.md
-

@@ -165,3 +165,29 @@ contract testGasUsed {
         require(success, "call failed");
     }
 }
+
+contract testAddress {
+    function getAddress() public view returns (string memory) {
+        return _toHexString(address(this));
+    }
+
+    function _toHexString(
+        address account
+    ) private pure returns (string memory) {
+        bytes20 data = bytes20(account);
+        bytes16 hexSymbols = 0x30313233343536373839616263646566;
+        bytes memory str = new bytes(42);
+        str[0] = "0";
+        str[1] = "x";
+        for (uint256 i = 0; i < 20; i++) {
+            uint8 b = uint8(data[i]);
+            str[2 + i * 2] = bytes1(hexSymbols[b >> 4]);
+            str[3 + i * 2] = bytes1(hexSymbols[b & 0x0f]);
+        }
+        return string(str);
+    }
+}
+
+contract constructorTest {
+    uint256 public value = 100;
+}

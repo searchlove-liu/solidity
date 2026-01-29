@@ -103,7 +103,7 @@ describe("TCF_NFT 合约测试", function () {
       expect(
         (
           await env.read(TCF_NFT, {
-            functionName: "withdrawAddress",
+            functionName: "getWithdrawAddress",
           })
         ).toLowerCase(),
       ).to.equal(namedAccounts.admin1);

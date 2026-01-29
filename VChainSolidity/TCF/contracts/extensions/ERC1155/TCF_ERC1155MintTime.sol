@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 
 import "./TCF_NFTPrice.sol";
 
+// tokenID可以改为uint8，
+// mintTime可以改为uint48，节省存储空间
 contract TCF_ERC1155MintTime is TCF_NFTPrice {
     // Mapping from token ID to account to mint time array
     // 用户拥有的id,mapping(owner => mapping(tokenId => editionIds))
@@ -55,7 +57,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             // 检查是否过期，过期之后才可以转
             uint256 index = indexes[i];
             uint256 mintTime = _mintTimes[tokenId][from][index];
-            uint256 indate = NFTS[tokenId].indate;
+            (, uint32 indate) = getNFTEquityDetails(tokenId);
             require(
                 TCF_ERC1155.ownerOf(tokenId, index) == from,
                 "TOKEN_NOT_OWNED"
@@ -119,7 +121,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             for (uint256 i = 0; i < indexes.length; i++) {
                 uint256 index = indexes[i];
                 uint256 mintTime = _mintTimes[tokenId][owner][index];
-                uint256 indate = TCF_NFTPrice.NFTS[tokenId].indate;
+                (, uint32 indate) = getNFTEquityDetails(tokenId);
                 // 检查是否过期,大于，说明已经过期，过期就不放在计算之列
                 if (block.timestamp > mintTime + indate) {
                     continue;

@@ -29,42 +29,58 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
     event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
     // 静态合约和动态合约
-    vault private staticVault;
-    vault private dynamicVault;
-
-    constructor() {
-        staticVault = new vault();
-        dynamicVault = new vault();
-        // 4680000000000000中每天发40给静态,每天发60给动态.也就是静态最多接受4680000000000000*40/100=1872000000000000
-        // 动态最多接受4680000000000000*60/100=2808000000000000
-        // staticVault/dynamicVault授权自己未来可能收到的所有代币数量给owner,owner可以提取
-        _approve(address(staticVault), owner(), 1872000000000000);
-        _approve(address(dynamicVault), owner(), 2808000000000000);
-    }
+    address private staticVault;
+    address private dynamicVault;
 
     function getStaticContractAddress() external view returns (string memory) {
-        return _toHexString(address(staticVault));
+        return _toHexString(staticVault);
     }
 
     function getDynamicContractAddress() external view returns (string memory) {
-        return _toHexString(address(dynamicVault));
+        return _toHexString(dynamicVault);
     }
 
     // 注意修饰器为initializer，意思是，如果当前合约正在执行这个初始化函数，
     // 那么别人无法再次进去这个函数（）。
     function initialize(
-        address addr_3,
-        address addr_7
+        address _staticVaultAddress,
+        address _dynamicVaultAddress,
+        address _addr_3,
+        address _addr_7
     ) external initializer onlyOwner {
-        require(addr_3 != address(0), "TCF: addr_3 is the zero address");
-        require(addr_7 != address(0), "TCF: addr_7 is the zero address");
+        require(_addr_3 != address(0), "TCF: addr_3 is the zero address");
+        require(_addr_7 != address(0), "TCF: addr_7 is the zero address");
+        require(
+            _staticVaultAddress != address(0),
+            "TCF: staticVaultAddress is the zero address"
+        );
+        require(
+            _dynamicVaultAddress != address(0),
+            "TCF: dynamicVaultAddress is the zero address"
+        );
+        require(
+            _staticVaultAddress.code.length > 0,
+            "TCF: staticVaultAddress is not a contract"
+        );
+        require(
+            _dynamicVaultAddress.code.length > 0,
+            "TCF: dynamicVaultAddress is not a contract"
+        );
         ERC20.__ERC20_init("DCF", "DCF");
         // 总量5,000,000
         // 90%=4680000 代币,decimals=9,后面乘以10^9
         _mint(address(this), 4680000000000000);
         // _mint(addr_3, 156000 * 10 ** 9);
-        _mint(addr_3, 156000000000000);
-        _mint(addr_7, 364000000000000);
+        _mint(_addr_3, 156000000000000);
+        _mint(_addr_7, 364000000000000);
+        // 4680000000000000中每天发40给静态,每天发60给动态.也就是静态最多接受4680000000000000*40/100=1872000000000000
+        // 动态最多接受4680000000000000*60/100=2808000000000000
+        // staticVault/dynamicVault授权自己未来可能收到的所有代币数量给owner,owner可以提取
+        staticVault = _staticVaultAddress;
+        dynamicVault = _dynamicVaultAddress;
+        // 为什么不放在构造函数中的原因是，不知道时候可以获取owner
+        _approve(staticVault, owner(), 1872000000000000);
+        _approve(dynamicVault, owner(), 2808000000000000);
     }
 
     // 每天定时调用该函数，释放静态和动态代币到静态和动态合约中

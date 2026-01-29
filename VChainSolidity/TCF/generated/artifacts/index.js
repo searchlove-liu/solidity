@@ -42,7 +42,6 @@ export {Artifact_IERC165 as IERC165} from './IERC165.js';
 export {Artifact_Math as Math} from './Math.js';
 export {Artifact_SignedMath as SignedMath} from './SignedMath.js';
 export {Artifact_Strings as Strings} from './Strings.js';
-export {Artifact_String as String} from './String.js';
 export {Artifact_TCF as TCF} from './TCF.js';
 export {Artifact_TCF_copy as TCF_copy} from './TCF_copy.js';
 export {Artifact_TCF_NFT as TCF_NFT} from './TCF_NFT.js';
@@ -54,5 +53,7 @@ export {Artifact_test_TCF_ERC1155MintTime as test_TCF_ERC1155MintTime} from './t
 export {Artifact_test_TCF_ERC1155URIStorage as test_TCF_ERC1155URIStorage} from './test_TCF_ERC1155URIStorage.js';
 export {Artifact_test_TCF_NFTPrice as test_TCF_NFTPrice} from './test_TCF_NFTPrice.js';
 export {Artifact_testUtils as testUtils} from './testUtils.js';
+export {Artifact_constructorTest as constructorTest} from './constructorTest.js';
+export {Artifact_testAddress as testAddress} from './testAddress.js';
 export {Artifact_testGasUsed as testGasUsed} from './testGasUsed.js';
 export {Artifact_utils as utils} from './utils.js';

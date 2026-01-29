@@ -66,7 +66,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     // NFTS使用mapping，在初始化的时候进行了大量写操作，消耗了大量gas。但在mint操作，获取对应NFT价格时，减少了便利操作，降低了gas消耗。
     // mapping不支持memory，不能设置临时变量一次性给NFTS赋值
     // 因为只有6种，所以使用uint256
-    mapping(uint256 => equities_store) public NFTS;
+    mapping(uint256 => equities_store) private NFTS;
 
     // 原生支持TC
     constructor() {
@@ -191,6 +191,15 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         }
 
         return ("", price);
+    }
+
+    function getNFTEquityDetails(
+        uint256 tokenID
+    ) public view returns (uint8 ratio, uint32 indate) {
+        require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED");
+        require(tokenID < 6, "TOKENID_RANGE");
+        ratio = NFTS[tokenID].ratio;
+        indate = NFTS[tokenID].indate;
     }
 
     function _checkAccessPriceDetail(

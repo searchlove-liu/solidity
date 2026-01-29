@@ -281,7 +281,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 获取tokenID为0的indate
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
 
@@ -337,7 +337,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 获取tokenID为0的indate
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
 
@@ -377,7 +377,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       });
 
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
       const indate = equities[1];
@@ -442,7 +442,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       });
       // 设置下一个区块的时间戳
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
 
@@ -522,7 +522,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       });
 
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
       const indate = equities[1];
@@ -598,7 +598,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 获取tokenID为0的indate
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
 
@@ -654,7 +654,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 获取tokenID为0的indate
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
 
@@ -734,7 +734,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
 
       // 设置下一个区块的时间戳
       const equities = await env.read(test_TCF_ERC1155MintTime, {
-        functionName: "NFTS",
+        functionName: "getNFTEquityDetails",
         args: [0n],
       });
       const indate0 = equities[1];

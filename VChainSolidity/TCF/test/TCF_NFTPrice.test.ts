@@ -758,7 +758,7 @@ describe("TCF_NFTPrice", function () {
 
     // 获取比例和权限时长
     let result = await env.read(TCF_NFTPrice, {
-      functionName: "NFTS",
+      functionName: "getNFTEquityDetails",
       args: [0n],
     });
     expect(result[0]).to.equal(40);
@@ -843,11 +843,12 @@ describe("TCF_NFTPrice", function () {
     });
 
     // 查看当前动态比例
-    let dynamicRatio = await env.read(TCF_NFTPrice, {
-      functionName: "NFTS",
+    let [dynamicRatio, indate] = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTEquityDetails",
       args: [0n],
     });
-    expect(dynamicRatio[0]).to.equal(40);
+    expect(dynamicRatio).to.equal(40);
+    expect(indate).to.equal(15552000);
 
     // 设置动态比例
     await expect(
@@ -892,11 +893,12 @@ describe("TCF_NFTPrice", function () {
     });
 
     // 查看当前动态比例
-    let dynamicRatio = await env.read(TCF_NFTPrice, {
-      functionName: "NFTS",
+    let [dynamicRatio, indate] = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTEquityDetails",
       args: [0n],
     });
-    expect(dynamicRatio[0]).to.equal(40);
+    expect(dynamicRatio).to.equal(40);
+    expect(indate).to.equal(15552000);
 
     // 设置动态比例
     await env.execute(TCF_NFTPrice, {
@@ -905,11 +907,11 @@ describe("TCF_NFTPrice", function () {
       account: namedAccounts.deployer,
     });
 
-    let result = await env.read(TCF_NFTPrice, {
-      functionName: "NFTS",
+    [dynamicRatio, indate] = await env.read(TCF_NFTPrice, {
+      functionName: "getNFTEquityDetails",
       args: [0n],
     });
-    expect(result[0]).to.equal(50);
+    expect(dynamicRatio).to.equal(50);
   });
 
   it("changeDynamicRatio: 非 owner 调用失败", async function () {
@@ -965,12 +967,12 @@ describe("TCF_NFTPrice", function () {
       });
 
       it("NFTS", async function () {
-        let result = await env.read(TCF_NFTPrice, {
-          functionName: "NFTS",
-          args: [0n],
-        });
-        expect(result[0]).to.equal(0);
-        expect(result[1]).to.equal(0);
+        await expect(
+          env.read(TCF_NFTPrice, {
+            functionName: "getNFTEquityDetails",
+            args: [0n],
+          }),
+        ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
       });
 
       // supportTokenType
