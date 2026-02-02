@@ -38,6 +38,8 @@ import {ERC165} from "../../utils/introspection/ERC165.sol";
  * allowances. See {IERC20-approve}.
  */
 contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
+    // voidChain在修改状态之前需要执行一条任意命令，不然无法修改状态，报out of gas
+    bytes1 troubleshoot = 0x00;
     mapping(address => uint256) private _balances;
 
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -178,6 +180,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
         uint256 amount
     ) public virtual override returns (bool) {
         address owner = _msgSender();
+        // // address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
     }
@@ -282,6 +285,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
     ) internal virtual {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
+        troubleshoot = 0x00; // voidChain在修改状态之前需要执行一条任意命令，不然无法修改状态，报out of gas
 
         _beforeTokenTransfer(from, to, amount);
 
@@ -313,7 +317,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
      */
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
-
+        troubleshoot = 0x00; // voidChain在修改状态之前需要执行一条任意命令，不然无法修改状态，报out of gas
         _beforeTokenTransfer(address(0), account, amount);
 
         _totalSupply += amount;
@@ -339,7 +343,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
      */
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
-
+        troubleshoot = 0x00; // voidChain在修改状态之前需要执行一条任意命令，不然无法修改状态，报out of gas
         _beforeTokenTransfer(account, address(0), amount);
 
         uint256 accountBalance = _balances[account];
@@ -375,7 +379,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
     ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-
+        troubleshoot = 0x00; // voidChain在修改状态之前需要执行一条任意命令，不然无法修改状态，报out of gas
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
     }

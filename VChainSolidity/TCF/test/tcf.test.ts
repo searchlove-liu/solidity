@@ -12,12 +12,12 @@ import { parseAbiItem } from "viem";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
 
-let { env, TCF1, namedAccounts, TCF_NFT } =
+let { env, TCF1, vault, vault_copy, namedAccounts, TCF_NFT } =
   await networkHelpers.loadFixture(deployAll);
 
 describe("TCF", function () {
   beforeEach(async () => {
-    ({ env, TCF1, namedAccounts } =
+    ({ env, TCF1, vault, vault_copy, namedAccounts } =
       await networkHelpers.loadFixture(deployAll));
   });
 
@@ -26,7 +26,12 @@ describe("TCF", function () {
     const tokenSymbol = stringToHexString("TCF");
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
+      args: [
+        vault.address,
+        vault_copy.address,
+        namedAccounts.deployer,
+        namedAccounts.deployer,
+      ],
       account: namedAccounts.deployer,
     });
 
@@ -48,7 +53,12 @@ describe("TCF", function () {
     let tokenSymbol = stringToHexString("TCF");
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
+      args: [
+        vault.address,
+        vault_copy.address,
+        namedAccounts.deployer,
+        namedAccounts.deployer,
+      ],
       account: namedAccounts.deployer,
     });
 
@@ -57,7 +67,12 @@ describe("TCF", function () {
     await expect(
       env.execute(TCF1, {
         functionName: "initialize",
-        args: [namedAccounts.deployer, namedAccounts.deployer],
+        args: [
+          vault.address,
+          vault_copy.address,
+          namedAccounts.deployer,
+          namedAccounts.deployer,
+        ],
         account: namedAccounts.deployer,
       }),
     ).to.be.revertedWith("Initializable: contract is already initialized");
@@ -72,21 +87,22 @@ describe("test token amount", function () {
     (totalSupplyUnits * percent) / 100n; // use BigInt math to avoid float rounding
 
   beforeEach(async () => {
-    ({ env, TCF1, namedAccounts } =
+    ({ env, TCF1, vault, vault_copy, namedAccounts } =
       await networkHelpers.loadFixture(deployAll));
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [address_3, address_7],
+      args: [vault.address, vault_copy.address, address_3, address_7],
       account: namedAccounts.deployer,
     });
   });
 
   // 检查静态授权额度是否等于5_200_000n * 1_000_000_000n *90 /100 * 40 /100
   it("Init the TCF,get static vault amount,expect amount is equal to 1872000000000", async function () {
-    const staticVault = await env.read(TCF1, {
-      functionName: "staticVault",
-    });
+    // const staticVault = await env.read(TCF1, {
+    //   functionName: "allowance",
+    //   args: [vault.address, namedAccounts.deployer],
+    // });
 
     const expectedStaticVaultAmount =
       (((totalSupplyUnits * 90n) / 100n) * 40n) / 100n;
@@ -94,24 +110,20 @@ describe("test token amount", function () {
     expect(
       await env.read(TCF1, {
         functionName: "allowance",
-        args: [staticVault, namedAccounts.deployer],
+        args: [vault.address, namedAccounts.deployer],
       }),
     ).to.equal(expectedStaticVaultAmount.toString());
   });
 
   // 检查动态授权额度是否等于5_200_000n * 1_000_000_000n *90 /100 * 60 /100
   it("Init the TCF,get dynamic vault amount,expect amount is equal to 2808000000000", async function () {
-    const dynamicVault = await env.read(TCF1, {
-      functionName: "dynamicVault",
-    });
-
     const expectedDynamicVaultAmount =
       (((totalSupplyUnits * 90n) / 100n) * 60n) / 100n;
 
     expect(
       await env.read(TCF1, {
         functionName: "allowance",
-        args: [dynamicVault, namedAccounts.deployer],
+        args: [vault_copy.address, namedAccounts.deployer],
       }),
     ).to.equal(expectedDynamicVaultAmount.toString());
   });
@@ -160,32 +172,25 @@ describe("test token amount", function () {
     async function initializeWithVaults() {
       await env.execute(TCF1, {
         functionName: "initialize",
-        args: [address_3, address_7],
+        args: [vault.address, vault_copy.address, address_3, address_7],
         account: namedAccounts.deployer,
       });
     }
 
     beforeEach(async () => {
-      ({ env, TCF1, namedAccounts } =
+      ({ env, TCF1, vault, vault_copy, namedAccounts } =
         await networkHelpers.loadFixture(deployAll));
       await initializeWithVaults();
     });
 
     it("releaseDailyTokens: transfers tokens into static and dynamic vaults", async function () {
-      const staticVault = await env.read(TCF1, {
-        functionName: "staticVault",
-      });
-      const dynamicVault = await env.read(TCF1, {
-        functionName: "dynamicVault",
-      });
-
       const staticBalanceBefore = await env.read(TCF1, {
         functionName: "balanceOf",
-        args: [staticVault],
+        args: [vault.address],
       });
       const dynamicBalanceBefore = await env.read(TCF1, {
         functionName: "balanceOf",
-        args: [dynamicVault],
+        args: [vault_copy.address],
       });
 
       await env.execute(TCF1, {
@@ -195,11 +200,11 @@ describe("test token amount", function () {
 
       const staticBalanceAfter = await env.read(TCF1, {
         functionName: "balanceOf",
-        args: [staticVault],
+        args: [vault.address],
       });
       const dynamicBalanceAfter = await env.read(TCF1, {
         functionName: "balanceOf",
-        args: [dynamicVault],
+        args: [vault_copy.address],
       });
 
       expect(BigInt(staticBalanceAfter) - BigInt(staticBalanceBefore)).to.equal(
@@ -233,7 +238,7 @@ describe("test token amount", function () {
 
     it("withdrawFromStaticVault: owner can withdraw released tokens", async function () {
       const staticVault = await env.read(TCF1, {
-        functionName: "staticVault",
+        functionName: "getStaticContractAddress",
       });
 
       await env.execute(TCF1, {
@@ -271,7 +276,7 @@ describe("test token amount", function () {
 
     it("withdrawFromDynamicVault: owner can withdraw released tokens", async function () {
       const dynamicVault = await env.read(TCF1, {
-        functionName: "dynamicVault",
+        functionName: "getDynamicContractAddress",
       });
 
       await env.execute(TCF1, {
@@ -393,7 +398,7 @@ describe("Pause and Unpause", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [address_3, address_7],
+      args: [vault.address, vault_copy.address, address_3, address_7],
       account: namedAccounts.deployer,
     });
   });
@@ -547,12 +552,12 @@ describe("event", function () {
   const totalSupplyUnits = 5_200_000n * 1_000_000_000n;
 
   beforeEach(async () => {
-    ({ env, TCF1, namedAccounts } =
+    ({ env, TCF1, vault, vault_copy, namedAccounts } =
       await networkHelpers.loadFixture(deployAll));
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [address_3, address_7],
+      args: [vault.address, vault_copy.address, address_3, address_7],
       account: namedAccounts.deployer,
     });
   });
@@ -599,9 +604,191 @@ describe("event", function () {
       args: { to: namedAccounts.admin1 },
       strict: true,
     });
-    
+
     const logs = await env.viem.publicClient.getFilterLogs({ filter });
     expect(logs[0].args.to.toLowerCase()).to.equal(namedAccounts.admin1);
     expect(logs[0].args.amount).to.equal(40000000000n);
+  });
+});
+
+// 测是erc-20原始接口函数
+describe("ERC20 original interface functions", function () {
+  const address_3 = namedAccounts.admin1;
+  const address_7 = namedAccounts.admin2;
+  const totalSupplyUnits = 5_200_000n * 1_000_000_000n;
+
+  beforeEach(async () => {
+    ({ env, TCF1, vault, vault_copy, namedAccounts } =
+      await networkHelpers.loadFixture(deployAll));
+
+    await env.execute(TCF1, {
+      functionName: "initialize",
+      args: [vault.address, vault_copy.address, address_3, address_7],
+      account: namedAccounts.deployer,
+    });
+  });
+
+  // 测试approve和allowance函数
+  it("approve and allowance: should set and get allowance correctly", async function () {
+    const spender = namedAccounts.admin1;
+    const amount = 10000000000n;
+
+    // Approve the spender
+    await env.execute(TCF1, {
+      functionName: "approve",
+      args: [spender, amount],
+      account: namedAccounts.deployer,
+    });
+
+    // Check the allowance
+    const allowance = await env.read(TCF1, {
+      functionName: "allowance",
+      args: [namedAccounts.deployer, spender],
+    });
+
+    expect(BigInt(allowance)).to.equal(amount);
+  });
+
+  // 测试transfer函数
+  it("transfer: should transfer tokens correctly", async function () {
+    // 将接受者设置deployer，发送者设为admin1
+    const recipient = namedAccounts.deployer;
+    const amount = 5000000000n;
+
+    const senderBalanceBefore = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [namedAccounts.admin1],
+    });
+    const recipientBalanceBefore = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [recipient],
+    });
+
+    // Transfer tokens
+    await env.execute(TCF1, {
+      functionName: "transfer",
+      args: [recipient, amount],
+      account: namedAccounts.admin1,
+    });
+
+    const senderBalanceAfter = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [namedAccounts.admin1],
+    });
+    const recipientBalanceAfter = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [recipient],
+    });
+
+    expect(BigInt(senderBalanceBefore) - BigInt(senderBalanceAfter)).to.equal(
+      amount,
+    );
+    expect(
+      BigInt(recipientBalanceAfter) - BigInt(recipientBalanceBefore),
+    ).to.equal(amount);
+  });
+
+  it("transferFrom: spender moves tokens on behalf of owner", async function () {
+    const ownerAccount = namedAccounts.admin1;
+    const spenderAccount = namedAccounts.deployer;
+    const recipientAccount = namedAccounts.admin2;
+    const amount = 8000000000n;
+
+    await env.execute(TCF1, {
+      functionName: "approve",
+      args: [spenderAccount, amount],
+      account: ownerAccount,
+    });
+
+    const ownerBalanceBefore = BigInt(
+      await env.read(TCF1, {
+        functionName: "balanceOf",
+        args: [ownerAccount],
+      }),
+    );
+    const recipientBalanceBefore = BigInt(
+      await env.read(TCF1, {
+        functionName: "balanceOf",
+        args: [recipientAccount],
+      }),
+    );
+
+    await env.execute(TCF1, {
+      functionName: "transferFrom",
+      args: [ownerAccount, recipientAccount, amount],
+      account: spenderAccount,
+    });
+
+    const ownerBalanceAfter = BigInt(
+      await env.read(TCF1, {
+        functionName: "balanceOf",
+        args: [ownerAccount],
+      }),
+    );
+    const recipientBalanceAfter = BigInt(
+      await env.read(TCF1, {
+        functionName: "balanceOf",
+        args: [recipientAccount],
+      }),
+    );
+
+    expect(ownerBalanceBefore - ownerBalanceAfter).to.equal(amount);
+    expect(recipientBalanceAfter - recipientBalanceBefore).to.equal(amount);
+
+    const remainingAllowance = await env.read(TCF1, {
+      functionName: "allowance",
+      args: [ownerAccount, spenderAccount],
+    });
+    expect(BigInt(remainingAllowance)).to.equal(0n);
+  });
+
+  it("increaseAllowance and decreaseAllowance: adjust allowance correctly", async function () {
+    const ownerAccount = namedAccounts.admin1;
+    const spenderAccount = namedAccounts.deployer;
+    const baseAllowance = 2000000000n;
+    const increment = 3000000000n;
+    const decrement = 1000000000n;
+
+    await env.execute(TCF1, {
+      functionName: "approve",
+      args: [spenderAccount, baseAllowance],
+      account: ownerAccount,
+    });
+
+    await env.execute(TCF1, {
+      functionName: "increaseAllowance",
+      args: [spenderAccount, increment],
+      account: ownerAccount,
+    });
+
+    let allowance = await env.read(TCF1, {
+      functionName: "allowance",
+      args: [ownerAccount, spenderAccount],
+    });
+    expect(BigInt(allowance)).to.equal(baseAllowance + increment);
+
+    await env.execute(TCF1, {
+      functionName: "decreaseAllowance",
+      args: [spenderAccount, decrement],
+      account: ownerAccount,
+    });
+
+    allowance = await env.read(TCF1, {
+      functionName: "allowance",
+      args: [ownerAccount, spenderAccount],
+    });
+    expect(BigInt(allowance)).to.equal(baseAllowance + increment - decrement);
+  });
+
+  it("totalSupply and decimals: expose ERC20 metadata", async function () {
+    const totalSupply = await env.read(TCF1, {
+      functionName: "totalSupply",
+    });
+    expect(totalSupply).to.equal(totalSupplyUnits.toString());
+
+    const decimals = await env.read(TCF1, {
+      functionName: "decimals",
+    });
+    expect(Number(decimals)).to.equal(9);
   });
 });

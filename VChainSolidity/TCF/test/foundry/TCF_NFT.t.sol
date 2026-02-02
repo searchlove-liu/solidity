@@ -52,11 +52,11 @@ contract TCF_NFT_Fuzz is Test {
         uint256 expected = price * buyAmount;
         if (buyAmount == 0 || sentValue != expected) {
             vm.expectRevert("INCORRECT_FUNDS");
-            nft.buyNFTByTC{value: sentValue}(alice, 0, buyAmount);
+            nft.buyNFTByTC{value: sentValue}(0, buyAmount);
             return;
         }
 
-        nft.buyNFTByTC{value: sentValue}(alice, 0, buyAmount);
+        nft.buyNFTByTC{value: sentValue}(0, buyAmount);
         assertEq(nft.balanceOf(alice, 0), buyAmount);
     }
 

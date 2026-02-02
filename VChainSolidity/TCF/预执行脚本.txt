@@ -1,0 +1,151 @@
+参考下面预执行脚本：// ===================== Apipost预执行脚本 =====================
+console.log('========== data 生成 ==========');
+
+// ===================== 1. 配置参数 =====================
+const PARAMS = {
+    id: 1n,
+    buyAmount: 2n,
+    value: "4"  // 直接使用value作为转账金额
+};
+
+// ===================== 2. 生成data =====================
+function generateBuyNFTData(params) {
+    const functionSelector = "0x6e302632";
+    
+    try {
+        const idEncoded = BigInt(params.id).toString(16).padStart(64, '0');
+        const buyAmountEncoded = BigInt(params.buyAmount).toString(16).padStart(64, '0');
+        
+        return functionSelector  + idEncoded + buyAmountEncoded;
+        
+    } catch (error) {
+        const zeroAddress = '0'.repeat(64);
+        return functionSelector + zeroAddress + zeroAddress + zeroAddress;
+    }
+}
+
+// ===================== 3. 转换value为十六进制 =====================
+function convertValueToHex(ethValue) {
+    try {
+        const ethNum = parseFloat(ethValue);
+        if (isNaN(ethNum) || ethNum < 0) {
+            throw new Error(`无效的ETH值: ${ethValue}`);
+        }
+        
+        // 直接使用输入的value作为转账金额
+        const hexValue = BigInt(ethNum).toString(16);
+        // const formattedHex = hexValue.padStart(64, '0');
+        
+        return "0x" + hexValue;
+        
+    } catch (error) {
+        return "0x" + "0".repeat(64);
+    }
+}
+
+// 如果需要将ETH转换为wei，使用下面的函数（已注释保留）
+/*
+function convertEthToWeiHex(ethValue) {
+    try {
+        const ethNum = parseFloat(ethValue);
+        if (isNaN(ethNum) || ethNum < 0) {
+            throw new Error(`无效的ETH值: ${ethValue}`);
+        }
+        
+        // 将ETH转换为wei（1 ETH = 10^18 wei）
+        const weiValue = BigInt(Math.floor(ethNum * 1e18));
+        const hexValue = weiValue.toString(16);
+        const formattedHex = hexValue.padStart(64, '0');
+        
+        return "0x" + formattedHex;
+        
+    } catch (error) {
+        return "0x" + "0".repeat(64);
+    }
+}
+*/
+
+// ===================== 4. 生成数据 =====================
+const newData = generateBuyNFTData(PARAMS);
+const hexValue = convertValueToHex(PARAMS.value);
+
+console.log(`✅ ${newData}`);
+// console.log(newData);
+// console.log('\n✅ 转换的value:');
+// console.log(hexValue);
+
+// ===================== 5. 更新请求 =====================
+try {
+    const request = pm.request.toJSON();
+    
+    if (request.body && request.body.raw) {
+        const requestBody = JSON.parse(request.body.raw);
+        
+        if (requestBody.params && 
+            Array.isArray(requestBody.params) && 
+            requestBody.params.length >= 1 && 
+            requestBody.params[0]) {
+            
+            requestBody.params[0].data = newData;
+            requestBody.params[0].value = hexValue;
+            
+            const updatedBody = JSON.stringify(requestBody, null, 2);
+            request.body.raw = updatedBody;
+            pm.request.body = request.body;
+            
+            // console.log('\n🎉 请求更新完成');
+        }
+    }
+} catch (error) {
+    console.error('❌ 更新请求出错:', error.message);
+}。
+要求写一个预执行脚本，调用的接口为{"jsonrpc":"3.0","method":"chain_sendTransaction","params":[{"from":"0x7741ba614e1a8cd096e0339fbe8d3c21f3bdc26a","to":"0x949d0ce1b34a7703059606445f4c401630bc6b4c","data":"","sliceno":"0x0"},"","encryp=none"],"id":"5931970bc97b2e9809ab7d5a"}。
+其中data参考下面代码来生成：// 编码ESafeTransferFrom函数调用的数据
+function encodeESafeTransferFrom_TCF_NFT(
+  from: `0x${string}`,
+  to: `0x${string}`,
+  tokenId: bigint,
+  indexs: bigint[],
+): void {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "ESafeTransferFrom",
+    args: [from, to, tokenId, indexs, "0x"],
+  });
+  console.log(data);
+}。生成的data数据放到接口数据中的data字段。
+我代码生成的脚本为：0x598c27bc0000000000000000000000007741ba614e1a8cd096e0339fbe8d3c21f3bdc26a000000000000000000000000f6d1c29792ee0e44b1853cf1ae70b0df56febf01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000。
+我传入的参数为encodeESafeTransferFrom_TCF_NFT(owner, addr_3, 0n, [0n, 1n]);
+abi为： {
+    inputs: [
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256[]",
+        name: "indexes",
+        type: "uint256[]",
+      },
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "ESafeTransferFrom",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  }。只打印必要的参数。

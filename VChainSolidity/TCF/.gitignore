@@ -1,5 +1,5 @@
 # tooling
-.tools/
+/.tools/
 # Node modules
 /node_modules
 

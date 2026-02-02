@@ -12,21 +12,26 @@ import { parseAbiItem } from "viem";
 import strict from "assert/strict";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
-let { env, namedAccounts, TCF1, test_TCF_ERC1155MintTime } =
+let { env, namedAccounts, TCF1, test_TCF_ERC1155MintTime, vault, vault_copy } =
   await networkHelpers.loadFixture(deployAll);
 
 // 测试 TCF_ERC1155MintTime 合约
 describe("TCF_ERC1155MintTime 合约测试", function () {
   beforeEach(async function () {
     // 在每个测试用例之前重新加载合约和账户
-    ({ env, namedAccounts, TCF1, test_TCF_ERC1155MintTime } =
+    ({ env, namedAccounts, TCF1, test_TCF_ERC1155MintTime, vault, vault_copy } =
       await networkHelpers.loadFixture(deployAll));
 
     // const tokenName = stringToHexString("DCF") as `0x${string}`;
     // const tokenSymbol = stringToHexString("DCF") as `0x${string}`;
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
+      args: [
+        vault.address,
+        vault_copy.address,
+        namedAccounts.deployer,
+        namedAccounts.deployer,
+      ],
       account: namedAccounts.deployer,
     });
 
@@ -66,14 +71,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 6n],
+          args: [0n, 6n],
         }),
       ).to.equal(timestamp);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 0n],
+          args: [0n, 0n],
         }),
       ).to.equal(timestamp);
 
@@ -96,14 +101,14 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 13n],
+          args: [0n, 13n],
         }),
       ).to.equal(timestamp);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 7n],
+          args: [0n, 7n],
         }),
       ).to.equal(timestamp);
     });
@@ -147,7 +152,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       await expect(
         env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [10n, namedAccounts.deployer, 0n],
+          args: [10n, 0n],
         }),
       ).to.be.rejectedWith("TOKENID_RANGE");
     });
@@ -167,7 +172,7 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       const filter = await env.viem.publicClient.createEventFilter({
         address: test_TCF_ERC1155MintTime.address,
         event: parseAbiItem(
-          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint256 mintedAt)`,
+          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint64 mintedAt)`,
         ),
         strict: true,
       });
@@ -631,16 +636,15 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 0n],
+          args: [0n, 0n],
         }),
-      ).to.equal(0n);
-
+      ).to.equal(timestamp);
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.deployer, 1n],
+          args: [0n, 1n],
         }),
-      ).to.equal(0n);
+      ).to.equal(timestamp);
     });
 
     // 正常转移token，测试to地址的mintTimes是否正确更新
@@ -687,16 +691,76 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.admin1, 0n],
+          args: [0n, 0n],
         }),
-      ).to.equal(0n);
+      ).to.equal(timestamp);
 
       expect(
         await env.read(test_TCF_ERC1155MintTime, {
           functionName: "getNftMintTime",
-          args: [0n, namedAccounts.admin1, 1n],
+          args: [0n, 1n],
         }),
-      ).to.equal(0n);
+      ).to.equal(timestamp);
+    });
+
+    it("新 owner 可以立即转移刚接收的NFT", async function () {
+      const mintResult = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 1n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const block = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintResult.blockNumber)),
+      });
+      const transferTime = BigInt(block.timestamp) + BigInt(indate) + 10n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(transferTime));
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "ESafeTransferFrom",
+        args: [
+          namedAccounts.deployer,
+          namedAccounts.admin1,
+          0n,
+          [0n],
+          "0x" as `0x${string}`,
+        ],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "getNftMintTime",
+          args: [0n, 0n],
+        }),
+      ).to.equal(block.timestamp);
+
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "ESafeTransferFrom",
+        args: [
+          namedAccounts.admin1,
+          namedAccounts.admin2,
+          0n,
+          [0n],
+          "0x" as `0x${string}`,
+        ],
+        account: namedAccounts.admin1,
+      });
+
+      expect(
+        (
+          await env.read(test_TCF_ERC1155MintTime, {
+            functionName: "ownerOf",
+            args: [0n, 0n],
+          })
+        ).toLowerCase(),
+      ).to.equal(namedAccounts.admin2);
     });
   });
 

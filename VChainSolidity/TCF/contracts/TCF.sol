@@ -14,7 +14,7 @@ import {vault} from "./extensions/vault/vault.sol";
 import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
 // TODO: 在voidChain中部署合约，并测试功能
-// TODO: 增加暂停功能
+// TODO: transferAndCall不需要传入tcf_nft地址，通过初始化方式，设置TCF_NFT合约地址，防止传错地址
 
 contract TCF is Initializable, ERC1363, Ownable, Pausable {
     // 事件：记录接收和提取
@@ -32,12 +32,12 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
     address private staticVault;
     address private dynamicVault;
 
-    function getStaticContractAddress() external view returns (string memory) {
-        return _toHexString(staticVault);
+    function getStaticContractAddress() external view returns (address) {
+        return staticVault;
     }
 
-    function getDynamicContractAddress() external view returns (string memory) {
-        return _toHexString(dynamicVault);
+    function getDynamicContractAddress() external view returns (address) {
+        return dynamicVault;
     }
 
     // 注意修饰器为initializer，意思是，如果当前合约正在执行这个初始化函数，
@@ -146,19 +146,19 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
         emit Unpaused(msg.sender);
     }
 
-    function _toHexString(
-        address account
-    ) private pure returns (string memory) {
-        bytes20 data = bytes20(account);
-        bytes16 hexSymbols = 0x30313233343536373839616263646566;
-        bytes memory str = new bytes(42);
-        str[0] = "0";
-        str[1] = "x";
-        for (uint256 i = 0; i < 20; i++) {
-            uint8 b = uint8(data[i]);
-            str[2 + i * 2] = bytes1(hexSymbols[b >> 4]);
-            str[3 + i * 2] = bytes1(hexSymbols[b & 0x0f]);
-        }
-        return string(str);
-    }
+    // function _toHexString(
+    //     address account
+    // ) private pure returns (string memory) {
+    //     bytes20 data = bytes20(account);
+    //     bytes16 hexSymbols = 0x30313233343536373839616263646566;
+    //     bytes memory str = new bytes(42);
+    //     str[0] = "0";
+    //     str[1] = "x";
+    //     for (uint256 i = 0; i < 20; i++) {
+    //         uint8 b = uint8(data[i]);
+    //         str[2 + i * 2] = bytes1(hexSymbols[b >> 4]);
+    //         str[3 + i * 2] = bytes1(hexSymbols[b & 0x0f]);
+    //     }
+    //     return string(str);
+    // }
 }

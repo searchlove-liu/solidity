@@ -10,25 +10,23 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
     // Mapping from token ID to account to mint time array
     // 用户拥有的id,mapping(owner => mapping(tokenId => editionIds))
     mapping(address => mapping(uint256 => uint256[])) private _ownedTokenIds;
-    // 用户nft的创建时间，mapping(tokenId => mapping(owner => mapping(editionId => mintTime)))
+    // 用户nft的创建时间，mapping(tokenId => mapping(editionId => mintTime)))
     // mintTime == 0 表示该NFT已经被转移
-    mapping(uint256 => mapping(address => mapping(uint256 => uint256)))
-        private _mintTimes;
+    mapping(uint256 => mapping(uint256 => uint64)) private _mintTimes;
 
     event TokenEditionMinted(
         address indexed to,
         uint256 indexed tokenId,
         uint256 editionId,
-        uint256 mintedAt
+        uint64 mintedAt
     );
     // test _mintTimes
     function getNftMintTime(
         uint256 tokenId,
-        address account,
         uint256 editionId
-    ) public view returns (uint256) {
+    ) public view returns (uint64) {
         require(tokenId < 6, "TOKENID_RANGE");
-        return _mintTimes[tokenId][account][editionId];
+        return _mintTimes[tokenId][editionId];
     }
 
     // test _ownedTokenIds
@@ -56,20 +54,30 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         for (uint256 i = 0; i < indexes.length; i++) {
             // 检查是否过期，过期之后才可以转
             uint256 index = indexes[i];
-            uint256 mintTime = _mintTimes[tokenId][from][index];
+            uint64 mintTime = _mintTimes[tokenId][index];
             (, uint32 indate) = getNFTEquityDetails(tokenId);
             require(
                 TCF_ERC1155.ownerOf(tokenId, index) == from,
                 "TOKEN_NOT_OWNED"
             );
+            // 判断是否在_ownedTokenIds中
+            bool found = false;
+            // // 从_ownedTokenIds中移除index，可以改为在外层for循环中处理
+            uint256[] storage fromOwnedTokenIds = _ownedTokenIds[from][tokenId];
+            uint256[] storage toOwnedTokenIds = _ownedTokenIds[to][tokenId];
+            for (uint256 j = 0; j < fromOwnedTokenIds.length; j++) {
+                if (fromOwnedTokenIds[j] == index) {
+                    found = true;
+                    break;
+                }
+            }
+            require(found, "INDEX_NOT_OWNED");
+            // 检查是否过期
 
             require(block.timestamp > mintTime + indate, "SEND_VALID_NFT");
 
-            // 将mintTime变为0，表示转移
-            _mintTimes[tokenId][to][index] = 0;
-            // 从_ownedTokenIds中移除index
-            uint256[] storage fromOwnedTokenIds = _ownedTokenIds[from][tokenId];
-            uint256[] storage toOwnedTokenIds = _ownedTokenIds[to][tokenId];
+            // // 注意这里是to，不是from。不需要赋值，因为不赋值就为0
+            // _mintTimes[tokenId][to][index] = 0;
             // 查找index在fromOwnedTokenIds中的位置并移除
             for (uint256 j = 0; j < fromOwnedTokenIds.length; j++) {
                 if (fromOwnedTokenIds[j] == index) {
@@ -83,8 +91,8 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             }
             // 添加到to的_ownedTokenIds中
             toOwnedTokenIds.push(index);
-            // 清除from的mintTime
-            _mintTimes[tokenId][from][index] = 0;
+            // 清除from的mintTime。不需要赋值为0，删除之后，_ownedTokenIds就没有这个数据了
+            // _mintTimes[tokenId][from][index] = 0;
         }
         super._safeTransferFrom(from, to, tokenId, indexes, data);
     }
@@ -96,11 +104,11 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         uint256 amount,
         bytes memory data
     ) internal virtual override(TCF_ERC1155) {
-        uint256 currentTime = block.timestamp;
+        uint64 currentTime = uint64(block.timestamp);
         for (uint256 i = 0; i < amount; i++) {
             uint256 editionId = _nextTokenId[id] + i;
             // 记录mintTime
-            _mintTimes[id][account][editionId] = currentTime;
+            _mintTimes[id][editionId] = currentTime;
             // 记录ownedTokenIds
             _ownedTokenIds[account][id].push(editionId);
 
@@ -120,7 +128,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             uint256[] memory indexes = _ownedTokenIds[owner][tokenId];
             for (uint256 i = 0; i < indexes.length; i++) {
                 uint256 index = indexes[i];
-                uint256 mintTime = _mintTimes[tokenId][owner][index];
+                uint64 mintTime = _mintTimes[tokenId][index];
                 (, uint32 indate) = getNFTEquityDetails(tokenId);
                 // 检查是否过期,大于，说明已经过期，过期就不放在计算之列
                 if (block.timestamp > mintTime + indate) {

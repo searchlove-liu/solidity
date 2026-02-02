@@ -15,26 +15,21 @@ import { hexToNumber } from "./utils/stringToHex.ts";
 import { parseAbiItem } from "viem";
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
-let { env, TCF1, TCF2, namedAccounts, TCF_NFTPrice, test_TCF_ERC1155MintTime } =
-  await networkHelpers.loadFixture(deployAll);
+let {
+  env,
+  TCF1,
+  TCF2,
+  vault,
+  vault_copy,
+  namedAccounts,
+  TCF_NFTPrice,
+  test_TCF_ERC1155MintTime,
+} = await networkHelpers.loadFixture(deployAll);
 
 const revertMessage =
   "VM Exception while processing transaction: reverted with reason string ";
 
 describe("TCF_NFTPrice", function () {
-  const ensureTCFInitialized = async (tokenContract: typeof TCF1) => {
-    const symbol = await env.read(tokenContract, { functionName: "symbol" });
-    if (symbol === "DCF") return;
-
-    // const tokenName = stringToHexString("DCF") as `0x${string}`;
-    // const tokenSymbol = stringToHexString("DCF") as `0x${string}`;
-    await env.execute(tokenContract, {
-      functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
-      account: namedAccounts.deployer,
-    });
-  };
-
   beforeEach(async () => {
     ({
       env,
@@ -46,12 +41,22 @@ describe("TCF_NFTPrice", function () {
     } = await networkHelpers.loadFixture(deployAll));
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
+      args: [
+        vault.address,
+        vault_copy.address,
+        namedAccounts.deployer,
+        namedAccounts.deployer,
+      ],
       account: namedAccounts.deployer,
     });
     await env.execute(TCF2, {
       functionName: "initialize",
-      args: [namedAccounts.deployer, namedAccounts.deployer],
+      args: [
+        vault.address,
+        vault_copy.address,
+        namedAccounts.deployer,
+        namedAccounts.deployer,
+      ],
       account: namedAccounts.deployer,
     });
   });
@@ -1006,7 +1011,7 @@ describe("TCF_NFTPrice", function () {
       const filter = await env.viem.publicClient.createEventFilter({
         address: test_TCF_ERC1155MintTime.address,
         event: parseAbiItem(
-          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint256 mintedAt)`,
+          `event TokenEditionMinted(address indexed to,uint256 indexed tokenId,uint256 editionId,uint64 mintedAt)`,
         ),
         strict: true,
       });
@@ -1027,9 +1032,17 @@ describe("TCF_NFTPrice", function () {
 
       const mintResult = await env.execute(test_TCF_ERC1155MintTime, {
         functionName: "testMint",
-        args: [namedAccounts.deployer, 0n, 3n, "0x" as `0x${string}`],
+        args: [namedAccounts.deployer, 0n, 6n, "0x" as `0x${string}`],
         account: namedAccounts.deployer,
       });
+
+      // 测试余额
+      expect(
+        await env.read(test_TCF_ERC1155MintTime, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.equal(6n);
 
       const block = await env.viem.publicClient.getBlock({
         blockNumber: BigInt(hexToNumber(mintResult.blockNumber)),
@@ -1037,7 +1050,7 @@ describe("TCF_NFTPrice", function () {
       const mintedAt = BigInt(block.timestamp);
 
       const logs = await env.viem.publicClient.getFilterLogs({ filter });
-      expect(logs.length).to.equal(3);
+      expect(logs.length).to.equal(6);
 
       logs.forEach((log, index) => {
         expect(log.args.tokenId).to.equal(0n);

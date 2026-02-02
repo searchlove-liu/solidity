@@ -16,7 +16,8 @@ import {
 } from "./openzeppelin_l/contracts/interfaces/IERC1363Receiver.sol";
 import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
-// TODO: 设置重入攻击防护
+// TODO: 设置重入攻击防护(不做)
+// TODO: 当前修改了代码中的过期时间，方便测试，测试完之后需要修改回原始值
 contract TCF_NFT is
     IERC1363Receiver,
     TCF_ERC1155URIStorage,
@@ -62,7 +63,6 @@ contract TCF_NFT is
     );
 
     function buyNFTByTC(
-        address account,
         uint256 id,
         uint256 buyAmount
     ) public payable whenNotPaused {
@@ -73,7 +73,7 @@ contract TCF_NFT is
         require(rootInitialized, "ROOT_NOT_INITIALIZED"); // 检查二叉树根节点是否被初始化
         require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED"); // 检查NFT价格是否被初始化
         require(_initializedURIStorage == 1, "BASEURI_NOT_INITIALIZED"); // 检查baseURI是否被初始化
-        require(isExist(account), "NODE_NOT_EXISTS"); // 检查节点是否在二叉树中
+        require(isExist(_msgSender()), "NODE_NOT_EXISTS"); // 检查节点是否在二叉树中
         // 检查msg.value是否足够支付NFT的价格
         (string memory err_, uint256 nftPrice) = getNFTPrice(id, address(0));
         require(bytes(err_).length == 0, err_);
@@ -81,10 +81,10 @@ contract TCF_NFT is
             msg.value == nftPrice * buyAmount && buyAmount > 0,
             "INCORRECT_FUNDS"
         );
-        _mint(account, id, buyAmount, "");
-        emit NFTPurchasedWithTC(account, id, buyAmount, nftPrice);
+        _mint(_msgSender(), id, buyAmount, "");
+        emit NFTPurchasedWithTC(_msgSender(), id, buyAmount, nftPrice);
 
-        (bool success, ) = withdrawAddress.call{value: msg.value}("");
+        (bool success, ) = payable(withdrawAddress).call{value: msg.value}("");
         require(success, "TC_TRANSFER_FAILED");
     }
 

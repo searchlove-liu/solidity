@@ -24,6 +24,9 @@ import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
  * @dev 管理tcf——nft的价格，比例，有效时长，支持的token地址
  */
 
+// TODO:增加修改支持token的功能
+// TODO:将tokenAddress_array改为private
+
 contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     // 支持的支付方式，常量TC,DCF,USDT(后期确定DCF和USDT的合约地址之后再写)
     // TC原生代币的没有地址,所以使用0x1地址
@@ -47,6 +50,8 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         address tokenAddress;
         uint256 amount;
     }
+
+    //
 
     // 权益：保存价格，比例，有限期
     // 可优化，使用两个map用于存储素具，一份是ratio与indate集合，另一份是价格
@@ -107,14 +112,15 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
 
         // 有效时长，分别对应 180 200 240 280 320 360  单位是天
         // 测试的时候：天数*每天的秒
-        uint32[6] memory indetes = [
-            15552000,
-            17280000,
-            20736000,
-            24192000,
-            27648000,
-            31104000
-        ];
+        // uint32[6] memory indetes = [
+        //     15552000,
+        //     17280000,
+        //     20736000,
+        //     24192000,
+        //     27648000,
+        //     31104000
+        // ];
+        uint32[6] memory indetes = [1, 2, 3, 24192000, 5, 6];
         // 动态比例
         uint8[6] memory ratios = [40, 50, 60, 80, 90, 100];
 

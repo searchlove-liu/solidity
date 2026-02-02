@@ -3,6 +3,7 @@ export {Artifact_TCF_ERC1155 as TCF_ERC1155} from './TCF_ERC1155.js';
 export {Artifact_TCF_ERC1155MintTime as TCF_ERC1155MintTime} from './TCF_ERC1155MintTime.js';
 export {Artifact_TCF_ERC1155URIStorage as TCF_ERC1155URIStorage} from './TCF_ERC1155URIStorage.js';
 export {Artifact_TCF_NFTPrice as TCF_NFTPrice} from './TCF_NFTPrice.js';
+export {Artifact_vault_copy as vault_copy} from './vault_copy.js';
 export {Artifact_vault as vault} from './vault.js';
 export {Artifact_Ownable as Ownable} from './Ownable.js';
 export {Artifact_IERC1363 as IERC1363} from './IERC1363.js';
