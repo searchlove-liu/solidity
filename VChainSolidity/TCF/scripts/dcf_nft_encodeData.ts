@@ -1,11 +1,11 @@
-import { network } from "hardhat";
+import { network, artifacts } from "hardhat";
 const { viem } = await network.connect({
   network: "hardhatMainnet",
   chainType: "l1",
 });
 import { encodeFunctionData, decodeFunctionResult, zeroAddress } from "viem";
-import { TCF_NFT } from "./abi/TCF_NFT.ts";
-import { TCF_abi } from "./abi/TCF.ts";
+const TCF_NFT = (await artifacts.readArtifact("TCF_NFT")).abi;
+// import { TCF_NFT } from "./abi/TCF_NFT.ts";
 import { getPrices } from "../test/price.ts";
 import { baseURI } from "../test/baseURI.ts";
 
@@ -21,7 +21,7 @@ const test_address =
 const decimals = 9;
 const balanceModulo = 1000000000n;
 const dcfAddress =
-  "0x617d51b81e37224fbb9be1d969261a83236501b7" as `0x${string}`; // Replace with actual DCF contract address
+  "0xab2ef03f05cb429d8eecd8ead2512465a4c42be6" as `0x${string}`; // Replace with actual DCF contract address
 
 // 编码addSupportedToken 函数调用的数据
 function encodeAddSupportedToken_TCF_NFTPrice(
@@ -107,9 +107,10 @@ function decodeGetNFTEquityDetails_TCF_NFTPrice(data: `0x${string}`): void {
     functionName: "getNFTEquityDetails",
     data: data,
   });
-  console.log("ration:", decoded[0] + "%");
-  // 将秒转为天
-  console.log("duration:", decoded[1] / (24 * 60 * 60) + " days");
+  console.log(decoded);
+  // console.log("ration:", decoded[0] + "%");
+  // // 将秒转为天
+  // console.log("duration:", decoded[1] / (24 * 60 * 60) + " days");
 }
 
 // 编码changeNFTPrice函数调用的数据
@@ -174,14 +175,13 @@ function encodeEuri_TCF_NFTPrice(tokenId: bigint): string {
   return data;
 }
 
-function decodeEuri_TCF_NFTPrice(data: `0x${string}`): string {
+function decodeEuri_TCF_NFTPrice(data: `0x${string}`) {
   const decoded = decodeFunctionResult({
     abi: TCF_NFT,
     functionName: "Euri",
     data: data,
   });
   console.log(decoded);
-  return decoded;
 }
 
 // 编码initRoot函数调用的数据
@@ -197,7 +197,6 @@ function encodeInitRoot_TCF_NFTPrice(rootAddress: `0x${string}`): string {
 
 // 编码insert函数调用的数据，四个参数address node,address parent,address recommender,bool isLeft
 function encodeInsert_TCF_NFTPrice(
-  node: `0x${string}`,
   parent: `0x${string}`,
   recommender: `0x${string}`,
   isLeft: boolean,
@@ -205,7 +204,7 @@ function encodeInsert_TCF_NFTPrice(
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "insert",
-    args: [node, parent, recommender, isLeft],
+    args: [parent, recommender, isLeft],
   });
   console.log(data);
   return data;
@@ -313,14 +312,13 @@ function encodeGetUserTokenIds_TCF_NFT(
 }
 
 // 解码getUserTokenIds函数返回的数据
-function decodeGetUserTokenIds_TCF_NFT(data: `0x${string}`): readonly bigint[] {
+function decodeGetUserTokenIds_TCF_NFT(data: `0x${string}`) {
   const decoded = decodeFunctionResult({
     abi: TCF_NFT,
     functionName: "getUserTokenIds",
     data: data,
   });
   console.log(decoded);
-  return decoded;
 }
 
 // 编码setApprovalForAll函数调用数据
@@ -353,12 +351,105 @@ function encodecheckInitPricesParams_TCF_NFTPrice(
 // 编码getNftMintTime函数调用数据
 function encodegetNftMintTime_TCF_NFTPrice(
   nftId: bigint,
-  account: `0x${string}`,
+  editionId: bigint,
 ): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "getNftMintTime",
-    args: [nftId, account, 0n],
+    args: [nftId, editionId],
+  });
+  console.log(data);
+  return data;
+}
+
+// 解码getBlanceOf函数返回数据
+function decodedBalanceOfResult(data: `0x${string}`) {
+  const decoded = decodeFunctionResult({
+    abi: TCF_NFT,
+    functionName: "balanceOf",
+    data: data,
+  });
+
+  // decoded是纳秒级别的时间戳，转为秒级别
+  console.log("raw data:", decoded);
+  // const seconds = decoded / 1_000_000_000n;
+  // console.log(seconds);
+  // return decoded;
+}
+
+// 编码getNodeBalance函数调用数据
+function encodeGetNodeBalance(addr: `0x${string}`) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "getNodeWorth",
+    args: [addr],
+  });
+  console.log(data);
+}
+
+// 编码getParent函数调用数据
+function encodeGetParent_TCF_NFT(node: `0x${string}`) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "getParent",
+    args: [node],
+  });
+  console.log(data);
+}
+
+// 编码getRecommendedParent函数调用数据
+function encodeGetRecommendedParent_TCF_NFT(
+  recommender: `0x${string}`,
+  excludeNode: `0x${string}`,
+) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "getOptimalParent",
+    args: [recommender, excludeNode],
+  });
+
+  console.log(data);
+}
+
+// 编码getRecommender函数调用数据
+function encodeGetRecommender_TCF_NFT(node: `0x${string}`) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "getRecommender",
+    args: [node],
+  });
+  console.log(data);
+}
+
+// 编码isApprovedForAll函数调用数据
+function encodeIsApprovedForAll_TCF_NFT(
+  account: `0x${string}`,
+  operator: `0x${string}`,
+) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "isApprovedForAll",
+    args: [account, operator],
+  });
+  console.log(data);
+}
+
+// 编码subtreeWorth函数调用数据
+function encodeSubtreeWorth_TCF_NFT(node: `0x${string}`) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "subtreeWorth",
+    args: [node],
+  });
+  console.log(data);
+}
+
+// 编码transferOwnership函数的数据
+function encodeTransferOwnership_TCF_NFTPrice(newOwner: `0x${string}`): string {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "transferOwnership",
+    args: [newOwner],
   });
   console.log(data);
   return data;
@@ -371,17 +462,14 @@ function encodegetNftMintTime_TCF_NFTPrice(
 // encodeGetSupportedTokens_TCF_NFTPrice(0n);
 
 // 编码initPrice
-// encodeInitPrice_TCF_NFTPrice(dcfAddress);
+encodeInitPrice_TCF_NFTPrice(dcfAddress);
 
 // 编码getNFTPrice
-// encodeGetNFTPrice_TCF_NFTPrice(
-//   0n,
-//   "0x617d51b81e37224fbb9be1d969261a83236501b7" as `0x${string}`,
-// );
+// encodeGetNFTPrice_TCF_NFTPrice(1n, zeroAddress);
 
 // 解码getNFTPrice
 // const getNFTPrice_data = ("0x" +
-//   "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000") as `0x${string}`;
+//   "00000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000d50524943455f4e4f545f53455400000000000000000000000000000000000000") as `0x${string}`;
 // decodeGetNFTPrice_TCF_NFTPrice(getNFTPrice_data);
 
 // 编码getNFTEquityDetails
@@ -389,11 +477,11 @@ function encodegetNftMintTime_TCF_NFTPrice(
 
 // 解码getNFTEquityDetails
 // const getNFTEquityDetails_data = ("0x" +
-//   "00000000000000000000000000000000000000000000000000000000000000640000000000000000000000000000000000000000000000000000000001da9c00") as `0x${string}`;
+//   "0000000000000000000000000000000000000000000000000000000000000028000000000000000000000000000000000000000000000000003740762b8c0000") as `0x${string}`;
 // decodeGetNFTEquityDetails_TCF_NFTPrice(getNFTEquityDetails_data);
 
 // 编码changeNFTPrice
-// encodeChangeNFTPrice_TCF_NFTPrice(0n, zeroAddress, 0n);
+// encodeChangeNFTPrice_TCF_NFTPrice(1n, zeroAddress, 3n);
 
 // 编码isSupported
 // encodeIsSupported_TCF_NFTPrice("0x617d51b81e37224fbb9be1d969261a83236501b7");
@@ -402,9 +490,10 @@ function encodegetNftMintTime_TCF_NFTPrice(
 // encodeChangeDynamicRatio_TCF_NFTPrice(0n, 30);
 
 // 编码setBaseURI
+// console.log(baseURI);
 // encodeSetBaseURI_TCF_NFTPrice();
 
-//编码Euri
+// 编码Euri
 // encodeEuri_TCF_NFTPrice(0n);
 
 // 解码Euri
@@ -416,7 +505,7 @@ function encodegetNftMintTime_TCF_NFTPrice(
 // encodeInitRoot_TCF_NFTPrice(owner);
 
 // 编码insert
-// encodeInsert_TCF_NFTPrice(addr_3, owner, owner, true);
+// encodeInsert_TCF_NFTPrice(owner, owner, true);
 // encodeInsert_TCF_NFTPrice(addr_7, owner, owner, false);
 
 // 编码setWithdrawAddress
@@ -432,7 +521,7 @@ function encodegetNftMintTime_TCF_NFTPrice(
 // encodeBalanceOf_TCF_NFT(owner, 0n);
 
 // 编码ESafeTransferFrom
-// encodeESafeTransferFrom_TCF_NFT(addr_3, owner, 0n, [0n]);
+// encodeESafeTransferFrom_TCF_NFT(owner, addr_3, 1n, [0n, 1n]);
 
 // 编码getChildren
 // encodeGetChildren_TCF_NFT(owner);
@@ -448,11 +537,43 @@ function encodegetNftMintTime_TCF_NFTPrice(
 // 解码getUserTokenIds
 // const getUserTokenIds_data =
 //   "0x" +
-//   "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001";
+//   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000d000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000000000000000000000000000000000000000000010";
 // decodeGetUserTokenIds_TCF_NFT(getUserTokenIds_data as `0x${string}`);
 
 // 编码setApprovalForAll
 // encodeSetApprovalForAll_TCF_NFT(owner, true);
 
 // 编码checkInitPricesParams
-encodecheckInitPricesParams_TCF_NFTPrice(dcfAddress);
+// encodecheckInitPricesParams_TCF_NFTPrice(dcfAddress);
+
+// 编码getNftMintTime
+// encodegetNftMintTime_TCF_NFTPrice(2n, 2n);
+
+//解码balanceOf返回数据
+// const result =
+//   "0x" + "0000000000000000000000000000000000000000000000000000000000000069";
+// decodedBalanceOfResult(result as `0x${string}`);
+
+// getNodeBalance
+// encodeGetNodeBalance(owner);
+
+// getParent
+// encodeGetParent_TCF_NFT(addr_3);
+
+// getRecommendedParent
+// encodeGetRecommendedParent_TCF_NFT(addr_3, zeroAddress);
+
+// getRecommender
+// encodeGetRecommender_TCF_NFT(addr_3);
+
+// isApprovedForAll
+// encodeIsApprovedForAll_TCF_NFT(addr_3, owner);
+
+// minChildSubtreeBalance
+// encodeGetNodeBalance(owner);
+
+// subtreeWorth
+// encodeSubtreeWorth_TCF_NFT(addr_3);
+
+// transferOwnership
+// encodeTransferOwnership_TCF_NFTPrice(addr_3);

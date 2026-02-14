@@ -4,6 +4,7 @@ import HardhatDeploy from "hardhat-deploy";
 import hardhatEthersChaiMatchers from "@nomicfoundation/hardhat-ethers-chai-matchers";
 import hardhatBytecodeExporter from "@solidstate/hardhat-bytecode-exporter";
 import hardhatEthers from "@nomicfoundation/hardhat-ethers";
+import hardhatAbiExporter from "@solidstate/hardhat-abi-exporter";
 import { localhost } from "viem/chains";
 
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
     HardhatDeploy,
     hardhatEthersChaiMatchers,
     hardhatBytecodeExporter,
+    hardhatAbiExporter,
     hardhatEthers,
   ],
   bytecodeExporter: {
@@ -19,7 +21,15 @@ export default defineConfig({
     runOnCompile: true,
     clear: true,
     flat: true,
-    only: [/TCF_NFT$/, /TCF$/, /vault$/],
+    only: [/TCF_NFT$/, /TCF$/, /Airdrop$/, /RewardContract$/, /vault$/],
+  },
+  abiExporter: {
+    path: "./abi",
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    format: "json",
+    only: [/TCF_NFT$/, /TCF$/],
   },
   chainDescriptors: {
     31337: {

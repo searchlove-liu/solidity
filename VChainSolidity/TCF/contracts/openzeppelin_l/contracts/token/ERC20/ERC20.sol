@@ -206,6 +206,7 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
         address to,
         uint256 amount
     ) public virtual override returns (bool) {
+        require(amount > 0, "ERC20: Amount must be greater than 0");
         address spender = _msgSender();
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);

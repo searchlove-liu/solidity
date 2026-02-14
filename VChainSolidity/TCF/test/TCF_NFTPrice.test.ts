@@ -4,13 +4,7 @@ import { expect } from "chai";
 import { beforeEach, describe, it } from "node:test"; // using node:test as hardhat v3 do not support vitest
 import { network } from "hardhat";
 import { setupFixtures } from "./utils/index.js";
-import {
-  getPrices,
-  zeroAddress,
-  getErrorPrices,
-  ONEAddress,
-  getTCPrices,
-} from "./price.ts";
+import { getPrices, zeroAddress, ONEAddress, getTCPrices } from "./price.ts";
 import { hexToNumber } from "./utils/stringToHex.ts";
 import { parseAbiItem } from "viem";
 const { provider, networkHelpers } = await network.connect();
@@ -39,6 +33,7 @@ describe("TCF_NFTPrice", function () {
       TCF_NFTPrice,
       test_TCF_ERC1155MintTime,
     } = await networkHelpers.loadFixture(deployAll));
+
     await env.execute(TCF1, {
       functionName: "initialize",
       args: [
@@ -49,6 +44,7 @@ describe("TCF_NFTPrice", function () {
       ],
       account: namedAccounts.deployer,
     });
+
     await env.execute(TCF2, {
       functionName: "initialize",
       args: [
@@ -312,14 +308,6 @@ describe("TCF_NFTPrice", function () {
         account: namedAccounts.deployer,
       }),
     ).to.equal("TOKEN_UNSUPPORTED " + TCF2Address);
-
-    expect(
-      await env.read(TCF_NFTPrice, {
-        functionName: "checkInitPricesParams",
-        args: [getErrorPrices(TCF1Address)],
-        account: namedAccounts.deployer,
-      }),
-    ).to.equal("PRICES_LEN");
 
     // 正确测试
     expect(

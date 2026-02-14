@@ -11,6 +11,9 @@ import {TCF_ERC1155MintTime} from "./../ERC1155/TCF_ERC1155MintTime.sol";
 ///  - 若 A 推荐 B，则 B 必须插入在以 A 为根的子树分叉之下（即：B 的父节点必须在 A 的子树内）。
 ///  - 每个节点（地址）可向合约充值 ETH，并记入该节点余额（合约内账本）。
 
+// todo:只有节点购买NFT时，才会把节点放到二叉树，防止用户不断推荐新节点，导致树过大，遍历消耗gas过高。
+// 当前只有购买NFT的节点才可以作为父节点，其实也实现了树过大的问题
+
 contract BinaryTree is TCF_ERC1155MintTime {
     struct Node {
         address parent;
@@ -39,6 +42,7 @@ contract BinaryTree is TCF_ERC1155MintTime {
     /// @param rootAddress 根节点地址
     function initRoot(address rootAddress) external onlyOwner {
         require(!rootInitialized, "ROOT_ALREADY_INITIALIZED");
+        require(rootAddress.code.length == 0, "ROOT_CANNOT_BE_CONTRACT");
         require(rootAddress != address(0), "ZERO_ADDRESS");
 
         rootInitialized = true;
@@ -61,28 +65,31 @@ contract BinaryTree is TCF_ERC1155MintTime {
     ///  - parent 必须已存在。
     ///  - recommender 必须已存在。
     ///  - 若 recommender 推荐该 node，则 parent 必须在 recommender 的子树内（含 recommender 本人）。
-    /// @param node 新节点地址
     /// @param parent 父节点地址
     /// @param recommender 推荐人地址（必须是当前树中的某个地址）
     /// @param isLeft true=插入为 parent.left；false=插入为 parent.right。
     ///  如果isLeft未true，优先放在父节点的左子树下，如果左子树下有节点，则放在右子树下；反之亦然。
     ///  我什么存在：因为如果使用推荐节点，推荐函数将返回一个父节点和isLeft参数，这样插入函数就可以直接使用。
-    function insert(
-        address node,
-        address parent,
-        address recommender,
-        bool isLeft
-    ) external {
+    function insert(address parent, address recommender, bool isLeft) external {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         require(
-            node != address(0) &&
-                parent != address(0) &&
-                recommender != address(0),
+            parent != address(0) && recommender != address(0),
             "ZERO_ADDRESS"
         );
+        address node = msg.sender;
         require(!_nodes[node].exists, "NODE_EXISTS");
         require(_nodes[parent].exists, "PARENT_NOT_EXIST");
         require(_nodes[recommender].exists, "RECOMMENDER_NOT_EXIST");
+        // 查看父节点是否购买过NFT，如果没有购买过NFT，无法作为父节点
+        for (uint256 tokenId = 0; tokenId < 6; tokenId++) {
+            uint256 balance = balanceOf(parent, tokenId);
+            if (balance > 0) {
+                break;
+            }
+            if (tokenId == 5) {
+                revert("PARENT_HAS_NO_NFT");
+            }
+        }
 
         // Requirement #4: B 必须在以 A(recommender) 为根的子树之下
         // 等价检查：parent 必须是 recommender 的后代（或等于 recommender）
@@ -141,7 +148,7 @@ contract BinaryTree is TCF_ERC1155MintTime {
 
     // ------------------------- Getters (Requirement #7/#8/#11) -------------------------
     /// @notice 查询某个节点余额
-    function getNodeBalance(address node) external view returns (uint256) {
+    function getNodeWorth(address node) external view returns (uint256) {
         require(_nodes[node].exists, "NODE_NOT_EXISTS");
         return getTotalNFTWorth(node);
     }
@@ -174,66 +181,110 @@ contract BinaryTree is TCF_ERC1155MintTime {
     }
 
     // ------------------------- Recommendation Helper -------------------------
-    /// @notice 获取“推荐的父节点”
-    /// @dev 从 recommender 开始：每一步比较左右子树（left/right）余额总和，选择更小的分叉继续向下。
-    ///      如果本次选择的分叉为空（子节点地址为 0），则无法继续下探，此时返回当前节点作为最终父节点。
-    ///      该返回值可用于后续插入新节点时的 parent 参数。
+    /// @notice 获取“推荐的父节点”（小区最小策略：优先走子树价值更小的一侧）
+    /// @dev 从 recommender 出发：
+    ///      1) 对当前节点比较左右子树价值（空子树视为 0），优先走价值更小的一侧（相等则优先 left）。
+    ///      2) 若优先侧为空，说明当前节点在该侧有空位；若当前节点买过 NFT，则返回该节点作为父节点。
+    ///      3) 若当前节点没有买过 NFT，则该节点不能作为父节点，需要继续查找；
+    ///         若这条路径最终找不到可用父节点，则回退尝试另一侧（等价于排除上一条路径）。
+    ///      4) 整个查找过程中会跳过 excludeNode（通常是当前要插入的节点），避免推荐自己。
     /// @param recommender 推荐人地址（必须已在树中）
+    /// @param excludeNode 在推荐父节点时排除掉这个节点（通常是当前要插入的节点），避免出现推荐自己作为父节点的情况
     /// @return parent 推荐得到的最终父节点地址
     /// @return isLeftBranch 推荐在 parent 下应选择的分支：true=left，false=right
-    function getRecommendedParent(
-        address recommender
+    function getOptimalParent(
+        address recommender,
+        address excludeNode
     ) external view returns (address parent, bool isLeftBranch) {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         require(_nodes[recommender].exists, "RECOMMENDER_NOT_EXIST");
 
-        address cur = recommender;
-
-        // 沿着“子树余额更小”的分叉一直向下，直到要走的分叉为空。
-        while (true) {
-            Node storage n = _nodes[cur];
-
-            uint256 leftSum = n.left == address(0) ? 0 : _subtreeSum(n.left);
-            uint256 rightSum = n.right == address(0) ? 0 : _subtreeSum(n.right);
-
-            // 余额相等时，固定选择 left 以保证确定性
-            bool chooseLeft = leftSum <= rightSum;
-            address next = chooseLeft ? n.left : n.right;
-            if (next == address(0)) {
-                return (cur, chooseLeft);
-            }
-            cur = next;
-        }
+        (address best, bool bestIsLeft, bool found) = _findRecommendedParent(
+            recommender,
+            excludeNode
+        );
+        if (!found) revert("NO_AVAILABLE_PARENT");
+        return (best, bestIsLeft);
     }
 
     // ------------------------- Traversal Sums (Requirement #10/#12) -------------------------
     /// @notice 遍历整颗二叉树，返回所有节点余额总和
     /// @dev 注意：树很大时可能消耗较多 gas（即使 view 调用也有计算开销）。
-    function totalTreeBalance() external view returns (uint256) {
+    function totalTreeWorth() external view returns (uint256) {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         return _subtreeSum(root);
     }
 
-    /// @notice 返回某个节点子树（含该节点）余额总和
-    function subtreeBalance(address node) external view returns (uint256) {
+    /// @notice 返回某个节点子树（含该节点）余额总和，用于计算某个节点及其左右子树的有效NFT总价值
+    function subtreeWorth(address node) external view returns (uint256) {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         require(_nodes[node].exists, "NODE_NOT_EXISTS");
         return _subtreeSum(node);
     }
 
-    /// @notice 计算某个节点下两条子树（left/right）中，余额总和更少的那一条子树的余额总和
-    /// @dev 若某侧子节点为空，则该侧子树余额视为 0。
-    function minChildSubtreeBalance(
-        address node
-    ) external view returns (uint256) {
-        require(rootInitialized, "ROOT_NOT_INITIALIZED");
-        require(_nodes[node].exists, "NODE_NOT_EXISTS");
+    function _hasAnyNFT(address account) private view returns (bool) {
+        for (uint256 tokenId = 0; tokenId < 6; tokenId++) {
+            if (balanceOf(account, tokenId) > 0) return true;
+        }
+        return false;
+    }
 
-        Node storage n = _nodes[node];
+    /// @dev 从 start 出发，按“子树价值更小的一侧优先”寻找可用父节点。
+    ///      返回条件：节点买过 NFT 且在推荐分支上存在空位。
+    ///      若优先路径找不到，会回退尝试另一侧（等价于排除上一条路径）。
+    function _findRecommendedParent(
+        address start,
+        address excludeNode
+    ) private view returns (address parent, bool isLeftBranch, bool found) {
+        if (start == address(0) || start == excludeNode) {
+            return (address(0), false, false);
+        }
+
+        Node storage n = _nodes[start];
+        if (!n.exists) return (address(0), false, false);
+
         uint256 leftSum = n.left == address(0) ? 0 : _subtreeSum(n.left);
         uint256 rightSum = n.right == address(0) ? 0 : _subtreeSum(n.right);
-        return leftSum <= rightSum ? leftSum : rightSum;
+        bool firstIsLeft = leftSum <= rightSum;
+
+        address firstChild = firstIsLeft ? n.left : n.right;
+        if (firstChild == address(0)) {
+            if (_hasAnyNFT(start)) {
+                return (start, firstIsLeft, true);
+            }
+        } else {
+            (parent, isLeftBranch, found) = _findRecommendedParent(
+                firstChild,
+                excludeNode
+            );
+            if (found) return (parent, isLeftBranch, true);
+        }
+
+        address secondChild = firstIsLeft ? n.right : n.left;
+        bool secondIsLeft = !firstIsLeft;
+        if (secondChild == address(0)) {
+            if (_hasAnyNFT(start)) {
+                return (start, secondIsLeft, true);
+            }
+            return (address(0), false, false);
+        }
+
+        return _findRecommendedParent(secondChild, excludeNode);
     }
+
+    // /// @notice 计算某个节点下两条子树（left/right）中，余额总和更少的那一条子树的余额总和,用于计算小区
+    // /// @dev 若某侧子节点为空，则该侧子树余额视为 0。
+    // function minChildSubtreeBalance(
+    //     address node
+    // ) external view returns (uint256,) {
+    //     require(rootInitialized, "ROOT_NOT_INITIALIZED");
+    //     require(_nodes[node].exists, "NODE_NOT_EXISTS");
+
+    //     Node storage n = _nodes[node];
+    //     uint256 leftSum = n.left == address(0) ? 0 : _subtreeSum(n.left);
+    //     uint256 rightSum = n.right == address(0) ? 0 : _subtreeSum(n.right);
+    //     return leftSum <= rightSum ? leftSum : rightSum;
+    // }
 
     /// @dev 递归计算子树余额（含当前节点）
     function _subtreeSum(address node) internal view returns (uint256) {

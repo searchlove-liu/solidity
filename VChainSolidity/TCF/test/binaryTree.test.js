@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import { beforeEach, describe, it } from "node:test";
 import { network } from "hardhat";
-import { getTCPrices } from "./price.ts";
+import { getPrices } from "./price.ts";
+import { zeroAddress } from "viem";
 
 const { viem, networkHelpers } = await network.connect();
 
@@ -28,9 +29,23 @@ async function deployFixture() {
   const walletClients = await viem.getWalletClients();
   const publicClient = await viem.getPublicClient();
   const tree = await viem.deployContract("test_BinaryTree");
+  const vault = await viem.deployContract("vault");
+  const vaultCopy = await viem.deployContract("vault_copy");
+  const TCF = await viem.deployContract("TCF");
+
+  const vaultAddress = vault.address ?? vault.target;
+  const vaultCopyAddress = vaultCopy.address ?? vaultCopy.target;
+  const addr3 =
+    walletClients[1]?.account?.address ?? walletClients[0].account.address;
+  const addr7 =
+    walletClients[2]?.account?.address ?? walletClients[0].account.address;
+
+  await TCF.write.initialize([vaultAddress, vaultCopyAddress, addr3, addr7], {
+    account: walletClients[0].account,
+  });
 
   const accounts = walletClients.map((w) => w.account.address);
-  return { tree, walletClients, publicClient, accounts };
+  return { tree, TCF, vault, vaultCopy, walletClients, publicClient, accounts };
 }
 
 function normAddress(address) {
@@ -39,14 +54,20 @@ function normAddress(address) {
 
 describe("BinaryTree", function () {
   let tree;
+  let TCF;
   let walletClients;
   let accounts;
 
   beforeEach(async () => {
-    ({ tree, walletClients, accounts } =
+    ({ tree, TCF, walletClients, accounts } =
       await networkHelpers.loadFixture(deployFixture));
+
+    const tcfAddress = TCF.address ?? TCF.target;
+    await tree.write.addSupportedToken([tcfAddress], {
+      account: walletClients[0].account,
+    });
     // 初始化价格
-    await tree.write.initPrice([getTCPrices()], {
+    await tree.write.initPrice([getPrices(tcfAddress)], {
       account: walletClients[0].account,
     });
   });
@@ -92,13 +113,8 @@ describe("BinaryTree", function () {
     const [deployer, n1] = walletClients;
     await expectRevert(
       tree.write.insert(
-        [
-          n1.account.address,
-          deployer.account.address,
-          deployer.account.address,
-          true,
-        ],
-        { account: deployer.account },
+        [deployer.account.address, deployer.account.address, true],
+        { account: n1.account },
       ),
       "ROOT_NOT_INITIALIZED",
     );
@@ -111,26 +127,21 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // insert left child
     await tree.write.insert(
-      [
-        n1.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
-      { account: deployer.account },
+      [deployer.account.address, deployer.account.address, true],
+      { account: n1.account },
     );
 
     // insert right child
     await tree.write.insert(
-      [
-        n2.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        false,
-      ],
-      { account: deployer.account },
+      [deployer.account.address, deployer.account.address, false],
+      { account: n2.account },
     );
 
     expect(await tree.read.isExist([n1.account.address])).to.equal(true);
@@ -164,12 +175,16 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // zero address
     await expectRevert(
       tree.write.insert(
         [
           "0x0000000000000000000000000000000000000000",
-          deployer.account.address,
           deployer.account.address,
           true,
         ],
@@ -180,57 +195,31 @@ describe("BinaryTree", function () {
 
     // parent does not exist
     await expectRevert(
-      tree.write.insert(
-        [
-          n1.account.address,
-          n2.account.address,
-          deployer.account.address,
-          true,
-        ],
-        {
-          account: deployer.account,
-        },
-      ),
+      tree.write.insert([n2.account.address, deployer.account.address, true], {
+        account: n1.account,
+      }),
       "PARENT_NOT_EXIST",
     );
 
     // recommender does not exist
     await expectRevert(
-      tree.write.insert(
-        [
-          n1.account.address,
-          deployer.account.address,
-          n2.account.address,
-          true,
-        ],
-        {
-          account: deployer.account,
-        },
-      ),
+      tree.write.insert([deployer.account.address, n2.account.address, true], {
+        account: n1.account,
+      }),
       "RECOMMENDER_NOT_EXIST",
     );
 
     // first insert ok
     await tree.write.insert(
-      [
-        n1.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
-      { account: deployer.account },
+      [deployer.account.address, deployer.account.address, true],
+      { account: n1.account },
     );
 
     // duplicate
     await expectRevert(
       tree.write.insert(
-        [
-          n1.account.address,
-          deployer.account.address,
-          deployer.account.address,
-          false,
-        ],
-        { account: deployer.account },
+        [deployer.account.address, deployer.account.address, false],
+        { account: n1.account },
       ),
       "NODE_EXISTS",
     );
@@ -243,38 +232,35 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // a under root-left, x under root-right
     await tree.write.insert(
-      [
-        a.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: a.account,
       },
     );
     await tree.write.insert(
-      [
-        x.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        false,
-      ],
+      [deployer.account.address, deployer.account.address, false],
       {
-        account: deployer.account,
+        account: x.account,
       },
     );
 
+    // x购买一个NFT
+    await tree.write.testMint([x.account.address, 0, 1, "0x"], {
+      account: x.account,
+    });
+
     // b claims recommender=a but tries to be inserted under x (not in a-subtree)
     await expectRevert(
-      tree.write.insert(
-        [b.account.address, x.account.address, a.account.address, true],
-        {
-          account: deployer.account,
-        },
-      ),
+      tree.write.insert([x.account.address, a.account.address, true], {
+        account: b.account,
+      }),
       "PARENT_NOT_RECOMMENDER_SUBTREE",
     );
   });
@@ -286,41 +272,31 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // fill both children of root
     await tree.write.insert(
-      [
-        c1.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: c1.account,
       },
     );
     await tree.write.insert(
-      [
-        c2.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        false,
-      ],
+      [deployer.account.address, deployer.account.address, false],
       {
-        account: deployer.account,
+        account: c2.account,
       },
     );
 
     // now any further insert under root should revert regardless of side preference
     await expectRevert(
       tree.write.insert(
-        [
-          c3.account.address,
-          deployer.account.address,
-          deployer.account.address,
-          true,
-        ],
+        [deployer.account.address, deployer.account.address, true],
         {
-          account: deployer.account,
+          account: c3.account,
         },
       ),
       "PARENT_HAS_TWO_CHILDREN",
@@ -328,14 +304,9 @@ describe("BinaryTree", function () {
 
     await expectRevert(
       tree.write.insert(
-        [
-          c3.account.address,
-          deployer.account.address,
-          deployer.account.address,
-          false,
-        ],
+        [deployer.account.address, deployer.account.address, false],
         {
-          account: deployer.account,
+          account: c3.account,
         },
       ),
       "PARENT_HAS_TWO_CHILDREN",
@@ -350,65 +321,51 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // left is empty, prefer left
     await tree.write.insert(
-      [
-        leftFirst.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: leftFirst.account,
       },
     );
 
     // prefer left again but left already taken, should fall back to right
     await tree.write.insert(
-      [
-        rightViaFallback.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: rightViaFallback.account,
       },
     );
 
-    let [left, right] = await tree.read.getChildren([
-      deployer.account.address,
-    ]);
-    expect(normAddress(left)).to.equal(
-      normAddress(leftFirst.account.address),
-    );
+    let [left, right] = await tree.read.getChildren([deployer.account.address]);
+    expect(normAddress(left)).to.equal(normAddress(leftFirst.account.address));
     expect(normAddress(right)).to.equal(
       normAddress(rightViaFallback.account.address),
     );
 
+    // leftFirst购买一个NFT
+    await tree.write.testMint([leftFirst.account.address, 0, 1, "0x"], {
+      account: leftFirst.account,
+    });
+
     // Under leftFirst: first prefer right (empty so occupied)
     await tree.write.insert(
-      [
-        childRight.account.address,
-        leftFirst.account.address,
-        leftFirst.account.address,
-        false,
-      ],
+      [leftFirst.account.address, leftFirst.account.address, false],
       {
-        account: deployer.account,
+        account: childRight.account,
       },
     );
 
     // Prefer right again but right already taken, expect fallback to left
     await tree.write.insert(
-      [
-        childFallback.account.address,
-        leftFirst.account.address,
-        leftFirst.account.address,
-        false,
-      ],
+      [leftFirst.account.address, leftFirst.account.address, false],
       {
-        account: deployer.account,
+        account: childFallback.account,
       },
     );
 
@@ -428,6 +385,11 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     // non-node cannot deposit
     // await expectRevert(
     //   tree.write.testMint([n1.account.address, 1, 1, "0x"], {
@@ -439,14 +401,9 @@ describe("BinaryTree", function () {
 
     // insert n1 then deposit
     await tree.write.insert(
-      [
-        n1.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: n1.account,
       },
     );
 
@@ -457,14 +414,14 @@ describe("BinaryTree", function () {
       account: n1.account,
     });
     // 1*3+2*2=7
-    expect(await tree.read.getNodeBalance([n1.account.address])).to.equal(7n);
+    expect(await tree.read.getNodeWorth([n1.account.address])).to.equal(7n);
   });
 
   it("getters: reverts for non-existent nodes where required", async function () {
     const [deployer, n1] = walletClients;
 
     await expectRevert(
-      tree.read.getNodeBalance([n1.account.address]),
+      tree.read.getNodeWorth([n1.account.address]),
       "NODE_NOT_EXISTS",
     );
     await expectRevert(
@@ -483,6 +440,7 @@ describe("BinaryTree", function () {
     await tree.write.initRoot([deployer.account.address], {
       account: deployer.account,
     });
+
     expect(await tree.read.isExist([n1.account.address])).to.equal(false);
   });
 
@@ -493,37 +451,34 @@ describe("BinaryTree", function () {
       account: deployer.account,
     });
 
+    // 根节点购买一个NFT
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
     await tree.write.insert(
-      [
-        l.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
+      [deployer.account.address, deployer.account.address, true],
       {
-        account: deployer.account,
+        account: l.account,
       },
     );
 
     await tree.write.insert(
-      [
-        r.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        false,
-      ],
+      [deployer.account.address, deployer.account.address, false],
       {
-        account: deployer.account,
+        account: r.account,
       },
     );
+
+    // l购买一个NFT
+    await tree.write.testMint([l.account.address, 0, 1, "0x"], {
+      account: l.account,
+    });
 
     // add one more level
-    await tree.write.insert(
-      [ll.account.address, l.account.address, l.account.address, true],
-      {
-        account: deployer.account,
-      },
-    );
+    await tree.write.insert([l.account.address, l.account.address, true], {
+      account: ll.account,
+    });
 
     // deployer 资产为1
     await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
@@ -531,9 +486,6 @@ describe("BinaryTree", function () {
     });
     // l node 资产为10,资产价格以TC价格为准，价格初始化在beforeeach中设置
     // tokenid 0，价格为1，tokenid 1，价格为2，tokenid 2，价格为3，tokenid 3，价格为4，tokenid 4，价格为5
-    await tree.write.testMint([l.account.address, 0, 1, "0x"], {
-      account: l.account,
-    });
     await tree.write.testMint([l.account.address, 1, 1, "0x"], {
       account: l.account,
     });
@@ -556,86 +508,365 @@ describe("BinaryTree", function () {
     });
 
     // total = 1 + (10+3) + 2 = 16
-    expect(await tree.read.totalTreeBalance()).to.equal(16n);
+    expect(await tree.read.totalTreeWorth()).to.equal(17n);
 
     // subtree l = 10 + 3
-    expect(await tree.read.subtreeBalance([l.account.address])).to.equal(13n);
+    expect(await tree.read.subtreeWorth([l.account.address])).to.equal(13n);
 
-    // min child subtree under root: min(left=13, right=2) => 2
-    expect(
-      await tree.read.minChildSubtreeBalance([deployer.account.address]),
-    ).to.equal(2n);
-
-    // node with missing right child: min(child sums) where one side is 0
-    expect(
-      await tree.read.minChildSubtreeBalance([l.account.address]),
-    ).to.equal(0n);
+    // // node with missing right child: min(child sums) where one side is 0
+    // expect(
+    //   await tree.read.minChildSubtreeBalance([l.account.address]),
+    // ).to.equal(0n);
 
     // reverts
     await expectRevert(
-      tree.read.subtreeBalance([accounts[9] ?? accounts[0]]),
+      tree.read.subtreeWorth([accounts[9] ?? accounts[0]]),
       "NODE_NOT_EXISTS",
     );
   });
 
-  it("getRecommendedParent: returns parent + branch, covers left/right and descent", async function () {
-    const [deployer, leftChild, rightChild] = walletClients;
-
-    // root not initialized
+  it("getOptimalParent: reverts when root not initialized", async function () {
+    const [deployer] = walletClients;
     await expectRevert(
-      tree.read.getRecommendedParent([deployer.account.address]),
+      tree.read.getOptimalParent([deployer.account.address, zeroAddress]),
       "ROOT_NOT_INITIALIZED",
     );
+  });
+
+  it("getOptimalParent: reverts when no eligible parent exists in subtree", async function () {
+    const [deployer] = walletClients;
 
     await tree.write.initRoot([deployer.account.address], {
       account: deployer.account,
     });
 
-    // with no children: tie => choose left; left is empty => (root, true)
-    let [p, isLeft] = await tree.read.getRecommendedParent([
-      deployer.account.address,
-    ]);
-    expect(normAddress(p)).to.equal(normAddress(deployer.account.address));
-    expect(isLeft).to.equal(true);
+    // root exists but has no NFT => not eligible; no other nodes => revert
+    await expectRevert(
+      tree.read.getOptimalParent([deployer.account.address, zeroAddress]),
+      "NO_AVAILABLE_PARENT",
+    );
+  });
 
-    // add left child only: tie => choose left and descent to leftChild; then stop and recommend leftChild.left
+  it("getOptimalParent: prefers smaller-side subtree (tie -> left)", async function () {
+    const [deployer, leftChild, rightChild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // Make root eligible so we can insert children
+    await tree.write.testMint([deployer.account.address, 0, 100, "0x"], {
+      account: deployer.account,
+    });
+
+    // Insert two children under root
     await tree.write.insert(
-      [
-        leftChild.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        true,
-      ],
-      {
-        account: deployer.account,
-      },
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
     );
 
-    [p, isLeft] = await tree.read.getRecommendedParent([
+    // Make both children eligible, but left subtree smaller => should go left
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+    await tree.write.testMint([rightChild.account.address, 0, 5, "0x"], {
+      account: rightChild.account,
+    });
+
+    const [p, isLeft] = await tree.read.getOptimalParent([
       deployer.account.address,
+      zeroAddress,
+    ]);
+    // root has no empty slot -> descend into smaller subtree (leftChild)
+    expect(normAddress(p)).to.equal(normAddress(leftChild.account.address));
+    expect(isLeft).to.equal(true);
+  });
+
+  it("getOptimalParent: does not return a full node; continues searching", async function () {
+    const [deployer, leftChild, rightChild, l1, l2] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
+    );
+
+    // leftChild subtree is smaller, but we will fill both of its child slots => cannot be returned
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+    await tree.write.testMint([rightChild.account.address, 0, 2, "0x"], {
+      account: rightChild.account,
+    });
+
+    // leftChild must have NFT to be a parent for inserts
+    await tree.write.insert(
+      [leftChild.account.address, leftChild.account.address, true],
+      { account: l1.account },
+    );
+    await tree.write.insert(
+      [leftChild.account.address, leftChild.account.address, false],
+      { account: l2.account },
+    );
+
+    // Make l1 eligible so the search can continue below leftChild
+    await tree.write.testMint([l1.account.address, 0, 1, "0x"], {
+      account: l1.account,
+    });
+
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      zeroAddress,
+    ]);
+    // leftChild is full, so should continue below it (tie -> left => l1)
+    expect(normAddress(p)).to.equal(normAddress(l1.account.address));
+    expect(isLeft).to.equal(true);
+  });
+
+  it("getOptimalParent: branch selection returns right when left is occupied", async function () {
+    const [deployer, leftChild, rightChild, leftGrandChild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // Make root eligible so we can insert children
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+
+    // Fill root so it must descend into left/right
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
+    );
+
+    // Make left subtree smaller so it descends into leftChild
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+    await tree.write.testMint([rightChild.account.address, 0, 10, "0x"], {
+      account: rightChild.account,
+    });
+
+    // Occupy leftChild.left but keep right empty
+    await tree.write.insert(
+      [leftChild.account.address, leftChild.account.address, true],
+      { account: leftGrandChild.account },
+    );
+
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      zeroAddress,
+    ]);
+    expect(normAddress(p)).to.equal(normAddress(leftChild.account.address));
+    // left slot is taken, should recommend right branch
+    expect(isLeft).to.equal(false);
+  });
+
+  it("getOptimalParent(address,address): reverts when root not initialized", async function () {
+    const [deployer] = walletClients;
+    await expectRevert(
+      tree.read.getOptimalParent([
+        deployer.account.address,
+        "0x0000000000000000000000000000000000000000",
+      ]),
+      "ROOT_NOT_INITIALIZED",
+    );
+  });
+
+  it("getOptimalParent(address,address): reverts when recommender not exist", async function () {
+    const [deployer, other] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    await expectRevert(
+      tree.read.getOptimalParent([
+        other.account.address,
+        "0x0000000000000000000000000000000000000000",
+      ]),
+      "RECOMMENDER_NOT_EXIST",
+    );
+  });
+
+  it("getOptimalParent(address,address): excludeNode not in subtree does not affect selection", async function () {
+    const [deployer, leftChild, rightChild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    await tree.write.testMint([deployer.account.address, 0, 100, "0x"], {
+      account: deployer.account,
+    });
+
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
+    );
+
+    // left has smaller worth => should be selected
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+    await tree.write.testMint([rightChild.account.address, 0, 5, "0x"], {
+      account: rightChild.account,
+    });
+
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      accounts[9] ?? "0x0000000000000000000000000000000000000001",
     ]);
     expect(normAddress(p)).to.equal(normAddress(leftChild.account.address));
     expect(isLeft).to.equal(true);
+  });
 
-    // add right child as well (root now full), then make leftSum > rightSum so it chooses right at root
+  it("getOptimalParent(address,address): excluding the preferred-path node reroutes to the other side", async function () {
+    const [deployer, leftChild, rightChild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    await tree.write.testMint([deployer.account.address, 0, 100, "0x"], {
+      account: deployer.account,
+    });
+
     await tree.write.insert(
-      [
-        rightChild.account.address,
-        deployer.account.address,
-        deployer.account.address,
-        false,
-      ],
-      {
-        account: deployer.account,
-      },
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
     );
 
-    // make left subtree heavier
-    // await tree.write.deposit([], { account: leftChild.account, value: 5n });
+    // left subtree smaller, so normally it would pick leftChild
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+    await tree.write.testMint([rightChild.account.address, 0, 2, "0x"], {
+      account: rightChild.account,
+    });
 
-    // chooseRight at root, descend to rightChild, then stop there (tie => left)
-    // [p, isLeft] = await tree.read.getRecommendedParent([deployer.account.address]);
-    // expect(normAddress(p)).to.equal(normAddress(rightChild.account.address));
-    // expect(isLeft).to.equal(true);
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      leftChild.account.address,
+    ]);
+    // leftChild subtree excluded => should try right subtree
+    expect(normAddress(p)).to.equal(normAddress(rightChild.account.address));
+    expect(isLeft).to.equal(true);
+  });
+
+  it("getOptimalParent: backtracks when preferred-path leaf has no NFT", async function () {
+    const [deployer, leftChild, rightChild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // root must have NFT to be eligible as parent, and to allow inserts
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
+    // Fill root so algorithm must descend
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, false],
+      { account: rightChild.account },
+    );
+
+    // Make rightChild eligible; leftChild has NO NFT (worth 0)
+    await tree.write.testMint([rightChild.account.address, 0, 1, "0x"], {
+      account: rightChild.account,
+    });
+
+    // left subtree (0) < right subtree (1) => prefer left path, but leftChild has no NFT so it can't be parent
+    // should backtrack and then choose rightChild
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      zeroAddress,
+    ]);
+    expect(normAddress(p)).to.equal(normAddress(rightChild.account.address));
+    expect(isLeft).to.equal(true);
+  });
+
+  it("getOptimalParent(address,address): reverts when excludeNode removes the only eligible parent", async function () {
+    const [deployer] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // Only root is eligible
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
+    await expectRevert(
+      tree.read.getOptimalParent([
+        deployer.account.address,
+        deployer.account.address,
+      ]),
+      "NO_AVAILABLE_PARENT",
+    );
+  });
+
+  it("getOptimalParent(address,address): branch selection returns right when left is occupied", async function () {
+    const [deployer, leftChild, filler] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    await tree.write.testMint([deployer.account.address, 0, 1, "0x"], {
+      account: deployer.account,
+    });
+
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+
+    const [p, isLeft] = await tree.read.getOptimalParent([
+      deployer.account.address,
+      "0x0000000000000000000000000000000000000000",
+    ]);
+    expect(normAddress(p)).to.equal(normAddress(deployer.account.address));
+    expect(isLeft).to.equal(false);
   });
 });

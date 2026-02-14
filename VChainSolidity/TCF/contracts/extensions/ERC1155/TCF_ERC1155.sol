@@ -8,6 +8,9 @@ import "../../openzeppelin_l/contracts/token/ERC1155/extensions/IERC1155Metadata
 import "../../openzeppelin_l/contracts/utils/Context.sol";
 import "../../openzeppelin_l/contracts/utils/introspection/ERC165.sol";
 
+// todo：实现批量获取NFT的功能
+// todo：修改转移NFT的函数，使用标准函数safeTransferFrom
+
 contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     // 将ERC1155赋值到这个函数
     // 1、用户mint NFT时保存NFT创建时间，创建时间:{amount，uint32[]}
@@ -78,7 +81,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         uint256 id
     ) public view virtual override returns (uint256) {
         require(account != address(0), "ZERO_ADDRESS");
-        require(id < 6, "ERR_TOKENID_RANGE");
+        require(id < 6, "TOKENID_RANGE");
         return _balances[id][account];
     }
 
@@ -181,6 +184,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     ) internal virtual {
         require(to != address(0), "ZERO_ADDRESS");
         require(tokenId < 6, "TOKENID_RANGE");
+        // 不能删，因为下面有个_beforeTokenTransfer，防止_beforeTokenTransfer有一些不正确操作
         for (uint i = 0; i < indexes.length; i++) {
             require(_owners[tokenId][indexes[i]] == from, "TOKEN_NOT_OWNED");
         }

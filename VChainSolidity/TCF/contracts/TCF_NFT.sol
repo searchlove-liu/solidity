@@ -17,7 +17,17 @@ import {
 import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
 // TODO: 设置重入攻击防护(不做)
-// TODO: 当前修改了代码中的过期时间，方便测试，测试完之后需要修改回原始值
+// TODO: 参数改为_开头
+// TODO: 统一tokenId的标准，都使用tokenId
+// TODO: 对于请求状态函数，统一是否使用get前缀
+// TODO: 实现erc1155的标准方法
+// TODO: 当前每一类NFT的有效期是用于voidChain测试使用，后续正式测试需要将其修改为正确的时间
+
+// 本次修改：
+// 最优父节点的获取（voidChain没有测试通过，文档没有完成）
+// DCF合约的奖励提取函数（voidChain已经测试通过，文档完成）
+// 修改了暂停函数
+
 contract TCF_NFT is
     IERC1363Receiver,
     TCF_ERC1155URIStorage,
@@ -63,7 +73,7 @@ contract TCF_NFT is
     );
 
     function buyNFTByTC(
-        uint256 id,
+        uint256 tokenId,
         uint256 buyAmount
     ) public payable whenNotPaused {
         require(
@@ -75,14 +85,17 @@ contract TCF_NFT is
         require(_initializedURIStorage == 1, "BASEURI_NOT_INITIALIZED"); // 检查baseURI是否被初始化
         require(isExist(_msgSender()), "NODE_NOT_EXISTS"); // 检查节点是否在二叉树中
         // 检查msg.value是否足够支付NFT的价格
-        (string memory err_, uint256 nftPrice) = getNFTPrice(id, address(0));
+        (string memory err_, uint256 nftPrice) = getNFTPrice(
+            tokenId,
+            address(0)
+        );
         require(bytes(err_).length == 0, err_);
         require(
             msg.value == nftPrice * buyAmount && buyAmount > 0,
             "INCORRECT_FUNDS"
         );
-        _mint(_msgSender(), id, buyAmount, "");
-        emit NFTPurchasedWithTC(_msgSender(), id, buyAmount, nftPrice);
+        _mint(_msgSender(), tokenId, buyAmount, "");
+        emit NFTPurchasedWithTC(_msgSender(), tokenId, buyAmount, nftPrice);
 
         (bool success, ) = payable(withdrawAddress).call{value: msg.value}("");
         require(success, "TC_TRANSFER_FAILED");
@@ -156,11 +169,22 @@ contract TCF_NFT is
 
     function _mint(
         address account,
-        uint256 id,
+        uint256 tokenId,
         uint256 amount,
         bytes memory data
     ) internal override(TCF_ERC1155MintTime, TCF_ERC1155) {
-        super._mint(account, id, amount, data);
+        super._mint(account, tokenId, amount, data);
+    }
+
+    // 覆写ESafeTransferFrom函数，添加whenNotPaused修饰器
+    function ESafeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        uint256[] calldata indexes,
+        bytes memory data
+    ) public virtual override(TCF_ERC1155) whenNotPaused {
+        super.ESafeTransferFrom(from, to, tokenId, indexes, data);
     }
 
     function _safeTransferFrom(
@@ -175,9 +199,9 @@ contract TCF_NFT is
 
     function balanceOf(
         address account,
-        uint256 id
+        uint256 tokenId
     ) public view virtual override(TCF_ERC1155) returns (uint256) {
-        return super.balanceOf(account, id);
+        return super.balanceOf(account, tokenId);
     }
 
     function _beforeTokenTransfer(

@@ -454,7 +454,7 @@ export declare const Artifact_ERC721URIStorage: {
   "storageLayout": {
     "storage": [
       {
-        "astId": 2308,
+        "astId": 6461,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_initialized",
         "offset": 0,
@@ -462,7 +462,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_bool"
       },
       {
-        "astId": 2311,
+        "astId": 6464,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_initializing",
         "offset": 1,
@@ -470,7 +470,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_bool"
       },
       {
-        "astId": 5758,
+        "astId": 9930,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_name",
         "offset": 0,
@@ -478,7 +478,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_string_storage"
       },
       {
-        "astId": 5760,
+        "astId": 9932,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_symbol",
         "offset": 0,
@@ -486,7 +486,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_string_storage"
       },
       {
-        "astId": 5764,
+        "astId": 9936,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_owners",
         "offset": 0,
@@ -494,7 +494,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 5768,
+        "astId": 9940,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_balances",
         "offset": 0,
@@ -502,7 +502,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 5772,
+        "astId": 9944,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_tokenApprovals",
         "offset": 0,
@@ -510,7 +510,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 5778,
+        "astId": 9950,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -518,7 +518,7 @@ export declare const Artifact_ERC721URIStorage: {
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 7088,
+        "astId": 11381,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721URIStorage.sol:ERC721URIStorage",
         "label": "_tokenURIs",
         "offset": 0,

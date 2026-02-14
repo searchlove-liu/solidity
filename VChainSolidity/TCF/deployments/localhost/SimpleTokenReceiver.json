@@ -1,5 +1,5 @@
 {
-  "address": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+  "address": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
   "abi": [
     {
       "anonymous": false,
@@ -167,7 +167,7 @@
   "storageLayout": {
     "storage": [
       {
-        "astId": 12839,
+        "astId": 14370,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "deposited",
         "offset": 0,
@@ -175,7 +175,7 @@
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 12841,
+        "astId": 14372,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "tokenAddress",
         "offset": 0,
@@ -210,13 +210,13 @@
   },
   "argsData": "0x",
   "transaction": {
-    "hash": "0xbdbd9b9c90d5ff208e870e460cf461b51980a5ac5a35a3a788b9b6f2a4fdabee",
-    "nonce": "0x7",
+    "hash": "0xc3baeff32c9729f096a81e6b7ff5e2fa335c44bfbd3aa4c33e064b12f022d674",
+    "nonce": "0x8",
     "origin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
   },
   "receipt": {
-    "blockHash": "0x74eeda754e55b85a0c1d5b3027c8e0e7443ea673080e24cdff0b31e280b8a92b",
-    "blockNumber": "0x8",
+    "blockHash": "0x307f2c6d2e82d267a5ac706a01e265b8a5643c1b9fda3619d16e1c1e6e4eb921",
+    "blockNumber": "0x9",
     "transactionIndex": "0x0"
   }
 }

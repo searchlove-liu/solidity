@@ -101,12 +101,13 @@ func IntArray() {
 func main() {
 	// StringToHex("0")
 	// HexToString("4d79546f6b656e")
-	HexAddressAppend0To32("0x4f356e94bc6de91db2658767689da9b3fe6b6a2e")
-	// NumTo64Hex(0)
+	// HexAddressAppend0To32("0x4f356e94bc6de91db2658767689da9b3fe6b6a2e")
+	// NumTo64Hex(105)
 	// fmt.Println(len("0x0000000000000000000000000000000000000000"))
 	// StringToHex("MTK")
-	// HexToNum("")
+	// HexToNum("C0")
 
-
+	fmt.Println(len("0000000000000000000000000000000000000000000000000000000000000020"))
 	//0x0e0b9e120000000000000000000000000000000000000000000000000000000000000000
 }
+

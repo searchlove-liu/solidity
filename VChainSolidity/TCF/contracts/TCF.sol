@@ -13,18 +13,16 @@ import {
 import {vault} from "./extensions/vault/vault.sol";
 import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
-// TODO: 在voidChain中部署合约，并测试功能
-// TODO: transferAndCall不需要传入tcf_nft地址，通过初始化方式，设置TCF_NFT合约地址，防止传错地址
+// TODO: 更新了每天发送1000.但没有部署。年后进行部署
 
 contract TCF is Initializable, ERC1363, Ownable, Pausable {
     // 事件：记录接收和提取
-
-    event TokensWithdrawn(
-        address indexed token,
-        address indexed from,
-        address indexed to,
-        uint256 amount
-    );
+    // event TokensWithdrawn(
+    //     address indexed token,
+    //     address indexed from,
+    //     address indexed to,
+    //     uint256 amount
+    // );
 
     event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
@@ -89,39 +87,72 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
     // 例如，如果24小时执行一次，上一个时间戳和当前时间戳之间的差值可以设置为23小时到25小时之间
     function releaseDailyTokens() external onlyOwner whenNotPaused {
         // 每天释放40个给静态合约，60个给动态合约
-        _transfer(address(this), address(staticVault), 40000000000);
-        _transfer(address(this), address(dynamicVault), 60000000000);
+        _transfer(address(this), address(staticVault), 400000000000);
+        _transfer(address(this), address(dynamicVault), 600000000000);
         emit DailyTokensReleased(msg.sender, block.timestamp);
     }
 
-    // 提取静态合约和动态合约中的代币
-    function withdrawFromStaticVault(
+    // 重写transferFrom函数，暂停不可以以调用transferFrom函数
+    function transferFrom(
+        address from,
         address to,
-        uint256 staticAmount
-    ) external onlyOwner whenNotPaused {
-        require(staticAmount > 0, "TCF: Amount must be greater than 0");
-        transferFrom(address(staticVault), to, staticAmount);
-        emit TokensWithdrawn(
-            address(this),
-            address(staticVault),
-            to,
-            staticAmount
-        );
+        uint256 amount
+    ) public virtual override(ERC20) whenNotPaused returns (bool) {
+        return super.transferFrom(from, to, amount);
     }
 
-    // 提取动态合约中的代币
-    function withdrawFromDynamicVault(
+    function transfer(
         address to,
-        uint256 dynamicAmount
-    ) external onlyOwner whenNotPaused {
-        require(dynamicAmount > 0, "TCF: Amount must be greater than 0");
-        transferFrom(address(dynamicVault), to, dynamicAmount);
-        emit TokensWithdrawn(
-            address(this),
-            address(dynamicVault),
-            to,
-            dynamicAmount
+        uint256 amount
+    ) public virtual override(ERC20) whenNotPaused returns (bool) {
+        return super.transfer(to, amount);
+    }
+
+    // 提取静态合约和动态合约中的代币，通过调用transferFrom函数
+    // 提取静态合约和动态合约中的代币
+    // function withdrawFromStaticVault(
+    //     address to,
+    //     uint256 staticAmount
+    // ) external onlyOwner whenNotPaused {
+    //     require(staticAmount > 0, "TCF: Amount must be greater than 0");
+    //     transferFrom(address(staticVault), to, staticAmount);
+    //     emit TokensWithdrawn(
+    //         address(this),
+    //         address(staticVault),
+    //         to,
+    //         staticAmount
+    //     );
+    // }
+
+    // // 提取动态合约中的代币
+    // function withdrawFromDynamicVault(
+    //     address to,
+    //     uint256 dynamicAmount
+    // ) external onlyOwner whenNotPaused {
+    //     require(dynamicAmount > 0, "TCF: Amount must be greater than 0");
+    //     transferFrom(address(dynamicVault), to, dynamicAmount);
+    //     emit TokensWithdrawn(
+    //         address(this),
+    //         address(dynamicVault),
+    //         to,
+    //         dynamicAmount
+    //     );
+    // }
+
+    function buyNFTByDCF(
+        address nftContract,
+        uint256 tokenId,
+        uint256 buyAmount,
+        uint256 value
+    ) external whenNotPaused returns (bool) {
+        // 构造data数据，调用transferAndCall
+        bytes memory data = abi.encode(tokenId, buyAmount);
+        require(
+            transferAndCall(nftContract, value, data),
+            "TCF: transferAndCall failed"
         );
+
+        return true;
     }
 
     function transferAndCall(

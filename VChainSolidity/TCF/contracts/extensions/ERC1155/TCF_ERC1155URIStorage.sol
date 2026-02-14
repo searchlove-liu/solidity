@@ -15,7 +15,6 @@ import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
  */
 
 //  TODO: 查看Pinata等IPFS存储服务商的使用情况
-// 删除baseURI
 
 abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, Ownable, utils {
     // using Strings for uint256;

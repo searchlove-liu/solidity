@@ -265,6 +265,40 @@ export const TCF_abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "nftContract",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "buyAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "buyNFTByDCF",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "decimals",
     outputs: [
@@ -306,9 +340,9 @@ export const TCF_abi = [
     name: "getDynamicContractAddress",
     outputs: [
       {
-        internalType: "string",
+        internalType: "address",
         name: "",
-        type: "string",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -319,9 +353,9 @@ export const TCF_abi = [
     name: "getStaticContractAddress",
     outputs: [
       {
-        internalType: "string",
+        internalType: "address",
         name: "",
-        type: "string",
+        type: "address",
       },
     ],
     stateMutability: "view",

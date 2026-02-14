@@ -23,7 +23,7 @@ contract TCF_NFT_Fuzz is Test {
 
         nft.addSupportedToken(address(dcf));
 
-        TCF_NFTPrice.priceTypeAndAomut[][6] memory prices = _buildPrices();
+        TCF_NFTPrice.priceTypeAndAomut[2][6] memory prices = _buildPrices();
         nft.initPrice(prices);
 
         bytes[6] memory base;
@@ -38,7 +38,7 @@ contract TCF_NFT_Fuzz is Test {
         nft.setWithdrawAddress(address(0xBEEF));
 
         nft.initRoot(address(this));
-        nft.insert(alice, address(this), address(this), true);
+        nft.insert(address(this), address(this), true);
     }
 
     function testFuzz_buyNFTByTC(uint256 buyAmount, uint256 sentValue) public {
@@ -93,10 +93,11 @@ contract TCF_NFT_Fuzz is Test {
     function _buildPrices()
         private
         view
-        returns (TCF_NFTPrice.priceTypeAndAomut[][6] memory prices)
+        returns (TCF_NFTPrice.priceTypeAndAomut[2][6] memory prices)
     {
         for (uint256 i = 0; i < 6; i++) {
-            prices[i] = new TCF_NFTPrice.priceTypeAndAomut[](2);
+            TCF_NFTPrice.priceTypeAndAomut[2] memory price;
+            prices[i] = price;
             prices[i][0] = TCF_NFTPrice.priceTypeAndAomut({
                 tokenAddress: address(0),
                 amount: i + 1

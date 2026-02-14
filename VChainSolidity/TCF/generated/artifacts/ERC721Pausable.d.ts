@@ -465,7 +465,7 @@ export declare const Artifact_ERC721Pausable: {
   "storageLayout": {
     "storage": [
       {
-        "astId": 2308,
+        "astId": 6461,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_initialized",
         "offset": 0,
@@ -473,7 +473,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_bool"
       },
       {
-        "astId": 2311,
+        "astId": 6464,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_initializing",
         "offset": 1,
@@ -481,7 +481,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_bool"
       },
       {
-        "astId": 5758,
+        "astId": 9930,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_name",
         "offset": 0,
@@ -489,7 +489,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_string_storage"
       },
       {
-        "astId": 5760,
+        "astId": 9932,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_symbol",
         "offset": 0,
@@ -497,7 +497,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_string_storage"
       },
       {
-        "astId": 5764,
+        "astId": 9936,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_owners",
         "offset": 0,
@@ -505,7 +505,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 5768,
+        "astId": 9940,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_balances",
         "offset": 0,
@@ -513,7 +513,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 5772,
+        "astId": 9944,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_tokenApprovals",
         "offset": 0,
@@ -521,7 +521,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 5778,
+        "astId": 9950,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -529,7 +529,7 @@ export declare const Artifact_ERC721Pausable: {
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 2393,
+        "astId": 6546,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Pausable.sol:ERC721Pausable",
         "label": "_paused",
         "offset": 0,

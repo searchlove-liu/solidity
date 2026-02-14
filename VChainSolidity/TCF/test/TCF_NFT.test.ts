@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from "node:test"; // using node:test as hard
 import { network } from "hardhat";
 import { setupFixtures } from "./utils/index.ts";
 import { hexToNumber } from "./utils/stringToHex.ts";
-import { getPrices, zeroAddress, getErrorPrices } from "./price.ts";
+import { getPrices, zeroAddress } from "./price.ts";
 import { stringToHexString, numberTo32ByteHex } from "./utils/stringToHex.ts";
 import { baseURI } from "./baseURI.ts";
 import { parseAbiItem } from "viem";
@@ -126,6 +126,194 @@ describe("TCF_NFT 合约测试", function () {
     });
   });
 
+  describe("pause / unpause", function () {
+    it("只有 owner 可以 pause/unpause", async function () {
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "pause",
+          args: [],
+          account: namedAccounts.admin1,
+        }),
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "unpause",
+          args: [],
+          account: namedAccounts.admin1,
+        }),
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("paused 状态可正确切换", async function () {
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "paused",
+        }),
+      ).to.equal(false);
+
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "paused",
+        }),
+      ).to.equal(true);
+
+      await env.execute(TCF_NFT, {
+        functionName: "unpause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "paused",
+        }),
+      ).to.equal(false);
+    });
+
+    it("暂停后：buyNFTByTC / transferAndCall回调 / ESafeTransferFrom 均会被阻止", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      // buyNFTByTC 被 whenNotPaused 拦截
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "buyNFTByTC",
+          args: [0n, 1n],
+          account: namedAccounts.deployer,
+          value: 1n,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+
+      // transferAndCall -> onTransferReceived 被 whenNotPaused 拦截
+      let data = numberTo32ByteHex(0);
+      data += numberTo32ByteHex(1).slice(2);
+      await expect(
+        env.execute(TCF1, {
+          functionName: "transferAndCall",
+          args: [TCF_NFT.address, 1n, data as `0x${string}`],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+
+      // ESafeTransferFrom 被 whenNotPaused 拦截（无需构造可转移的有效 NFT）
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "ESafeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, [0n], "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+    });
+
+    it("unpause 后 buyNFTByTC / transferAndCall 恢复正常", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      // pause -> should revert
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "buyNFTByTC",
+          args: [0n, 1n],
+          account: namedAccounts.deployer,
+          value: 1n,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+
+      let data = numberTo32ByteHex(1);
+      data += numberTo32ByteHex(1).slice(2);
+      await expect(
+        env.execute(TCF1, {
+          functionName: "transferAndCall",
+          args: [TCF_NFT.address, 1n, data as `0x${string}`],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+
+      // unpause -> should work again
+      await env.execute(TCF_NFT, {
+        functionName: "unpause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      const [errTc, priceTc] = await env.read(TCF_NFT, {
+        functionName: "getNFTPrice",
+        args: [0n, zeroAddress],
+        account: namedAccounts.deployer,
+      });
+      expect(String(errTc)).to.equal("");
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 1n],
+        account: namedAccounts.deployer,
+        value: priceTc,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 0n],
+          account: namedAccounts.deployer,
+        }),
+      ).to.equal(1n);
+
+      const [errToken, priceToken] = await env.read(TCF_NFT, {
+        functionName: "getNFTPrice",
+        args: [1n, TCF1.address],
+        account: namedAccounts.deployer,
+      });
+      expect(String(errToken)).to.equal("");
+
+      data = numberTo32ByteHex(1);
+      data += numberTo32ByteHex(1).slice(2);
+      await env.execute(TCF1, {
+        functionName: "transferAndCall",
+        args: [TCF_NFT.address, priceToken, data as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 1n],
+          account: namedAccounts.deployer,
+        }),
+      ).to.equal(1n);
+    });
+  });
+
   // 测试buyNFTByTC，
   describe("buyNFTByTC, 使用 TC 购买 NFT", function () {
     // 测试 余额不足 的情况
@@ -136,22 +324,25 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
+      // deployer购买一个NFT
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
+        account: namedAccounts.deployer,
+        value: 2n,
+      });
+
       // 将admin1插入二叉树列表
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       await expect(
         env.execute(TCF_NFT, {
           functionName: "buyNFTByTC",
-          args: [ 1n, 3n],
+          args: [1n, 3n],
           account: namedAccounts.admin1,
           value: 1n, // 发送1个，但价格时1，创建3个，余额不足
         }),
@@ -180,15 +371,18 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
+      // deployer购买一个NFT
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 1n],
+        account: namedAccounts.deployer,
+        value: 1n,
+      });
+
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       await env.execute(TCF_NFT, {
@@ -227,20 +421,23 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
+      // deployer购买一个NFT
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
+        account: namedAccounts.deployer,
+        value: 2n,
+      });
+
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       await env.execute(TCF_NFT, {
         functionName: "buyNFTByTC",
-        args: [ 1n, 5n],
+        args: [1n, 5n],
         account: namedAccounts.admin1,
         value: 10n,
       });
@@ -300,23 +497,12 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
-      await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
-      });
-
       await expect(
         env.execute(TCF_NFT, {
           functionName: "buyNFTByTC",
-          args: [0n, 3n],
-          account: namedAccounts.admin1,
-          value: 3n,
+          args: [1n, 1n],
+          account: namedAccounts.deployer,
+          value: 2n,
         }),
       ).to.be.revertedWith("PRICES_NOT_INITIALIZED");
     });
@@ -330,14 +516,16 @@ describe("TCF_NFT 合约测试", function () {
       });
 
       await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
         account: namedAccounts.deployer,
+        value: 2n,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "insert",
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       // 检查购买前 owner 余额
@@ -400,22 +588,11 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
-      await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
-      });
-
       await expect(
         env.execute(TCF_NFT, {
           functionName: "buyNFTByTC",
           args: [1n, 1n],
-          account: namedAccounts.admin1,
+          account: namedAccounts.deployer,
           value: 2n,
         }),
       ).to.be.revertedWith("BASEURI_NOT_INITIALIZED");
@@ -429,14 +606,16 @@ describe("TCF_NFT 合约测试", function () {
       });
 
       await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
         account: namedAccounts.deployer,
+        value: 2n,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "insert",
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       await expect(
@@ -457,14 +636,16 @@ describe("TCF_NFT 合约测试", function () {
       });
 
       await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
         account: namedAccounts.deployer,
+        value: 2n,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "insert",
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       await expect(
@@ -485,25 +666,22 @@ describe("TCF_NFT 合约测试", function () {
       });
 
       await env.execute(TCF_NFT, {
-        functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
         account: namedAccounts.deployer,
+        value: 2n,
       });
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [
-          namedAccounts.admin2,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "insert",
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin2,
       });
 
       const [leftChild, rightChild] = await env.read(TCF_NFT, {
@@ -560,7 +738,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "buyNFTByTC",
-        args: [ 2n, 3n],
+        args: [2n, 3n],
         account: namedAccounts.deployer,
         value: 9n,
       });
@@ -676,16 +854,19 @@ describe("TCF_NFT 合约测试", function () {
         account: namedAccounts.deployer,
       });
 
+      // deployer购买一个NFT
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [1n, 1n],
+        account: namedAccounts.deployer,
+        value: 2n,
+      });
+
       // 将admin1插入二叉树列表
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [
-          namedAccounts.admin1,
-          namedAccounts.deployer,
-          namedAccounts.deployer,
-          true,
-        ],
-        account: namedAccounts.deployer,
+        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        account: namedAccounts.admin1,
       });
 
       // 代表购买第2类NFT，数量为10

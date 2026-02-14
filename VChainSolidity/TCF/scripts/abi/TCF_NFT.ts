@@ -599,9 +599,9 @@ export const TCF_NFT = [
             type: "uint256",
           },
         ],
-        internalType: "struct TCF_NFTPrice.priceTypeAndAomut[][6]",
+        internalType: "struct TCF_NFTPrice.priceTypeAndAomut[2][6]",
         name: "prices",
-        type: "tuple[][6]",
+        type: "tuple[2][6]",
       },
     ],
     name: "checkInitPricesParams",
@@ -655,9 +655,9 @@ export const TCF_NFT = [
         type: "uint8",
       },
       {
-        internalType: "uint32",
+        internalType: "uint56",
         name: "indate",
-        type: "uint32",
+        type: "uint56",
       },
     ],
     stateMutability: "view",
@@ -700,11 +700,6 @@ export const TCF_NFT = [
         type: "uint256",
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
         internalType: "uint256",
         name: "editionId",
         type: "uint256",
@@ -729,7 +724,7 @@ export const TCF_NFT = [
         type: "address",
       },
     ],
-    name: "getNodeBalance",
+    name: "getNodeWorth",
     outputs: [
       {
         internalType: "uint256",
@@ -806,25 +801,6 @@ export const TCF_NFT = [
     inputs: [
       {
         internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "getTotalNFTWorth",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "account",
         type: "address",
       },
@@ -873,9 +849,9 @@ export const TCF_NFT = [
             type: "uint256",
           },
         ],
-        internalType: "struct TCF_NFTPrice.priceTypeAndAomut[][6]",
+        internalType: "struct TCF_NFTPrice.priceTypeAndAomut[2][6]",
         name: "prices",
-        type: "tuple[][6]",
+        type: "tuple[2][6]",
       },
     ],
     name: "initPrice",
@@ -898,11 +874,6 @@ export const TCF_NFT = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "node",
-        type: "address",
-      },
       {
         internalType: "address",
         name: "parent",
@@ -981,25 +952,6 @@ export const TCF_NFT = [
         internalType: "uint8",
         name: "",
         type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "node",
-        type: "address",
-      },
-    ],
-    name: "minChildSubtreeBalance",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -1247,7 +1199,7 @@ export const TCF_NFT = [
         type: "address",
       },
     ],
-    name: "subtreeBalance",
+    name: "subtreeWorth",
     outputs: [
       {
         internalType: "uint256",
@@ -1311,7 +1263,7 @@ export const TCF_NFT = [
   },
   {
     inputs: [],
-    name: "totalTreeBalance",
+    name: "totalTreeWorth",
     outputs: [
       {
         internalType: "uint256",

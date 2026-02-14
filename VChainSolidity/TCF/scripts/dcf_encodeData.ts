@@ -1,11 +1,11 @@
-import { network } from "hardhat";
+import { network, artifacts } from "hardhat";
 const { viem } = await network.connect({
   network: "hardhatMainnet",
   chainType: "l1",
 });
 import { encodeFunctionData, decodeFunctionResult } from "viem";
-import { TCF_NFT } from "./abi/TCF_NFT.ts";
-import { TCF_abi } from "./abi/TCF.ts";
+const TCF_abi = (await artifacts.readArtifact("TCF")).abi;
+// import { TCF_abi } from "./abi/TCF.ts";
 import { numberTo32ByteHex } from "../test/utils/stringToHex.ts";
 
 const staticAddress =
@@ -30,14 +30,13 @@ function encodeInitializeData_DCT(): string {
   return data;
 }
 
-function encodeBalanceOf_TCF(address: `0x${string}`): string {
+function encodeBalanceOf_TCF(address: `0x${string}`) {
   const data = encodeFunctionData({
     abi: TCF_abi,
     functionName: "balanceOf",
     args: [address],
   });
-  // console.log('encodeFunctionData balanceOf data:', data);
-  return data;
+  console.log("encodeFunctionData balanceOf data:", data);
 }
 
 function decodeBalanceOf_TCF(data: string): bigint {
@@ -80,8 +79,8 @@ function encodeWithdrawFromStaticVault_TCF(
 ): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
-    functionName: "withdrawFromStaticVault",
-    args: [to, amount * balanceModulo],
+    functionName: "transferFrom",
+    args: [staticAddress, to, amount * balanceModulo],
   });
   console.log(data);
   return data;
@@ -94,8 +93,8 @@ function encodeWithdrawFromDynamicVault_TCF(
 ): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
-    functionName: "withdrawFromDynamicVault",
-    args: [to, amount * balanceModulo],
+    functionName: "transferFrom",
+    args: [dynamicAddress, to, amount * balanceModulo],
   });
   console.log(data);
   return data;
@@ -220,10 +219,26 @@ function encodeTransferAndCall_TCF(
   return encodedData;
 }
 
-const tcf_nft = "0xc85731f754d09734e6ae33751f5d8f2e52ef4765" as `0x${string}`;
+// 调用buyNFTByDCF函数调用的数据
+function encodeBuyNFTByDCF_TCF(
+  tokenAddress: `0x${string}`,
+  value: bigint,
+  tokenID: bigint,
+  buyAmount: bigint,
+): string {
+  const data = encodeFunctionData({
+    abi: TCF_abi,
+    functionName: "buyNFTByDCF",
+    args: [tokenAddress, tokenID, buyAmount, value],
+  });
+  console.log(data);
+  return data;
+}
+
+const tcf_nft = "0xe1470bd2a285530ce62d08d8c0c8242d0a330a60" as `0x${string}`;
 
 // console.log(encodeInitializeData_DCT());
-// console.log(encodeBalanceOf_TCF(dynamicAddress));
+// encodeBalanceOf_TCF(dynamicAddress);
 
 // name
 // const nameResultData_TCF =
@@ -238,10 +253,13 @@ const tcf_nft = "0xc85731f754d09734e6ae33751f5d8f2e52ef4765" as `0x${string}`;
 // decodeSymbol_TCF(symbolResultData_TCF as `0x${string}`);
 
 // withdrawFromStaticVault
-// encodeWithdrawFromStaticVault_TCF(owner, 10n);
+// encodeWithdrawFromStaticVault_TCF(owner, 1n);
 
 // withdrawFromDynamicVault
-// encodeWithdrawFromDynamicVault_TCF(owner, 10n);
+// encodeWithdrawFromDynamicVault_TCF(
+//   "0xda095ef32b8bb3f846e2b51236170f36be2361e9" as `0x${string}`,
+//   20n,
+// );
 
 // approve
 // encodeApprove_TCF(test_address, 1n);
@@ -271,8 +289,22 @@ const tcf_nft = "0xc85731f754d09734e6ae33751f5d8f2e52ef4765" as `0x${string}`;
 
 // balanceOf
 const balanceResultData_TCF =
-  "0x" + "00000000000000000000000000000000000000000000000000000003f54769fb";
+  "0x" + "0000000000000000000000000000000000000000000000000000000df8475800";
 decodeBalanceOf_TCF(balanceResultData_TCF);
 
 // transferAndCall
 // encodeTransferAndCall_TCF(tcf_nft, 5n, 0n, 5n);
+
+// buyNFTByDCF
+// encodeBuyNFTByDCF_TCF(tcf_nft, 5n, 0n, 5n);
+// 0x6af7ec05
+// 000000000000000000000000e1470bd2a285530ce62d08d8c0c8242d0a330a60
+// 0000000000000000000000000000000000000000000000000000000000000000
+// 0000000000000000000000000000000000000000000000000000000000000001
+// 000000000000000000000000000000000000000000000000000000003b9aca00
+
+// 0x6af7ec05
+// 000000000000000000000000e1470bd2a285530ce62d08d8c0c8242d0a330a60
+// 0000000000000000000000000000000000000000000000000000000000000000
+// 0000000000000000000000000000000000000000000000000000000000000005
+// 0000000000000000000000000000000000000000000000000000000df84757f1

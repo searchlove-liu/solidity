@@ -1,3 +1,7 @@
+export {Artifact_Airdrop as Airdrop} from './Airdrop.js';
+export {Artifact_AirdropUtils as AirdropUtils} from './AirdropUtils.js';
+export {Artifact_RewardContract as RewardContract} from './RewardContract.js';
+export {Artifact_batchURIAndId as batchURIAndId} from './batchURIAndId.js';
 export {Artifact_BinaryTree as BinaryTree} from './BinaryTree.js';
 export {Artifact_TCF_ERC1155 as TCF_ERC1155} from './TCF_ERC1155.js';
 export {Artifact_TCF_ERC1155MintTime as TCF_ERC1155MintTime} from './TCF_ERC1155MintTime.js';
@@ -38,6 +42,7 @@ export {Artifact_IERC721 as IERC721} from './IERC721.js';
 export {Artifact_IERC721Receiver as IERC721Receiver} from './IERC721Receiver.js';
 export {Artifact_Address as Address} from './Address.js';
 export {Artifact_Context as Context} from './Context.js';
+export {Artifact_MerkleProof as MerkleProof} from './MerkleProof.js';
 export {Artifact_ERC165 as ERC165} from './ERC165.js';
 export {Artifact_IERC165 as IERC165} from './IERC165.js';
 export {Artifact_Math as Math} from './Math.js';

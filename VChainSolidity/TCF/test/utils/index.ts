@@ -35,6 +35,9 @@ export function setupFixtures(provider: EthereumProvider) {
         env.get<typeof artifacts.ERC1363Example.abi>("ERC1363Example");
       const vault = env.get<typeof artifacts.vault.abi>("vault");
       const vault_copy = env.get<typeof artifacts.vault_copy.abi>("vault_copy");
+      const Airdrop = env.get<typeof artifacts.Airdrop.abi>("Airdrop");
+      const RewardContract =
+        env.get<typeof artifacts.RewardContract.abi>("RewardContract");
 
       return {
         env,
@@ -53,6 +56,8 @@ export function setupFixtures(provider: EthereumProvider) {
         ERC1363Example,
         vault,
         vault_copy,
+        Airdrop,
+        RewardContract,
       };
     },
   };

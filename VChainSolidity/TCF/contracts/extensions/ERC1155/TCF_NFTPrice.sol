@@ -24,7 +24,7 @@ import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
  * @dev 管理tcf——nft的价格，比例，有效时长，支持的token地址
  */
 
-// TODO:增加修改支持token的功能
+// TODO:增加修改支持token的功能（不增加，如果增加，如果将原地址的资产转移到新的合约地址，很麻烦）
 // TODO:将tokenAddress_array改为private
 
 contract TCF_NFTPrice is TCF_ERC1155, Ownable {
@@ -51,8 +51,6 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         uint256 amount;
     }
 
-    //
-
     // 权益：保存价格，比例，有限期
     // 可优化，使用两个map用于存储素具，一份是ratio与indate集合，另一份是价格
     // 对于某一个NFT的ratio和indate，先赋值给memory，然后一次性保存在storage，比当前少一次对storage的存储，但增加了代码量。
@@ -64,7 +62,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         uint8 ratio;
         // 有效期
         // 最大值4294967295，约为136年，在修改有效期时不可以超过这个值
-        uint32 indate;
+        uint56 indate;
     }
 
     // 6种NFT的权益。如果使用mapping如果后期想要增加产品，修改合约代码量会小一些
@@ -99,7 +97,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
      * @param prices 6种NFT,每中NFT的三类价格
      */
     function initPrice(
-        priceTypeAndAomut[][6] calldata prices
+        priceTypeAndAomut[2][6] calldata prices
     ) external onlyOwner {
         // 这里不对token是否初始化进行检查，是因为在构造函数中，初始化了TC
         require(initedTokenAddress == 1, "TOKEN_NOT_INITIALIZED");
@@ -110,17 +108,41 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
             revert(code);
         }
 
+        // 以太坊测试
+        // uint56[6] memory indetes = [
+        //     uint56(15552000),
+        //     uint56(17280000),
+        //     uint56(20736000),
+        //     uint56(24192000),
+        //     uint56(27648000),
+        //     uint56(31104000)
+        // ];
+
         // 有效时长，分别对应 180 200 240 280 320 360  单位是天
         // 测试的时候：天数*每天的秒
-        // uint32[6] memory indetes = [
-        //     15552000,
-        //     17280000,
-        //     20736000,
-        //     24192000,
-        //     27648000,
-        //     31104000
+        // 这里注意单位是纳秒，对应voidChain的区块时间
+        // 以太坊的话，改为秒即可
+        // 如果需要测试其他功能可以将其暂且修改为秒，测试完其他功能之后，在改为纳秒
+        // uint56[6] memory indetes = [
+        //     15552000000000000,
+        //     17280000000000000,
+        //     20736000000000000,
+        //     24192000000000000,
+        //     27648000000000000,
+        //     31104000000000000
         // ];
-        uint32[6] memory indetes = [1, 2, 3, 24192000, 5, 6];
+
+        // 用于voidChain测试，voidChain初块时间很慢，所以某个NFT过期之后立刻触发一个交易，然后发布一个区块
+        // 在检测NFT是否过期时，就会使用最新区块的时间。否则一直没有区块，nft就会一直不过期。
+        uint56[6] memory indetes = [
+            60000000000,
+            120000000000,
+            180000000000,
+            240000000000,
+            300000000000,
+            31104000000000000
+        ];
+
         // 动态比例
         uint8[6] memory ratios = [40, 50, 60, 80, 90, 100];
 
@@ -145,16 +167,16 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
 
     /**
      * @dev 修改单个NFT价格
-     * @param tokenID NFT类型/ID（0-5）
+     * @param tokenId NFT类型/ID（0-5）
      * @param tokenAddress 支付代币地址；原生代币传入address(0)
      * @param amount 新价格
      */
     function changeNFTPrice(
-        uint256 tokenID,
+        uint256 tokenId,
         address tokenAddress,
         uint256 amount
     ) external onlyOwner {
-        string memory code = _checkAccessPriceDetail(tokenID, tokenAddress);
+        string memory code = _checkAccessPriceDetail(tokenId, tokenAddress);
         if (bytes(code).length != 0) {
             revert(code);
         }
@@ -162,24 +184,24 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
         if (tokenAddress == address(0)) {
             tokenAddress = address(0x1);
         }
-        uint256 oldPrice = NFTS[tokenID].prices[tokenAddress];
-        NFTS[tokenID].prices[tokenAddress] = amount;
-        emit NFTPriceChanged(tokenID, tokenAddress, oldPrice, amount);
+        uint256 oldPrice = NFTS[tokenId].prices[tokenAddress];
+        NFTS[tokenId].prices[tokenAddress] = amount;
+        emit NFTPriceChanged(tokenId, tokenAddress, oldPrice, amount);
     }
 
     /**
      * @dev 获取某个NFT在某种支付方式下的价格。
-     * @param tokenID NFT类型/ID（0-5）
+     * @param tokenId NFT类型/ID（0-5）
      * @param _tokenAddress 支付代币地址；原生代币传入address(0)
      * @return errorMessage 错误码/错误信息；成功时为空字符串
      * @return price 价格；当errorMessage非空时为0
      */
     function getNFTPrice(
-        uint256 tokenID,
+        uint256 tokenId,
         address _tokenAddress
     ) public view returns (string memory, uint256) {
         string memory errorMessage = _checkAccessPriceDetail(
-            tokenID,
+            tokenId,
             _tokenAddress
         );
 
@@ -191,7 +213,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
             _tokenAddress = address(0x1);
         }
 
-        uint256 price = NFTS[tokenID].prices[_tokenAddress];
+        uint256 price = NFTS[tokenId].prices[_tokenAddress];
         if (price == 0) {
             return ("PRICE_NOT_SET", 0);
         }
@@ -200,22 +222,22 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     }
 
     function getNFTEquityDetails(
-        uint256 tokenID
-    ) public view returns (uint8 ratio, uint32 indate) {
+        uint256 tokenId
+    ) public view returns (uint8 ratio, uint56 indate) {
         require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED");
-        require(tokenID < 6, "TOKENID_RANGE");
-        ratio = NFTS[tokenID].ratio;
-        indate = NFTS[tokenID].indate;
+        require(tokenId < 6, "TOKENID_RANGE");
+        ratio = NFTS[tokenId].ratio;
+        indate = NFTS[tokenId].indate;
     }
 
     function _checkAccessPriceDetail(
-        uint256 _tokenID,
+        uint256 _tokenId,
         address _tokenAddress
     ) private view returns (string memory) {
         if (NFTPrice_initialized != 1) {
             return "PRICES_NOT_INITIALIZED";
         }
-        if (_tokenID > 5) {
+        if (_tokenId > 5) {
             return "TOKENID_RANGE";
         }
         // 防止价格没有初始化，然后调用getNFTPrice函数，导致获取价格为0
@@ -234,7 +256,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
      * @return 错误码/错误信息；成功时为空字符串
      */
     function checkInitPricesParams(
-        priceTypeAndAomut[][6] calldata prices
+        priceTypeAndAomut[2][6] calldata prices
     ) public view returns (string memory) {
         // 1、检查tokenAddresses和prices[i].priceData.length相同
         // 2、价格里面必须支持原生代币
@@ -251,7 +273,7 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
             // 要求价格里面必须支持原生代币
             bool TCExist;
             bool DCFExist;
-            priceTypeAndAomut[] memory price = prices[i];
+            priceTypeAndAomut[2] memory price = prices[i];
             for (uint256 j = 0; j < supportedTokenAmount; ++j) {
                 // 保证每个NFT的价格列表中，都包含原生代币，除原生代币外，其他代币地址必须唯一
                 address tokenAddress = price[j].tokenAddress;
@@ -284,10 +306,14 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     }
 
     // /**
-    //  * @dev 删除某个支持的代币地址（不允许删除原生代币）。
-    //  * @param oldTokenAddress 要删除的代币合约地址
+    //  * @dev 替换支持的代币。不支持，因为原始合约中用户有钱，如果增加这个，需要写转移资产的合约。
+    //  * @param oldTokenAddress 要替换的代币合约地址
     //  */
-    // function deleteSupportedToken(address oldTokenAddress) external onlyOwner {
+    //
+    // function replaceSupportedToken(
+    //     address oldTokenAddress,
+    //     address newTokenAddress
+    // ) external onlyOwner {
     //     // 原生代币不能被删除
     //     require(oldTokenAddress != address(0), "NATURE_TOKEN_DEL");
     //     // 检查就tokenAddress是否被初始化过
@@ -295,22 +321,21 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     //         supportTokenType[oldTokenAddress] == 1,
     //         _detailAddr(oldTokenAddress, "TOKEN_UNSUPPORTED")
     //     );
+    //     // 检查新新插入的地址是否合法
+    //     string memory code = _checkTokenAddressesCode(newTokenAddress);
+    //     if (bytes(code).length != 0) {
+    //         revert(code);
+    //     }
 
     //     // 删除map列表中要删除的地址
     //     delete supportTokenType[oldTokenAddress];
     //     // supportedTokenAmount包含原生代币数，但原生token没有地址，所以tokenAddress_array元素数=supportedTokenAmount-1
     //     for (uint256 i = 0; i < supportedTokenAmount - 1; i++) {
     //         if (tokenAddress_array[i] == oldTokenAddress) {
-    //             // supportedTokenAmount包含原生代币数，但原生代币地址为空，不保存，所以减2
-    //             // 将最后一个元素放置在删除的位置
-    //             tokenAddress_array[i] = tokenAddress_array[
-    //                 supportedTokenAmount - 2
-    //             ];
-    //             // 删除最后一个元素
-    //             // 必须使用pop完成删除最后一个元素，数组的数据长度减一
-    //             // 在增加数据时，使用push，在原数据的基础上进行增加。
-    //             // 如果赋值为空，在增加时，就会在空地址后面增加新的元素，不符合预期
-    //             tokenAddress_array.pop();
+    //             tokenAddress_array[i] = newTokenAddress;
+    //             supportTokenType[newTokenAddress] = 1;
+    //             supportTokenType[oldTokenAddress] = 0;
+    //             break;
     //         }
     //     }
     //     supportedTokenAmount -= 1;
@@ -354,14 +379,14 @@ contract TCF_NFTPrice is TCF_ERC1155, Ownable {
     // 修改动态比例
     // 40%的动态比例是40，而不是0.4
     function changeDynamicRatio(
-        uint256 tokenID,
+        uint256 tokenId,
         uint8 newRatio
     ) external onlyOwner {
         require(NFTPrice_initialized == 1, "PRICES_NOT_INITIALIZED");
-        require(tokenID < 6, "TOKENID_RANGE");
-        uint8 previousRatio = NFTS[tokenID].ratio;
-        NFTS[tokenID].ratio = newRatio;
-        emit DynamicRatioChanged(tokenID, previousRatio, newRatio);
+        require(tokenId < 6, "TOKENID_RANGE");
+        uint8 previousRatio = NFTS[tokenId].ratio;
+        NFTS[tokenId].ratio = newRatio;
+        emit DynamicRatioChanged(tokenId, previousRatio, newRatio);
     }
 
     // /**

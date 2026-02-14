@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 
 import "./TCF_NFTPrice.sol";
 
-// tokenID可以改为uint8，
-// mintTime可以改为uint48，节省存储空间
+// tokenID可以改为uint8，(不可以，因为erc1155标准里面是uint256，如果使用强制类型转换会增加代码量)
+// mintTime可以改为uint48，节省存储空间（以太坊可以，但voidChain不可以，因为voidChain时间戳是纳秒）
 contract TCF_ERC1155MintTime is TCF_NFTPrice {
     // Mapping from token ID to account to mint time array
     // 用户拥有的id,mapping(owner => mapping(tokenId => editionIds))
@@ -20,6 +20,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         uint256 editionId,
         uint64 mintedAt
     );
+
     // test _mintTimes
     function getNftMintTime(
         uint256 tokenId,
@@ -34,6 +35,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         address account,
         uint256 tokenId
     ) public view returns (uint256[] memory) {
+        require(account != address(0), "ZERO_ADDRESS");
         require(tokenId < 6, "TOKENID_RANGE");
         return _ownedTokenIds[account][tokenId];
     }
@@ -55,7 +57,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             // 检查是否过期，过期之后才可以转
             uint256 index = indexes[i];
             uint64 mintTime = _mintTimes[tokenId][index];
-            (, uint32 indate) = getNFTEquityDetails(tokenId);
+            (, uint56 indate) = getNFTEquityDetails(tokenId);
             require(
                 TCF_ERC1155.ownerOf(tokenId, index) == from,
                 "TOKEN_NOT_OWNED"
@@ -119,7 +121,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
 
     // 获取某个地址拥有所有NFT价值的总和
     // 如果NFT过期，不在计算之列
-    function getTotalNFTWorth(address owner) public view returns (uint256) {
+    function getTotalNFTWorth(address owner) internal view returns (uint256) {
         // 对owner进行检查
         require(owner != address(0), "ZERO_ADDRESS");
         uint256 totalValue = 0;
@@ -129,7 +131,7 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
             for (uint256 i = 0; i < indexes.length; i++) {
                 uint256 index = indexes[i];
                 uint64 mintTime = _mintTimes[tokenId][index];
-                (, uint32 indate) = getNFTEquityDetails(tokenId);
+                (, uint56 indate) = getNFTEquityDetails(tokenId);
                 // 检查是否过期,大于，说明已经过期，过期就不放在计算之列
                 if (block.timestamp > mintTime + indate) {
                     continue;

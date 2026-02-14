@@ -8,6 +8,9 @@ import { numberTo32ByteHex, stringToHexString } from "./utils/stringToHex.ts";
 import { TCF } from "../generated/artifacts/index.js";
 import { parse } from "path";
 import { parseAbiItem } from "viem";
+import { getPrices, zeroAddress, ONEAddress, getTCPrices } from "./price.ts";
+
+import { baseURI } from "./baseURI.ts";
 
 const { provider, networkHelpers } = await network.connect();
 const { deployAll } = setupFixtures(provider);
@@ -166,8 +169,8 @@ describe("test token amount", function () {
   });
 
   describe("Vault release and withdrawal", function () {
-    const dailyStatic = 40_000_000_000n;
-    const dailyDynamic = 60_000_000_000n;
+    const dailyStatic = 400_000_000_000n;
+    const dailyDynamic = 600_000_000_000n;
 
     async function initializeWithVaults() {
       await env.execute(TCF1, {
@@ -253,8 +256,8 @@ describe("test token amount", function () {
       });
 
       await env.execute(TCF1, {
-        functionName: "withdrawFromStaticVault",
-        args: [receiver, dailyStatic],
+        functionName: "transferFrom",
+        args: [staticVault, receiver, dailyStatic],
         account: namedAccounts.deployer,
       });
 
@@ -291,8 +294,8 @@ describe("test token amount", function () {
       });
 
       await env.execute(TCF1, {
-        functionName: "withdrawFromDynamicVault",
-        args: [receiver, dailyDynamic],
+        functionName: "transferFrom",
+        args: [dynamicVault, receiver, dailyDynamic],
         account: namedAccounts.deployer,
       });
 
@@ -321,11 +324,11 @@ describe("test token amount", function () {
 
       await expect(
         env.execute(TCF1, {
-          functionName: "withdrawFromStaticVault",
-          args: [namedAccounts.admin1, 0n],
+          functionName: "transferFrom",
+          args: [vault.address, namedAccounts.admin1, 0n],
           account: namedAccounts.deployer,
         }),
-      ).to.be.revertedWith("TCF: Amount must be greater than 0");
+      ).to.be.revertedWith("ERC20: Amount must be greater than 0");
     });
 
     it("withdrawFromDynamicVault: amount must be greater than zero", async function () {
@@ -336,11 +339,11 @@ describe("test token amount", function () {
 
       await expect(
         env.execute(TCF1, {
-          functionName: "withdrawFromDynamicVault",
-          args: [namedAccounts.admin1, 0n],
+          functionName: "transferFrom",
+          args: [vault_copy.address, namedAccounts.admin1, 0n],
           account: namedAccounts.deployer,
         }),
-      ).to.be.revertedWith("TCF: Amount must be greater than 0");
+      ).to.be.revertedWith("ERC20: Amount must be greater than 0");
     });
 
     it("releaseDailyTokens: only owner can call", async function () {
@@ -360,11 +363,11 @@ describe("test token amount", function () {
 
       await expect(
         env.execute(TCF1, {
-          functionName: "withdrawFromStaticVault",
-          args: [namedAccounts.admin1, dailyStatic],
+          functionName: "transferFrom",
+          args: [vault.address, namedAccounts.admin1, dailyStatic],
           account: namedAccounts.admin1,
         }),
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("ERC20: insufficient allowance");
     });
 
     it("withdrawFromDynamicVault: only owner can call", async function () {
@@ -375,11 +378,11 @@ describe("test token amount", function () {
 
       await expect(
         env.execute(TCF1, {
-          functionName: "withdrawFromDynamicVault",
-          args: [namedAccounts.admin1, dailyDynamic],
+          functionName: "transferFrom",
+          args: [vault_copy.address, namedAccounts.admin1, dailyDynamic],
           account: namedAccounts.admin1,
         }),
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      ).to.be.revertedWith("ERC20: insufficient allowance");
     });
   });
 });
@@ -477,16 +480,16 @@ describe("Pause and Unpause", function () {
 
     await expect(
       env.execute(TCF1, {
-        functionName: "withdrawFromStaticVault",
-        args: [namedAccounts.admin1, 1000n],
+        functionName: "transferFrom",
+        args: [vault.address, namedAccounts.admin1, 1000n],
         account: namedAccounts.deployer,
       }),
     ).to.be.revertedWith("Pausable: paused");
 
     await expect(
       env.execute(TCF1, {
-        functionName: "withdrawFromDynamicVault",
-        args: [namedAccounts.admin1, 1000n],
+        functionName: "transferFrom",
+        args: [vault_copy.address, namedAccounts.admin1, 1000n],
         account: namedAccounts.deployer,
       }),
     ).to.be.revertedWith("Pausable: paused");
@@ -499,14 +502,14 @@ describe("Pause and Unpause", function () {
 
     // 提款
     await env.execute(TCF1, {
-      functionName: "withdrawFromStaticVault",
-      args: [namedAccounts.admin1, 1000n],
+      functionName: "transferFrom",
+      args: [vault.address, namedAccounts.admin1, 1000n],
       account: namedAccounts.deployer,
     });
 
     await env.execute(TCF1, {
-      functionName: "withdrawFromDynamicVault",
-      args: [namedAccounts.admin1, 1000n],
+      functionName: "transferFrom",
+      args: [vault_copy.address, namedAccounts.admin1, 1000n],
       account: namedAccounts.deployer,
     });
   });
@@ -521,8 +524,8 @@ describe("Pause and Unpause", function () {
 
     // 给admin1提取一定的代币
     await env.execute(TCF1, {
-      functionName: "withdrawFromStaticVault",
-      args: [namedAccounts.admin1, 50000000n],
+      functionName: "transferFrom",
+      args: [vault.address, namedAccounts.admin1, 50000000n],
       account: namedAccounts.deployer,
     });
 
@@ -542,6 +545,150 @@ describe("Pause and Unpause", function () {
         account: namedAccounts.admin1,
       }),
     ).to.be.revertedWith("Pausable: paused");
+  });
+});
+
+// 测试 buyNFTByDCF（ERC1363 transferAndCall 的封装）
+describe("buyNFTByDCF", function () {
+  let SimpleTokenReceiver: any;
+
+  const address_3 = namedAccounts.admin1;
+  const address_7 = namedAccounts.admin2;
+
+  beforeEach(async () => {
+    ({ env, TCF1, vault, vault_copy, namedAccounts, SimpleTokenReceiver } =
+      await networkHelpers.loadFixture(deployAll));
+
+    await env.execute(TCF1, {
+      functionName: "initialize",
+      args: [vault.address, vault_copy.address, address_3, address_7],
+      account: namedAccounts.deployer,
+    });
+    // release tokens to vaults
+    await env.execute(TCF1, {
+      functionName: "releaseDailyTokens",
+      account: namedAccounts.deployer,
+    });
+
+    // withdraw some tokens to buyer (admin1)
+    await env.execute(TCF1, {
+      functionName: "transferFrom",
+      args: [vault.address, namedAccounts.admin1, 10_000_000_000n],
+      account: namedAccounts.deployer,
+    });
+
+    // 初始化DCF_NFT合约
+    await env.execute(TCF_NFT, {
+      functionName: "addSupportedToken",
+      args: [TCF1.address],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置 NFT 的 indate/ratio
+    await env.execute(TCF_NFT, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1.address)],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置baseURI
+    await env.execute(TCF_NFT, {
+      functionName: "setBaseURI",
+      args: [baseURI],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置提款地址
+    await env.execute(TCF_NFT, {
+      functionName: "setWithdrawAddress",
+      args: [namedAccounts.deployer],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFT, {
+      functionName: "initRoot",
+      args: [namedAccounts.deployer],
+      account: namedAccounts.deployer,
+    });
+  });
+
+  it("success: transfers tokens, calls receiver, and forwards encoded (tokenId,buyAmount)", async function () {
+    const tokenId = 3n;
+    const buyAmount = 4n;
+    const value = 16n;
+    const buyer = namedAccounts.admin1;
+
+    await env.execute(TCF1, {
+      functionName: "buyNFTByDCF",
+      args: [TCF_NFT.address, tokenId, buyAmount, value],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFT, {
+      functionName: "insert",
+      args: [namedAccounts.deployer, namedAccounts.deployer, true],
+      account: namedAccounts.admin1,
+    });
+
+    const txReceipt = await env.execute(TCF1, {
+      functionName: "buyNFTByDCF",
+      args: [TCF_NFT.address, tokenId, buyAmount, value],
+      account: buyer,
+    });
+
+    expect(
+      await env.read(TCF_NFT, {
+        functionName: "balanceOf",
+        args: [buyer, tokenId],
+      }),
+    ).to.equal(buyAmount);
+  });
+
+  it("revert: when paused", async function () {
+    await env.execute(TCF1, {
+      functionName: "pause",
+      account: namedAccounts.deployer,
+    });
+
+    await expect(
+      env.execute(TCF1, {
+        functionName: "buyNFTByDCF",
+        args: [TCF_NFT.address, 1n, 1n, 1n],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Pausable: paused");
+  });
+
+  it("revert: nftContract is not a contract address", async function () {
+    await expect(
+      env.execute(TCF1, {
+        functionName: "buyNFTByDCF",
+        args: [namedAccounts.admin2, 1n, 1n, 1n],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("ERC1363: transfer to non-contract");
+  });
+
+  it("revert: nftContract does not implement IERC1363Receiver", async function () {
+    // vault is a contract but not an ERC1363 receiver
+    await expect(
+      env.execute(TCF1, {
+        functionName: "buyNFTByDCF",
+        args: [vault.address, 1n, 1n, 1n],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("ERC1363: to is a incorrect address");
+  });
+
+  it("revert: buyer has insufficient balance", async function () {
+    // deployer has 0 balance after initialize (tokens are minted to contract/admin accounts)
+    await expect(
+      env.execute(TCF1, {
+        functionName: "buyNFTByDCF",
+        args: [TCF_NFT.address, 1n, 1n, 1n],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
   });
 });
 
@@ -582,32 +729,6 @@ describe("event", function () {
     expect(logs[0].args.operator.toLowerCase()).to.equal(
       namedAccounts.deployer,
     );
-  });
-
-  it("withdrawFromStaticVault: emits TokensWithdrawn event", async function () {
-    await env.execute(TCF1, {
-      functionName: "releaseDailyTokens",
-      account: namedAccounts.deployer,
-    });
-
-    const txReceipt = await env.execute(TCF1, {
-      functionName: "withdrawFromStaticVault",
-      args: [namedAccounts.admin1, 40000000000n],
-      account: namedAccounts.deployer,
-    });
-
-    const filter = await env.viem.publicClient.createEventFilter({
-      address: TCF1.address,
-      event: parseAbiItem(
-        `event TokensWithdrawn(address indexed token,address indexed from,address indexed to,uint256 amount)`,
-      ),
-      args: { to: namedAccounts.admin1 },
-      strict: true,
-    });
-
-    const logs = await env.viem.publicClient.getFilterLogs({ filter });
-    expect(logs[0].args.to.toLowerCase()).to.equal(namedAccounts.admin1);
-    expect(logs[0].args.amount).to.equal(40000000000n);
   });
 });
 

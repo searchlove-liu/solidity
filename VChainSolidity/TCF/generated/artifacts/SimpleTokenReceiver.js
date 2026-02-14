@@ -152,56 +152,56 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
       "linkReferences": {},
       "object": "608060405234801561001057600080fd5b506105c0806100206000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c806301ffc9a71461005c57806388a7ca5c146100855780639d76ea58146100a5578063cb13cddb146100ba578063f3fef3a3146100da575b600080fd5b61006f61006a366004610401565b6100ef565b60405161007c919061048f565b60405180910390f35b610098610093366004610342565b61011c565b60405161007c919061049a565b6100ad6101b6565b60405161007c9190610462565b6100cd6100c8366004610321565b6101c5565b60405161007c9190610506565b6100ed6100e83660046103d8565b6101d7565b005b60006001600160e01b03198216632229f29760e21b14806101145750610114826102f1565b90505b919050565b6001600160a01b038416600090815260208190526040812080548591908390610146908490610545565b9091555050600180546001600160a01b031916331790556040516001600160a01b038616907f0f611859dc94a66d9bec0e66c7485098c0d5e4662896ff2f523c47f962a7abef9061019c9087908790879061050f565b60405180910390a250632229f29760e21b95945050505050565b6001546001600160a01b031681565b60006020819052908152604090205481565b3360009081526020819052604090205481111561020f5760405162461bcd60e51b8152600401610206906104d8565b60405180910390fd5b336000908152602081905260408120805483929061022e90849061055d565b925050819055506000826001600160a01b03163383604051602401610254929190610476565b60408051601f198184030181529181526020820180516001600160e01b031663a9059cbb60e01b179052516102899190610429565b6000604051808303816000865af19150503d80600081146102c6576040519150601f19603f3d011682016040523d82523d6000602084013e6102cb565b606091505b50509050806102ec5760405162461bcd60e51b8152600401610206906104af565b505050565b6001600160e01b031981166301ffc9a760e01b14919050565b80356001600160a01b038116811461011757600080fd5b600060208284031215610332578081fd5b61033b8261030a565b9392505050565b600080600080600060808688031215610359578081fd5b6103628661030a565b94506103706020870161030a565b935060408601359250606086013567ffffffffffffffff80821115610393578283fd5b818801915088601f8301126103a6578283fd5b8135818111156103b4578384fd5b8960208285010111156103c5578384fd5b9699959850939650602001949392505050565b600080604083850312156103ea578182fd5b6103f38361030a565b946020939093013593505050565b600060208284031215610412578081fd5b81356001600160e01b03198116811461033b578182fd5b60008251815b81811015610449576020818601810151858301520161042f565b818111156104575782828501525b509190910192915050565b6001600160a01b0391909116815260200190565b6001600160a01b03929092168252602082015260400190565b901515815260200190565b6001600160e01b031991909116815260200190565b6020808252600f908201526e151c985b9cd9995c8819985a5b1959608a1b604082015260600190565b602080825260149082015273125b9cdd59999a58da595b9d0819195c1bdcda5d60621b604082015260600190565b90815260200190565b60008482526040602083015282604083015282846060840137818301606090810191909152601f909201601f1916010192915050565b6000821982111561055857610558610574565b500190565b60008282101561056f5761056f610574565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220d58e655a024996952ae8187532c9bc5e64939eec29a7eb373b80f31b7eda730264736f6c63430008010033",
       "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH2 0x5C0 DUP1 PUSH2 0x20 PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH2 0x57 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x1FFC9A7 EQ PUSH2 0x5C JUMPI DUP1 PUSH4 0x88A7CA5C EQ PUSH2 0x85 JUMPI DUP1 PUSH4 0x9D76EA58 EQ PUSH2 0xA5 JUMPI DUP1 PUSH4 0xCB13CDDB EQ PUSH2 0xBA JUMPI DUP1 PUSH4 0xF3FEF3A3 EQ PUSH2 0xDA JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH2 0x6F PUSH2 0x6A CALLDATASIZE PUSH1 0x4 PUSH2 0x401 JUMP JUMPDEST PUSH2 0xEF JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x48F JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH2 0x98 PUSH2 0x93 CALLDATASIZE PUSH1 0x4 PUSH2 0x342 JUMP JUMPDEST PUSH2 0x11C JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x49A JUMP JUMPDEST PUSH2 0xAD PUSH2 0x1B6 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x462 JUMP JUMPDEST PUSH2 0xCD PUSH2 0xC8 CALLDATASIZE PUSH1 0x4 PUSH2 0x321 JUMP JUMPDEST PUSH2 0x1C5 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x506 JUMP JUMPDEST PUSH2 0xED PUSH2 0xE8 CALLDATASIZE PUSH1 0x4 PUSH2 0x3D8 JUMP JUMPDEST PUSH2 0x1D7 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x0 PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP3 AND PUSH4 0x2229F297 PUSH1 0xE2 SHL EQ DUP1 PUSH2 0x114 JUMPI POP PUSH2 0x114 DUP3 PUSH2 0x2F1 JUMP JUMPDEST SWAP1 POP JUMPDEST SWAP2 SWAP1 POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP5 AND PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 DUP2 KECCAK256 DUP1 SLOAD DUP6 SWAP2 SWAP1 DUP4 SWAP1 PUSH2 0x146 SWAP1 DUP5 SWAP1 PUSH2 0x545 JUMP JUMPDEST SWAP1 SWAP2 SSTORE POP POP PUSH1 0x1 DUP1 SLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB NOT AND CALLER OR SWAP1 SSTORE PUSH1 0x40 MLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP7 AND SWAP1 PUSH32 0xF611859DC94A66D9BEC0E66C7485098C0D5E4662896FF2F523C47F962A7ABEF SWAP1 PUSH2 0x19C SWAP1 DUP8 SWAP1 DUP8 SWAP1 DUP8 SWAP1 PUSH2 0x50F JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 LOG2 POP PUSH4 0x2229F297 PUSH1 0xE2 SHL SWAP6 SWAP5 POP POP POP POP POP JUMP JUMPDEST PUSH1 0x1 SLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB AND DUP2 JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP2 SWAP1 MSTORE SWAP1 DUP2 MSTORE PUSH1 0x40 SWAP1 KECCAK256 SLOAD DUP2 JUMP JUMPDEST CALLER PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 SWAP1 KECCAK256 SLOAD DUP2 GT ISZERO PUSH2 0x20F JUMPI PUSH1 0x40 MLOAD PUSH3 0x461BCD PUSH1 0xE5 SHL DUP2 MSTORE PUSH1 0x4 ADD PUSH2 0x206 SWAP1 PUSH2 0x4D8 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 REVERT JUMPDEST CALLER PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 DUP2 KECCAK256 DUP1 SLOAD DUP4 SWAP3 SWAP1 PUSH2 0x22E SWAP1 DUP5 SWAP1 PUSH2 0x55D JUMP JUMPDEST SWAP3 POP POP DUP2 SWAP1 SSTORE POP PUSH1 0x0 DUP3 PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB AND CALLER DUP4 PUSH1 0x40 MLOAD PUSH1 0x24 ADD PUSH2 0x254 SWAP3 SWAP2 SWAP1 PUSH2 0x476 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD PUSH1 0x1F NOT DUP2 DUP5 SUB ADD DUP2 MSTORE SWAP2 DUP2 MSTORE PUSH1 0x20 DUP3 ADD DUP1 MLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB AND PUSH4 0xA9059CBB PUSH1 0xE0 SHL OR SWAP1 MSTORE MLOAD PUSH2 0x289 SWAP2 SWAP1 PUSH2 0x429 JUMP JUMPDEST PUSH1 0x0 PUSH1 0x40 MLOAD DUP1 DUP4 SUB DUP2 PUSH1 0x0 DUP7 GAS CALL SWAP2 POP POP RETURNDATASIZE DUP1 PUSH1 0x0 DUP2 EQ PUSH2 0x2C6 JUMPI PUSH1 0x40 MLOAD SWAP2 POP PUSH1 0x1F NOT PUSH1 0x3F RETURNDATASIZE ADD AND DUP3 ADD PUSH1 0x40 MSTORE RETURNDATASIZE DUP3 MSTORE RETURNDATASIZE PUSH1 0x0 PUSH1 0x20 DUP5 ADD RETURNDATACOPY PUSH2 0x2CB JUMP JUMPDEST PUSH1 0x60 SWAP2 POP JUMPDEST POP POP SWAP1 POP DUP1 PUSH2 0x2EC JUMPI PUSH1 0x40 MLOAD PUSH3 0x461BCD PUSH1 0xE5 SHL DUP2 MSTORE PUSH1 0x4 ADD PUSH2 0x206 SWAP1 PUSH2 0x4AF JUMP JUMPDEST POP POP POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP2 AND PUSH4 0x1FFC9A7 PUSH1 0xE0 SHL EQ SWAP2 SWAP1 POP JUMP JUMPDEST DUP1 CALLDATALOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP2 AND DUP2 EQ PUSH2 0x117 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 DUP5 SUB SLT ISZERO PUSH2 0x332 JUMPI DUP1 DUP2 REVERT JUMPDEST PUSH2 0x33B DUP3 PUSH2 0x30A JUMP JUMPDEST SWAP4 SWAP3 POP POP POP JUMP JUMPDEST PUSH1 0x0 DUP1 PUSH1 0x0 DUP1 PUSH1 0x0 PUSH1 0x80 DUP7 DUP9 SUB SLT ISZERO PUSH2 0x359 JUMPI DUP1 DUP2 REVERT JUMPDEST PUSH2 0x362 DUP7 PUSH2 0x30A JUMP JUMPDEST SWAP5 POP PUSH2 0x370 PUSH1 0x20 DUP8 ADD PUSH2 0x30A JUMP JUMPDEST SWAP4 POP PUSH1 0x40 DUP7 ADD CALLDATALOAD SWAP3 POP PUSH1 0x60 DUP7 ADD CALLDATALOAD PUSH8 0xFFFFFFFFFFFFFFFF DUP1 DUP3 GT ISZERO PUSH2 0x393 JUMPI DUP3 DUP4 REVERT JUMPDEST DUP2 DUP9 ADD SWAP2 POP DUP9 PUSH1 0x1F DUP4 ADD SLT PUSH2 0x3A6 JUMPI DUP3 DUP4 REVERT JUMPDEST DUP2 CALLDATALOAD DUP2 DUP2 GT ISZERO PUSH2 0x3B4 JUMPI DUP4 DUP5 REVERT JUMPDEST DUP10 PUSH1 0x20 DUP3 DUP6 ADD ADD GT ISZERO PUSH2 0x3C5 JUMPI DUP4 DUP5 REVERT JUMPDEST SWAP7 SWAP10 SWAP6 SWAP9 POP SWAP4 SWAP7 POP PUSH1 0x20 ADD SWAP5 SWAP4 SWAP3 POP POP POP JUMP JUMPDEST PUSH1 0x0 DUP1 PUSH1 0x40 DUP4 DUP6 SUB SLT ISZERO PUSH2 0x3EA JUMPI DUP2 DUP3 REVERT JUMPDEST PUSH2 0x3F3 DUP4 PUSH2 0x30A JUMP JUMPDEST SWAP5 PUSH1 0x20 SWAP4 SWAP1 SWAP4 ADD CALLDATALOAD SWAP4 POP POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 DUP5 SUB SLT ISZERO PUSH2 0x412 JUMPI DUP1 DUP2 REVERT JUMPDEST DUP2 CALLDATALOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP2 AND DUP2 EQ PUSH2 0x33B JUMPI DUP2 DUP3 REVERT JUMPDEST PUSH1 0x0 DUP3 MLOAD DUP2 JUMPDEST DUP2 DUP2 LT ISZERO PUSH2 0x449 JUMPI PUSH1 0x20 DUP2 DUP7 ADD DUP2 ADD MLOAD DUP6 DUP4 ADD MSTORE ADD PUSH2 0x42F JUMP JUMPDEST DUP2 DUP2 GT ISZERO PUSH2 0x457 JUMPI DUP3 DUP3 DUP6 ADD MSTORE JUMPDEST POP SWAP2 SWAP1 SWAP2 ADD SWAP3 SWAP2 POP POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB SWAP2 SWAP1 SWAP2 AND DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB SWAP3 SWAP1 SWAP3 AND DUP3 MSTORE PUSH1 0x20 DUP3 ADD MSTORE PUSH1 0x40 ADD SWAP1 JUMP JUMPDEST SWAP1 ISZERO ISZERO DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT SWAP2 SWAP1 SWAP2 AND DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x20 DUP1 DUP3 MSTORE PUSH1 0xF SWAP1 DUP3 ADD MSTORE PUSH15 0x151C985B9CD9995C8819985A5B1959 PUSH1 0x8A SHL PUSH1 0x40 DUP3 ADD MSTORE PUSH1 0x60 ADD SWAP1 JUMP JUMPDEST PUSH1 0x20 DUP1 DUP3 MSTORE PUSH1 0x14 SWAP1 DUP3 ADD MSTORE PUSH20 0x125B9CDD59999A58DA595B9D0819195C1BDCDA5D PUSH1 0x62 SHL PUSH1 0x40 DUP3 ADD MSTORE PUSH1 0x60 ADD SWAP1 JUMP JUMPDEST SWAP1 DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x0 DUP5 DUP3 MSTORE PUSH1 0x40 PUSH1 0x20 DUP4 ADD MSTORE DUP3 PUSH1 0x40 DUP4 ADD MSTORE DUP3 DUP5 PUSH1 0x60 DUP5 ADD CALLDATACOPY DUP2 DUP4 ADD PUSH1 0x60 SWAP1 DUP2 ADD SWAP2 SWAP1 SWAP2 MSTORE PUSH1 0x1F SWAP1 SWAP3 ADD PUSH1 0x1F NOT AND ADD ADD SWAP3 SWAP2 POP POP JUMP JUMPDEST PUSH1 0x0 DUP3 NOT DUP3 GT ISZERO PUSH2 0x558 JUMPI PUSH2 0x558 PUSH2 0x574 JUMP JUMPDEST POP ADD SWAP1 JUMP JUMPDEST PUSH1 0x0 DUP3 DUP3 LT ISZERO PUSH2 0x56F JUMPI PUSH2 0x56F PUSH2 0x574 JUMP JUMPDEST POP SUB SWAP1 JUMP JUMPDEST PUSH4 0x4E487B71 PUSH1 0xE0 SHL PUSH1 0x0 MSTORE PUSH1 0x11 PUSH1 0x4 MSTORE PUSH1 0x24 PUSH1 0x0 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xD5 DUP15 PUSH6 0x5A024996952A 0xE8 XOR PUSH22 0x32C9BC5E64939EEC29A7EB373B80F31B7EDA73026473 PUSH16 0x6C634300080100330000000000000000 ",
-      "sourceMap": "203:1705:60:-:0;;;;;;;;;;;;;;;;;;;"
+      "sourceMap": "203:1705:65:-:0;;;;;;;;;;;;;;;;;;;"
     },
     "deployedBytecode": {
       "generatedSources": [
         {
           "ast": {
             "nodeType": "YulBlock",
-            "src": "0:4901:68",
+            "src": "0:4901:73",
             "statements": [
               {
                 "nodeType": "YulBlock",
-                "src": "6:3:68",
+                "src": "6:3:73",
                 "statements": []
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "65:124:68",
+                  "src": "65:124:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "75:29:68",
+                      "src": "75:29:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "offset",
                             "nodeType": "YulIdentifier",
-                            "src": "97:6:68"
+                            "src": "97:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "84:12:68"
+                          "src": "84:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "84:20:68"
+                        "src": "84:20:73"
                       },
                       "variableNames": [
                         {
                           "name": "value",
                           "nodeType": "YulIdentifier",
-                          "src": "75:5:68"
+                          "src": "75:5:73"
                         }
                       ]
                     },
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "167:16:68",
+                        "src": "167:16:73",
                         "statements": [
                           {
                             "expression": {
@@ -209,14 +209,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "kind": "number",
                                   "nodeType": "YulLiteral",
-                                  "src": "176:1:68",
+                                  "src": "176:1:73",
                                   "type": "",
                                   "value": "0"
                                 },
                                 {
                                   "kind": "number",
                                   "nodeType": "YulLiteral",
-                                  "src": "179:1:68",
+                                  "src": "179:1:73",
                                   "type": "",
                                   "value": "0"
                                 }
@@ -224,13 +224,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "169:6:68"
+                                "src": "169:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "169:12:68"
+                              "src": "169:12:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "169:12:68"
+                            "src": "169:12:73"
                           }
                         ]
                       },
@@ -241,14 +241,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "value",
                                 "nodeType": "YulIdentifier",
-                                "src": "126:5:68"
+                                "src": "126:5:73"
                               },
                               {
                                 "arguments": [
                                   {
                                     "name": "value",
                                     "nodeType": "YulIdentifier",
-                                    "src": "137:5:68"
+                                    "src": "137:5:73"
                                   },
                                   {
                                     "arguments": [
@@ -257,14 +257,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                           {
                                             "kind": "number",
                                             "nodeType": "YulLiteral",
-                                            "src": "152:3:68",
+                                            "src": "152:3:73",
                                             "type": "",
                                             "value": "160"
                                           },
                                           {
                                             "kind": "number",
                                             "nodeType": "YulLiteral",
-                                            "src": "157:1:68",
+                                            "src": "157:1:73",
                                             "type": "",
                                             "value": "1"
                                           }
@@ -272,15 +272,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                         "functionName": {
                                           "name": "shl",
                                           "nodeType": "YulIdentifier",
-                                          "src": "148:3:68"
+                                          "src": "148:3:73"
                                         },
                                         "nodeType": "YulFunctionCall",
-                                        "src": "148:11:68"
+                                        "src": "148:11:73"
                                       },
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "161:1:68",
+                                        "src": "161:1:73",
                                         "type": "",
                                         "value": "1"
                                       }
@@ -288,40 +288,40 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "sub",
                                       "nodeType": "YulIdentifier",
-                                      "src": "144:3:68"
+                                      "src": "144:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "144:19:68"
+                                    "src": "144:19:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "and",
                                   "nodeType": "YulIdentifier",
-                                  "src": "133:3:68"
+                                  "src": "133:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "133:31:68"
+                                "src": "133:31:73"
                               }
                             ],
                             "functionName": {
                               "name": "eq",
                               "nodeType": "YulIdentifier",
-                              "src": "123:2:68"
+                              "src": "123:2:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "123:42:68"
+                            "src": "123:42:73"
                           }
                         ],
                         "functionName": {
                           "name": "iszero",
                           "nodeType": "YulIdentifier",
-                          "src": "116:6:68"
+                          "src": "116:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "116:50:68"
+                        "src": "116:50:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "113:2:68"
+                      "src": "113:2:73"
                     }
                   ]
                 },
@@ -331,7 +331,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "offset",
                     "nodeType": "YulTypedName",
-                    "src": "44:6:68",
+                    "src": "44:6:73",
                     "type": ""
                   }
                 ],
@@ -339,21 +339,21 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "value",
                     "nodeType": "YulTypedName",
-                    "src": "55:5:68",
+                    "src": "55:5:73",
                     "type": ""
                   }
                 ],
-                "src": "14:175:68"
+                "src": "14:175:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "264:128:68",
+                  "src": "264:128:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "310:26:68",
+                        "src": "310:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -361,24 +361,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "319:6:68"
+                                  "src": "319:6:73"
                                 },
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "327:6:68"
+                                  "src": "327:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "312:6:68"
+                                "src": "312:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "312:22:68"
+                              "src": "312:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "312:22:68"
+                            "src": "312:22:73"
                           }
                         ]
                       },
@@ -389,26 +389,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "dataEnd",
                                 "nodeType": "YulIdentifier",
-                                "src": "285:7:68"
+                                "src": "285:7:73"
                               },
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "294:9:68"
+                                "src": "294:9:73"
                               }
                             ],
                             "functionName": {
                               "name": "sub",
                               "nodeType": "YulIdentifier",
-                              "src": "281:3:68"
+                              "src": "281:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "281:23:68"
+                            "src": "281:23:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "306:2:68",
+                            "src": "306:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -416,38 +416,38 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "slt",
                           "nodeType": "YulIdentifier",
-                          "src": "277:3:68"
+                          "src": "277:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "277:32:68"
+                        "src": "277:32:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "274:2:68"
+                      "src": "274:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "345:41:68",
+                      "src": "345:41:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "376:9:68"
+                            "src": "376:9:73"
                           }
                         ],
                         "functionName": {
                           "name": "abi_decode_t_address",
                           "nodeType": "YulIdentifier",
-                          "src": "355:20:68"
+                          "src": "355:20:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "355:31:68"
+                        "src": "355:31:73"
                       },
                       "variableNames": [
                         {
                           "name": "value0",
                           "nodeType": "YulIdentifier",
-                          "src": "345:6:68"
+                          "src": "345:6:73"
                         }
                       ]
                     }
@@ -459,13 +459,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "230:9:68",
+                    "src": "230:9:73",
                     "type": ""
                   },
                   {
                     "name": "dataEnd",
                     "nodeType": "YulTypedName",
-                    "src": "241:7:68",
+                    "src": "241:7:73",
                     "type": ""
                   }
                 ],
@@ -473,21 +473,21 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "253:6:68",
+                    "src": "253:6:73",
                     "type": ""
                   }
                 ],
-                "src": "194:198:68"
+                "src": "194:198:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "537:722:68",
+                  "src": "537:722:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "584:26:68",
+                        "src": "584:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -495,24 +495,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "593:6:68"
+                                  "src": "593:6:73"
                                 },
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "601:6:68"
+                                  "src": "601:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "586:6:68"
+                                "src": "586:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "586:22:68"
+                              "src": "586:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "586:22:68"
+                            "src": "586:22:73"
                           }
                         ]
                       },
@@ -523,26 +523,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "dataEnd",
                                 "nodeType": "YulIdentifier",
-                                "src": "558:7:68"
+                                "src": "558:7:73"
                               },
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "567:9:68"
+                                "src": "567:9:73"
                               }
                             ],
                             "functionName": {
                               "name": "sub",
                               "nodeType": "YulIdentifier",
-                              "src": "554:3:68"
+                              "src": "554:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "554:23:68"
+                            "src": "554:23:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "579:3:68",
+                            "src": "579:3:73",
                             "type": "",
                             "value": "128"
                           }
@@ -550,44 +550,44 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "slt",
                           "nodeType": "YulIdentifier",
-                          "src": "550:3:68"
+                          "src": "550:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "550:33:68"
+                        "src": "550:33:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "547:2:68"
+                      "src": "547:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "619:41:68",
+                      "src": "619:41:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "650:9:68"
+                            "src": "650:9:73"
                           }
                         ],
                         "functionName": {
                           "name": "abi_decode_t_address",
                           "nodeType": "YulIdentifier",
-                          "src": "629:20:68"
+                          "src": "629:20:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "629:31:68"
+                        "src": "629:31:73"
                       },
                       "variableNames": [
                         {
                           "name": "value0",
                           "nodeType": "YulIdentifier",
-                          "src": "619:6:68"
+                          "src": "619:6:73"
                         }
                       ]
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "669:50:68",
+                      "src": "669:50:73",
                       "value": {
                         "arguments": [
                           {
@@ -595,12 +595,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "704:9:68"
+                                "src": "704:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "715:2:68",
+                                "src": "715:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -608,31 +608,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "700:3:68"
+                              "src": "700:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "700:18:68"
+                            "src": "700:18:73"
                           }
                         ],
                         "functionName": {
                           "name": "abi_decode_t_address",
                           "nodeType": "YulIdentifier",
-                          "src": "679:20:68"
+                          "src": "679:20:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "679:40:68"
+                        "src": "679:40:73"
                       },
                       "variableNames": [
                         {
                           "name": "value1",
                           "nodeType": "YulIdentifier",
-                          "src": "669:6:68"
+                          "src": "669:6:73"
                         }
                       ]
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "728:42:68",
+                      "src": "728:42:73",
                       "value": {
                         "arguments": [
                           {
@@ -640,12 +640,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "755:9:68"
+                                "src": "755:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "766:2:68",
+                                "src": "766:2:73",
                                 "type": "",
                                 "value": "64"
                               }
@@ -653,31 +653,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "751:3:68"
+                              "src": "751:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "751:18:68"
+                            "src": "751:18:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "738:12:68"
+                          "src": "738:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "738:32:68"
+                        "src": "738:32:73"
                       },
                       "variableNames": [
                         {
                           "name": "value2",
                           "nodeType": "YulIdentifier",
-                          "src": "728:6:68"
+                          "src": "728:6:73"
                         }
                       ]
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "779:46:68",
+                      "src": "779:46:73",
                       "value": {
                         "arguments": [
                           {
@@ -685,12 +685,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "810:9:68"
+                                "src": "810:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "821:2:68",
+                                "src": "821:2:73",
                                 "type": "",
                                 "value": "96"
                               }
@@ -698,36 +698,36 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "806:3:68"
+                              "src": "806:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "806:18:68"
+                            "src": "806:18:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "793:12:68"
+                          "src": "793:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "793:32:68"
+                        "src": "793:32:73"
                       },
                       "variables": [
                         {
                           "name": "offset",
                           "nodeType": "YulTypedName",
-                          "src": "783:6:68",
+                          "src": "783:6:73",
                           "type": ""
                         }
                       ]
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "834:28:68",
+                      "src": "834:28:73",
                       "value": {
                         "kind": "number",
                         "nodeType": "YulLiteral",
-                        "src": "844:18:68",
+                        "src": "844:18:73",
                         "type": "",
                         "value": "0xffffffffffffffff"
                       },
@@ -735,7 +735,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         {
                           "name": "_1",
                           "nodeType": "YulTypedName",
-                          "src": "838:2:68",
+                          "src": "838:2:73",
                           "type": ""
                         }
                       ]
@@ -743,7 +743,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "889:26:68",
+                        "src": "889:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -751,24 +751,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "898:6:68"
+                                  "src": "898:6:73"
                                 },
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "906:6:68"
+                                  "src": "906:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "891:6:68"
+                                "src": "891:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "891:22:68"
+                              "src": "891:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "891:22:68"
+                            "src": "891:22:73"
                           }
                         ]
                       },
@@ -777,54 +777,54 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "offset",
                             "nodeType": "YulIdentifier",
-                            "src": "877:6:68"
+                            "src": "877:6:73"
                           },
                           {
                             "name": "_1",
                             "nodeType": "YulIdentifier",
-                            "src": "885:2:68"
+                            "src": "885:2:73"
                           }
                         ],
                         "functionName": {
                           "name": "gt",
                           "nodeType": "YulIdentifier",
-                          "src": "874:2:68"
+                          "src": "874:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "874:14:68"
+                        "src": "874:14:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "871:2:68"
+                      "src": "871:2:73"
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "924:32:68",
+                      "src": "924:32:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "938:9:68"
+                            "src": "938:9:73"
                           },
                           {
                             "name": "offset",
                             "nodeType": "YulIdentifier",
-                            "src": "949:6:68"
+                            "src": "949:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "934:3:68"
+                          "src": "934:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "934:22:68"
+                        "src": "934:22:73"
                       },
                       "variables": [
                         {
                           "name": "_2",
                           "nodeType": "YulTypedName",
-                          "src": "928:2:68",
+                          "src": "928:2:73",
                           "type": ""
                         }
                       ]
@@ -832,7 +832,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1004:26:68",
+                        "src": "1004:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -840,24 +840,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1013:6:68"
+                                  "src": "1013:6:73"
                                 },
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1021:6:68"
+                                  "src": "1021:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1006:6:68"
+                                "src": "1006:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1006:22:68"
+                              "src": "1006:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1006:22:68"
+                            "src": "1006:22:73"
                           }
                         ]
                       },
@@ -870,12 +870,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                   {
                                     "name": "_2",
                                     "nodeType": "YulIdentifier",
-                                    "src": "983:2:68"
+                                    "src": "983:2:73"
                                   },
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "987:4:68",
+                                    "src": "987:4:73",
                                     "type": "",
                                     "value": "0x1f"
                                   }
@@ -883,61 +883,61 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 "functionName": {
                                   "name": "add",
                                   "nodeType": "YulIdentifier",
-                                  "src": "979:3:68"
+                                  "src": "979:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "979:13:68"
+                                "src": "979:13:73"
                               },
                               {
                                 "name": "dataEnd",
                                 "nodeType": "YulIdentifier",
-                                "src": "994:7:68"
+                                "src": "994:7:73"
                               }
                             ],
                             "functionName": {
                               "name": "slt",
                               "nodeType": "YulIdentifier",
-                              "src": "975:3:68"
+                              "src": "975:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "975:27:68"
+                            "src": "975:27:73"
                           }
                         ],
                         "functionName": {
                           "name": "iszero",
                           "nodeType": "YulIdentifier",
-                          "src": "968:6:68"
+                          "src": "968:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "968:35:68"
+                        "src": "968:35:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "965:2:68"
+                      "src": "965:2:73"
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "1039:30:68",
+                      "src": "1039:30:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "_2",
                             "nodeType": "YulIdentifier",
-                            "src": "1066:2:68"
+                            "src": "1066:2:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "1053:12:68"
+                          "src": "1053:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1053:16:68"
+                        "src": "1053:16:73"
                       },
                       "variables": [
                         {
                           "name": "length",
                           "nodeType": "YulTypedName",
-                          "src": "1043:6:68",
+                          "src": "1043:6:73",
                           "type": ""
                         }
                       ]
@@ -945,7 +945,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1096:26:68",
+                        "src": "1096:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -953,24 +953,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1105:6:68"
+                                  "src": "1105:6:73"
                                 },
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1113:6:68"
+                                  "src": "1113:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1098:6:68"
+                                "src": "1098:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1098:22:68"
+                              "src": "1098:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1098:22:68"
+                            "src": "1098:22:73"
                           }
                         ]
                       },
@@ -979,29 +979,29 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "length",
                             "nodeType": "YulIdentifier",
-                            "src": "1084:6:68"
+                            "src": "1084:6:73"
                           },
                           {
                             "name": "_1",
                             "nodeType": "YulIdentifier",
-                            "src": "1092:2:68"
+                            "src": "1092:2:73"
                           }
                         ],
                         "functionName": {
                           "name": "gt",
                           "nodeType": "YulIdentifier",
-                          "src": "1081:2:68"
+                          "src": "1081:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1081:14:68"
+                        "src": "1081:14:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "1078:2:68"
+                      "src": "1078:2:73"
                     },
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1172:26:68",
+                        "src": "1172:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -1009,24 +1009,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1181:6:68"
+                                  "src": "1181:6:73"
                                 },
                                 {
                                   "name": "value4",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1189:6:68"
+                                  "src": "1189:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1174:6:68"
+                                "src": "1174:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1174:22:68"
+                              "src": "1174:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1174:22:68"
+                            "src": "1174:22:73"
                           }
                         ]
                       },
@@ -1039,26 +1039,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                   {
                                     "name": "_2",
                                     "nodeType": "YulIdentifier",
-                                    "src": "1145:2:68"
+                                    "src": "1145:2:73"
                                   },
                                   {
                                     "name": "length",
                                     "nodeType": "YulIdentifier",
-                                    "src": "1149:6:68"
+                                    "src": "1149:6:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "add",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1141:3:68"
+                                  "src": "1141:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "1141:15:68"
+                                "src": "1141:15:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "1158:2:68",
+                                "src": "1158:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -1066,42 +1066,42 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "1137:3:68"
+                              "src": "1137:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "1137:24:68"
+                            "src": "1137:24:73"
                           },
                           {
                             "name": "dataEnd",
                             "nodeType": "YulIdentifier",
-                            "src": "1163:7:68"
+                            "src": "1163:7:73"
                           }
                         ],
                         "functionName": {
                           "name": "gt",
                           "nodeType": "YulIdentifier",
-                          "src": "1134:2:68"
+                          "src": "1134:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1134:37:68"
+                        "src": "1134:37:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "1131:2:68"
+                      "src": "1131:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "1207:21:68",
+                      "src": "1207:21:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "_2",
                             "nodeType": "YulIdentifier",
-                            "src": "1221:2:68"
+                            "src": "1221:2:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "1225:2:68",
+                            "src": "1225:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -1109,32 +1109,32 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "1217:3:68"
+                          "src": "1217:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1217:11:68"
+                        "src": "1217:11:73"
                       },
                       "variableNames": [
                         {
                           "name": "value3",
                           "nodeType": "YulIdentifier",
-                          "src": "1207:6:68"
+                          "src": "1207:6:73"
                         }
                       ]
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "1237:16:68",
+                      "src": "1237:16:73",
                       "value": {
                         "name": "length",
                         "nodeType": "YulIdentifier",
-                        "src": "1247:6:68"
+                        "src": "1247:6:73"
                       },
                       "variableNames": [
                         {
                           "name": "value4",
                           "nodeType": "YulIdentifier",
-                          "src": "1237:6:68"
+                          "src": "1237:6:73"
                         }
                       ]
                     }
@@ -1146,13 +1146,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "471:9:68",
+                    "src": "471:9:73",
                     "type": ""
                   },
                   {
                     "name": "dataEnd",
                     "nodeType": "YulTypedName",
-                    "src": "482:7:68",
+                    "src": "482:7:73",
                     "type": ""
                   }
                 ],
@@ -1160,45 +1160,45 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "494:6:68",
+                    "src": "494:6:73",
                     "type": ""
                   },
                   {
                     "name": "value1",
                     "nodeType": "YulTypedName",
-                    "src": "502:6:68",
+                    "src": "502:6:73",
                     "type": ""
                   },
                   {
                     "name": "value2",
                     "nodeType": "YulTypedName",
-                    "src": "510:6:68",
+                    "src": "510:6:73",
                     "type": ""
                   },
                   {
                     "name": "value3",
                     "nodeType": "YulTypedName",
-                    "src": "518:6:68",
+                    "src": "518:6:73",
                     "type": ""
                   },
                   {
                     "name": "value4",
                     "nodeType": "YulTypedName",
-                    "src": "526:6:68",
+                    "src": "526:6:73",
                     "type": ""
                   }
                 ],
-                "src": "397:862:68"
+                "src": "397:862:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "1351:179:68",
+                  "src": "1351:179:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1397:26:68",
+                        "src": "1397:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -1206,24 +1206,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1406:6:68"
+                                  "src": "1406:6:73"
                                 },
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1414:6:68"
+                                  "src": "1414:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1399:6:68"
+                                "src": "1399:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1399:22:68"
+                              "src": "1399:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1399:22:68"
+                            "src": "1399:22:73"
                           }
                         ]
                       },
@@ -1234,26 +1234,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "dataEnd",
                                 "nodeType": "YulIdentifier",
-                                "src": "1372:7:68"
+                                "src": "1372:7:73"
                               },
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "1381:9:68"
+                                "src": "1381:9:73"
                               }
                             ],
                             "functionName": {
                               "name": "sub",
                               "nodeType": "YulIdentifier",
-                              "src": "1368:3:68"
+                              "src": "1368:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "1368:23:68"
+                            "src": "1368:23:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "1393:2:68",
+                            "src": "1393:2:73",
                             "type": "",
                             "value": "64"
                           }
@@ -1261,44 +1261,44 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "slt",
                           "nodeType": "YulIdentifier",
-                          "src": "1364:3:68"
+                          "src": "1364:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1364:32:68"
+                        "src": "1364:32:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "1361:2:68"
+                      "src": "1361:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "1432:41:68",
+                      "src": "1432:41:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "1463:9:68"
+                            "src": "1463:9:73"
                           }
                         ],
                         "functionName": {
                           "name": "abi_decode_t_address",
                           "nodeType": "YulIdentifier",
-                          "src": "1442:20:68"
+                          "src": "1442:20:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1442:31:68"
+                        "src": "1442:31:73"
                       },
                       "variableNames": [
                         {
                           "name": "value0",
                           "nodeType": "YulIdentifier",
-                          "src": "1432:6:68"
+                          "src": "1432:6:73"
                         }
                       ]
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "1482:42:68",
+                      "src": "1482:42:73",
                       "value": {
                         "arguments": [
                           {
@@ -1306,12 +1306,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "1509:9:68"
+                                "src": "1509:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "1520:2:68",
+                                "src": "1520:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -1319,25 +1319,25 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "1505:3:68"
+                              "src": "1505:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "1505:18:68"
+                            "src": "1505:18:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "1492:12:68"
+                          "src": "1492:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1492:32:68"
+                        "src": "1492:32:73"
                       },
                       "variableNames": [
                         {
                           "name": "value1",
                           "nodeType": "YulIdentifier",
-                          "src": "1482:6:68"
+                          "src": "1482:6:73"
                         }
                       ]
                     }
@@ -1349,13 +1349,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "1309:9:68",
+                    "src": "1309:9:73",
                     "type": ""
                   },
                   {
                     "name": "dataEnd",
                     "nodeType": "YulTypedName",
-                    "src": "1320:7:68",
+                    "src": "1320:7:73",
                     "type": ""
                   }
                 ],
@@ -1363,27 +1363,27 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "1332:6:68",
+                    "src": "1332:6:73",
                     "type": ""
                   },
                   {
                     "name": "value1",
                     "nodeType": "YulTypedName",
-                    "src": "1340:6:68",
+                    "src": "1340:6:73",
                     "type": ""
                   }
                 ],
-                "src": "1264:266:68"
+                "src": "1264:266:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "1604:237:68",
+                  "src": "1604:237:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1650:26:68",
+                        "src": "1650:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -1391,24 +1391,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1659:6:68"
+                                  "src": "1659:6:73"
                                 },
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1667:6:68"
+                                  "src": "1667:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1652:6:68"
+                                "src": "1652:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1652:22:68"
+                              "src": "1652:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1652:22:68"
+                            "src": "1652:22:73"
                           }
                         ]
                       },
@@ -1419,26 +1419,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "dataEnd",
                                 "nodeType": "YulIdentifier",
-                                "src": "1625:7:68"
+                                "src": "1625:7:73"
                               },
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "1634:9:68"
+                                "src": "1634:9:73"
                               }
                             ],
                             "functionName": {
                               "name": "sub",
                               "nodeType": "YulIdentifier",
-                              "src": "1621:3:68"
+                              "src": "1621:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "1621:23:68"
+                            "src": "1621:23:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "1646:2:68",
+                            "src": "1646:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -1446,38 +1446,38 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "slt",
                           "nodeType": "YulIdentifier",
-                          "src": "1617:3:68"
+                          "src": "1617:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1617:32:68"
+                        "src": "1617:32:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "1614:2:68"
+                      "src": "1614:2:73"
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "1685:36:68",
+                      "src": "1685:36:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "1711:9:68"
+                            "src": "1711:9:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldataload",
                           "nodeType": "YulIdentifier",
-                          "src": "1698:12:68"
+                          "src": "1698:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1698:23:68"
+                        "src": "1698:23:73"
                       },
                       "variables": [
                         {
                           "name": "value",
                           "nodeType": "YulTypedName",
-                          "src": "1689:5:68",
+                          "src": "1689:5:73",
                           "type": ""
                         }
                       ]
@@ -1485,7 +1485,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "1785:26:68",
+                        "src": "1785:26:73",
                         "statements": [
                           {
                             "expression": {
@@ -1493,24 +1493,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1794:6:68"
+                                  "src": "1794:6:73"
                                 },
                                 {
                                   "name": "value0",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1802:6:68"
+                                  "src": "1802:6:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "revert",
                                 "nodeType": "YulIdentifier",
-                                "src": "1787:6:68"
+                                "src": "1787:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "1787:22:68"
+                              "src": "1787:22:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "1787:22:68"
+                            "src": "1787:22:73"
                           }
                         ]
                       },
@@ -1521,28 +1521,28 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "value",
                                 "nodeType": "YulIdentifier",
-                                "src": "1743:5:68"
+                                "src": "1743:5:73"
                               },
                               {
                                 "arguments": [
                                   {
                                     "name": "value",
                                     "nodeType": "YulIdentifier",
-                                    "src": "1754:5:68"
+                                    "src": "1754:5:73"
                                   },
                                   {
                                     "arguments": [
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "1765:3:68",
+                                        "src": "1765:3:73",
                                         "type": "",
                                         "value": "224"
                                       },
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "1770:10:68",
+                                        "src": "1770:10:73",
                                         "type": "",
                                         "value": "0xffffffff"
                                       }
@@ -1550,54 +1550,54 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "shl",
                                       "nodeType": "YulIdentifier",
-                                      "src": "1761:3:68"
+                                      "src": "1761:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "1761:20:68"
+                                    "src": "1761:20:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "and",
                                   "nodeType": "YulIdentifier",
-                                  "src": "1750:3:68"
+                                  "src": "1750:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "1750:32:68"
+                                "src": "1750:32:73"
                               }
                             ],
                             "functionName": {
                               "name": "eq",
                               "nodeType": "YulIdentifier",
-                              "src": "1740:2:68"
+                              "src": "1740:2:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "1740:43:68"
+                            "src": "1740:43:73"
                           }
                         ],
                         "functionName": {
                           "name": "iszero",
                           "nodeType": "YulIdentifier",
-                          "src": "1733:6:68"
+                          "src": "1733:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "1733:51:68"
+                        "src": "1733:51:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "1730:2:68"
+                      "src": "1730:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "1820:15:68",
+                      "src": "1820:15:73",
                       "value": {
                         "name": "value",
                         "nodeType": "YulIdentifier",
-                        "src": "1830:5:68"
+                        "src": "1830:5:73"
                       },
                       "variableNames": [
                         {
                           "name": "value0",
                           "nodeType": "YulIdentifier",
-                          "src": "1820:6:68"
+                          "src": "1820:6:73"
                         }
                       ]
                     }
@@ -1609,13 +1609,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "1570:9:68",
+                    "src": "1570:9:73",
                     "type": ""
                   },
                   {
                     "name": "dataEnd",
                     "nodeType": "YulTypedName",
-                    "src": "1581:7:68",
+                    "src": "1581:7:73",
                     "type": ""
                   }
                 ],
@@ -1623,58 +1623,58 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "1593:6:68",
+                    "src": "1593:6:73",
                     "type": ""
                   }
                 ],
-                "src": "1535:306:68"
+                "src": "1535:306:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "1983:293:68",
+                  "src": "1983:293:73",
                   "statements": [
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "1993:27:68",
+                      "src": "1993:27:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "value0",
                             "nodeType": "YulIdentifier",
-                            "src": "2013:6:68"
+                            "src": "2013:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "mload",
                           "nodeType": "YulIdentifier",
-                          "src": "2007:5:68"
+                          "src": "2007:5:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2007:13:68"
+                        "src": "2007:13:73"
                       },
                       "variables": [
                         {
                           "name": "length",
                           "nodeType": "YulTypedName",
-                          "src": "1997:6:68",
+                          "src": "1997:6:73",
                           "type": ""
                         }
                       ]
                     },
                     {
                       "nodeType": "YulVariableDeclaration",
-                      "src": "2029:12:68",
+                      "src": "2029:12:73",
                       "value": {
                         "name": "end",
                         "nodeType": "YulIdentifier",
-                        "src": "2038:3:68"
+                        "src": "2038:3:73"
                       },
                       "variables": [
                         {
                           "name": "i",
                           "nodeType": "YulTypedName",
-                          "src": "2033:1:68",
+                          "src": "2033:1:73",
                           "type": ""
                         }
                       ]
@@ -1682,7 +1682,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "2102:77:68",
+                        "src": "2102:77:73",
                         "statements": [
                           {
                             "expression": {
@@ -1692,21 +1692,21 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     {
                                       "name": "pos",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2127:3:68"
+                                      "src": "2127:3:73"
                                     },
                                     {
                                       "name": "i",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2132:1:68"
+                                      "src": "2132:1:73"
                                     }
                                   ],
                                   "functionName": {
                                     "name": "add",
                                     "nodeType": "YulIdentifier",
-                                    "src": "2123:3:68"
+                                    "src": "2123:3:73"
                                   },
                                   "nodeType": "YulFunctionCall",
-                                  "src": "2123:11:68"
+                                  "src": "2123:11:73"
                                 },
                                 {
                                   "arguments": [
@@ -1717,26 +1717,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                             {
                                               "name": "value0",
                                               "nodeType": "YulIdentifier",
-                                              "src": "2150:6:68"
+                                              "src": "2150:6:73"
                                             },
                                             {
                                               "name": "i",
                                               "nodeType": "YulIdentifier",
-                                              "src": "2158:1:68"
+                                              "src": "2158:1:73"
                                             }
                                           ],
                                           "functionName": {
                                             "name": "add",
                                             "nodeType": "YulIdentifier",
-                                            "src": "2146:3:68"
+                                            "src": "2146:3:73"
                                           },
                                           "nodeType": "YulFunctionCall",
-                                          "src": "2146:14:68"
+                                          "src": "2146:14:73"
                                         },
                                         {
                                           "kind": "number",
                                           "nodeType": "YulLiteral",
-                                          "src": "2162:4:68",
+                                          "src": "2162:4:73",
                                           "type": "",
                                           "value": "0x20"
                                         }
@@ -1744,31 +1744,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                       "functionName": {
                                         "name": "add",
                                         "nodeType": "YulIdentifier",
-                                        "src": "2142:3:68"
+                                        "src": "2142:3:73"
                                       },
                                       "nodeType": "YulFunctionCall",
-                                      "src": "2142:25:68"
+                                      "src": "2142:25:73"
                                     }
                                   ],
                                   "functionName": {
                                     "name": "mload",
                                     "nodeType": "YulIdentifier",
-                                    "src": "2136:5:68"
+                                    "src": "2136:5:73"
                                   },
                                   "nodeType": "YulFunctionCall",
-                                  "src": "2136:32:68"
+                                  "src": "2136:32:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "mstore",
                                 "nodeType": "YulIdentifier",
-                                "src": "2116:6:68"
+                                "src": "2116:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "2116:53:68"
+                              "src": "2116:53:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "2116:53:68"
+                            "src": "2116:53:73"
                           }
                         ]
                       },
@@ -1777,41 +1777,41 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "i",
                             "nodeType": "YulIdentifier",
-                            "src": "2061:1:68"
+                            "src": "2061:1:73"
                           },
                           {
                             "name": "length",
                             "nodeType": "YulIdentifier",
-                            "src": "2064:6:68"
+                            "src": "2064:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "lt",
                           "nodeType": "YulIdentifier",
-                          "src": "2058:2:68"
+                          "src": "2058:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2058:13:68"
+                        "src": "2058:13:73"
                       },
                       "nodeType": "YulForLoop",
                       "post": {
                         "nodeType": "YulBlock",
-                        "src": "2072:21:68",
+                        "src": "2072:21:73",
                         "statements": [
                           {
                             "nodeType": "YulAssignment",
-                            "src": "2074:17:68",
+                            "src": "2074:17:73",
                             "value": {
                               "arguments": [
                                 {
                                   "name": "i",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2083:1:68"
+                                  "src": "2083:1:73"
                                 },
                                 {
                                   "kind": "number",
                                   "nodeType": "YulLiteral",
-                                  "src": "2086:4:68",
+                                  "src": "2086:4:73",
                                   "type": "",
                                   "value": "0x20"
                                 }
@@ -1819,16 +1819,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               "functionName": {
                                 "name": "add",
                                 "nodeType": "YulIdentifier",
-                                "src": "2079:3:68"
+                                "src": "2079:3:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "2079:12:68"
+                              "src": "2079:12:73"
                             },
                             "variableNames": [
                               {
                                 "name": "i",
                                 "nodeType": "YulIdentifier",
-                                "src": "2074:1:68"
+                                "src": "2074:1:73"
                               }
                             ]
                           }
@@ -1836,15 +1836,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                       },
                       "pre": {
                         "nodeType": "YulBlock",
-                        "src": "2054:3:68",
+                        "src": "2054:3:73",
                         "statements": []
                       },
-                      "src": "2050:129:68"
+                      "src": "2050:129:73"
                     },
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "2205:33:68",
+                        "src": "2205:33:73",
                         "statements": [
                           {
                             "expression": {
@@ -1854,38 +1854,38 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     {
                                       "name": "pos",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2218:3:68"
+                                      "src": "2218:3:73"
                                     },
                                     {
                                       "name": "length",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2223:6:68"
+                                      "src": "2223:6:73"
                                     }
                                   ],
                                   "functionName": {
                                     "name": "add",
                                     "nodeType": "YulIdentifier",
-                                    "src": "2214:3:68"
+                                    "src": "2214:3:73"
                                   },
                                   "nodeType": "YulFunctionCall",
-                                  "src": "2214:16:68"
+                                  "src": "2214:16:73"
                                 },
                                 {
                                   "name": "end",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2232:3:68"
+                                  "src": "2232:3:73"
                                 }
                               ],
                               "functionName": {
                                 "name": "mstore",
                                 "nodeType": "YulIdentifier",
-                                "src": "2207:6:68"
+                                "src": "2207:6:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "2207:29:68"
+                              "src": "2207:29:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "2207:29:68"
+                            "src": "2207:29:73"
                           }
                         ]
                       },
@@ -1894,54 +1894,54 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "i",
                             "nodeType": "YulIdentifier",
-                            "src": "2194:1:68"
+                            "src": "2194:1:73"
                           },
                           {
                             "name": "length",
                             "nodeType": "YulIdentifier",
-                            "src": "2197:6:68"
+                            "src": "2197:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "gt",
                           "nodeType": "YulIdentifier",
-                          "src": "2191:2:68"
+                          "src": "2191:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2191:13:68"
+                        "src": "2191:13:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "2188:2:68"
+                      "src": "2188:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "2247:23:68",
+                      "src": "2247:23:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "pos",
                             "nodeType": "YulIdentifier",
-                            "src": "2258:3:68"
+                            "src": "2258:3:73"
                           },
                           {
                             "name": "length",
                             "nodeType": "YulIdentifier",
-                            "src": "2263:6:68"
+                            "src": "2263:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "2254:3:68"
+                          "src": "2254:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2254:16:68"
+                        "src": "2254:16:73"
                       },
                       "variableNames": [
                         {
                           "name": "end",
                           "nodeType": "YulIdentifier",
-                          "src": "2247:3:68"
+                          "src": "2247:3:73"
                         }
                       ]
                     }
@@ -1953,13 +1953,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "pos",
                     "nodeType": "YulTypedName",
-                    "src": "1959:3:68",
+                    "src": "1959:3:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "1964:6:68",
+                    "src": "1964:6:73",
                     "type": ""
                   }
                 ],
@@ -1967,31 +1967,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "end",
                     "nodeType": "YulTypedName",
-                    "src": "1975:3:68",
+                    "src": "1975:3:73",
                     "type": ""
                   }
                 ],
-                "src": "1846:430:68"
+                "src": "1846:430:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "2382:102:68",
+                  "src": "2382:102:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "2392:26:68",
+                      "src": "2392:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2404:9:68"
+                            "src": "2404:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "2415:2:68",
+                            "src": "2415:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -1999,16 +1999,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "2400:3:68"
+                          "src": "2400:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2400:18:68"
+                        "src": "2400:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "2392:4:68"
+                          "src": "2392:4:73"
                         }
                       ]
                     },
@@ -2018,14 +2018,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2434:9:68"
+                            "src": "2434:9:73"
                           },
                           {
                             "arguments": [
                               {
                                 "name": "value0",
                                 "nodeType": "YulIdentifier",
-                                "src": "2449:6:68"
+                                "src": "2449:6:73"
                               },
                               {
                                 "arguments": [
@@ -2034,14 +2034,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "2465:3:68",
+                                        "src": "2465:3:73",
                                         "type": "",
                                         "value": "160"
                                       },
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "2470:1:68",
+                                        "src": "2470:1:73",
                                         "type": "",
                                         "value": "1"
                                       }
@@ -2049,15 +2049,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "shl",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2461:3:68"
+                                      "src": "2461:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "2461:11:68"
+                                    "src": "2461:11:73"
                                   },
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "2474:1:68",
+                                    "src": "2474:1:73",
                                     "type": "",
                                     "value": "1"
                                   }
@@ -2065,31 +2065,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 "functionName": {
                                   "name": "sub",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2457:3:68"
+                                  "src": "2457:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "2457:19:68"
+                                "src": "2457:19:73"
                               }
                             ],
                             "functionName": {
                               "name": "and",
                               "nodeType": "YulIdentifier",
-                              "src": "2445:3:68"
+                              "src": "2445:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "2445:32:68"
+                            "src": "2445:32:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "2427:6:68"
+                          "src": "2427:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2427:51:68"
+                        "src": "2427:51:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "2427:51:68"
+                      "src": "2427:51:73"
                     }
                   ]
                 },
@@ -2099,13 +2099,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "2351:9:68",
+                    "src": "2351:9:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "2362:6:68",
+                    "src": "2362:6:73",
                     "type": ""
                   }
                 ],
@@ -2113,31 +2113,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "2373:4:68",
+                    "src": "2373:4:73",
                     "type": ""
                   }
                 ],
-                "src": "2281:203:68"
+                "src": "2281:203:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "2618:145:68",
+                  "src": "2618:145:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "2628:26:68",
+                      "src": "2628:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2640:9:68"
+                            "src": "2640:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "2651:2:68",
+                            "src": "2651:2:73",
                             "type": "",
                             "value": "64"
                           }
@@ -2145,16 +2145,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "2636:3:68"
+                          "src": "2636:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2636:18:68"
+                        "src": "2636:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "2628:4:68"
+                          "src": "2628:4:73"
                         }
                       ]
                     },
@@ -2164,14 +2164,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2670:9:68"
+                            "src": "2670:9:73"
                           },
                           {
                             "arguments": [
                               {
                                 "name": "value0",
                                 "nodeType": "YulIdentifier",
-                                "src": "2685:6:68"
+                                "src": "2685:6:73"
                               },
                               {
                                 "arguments": [
@@ -2180,14 +2180,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "2701:3:68",
+                                        "src": "2701:3:73",
                                         "type": "",
                                         "value": "160"
                                       },
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "2706:1:68",
+                                        "src": "2706:1:73",
                                         "type": "",
                                         "value": "1"
                                       }
@@ -2195,15 +2195,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "shl",
                                       "nodeType": "YulIdentifier",
-                                      "src": "2697:3:68"
+                                      "src": "2697:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "2697:11:68"
+                                    "src": "2697:11:73"
                                   },
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "2710:1:68",
+                                    "src": "2710:1:73",
                                     "type": "",
                                     "value": "1"
                                   }
@@ -2211,31 +2211,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 "functionName": {
                                   "name": "sub",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2693:3:68"
+                                  "src": "2693:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "2693:19:68"
+                                "src": "2693:19:73"
                               }
                             ],
                             "functionName": {
                               "name": "and",
                               "nodeType": "YulIdentifier",
-                              "src": "2681:3:68"
+                              "src": "2681:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "2681:32:68"
+                            "src": "2681:32:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "2663:6:68"
+                          "src": "2663:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2663:51:68"
+                        "src": "2663:51:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "2663:51:68"
+                      "src": "2663:51:73"
                     },
                     {
                       "expression": {
@@ -2245,12 +2245,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "2734:9:68"
+                                "src": "2734:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "2745:2:68",
+                                "src": "2745:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -2258,27 +2258,27 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "2730:3:68"
+                              "src": "2730:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "2730:18:68"
+                            "src": "2730:18:73"
                           },
                           {
                             "name": "value1",
                             "nodeType": "YulIdentifier",
-                            "src": "2750:6:68"
+                            "src": "2750:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "2723:6:68"
+                          "src": "2723:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2723:34:68"
+                        "src": "2723:34:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "2723:34:68"
+                      "src": "2723:34:73"
                     }
                   ]
                 },
@@ -2288,19 +2288,19 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "2579:9:68",
+                    "src": "2579:9:73",
                     "type": ""
                   },
                   {
                     "name": "value1",
                     "nodeType": "YulTypedName",
-                    "src": "2590:6:68",
+                    "src": "2590:6:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "2598:6:68",
+                    "src": "2598:6:73",
                     "type": ""
                   }
                 ],
@@ -2308,31 +2308,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "2609:4:68",
+                    "src": "2609:4:73",
                     "type": ""
                   }
                 ],
-                "src": "2489:274:68"
+                "src": "2489:274:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "2863:92:68",
+                  "src": "2863:92:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "2873:26:68",
+                      "src": "2873:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2885:9:68"
+                            "src": "2885:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "2896:2:68",
+                            "src": "2896:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -2340,16 +2340,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "2881:3:68"
+                          "src": "2881:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2881:18:68"
+                        "src": "2881:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "2873:4:68"
+                          "src": "2873:4:73"
                         }
                       ]
                     },
@@ -2359,7 +2359,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2915:9:68"
+                            "src": "2915:9:73"
                           },
                           {
                             "arguments": [
@@ -2368,37 +2368,37 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                   {
                                     "name": "value0",
                                     "nodeType": "YulIdentifier",
-                                    "src": "2940:6:68"
+                                    "src": "2940:6:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "iszero",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2933:6:68"
+                                  "src": "2933:6:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "2933:14:68"
+                                "src": "2933:14:73"
                               }
                             ],
                             "functionName": {
                               "name": "iszero",
                               "nodeType": "YulIdentifier",
-                              "src": "2926:6:68"
+                              "src": "2926:6:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "2926:22:68"
+                            "src": "2926:22:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "2908:6:68"
+                          "src": "2908:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2908:41:68"
+                        "src": "2908:41:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "2908:41:68"
+                      "src": "2908:41:73"
                     }
                   ]
                 },
@@ -2408,13 +2408,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "2832:9:68",
+                    "src": "2832:9:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "2843:6:68",
+                    "src": "2843:6:73",
                     "type": ""
                   }
                 ],
@@ -2422,31 +2422,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "2854:4:68",
+                    "src": "2854:4:73",
                     "type": ""
                   }
                 ],
-                "src": "2768:187:68"
+                "src": "2768:187:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "3059:103:68",
+                  "src": "3059:103:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "3069:26:68",
+                      "src": "3069:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3081:9:68"
+                            "src": "3081:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3092:2:68",
+                            "src": "3092:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -2454,16 +2454,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "3077:3:68"
+                          "src": "3077:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3077:18:68"
+                        "src": "3077:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "3069:4:68"
+                          "src": "3069:4:73"
                         }
                       ]
                     },
@@ -2473,28 +2473,28 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3111:9:68"
+                            "src": "3111:9:73"
                           },
                           {
                             "arguments": [
                               {
                                 "name": "value0",
                                 "nodeType": "YulIdentifier",
-                                "src": "3126:6:68"
+                                "src": "3126:6:73"
                               },
                               {
                                 "arguments": [
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "3138:3:68",
+                                    "src": "3138:3:73",
                                     "type": "",
                                     "value": "224"
                                   },
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "3143:10:68",
+                                    "src": "3143:10:73",
                                     "type": "",
                                     "value": "0xffffffff"
                                   }
@@ -2502,31 +2502,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                 "functionName": {
                                   "name": "shl",
                                   "nodeType": "YulIdentifier",
-                                  "src": "3134:3:68"
+                                  "src": "3134:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "3134:20:68"
+                                "src": "3134:20:73"
                               }
                             ],
                             "functionName": {
                               "name": "and",
                               "nodeType": "YulIdentifier",
-                              "src": "3122:3:68"
+                              "src": "3122:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "3122:33:68"
+                            "src": "3122:33:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3104:6:68"
+                          "src": "3104:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3104:52:68"
+                        "src": "3104:52:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3104:52:68"
+                      "src": "3104:52:73"
                     }
                   ]
                 },
@@ -2536,13 +2536,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "3028:9:68",
+                    "src": "3028:9:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "3039:6:68",
+                    "src": "3039:6:73",
                     "type": ""
                   }
                 ],
@@ -2550,16 +2550,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "3050:4:68",
+                    "src": "3050:4:73",
                     "type": ""
                   }
                 ],
-                "src": "2960:202:68"
+                "src": "2960:202:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "3341:165:68",
+                  "src": "3341:165:73",
                   "statements": [
                     {
                       "expression": {
@@ -2567,12 +2567,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3358:9:68"
+                            "src": "3358:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3369:2:68",
+                            "src": "3369:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -2580,13 +2580,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3351:6:68"
+                          "src": "3351:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3351:21:68"
+                        "src": "3351:21:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3351:21:68"
+                      "src": "3351:21:73"
                     },
                     {
                       "expression": {
@@ -2596,12 +2596,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "3392:9:68"
+                                "src": "3392:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "3403:2:68",
+                                "src": "3403:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -2609,15 +2609,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "3388:3:68"
+                              "src": "3388:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "3388:18:68"
+                            "src": "3388:18:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3408:2:68",
+                            "src": "3408:2:73",
                             "type": "",
                             "value": "15"
                           }
@@ -2625,13 +2625,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3381:6:68"
+                          "src": "3381:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3381:30:68"
+                        "src": "3381:30:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3381:30:68"
+                      "src": "3381:30:73"
                     },
                     {
                       "expression": {
@@ -2641,12 +2641,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "3431:9:68"
+                                "src": "3431:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "3442:2:68",
+                                "src": "3442:2:73",
                                 "type": "",
                                 "value": "64"
                               }
@@ -2654,15 +2654,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "3427:3:68"
+                              "src": "3427:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "3427:18:68"
+                            "src": "3427:18:73"
                           },
                           {
                             "kind": "string",
                             "nodeType": "YulLiteral",
-                            "src": "3447:17:68",
+                            "src": "3447:17:73",
                             "type": "",
                             "value": "Transfer failed"
                           }
@@ -2670,28 +2670,28 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3420:6:68"
+                          "src": "3420:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3420:45:68"
+                        "src": "3420:45:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3420:45:68"
+                      "src": "3420:45:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "3474:26:68",
+                      "src": "3474:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3486:9:68"
+                            "src": "3486:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3497:2:68",
+                            "src": "3497:2:73",
                             "type": "",
                             "value": "96"
                           }
@@ -2699,16 +2699,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "3482:3:68"
+                          "src": "3482:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3482:18:68"
+                        "src": "3482:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "3474:4:68"
+                          "src": "3474:4:73"
                         }
                       ]
                     }
@@ -2720,7 +2720,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "3318:9:68",
+                    "src": "3318:9:73",
                     "type": ""
                   }
                 ],
@@ -2728,16 +2728,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "3332:4:68",
+                    "src": "3332:4:73",
                     "type": ""
                   }
                 ],
-                "src": "3167:339:68"
+                "src": "3167:339:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "3685:170:68",
+                  "src": "3685:170:73",
                   "statements": [
                     {
                       "expression": {
@@ -2745,12 +2745,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3702:9:68"
+                            "src": "3702:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3713:2:68",
+                            "src": "3713:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -2758,13 +2758,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3695:6:68"
+                          "src": "3695:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3695:21:68"
+                        "src": "3695:21:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3695:21:68"
+                      "src": "3695:21:73"
                     },
                     {
                       "expression": {
@@ -2774,12 +2774,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "3736:9:68"
+                                "src": "3736:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "3747:2:68",
+                                "src": "3747:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -2787,15 +2787,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "3732:3:68"
+                              "src": "3732:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "3732:18:68"
+                            "src": "3732:18:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3752:2:68",
+                            "src": "3752:2:73",
                             "type": "",
                             "value": "20"
                           }
@@ -2803,13 +2803,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3725:6:68"
+                          "src": "3725:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3725:30:68"
+                        "src": "3725:30:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3725:30:68"
+                      "src": "3725:30:73"
                     },
                     {
                       "expression": {
@@ -2819,12 +2819,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "3775:9:68"
+                                "src": "3775:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "3786:2:68",
+                                "src": "3786:2:73",
                                 "type": "",
                                 "value": "64"
                               }
@@ -2832,15 +2832,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "3771:3:68"
+                              "src": "3771:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "3771:18:68"
+                            "src": "3771:18:73"
                           },
                           {
                             "kind": "string",
                             "nodeType": "YulLiteral",
-                            "src": "3791:22:68",
+                            "src": "3791:22:73",
                             "type": "",
                             "value": "Insufficient deposit"
                           }
@@ -2848,28 +2848,28 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "3764:6:68"
+                          "src": "3764:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3764:50:68"
+                        "src": "3764:50:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "3764:50:68"
+                      "src": "3764:50:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "3823:26:68",
+                      "src": "3823:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3835:9:68"
+                            "src": "3835:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3846:2:68",
+                            "src": "3846:2:73",
                             "type": "",
                             "value": "96"
                           }
@@ -2877,16 +2877,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "3831:3:68"
+                          "src": "3831:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3831:18:68"
+                        "src": "3831:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "3823:4:68"
+                          "src": "3823:4:73"
                         }
                       ]
                     }
@@ -2898,7 +2898,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "3662:9:68",
+                    "src": "3662:9:73",
                     "type": ""
                   }
                 ],
@@ -2906,31 +2906,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "3676:4:68",
+                    "src": "3676:4:73",
                     "type": ""
                   }
                 ],
-                "src": "3511:344:68"
+                "src": "3511:344:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "3961:76:68",
+                  "src": "3961:76:73",
                   "statements": [
                     {
                       "nodeType": "YulAssignment",
-                      "src": "3971:26:68",
+                      "src": "3971:26:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "3983:9:68"
+                            "src": "3983:9:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "3994:2:68",
+                            "src": "3994:2:73",
                             "type": "",
                             "value": "32"
                           }
@@ -2938,16 +2938,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "3979:3:68"
+                          "src": "3979:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "3979:18:68"
+                        "src": "3979:18:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "3971:4:68"
+                          "src": "3971:4:73"
                         }
                       ]
                     },
@@ -2957,24 +2957,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "4013:9:68"
+                            "src": "4013:9:73"
                           },
                           {
                             "name": "value0",
                             "nodeType": "YulIdentifier",
-                            "src": "4024:6:68"
+                            "src": "4024:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4006:6:68"
+                          "src": "4006:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4006:25:68"
+                        "src": "4006:25:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4006:25:68"
+                      "src": "4006:25:73"
                     }
                   ]
                 },
@@ -2984,13 +2984,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "3930:9:68",
+                    "src": "3930:9:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "3941:6:68",
+                    "src": "3941:6:73",
                     "type": ""
                   }
                 ],
@@ -2998,16 +2998,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "3952:4:68",
+                    "src": "3952:4:73",
                     "type": ""
                   }
                 ],
-                "src": "3860:177:68"
+                "src": "3860:177:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "4199:305:68",
+                  "src": "4199:305:73",
                   "statements": [
                     {
                       "expression": {
@@ -3015,24 +3015,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "4216:9:68"
+                            "src": "4216:9:73"
                           },
                           {
                             "name": "value0",
                             "nodeType": "YulIdentifier",
-                            "src": "4227:6:68"
+                            "src": "4227:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4209:6:68"
+                          "src": "4209:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4209:25:68"
+                        "src": "4209:25:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4209:25:68"
+                      "src": "4209:25:73"
                     },
                     {
                       "expression": {
@@ -3042,12 +3042,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "4254:9:68"
+                                "src": "4254:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4265:2:68",
+                                "src": "4265:2:73",
                                 "type": "",
                                 "value": "32"
                               }
@@ -3055,15 +3055,15 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "4250:3:68"
+                              "src": "4250:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4250:18:68"
+                            "src": "4250:18:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4270:2:68",
+                            "src": "4270:2:73",
                             "type": "",
                             "value": "64"
                           }
@@ -3071,13 +3071,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4243:6:68"
+                          "src": "4243:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4243:30:68"
+                        "src": "4243:30:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4243:30:68"
+                      "src": "4243:30:73"
                     },
                     {
                       "expression": {
@@ -3087,12 +3087,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "4293:9:68"
+                                "src": "4293:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4304:2:68",
+                                "src": "4304:2:73",
                                 "type": "",
                                 "value": "64"
                               }
@@ -3100,27 +3100,27 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "4289:3:68"
+                              "src": "4289:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4289:18:68"
+                            "src": "4289:18:73"
                           },
                           {
                             "name": "value2",
                             "nodeType": "YulIdentifier",
-                            "src": "4309:6:68"
+                            "src": "4309:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4282:6:68"
+                          "src": "4282:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4282:34:68"
+                        "src": "4282:34:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4282:34:68"
+                      "src": "4282:34:73"
                     },
                     {
                       "expression": {
@@ -3130,12 +3130,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "4342:9:68"
+                                "src": "4342:9:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4353:2:68",
+                                "src": "4353:2:73",
                                 "type": "",
                                 "value": "96"
                               }
@@ -3143,32 +3143,32 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "4338:3:68"
+                              "src": "4338:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4338:18:68"
+                            "src": "4338:18:73"
                           },
                           {
                             "name": "value1",
                             "nodeType": "YulIdentifier",
-                            "src": "4358:6:68"
+                            "src": "4358:6:73"
                           },
                           {
                             "name": "value2",
                             "nodeType": "YulIdentifier",
-                            "src": "4366:6:68"
+                            "src": "4366:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "calldatacopy",
                           "nodeType": "YulIdentifier",
-                          "src": "4325:12:68"
+                          "src": "4325:12:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4325:48:68"
+                        "src": "4325:48:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4325:48:68"
+                      "src": "4325:48:73"
                     },
                     {
                       "expression": {
@@ -3180,26 +3180,26 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                   {
                                     "name": "headStart",
                                     "nodeType": "YulIdentifier",
-                                    "src": "4397:9:68"
+                                    "src": "4397:9:73"
                                   },
                                   {
                                     "name": "value2",
                                     "nodeType": "YulIdentifier",
-                                    "src": "4408:6:68"
+                                    "src": "4408:6:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "add",
                                   "nodeType": "YulIdentifier",
-                                  "src": "4393:3:68"
+                                  "src": "4393:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "4393:22:68"
+                                "src": "4393:22:73"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4417:2:68",
+                                "src": "4417:2:73",
                                 "type": "",
                                 "value": "96"
                               }
@@ -3207,31 +3207,31 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "4389:3:68"
+                              "src": "4389:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4389:31:68"
+                            "src": "4389:31:73"
                           },
                           {
                             "name": "tail",
                             "nodeType": "YulIdentifier",
-                            "src": "4422:4:68"
+                            "src": "4422:4:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4382:6:68"
+                          "src": "4382:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4382:45:68"
+                        "src": "4382:45:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4382:45:68"
+                      "src": "4382:45:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "4436:62:68",
+                      "src": "4436:62:73",
                       "value": {
                         "arguments": [
                           {
@@ -3239,7 +3239,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "name": "headStart",
                                 "nodeType": "YulIdentifier",
-                                "src": "4452:9:68"
+                                "src": "4452:9:73"
                               },
                               {
                                 "arguments": [
@@ -3248,12 +3248,12 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                       {
                                         "name": "value2",
                                         "nodeType": "YulIdentifier",
-                                        "src": "4471:6:68"
+                                        "src": "4471:6:73"
                                       },
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "4479:2:68",
+                                        "src": "4479:2:73",
                                         "type": "",
                                         "value": "31"
                                       }
@@ -3261,17 +3261,17 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "add",
                                       "nodeType": "YulIdentifier",
-                                      "src": "4467:3:68"
+                                      "src": "4467:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "4467:15:68"
+                                    "src": "4467:15:73"
                                   },
                                   {
                                     "arguments": [
                                       {
                                         "kind": "number",
                                         "nodeType": "YulLiteral",
-                                        "src": "4488:2:68",
+                                        "src": "4488:2:73",
                                         "type": "",
                                         "value": "31"
                                       }
@@ -3279,33 +3279,33 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                                     "functionName": {
                                       "name": "not",
                                       "nodeType": "YulIdentifier",
-                                      "src": "4484:3:68"
+                                      "src": "4484:3:73"
                                     },
                                     "nodeType": "YulFunctionCall",
-                                    "src": "4484:7:68"
+                                    "src": "4484:7:73"
                                   }
                                 ],
                                 "functionName": {
                                   "name": "and",
                                   "nodeType": "YulIdentifier",
-                                  "src": "4463:3:68"
+                                  "src": "4463:3:73"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "4463:29:68"
+                                "src": "4463:29:73"
                               }
                             ],
                             "functionName": {
                               "name": "add",
                               "nodeType": "YulIdentifier",
-                              "src": "4448:3:68"
+                              "src": "4448:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4448:45:68"
+                            "src": "4448:45:73"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4495:2:68",
+                            "src": "4495:2:73",
                             "type": "",
                             "value": "96"
                           }
@@ -3313,16 +3313,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "4444:3:68"
+                          "src": "4444:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4444:54:68"
+                        "src": "4444:54:73"
                       },
                       "variableNames": [
                         {
                           "name": "tail",
                           "nodeType": "YulIdentifier",
-                          "src": "4436:4:68"
+                          "src": "4436:4:73"
                         }
                       ]
                     }
@@ -3334,25 +3334,25 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "headStart",
                     "nodeType": "YulTypedName",
-                    "src": "4152:9:68",
+                    "src": "4152:9:73",
                     "type": ""
                   },
                   {
                     "name": "value2",
                     "nodeType": "YulTypedName",
-                    "src": "4163:6:68",
+                    "src": "4163:6:73",
                     "type": ""
                   },
                   {
                     "name": "value1",
                     "nodeType": "YulTypedName",
-                    "src": "4171:6:68",
+                    "src": "4171:6:73",
                     "type": ""
                   },
                   {
                     "name": "value0",
                     "nodeType": "YulTypedName",
-                    "src": "4179:6:68",
+                    "src": "4179:6:73",
                     "type": ""
                   }
                 ],
@@ -3360,21 +3360,21 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "tail",
                     "nodeType": "YulTypedName",
-                    "src": "4190:4:68",
+                    "src": "4190:4:73",
                     "type": ""
                   }
                 ],
-                "src": "4042:462:68"
+                "src": "4042:462:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "4557:80:68",
+                  "src": "4557:80:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "4584:22:68",
+                        "src": "4584:22:73",
                         "statements": [
                           {
                             "expression": {
@@ -3382,13 +3382,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               "functionName": {
                                 "name": "panic_error_0x11",
                                 "nodeType": "YulIdentifier",
-                                "src": "4586:16:68"
+                                "src": "4586:16:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "4586:18:68"
+                              "src": "4586:18:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "4586:18:68"
+                            "src": "4586:18:73"
                           }
                         ]
                       },
@@ -3397,65 +3397,65 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "x",
                             "nodeType": "YulIdentifier",
-                            "src": "4573:1:68"
+                            "src": "4573:1:73"
                           },
                           {
                             "arguments": [
                               {
                                 "name": "y",
                                 "nodeType": "YulIdentifier",
-                                "src": "4580:1:68"
+                                "src": "4580:1:73"
                               }
                             ],
                             "functionName": {
                               "name": "not",
                               "nodeType": "YulIdentifier",
-                              "src": "4576:3:68"
+                              "src": "4576:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4576:6:68"
+                            "src": "4576:6:73"
                           }
                         ],
                         "functionName": {
                           "name": "gt",
                           "nodeType": "YulIdentifier",
-                          "src": "4570:2:68"
+                          "src": "4570:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4570:13:68"
+                        "src": "4570:13:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "4567:2:68"
+                      "src": "4567:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "4615:16:68",
+                      "src": "4615:16:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "x",
                             "nodeType": "YulIdentifier",
-                            "src": "4626:1:68"
+                            "src": "4626:1:73"
                           },
                           {
                             "name": "y",
                             "nodeType": "YulIdentifier",
-                            "src": "4629:1:68"
+                            "src": "4629:1:73"
                           }
                         ],
                         "functionName": {
                           "name": "add",
                           "nodeType": "YulIdentifier",
-                          "src": "4622:3:68"
+                          "src": "4622:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4622:9:68"
+                        "src": "4622:9:73"
                       },
                       "variableNames": [
                         {
                           "name": "sum",
                           "nodeType": "YulIdentifier",
-                          "src": "4615:3:68"
+                          "src": "4615:3:73"
                         }
                       ]
                     }
@@ -3467,13 +3467,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "x",
                     "nodeType": "YulTypedName",
-                    "src": "4540:1:68",
+                    "src": "4540:1:73",
                     "type": ""
                   },
                   {
                     "name": "y",
                     "nodeType": "YulTypedName",
-                    "src": "4543:1:68",
+                    "src": "4543:1:73",
                     "type": ""
                   }
                 ],
@@ -3481,21 +3481,21 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "sum",
                     "nodeType": "YulTypedName",
-                    "src": "4549:3:68",
+                    "src": "4549:3:73",
                     "type": ""
                   }
                 ],
-                "src": "4509:128:68"
+                "src": "4509:128:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "4691:76:68",
+                  "src": "4691:76:73",
                   "statements": [
                     {
                       "body": {
                         "nodeType": "YulBlock",
-                        "src": "4713:22:68",
+                        "src": "4713:22:73",
                         "statements": [
                           {
                             "expression": {
@@ -3503,13 +3503,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               "functionName": {
                                 "name": "panic_error_0x11",
                                 "nodeType": "YulIdentifier",
-                                "src": "4715:16:68"
+                                "src": "4715:16:73"
                               },
                               "nodeType": "YulFunctionCall",
-                              "src": "4715:18:68"
+                              "src": "4715:18:73"
                             },
                             "nodeType": "YulExpressionStatement",
-                            "src": "4715:18:68"
+                            "src": "4715:18:73"
                           }
                         ]
                       },
@@ -3518,54 +3518,54 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "name": "x",
                             "nodeType": "YulIdentifier",
-                            "src": "4707:1:68"
+                            "src": "4707:1:73"
                           },
                           {
                             "name": "y",
                             "nodeType": "YulIdentifier",
-                            "src": "4710:1:68"
+                            "src": "4710:1:73"
                           }
                         ],
                         "functionName": {
                           "name": "lt",
                           "nodeType": "YulIdentifier",
-                          "src": "4704:2:68"
+                          "src": "4704:2:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4704:8:68"
+                        "src": "4704:8:73"
                       },
                       "nodeType": "YulIf",
-                      "src": "4701:2:68"
+                      "src": "4701:2:73"
                     },
                     {
                       "nodeType": "YulAssignment",
-                      "src": "4744:17:68",
+                      "src": "4744:17:73",
                       "value": {
                         "arguments": [
                           {
                             "name": "x",
                             "nodeType": "YulIdentifier",
-                            "src": "4756:1:68"
+                            "src": "4756:1:73"
                           },
                           {
                             "name": "y",
                             "nodeType": "YulIdentifier",
-                            "src": "4759:1:68"
+                            "src": "4759:1:73"
                           }
                         ],
                         "functionName": {
                           "name": "sub",
                           "nodeType": "YulIdentifier",
-                          "src": "4752:3:68"
+                          "src": "4752:3:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4752:9:68"
+                        "src": "4752:9:73"
                       },
                       "variableNames": [
                         {
                           "name": "diff",
                           "nodeType": "YulIdentifier",
-                          "src": "4744:4:68"
+                          "src": "4744:4:73"
                         }
                       ]
                     }
@@ -3577,13 +3577,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "x",
                     "nodeType": "YulTypedName",
-                    "src": "4673:1:68",
+                    "src": "4673:1:73",
                     "type": ""
                   },
                   {
                     "name": "y",
                     "nodeType": "YulTypedName",
-                    "src": "4676:1:68",
+                    "src": "4676:1:73",
                     "type": ""
                   }
                 ],
@@ -3591,16 +3591,16 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                   {
                     "name": "diff",
                     "nodeType": "YulTypedName",
-                    "src": "4682:4:68",
+                    "src": "4682:4:73",
                     "type": ""
                   }
                 ],
-                "src": "4642:125:68"
+                "src": "4642:125:73"
               },
               {
                 "body": {
                   "nodeType": "YulBlock",
-                  "src": "4804:95:68",
+                  "src": "4804:95:73",
                   "statements": [
                     {
                       "expression": {
@@ -3608,7 +3608,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4821:1:68",
+                            "src": "4821:1:73",
                             "type": "",
                             "value": "0"
                           },
@@ -3617,14 +3617,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4828:3:68",
+                                "src": "4828:3:73",
                                 "type": "",
                                 "value": "224"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "4833:10:68",
+                                "src": "4833:10:73",
                                 "type": "",
                                 "value": "0x4e487b71"
                               }
@@ -3632,22 +3632,22 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                             "functionName": {
                               "name": "shl",
                               "nodeType": "YulIdentifier",
-                              "src": "4824:3:68"
+                              "src": "4824:3:73"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "4824:20:68"
+                            "src": "4824:20:73"
                           }
                         ],
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4814:6:68"
+                          "src": "4814:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4814:31:68"
+                        "src": "4814:31:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4814:31:68"
+                      "src": "4814:31:73"
                     },
                     {
                       "expression": {
@@ -3655,14 +3655,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4861:1:68",
+                            "src": "4861:1:73",
                             "type": "",
                             "value": "4"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4864:4:68",
+                            "src": "4864:4:73",
                             "type": "",
                             "value": "0x11"
                           }
@@ -3670,13 +3670,13 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "mstore",
                           "nodeType": "YulIdentifier",
-                          "src": "4854:6:68"
+                          "src": "4854:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4854:15:68"
+                        "src": "4854:15:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4854:15:68"
+                      "src": "4854:15:73"
                     },
                     {
                       "expression": {
@@ -3684,14 +3684,14 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4885:1:68",
+                            "src": "4885:1:73",
                             "type": "",
                             "value": "0"
                           },
                           {
                             "kind": "number",
                             "nodeType": "YulLiteral",
-                            "src": "4888:4:68",
+                            "src": "4888:4:73",
                             "type": "",
                             "value": "0x24"
                           }
@@ -3699,24 +3699,24 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
                         "functionName": {
                           "name": "revert",
                           "nodeType": "YulIdentifier",
-                          "src": "4878:6:68"
+                          "src": "4878:6:73"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "4878:15:68"
+                        "src": "4878:15:73"
                       },
                       "nodeType": "YulExpressionStatement",
-                      "src": "4878:15:68"
+                      "src": "4878:15:73"
                     }
                   ]
                 },
                 "name": "panic_error_0x11",
                 "nodeType": "YulFunctionDefinition",
-                "src": "4772:127:68"
+                "src": "4772:127:73"
               }
             ]
           },
           "contents": "{\n    { }\n    function abi_decode_t_address(offset) -> value\n    {\n        value := calldataload(offset)\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(value0, value0) }\n        value0 := abi_decode_t_address(headStart)\n    }\n    function abi_decode_tuple_t_addresst_addresst_uint256t_bytes_calldata_ptr(headStart, dataEnd) -> value0, value1, value2, value3, value4\n    {\n        if slt(sub(dataEnd, headStart), 128) { revert(value4, value4) }\n        value0 := abi_decode_t_address(headStart)\n        value1 := abi_decode_t_address(add(headStart, 32))\n        value2 := calldataload(add(headStart, 64))\n        let offset := calldataload(add(headStart, 96))\n        let _1 := 0xffffffffffffffff\n        if gt(offset, _1) { revert(value4, value4) }\n        let _2 := add(headStart, offset)\n        if iszero(slt(add(_2, 0x1f), dataEnd)) { revert(value4, value4) }\n        let length := calldataload(_2)\n        if gt(length, _1) { revert(value4, value4) }\n        if gt(add(add(_2, length), 32), dataEnd) { revert(value4, value4) }\n        value3 := add(_2, 32)\n        value4 := length\n    }\n    function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -> value0, value1\n    {\n        if slt(sub(dataEnd, headStart), 64) { revert(value0, value0) }\n        value0 := abi_decode_t_address(headStart)\n        value1 := calldataload(add(headStart, 32))\n    }\n    function abi_decode_tuple_t_bytes4(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(value0, value0) }\n        let value := calldataload(headStart)\n        if iszero(eq(value, and(value, shl(224, 0xffffffff)))) { revert(value0, value0) }\n        value0 := value\n    }\n    function abi_encode_tuple_packed_t_bytes_memory_ptr__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos, value0) -> end\n    {\n        let length := mload(value0)\n        let i := end\n        for { } lt(i, length) { i := add(i, 0x20) }\n        {\n            mstore(add(pos, i), mload(add(add(value0, i), 0x20)))\n        }\n        if gt(i, length) { mstore(add(pos, length), end) }\n        end := add(pos, length)\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), value1)\n    }\n    function abi_encode_tuple_t_bool__to_t_bool__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, iszero(iszero(value0)))\n    }\n    function abi_encode_tuple_t_bytes4__to_t_bytes4__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, shl(224, 0xffffffff)))\n    }\n    function abi_encode_tuple_t_stringliteral_25adaa6d082ce15f901e0d8a3d393e7462ef9edf2e6bc8321fa14d1615b6fc51__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 15)\n        mstore(add(headStart, 64), \"Transfer failed\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_stringliteral_f8fcaef683f0d1614f3145343efc9a3d2cb7c83cead426db44ecb090c666d824__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 20)\n        mstore(add(headStart, 64), \"Insufficient deposit\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n    function abi_encode_tuple_t_uint256_t_bytes_calldata_ptr__to_t_uint256_t_bytes_memory_ptr__fromStack_reversed(headStart, value2, value1, value0) -> tail\n    {\n        mstore(headStart, value0)\n        mstore(add(headStart, 32), 64)\n        mstore(add(headStart, 64), value2)\n        calldatacopy(add(headStart, 96), value1, value2)\n        mstore(add(add(headStart, value2), 96), tail)\n        tail := add(add(headStart, and(add(value2, 31), not(31))), 96)\n    }\n    function checked_add_t_uint256(x, y) -> sum\n    {\n        if gt(x, not(y)) { panic_error_0x11() }\n        sum := add(x, y)\n    }\n    function checked_sub_t_uint256(x, y) -> diff\n    {\n        if lt(x, y) { panic_error_0x11() }\n        diff := sub(x, y)\n    }\n    function panic_error_0x11()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n}",
-          "id": 68,
+          "id": 73,
           "language": "Yul",
           "name": "#utility.yul"
         }
@@ -3725,7 +3725,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
       "linkReferences": {},
       "object": "608060405234801561001057600080fd5b50600436106100575760003560e01c806301ffc9a71461005c57806388a7ca5c146100855780639d76ea58146100a5578063cb13cddb146100ba578063f3fef3a3146100da575b600080fd5b61006f61006a366004610401565b6100ef565b60405161007c919061048f565b60405180910390f35b610098610093366004610342565b61011c565b60405161007c919061049a565b6100ad6101b6565b60405161007c9190610462565b6100cd6100c8366004610321565b6101c5565b60405161007c9190610506565b6100ed6100e83660046103d8565b6101d7565b005b60006001600160e01b03198216632229f29760e21b14806101145750610114826102f1565b90505b919050565b6001600160a01b038416600090815260208190526040812080548591908390610146908490610545565b9091555050600180546001600160a01b031916331790556040516001600160a01b038616907f0f611859dc94a66d9bec0e66c7485098c0d5e4662896ff2f523c47f962a7abef9061019c9087908790879061050f565b60405180910390a250632229f29760e21b95945050505050565b6001546001600160a01b031681565b60006020819052908152604090205481565b3360009081526020819052604090205481111561020f5760405162461bcd60e51b8152600401610206906104d8565b60405180910390fd5b336000908152602081905260408120805483929061022e90849061055d565b925050819055506000826001600160a01b03163383604051602401610254929190610476565b60408051601f198184030181529181526020820180516001600160e01b031663a9059cbb60e01b179052516102899190610429565b6000604051808303816000865af19150503d80600081146102c6576040519150601f19603f3d011682016040523d82523d6000602084013e6102cb565b606091505b50509050806102ec5760405162461bcd60e51b8152600401610206906104af565b505050565b6001600160e01b031981166301ffc9a760e01b14919050565b80356001600160a01b038116811461011757600080fd5b600060208284031215610332578081fd5b61033b8261030a565b9392505050565b600080600080600060808688031215610359578081fd5b6103628661030a565b94506103706020870161030a565b935060408601359250606086013567ffffffffffffffff80821115610393578283fd5b818801915088601f8301126103a6578283fd5b8135818111156103b4578384fd5b8960208285010111156103c5578384fd5b9699959850939650602001949392505050565b600080604083850312156103ea578182fd5b6103f38361030a565b946020939093013593505050565b600060208284031215610412578081fd5b81356001600160e01b03198116811461033b578182fd5b60008251815b81811015610449576020818601810151858301520161042f565b818111156104575782828501525b509190910192915050565b6001600160a01b0391909116815260200190565b6001600160a01b03929092168252602082015260400190565b901515815260200190565b6001600160e01b031991909116815260200190565b6020808252600f908201526e151c985b9cd9995c8819985a5b1959608a1b604082015260600190565b602080825260149082015273125b9cdd59999a58da595b9d0819195c1bdcda5d60621b604082015260600190565b90815260200190565b60008482526040602083015282604083015282846060840137818301606090810191909152601f909201601f1916010192915050565b6000821982111561055857610558610574565b500190565b60008282101561056f5761056f610574565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220d58e655a024996952ae8187532c9bc5e64939eec29a7eb373b80f31b7eda730264736f6c63430008010033",
       "opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH2 0x57 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x1FFC9A7 EQ PUSH2 0x5C JUMPI DUP1 PUSH4 0x88A7CA5C EQ PUSH2 0x85 JUMPI DUP1 PUSH4 0x9D76EA58 EQ PUSH2 0xA5 JUMPI DUP1 PUSH4 0xCB13CDDB EQ PUSH2 0xBA JUMPI DUP1 PUSH4 0xF3FEF3A3 EQ PUSH2 0xDA JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH2 0x6F PUSH2 0x6A CALLDATASIZE PUSH1 0x4 PUSH2 0x401 JUMP JUMPDEST PUSH2 0xEF JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x48F JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH2 0x98 PUSH2 0x93 CALLDATASIZE PUSH1 0x4 PUSH2 0x342 JUMP JUMPDEST PUSH2 0x11C JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x49A JUMP JUMPDEST PUSH2 0xAD PUSH2 0x1B6 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x462 JUMP JUMPDEST PUSH2 0xCD PUSH2 0xC8 CALLDATASIZE PUSH1 0x4 PUSH2 0x321 JUMP JUMPDEST PUSH2 0x1C5 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH2 0x7C SWAP2 SWAP1 PUSH2 0x506 JUMP JUMPDEST PUSH2 0xED PUSH2 0xE8 CALLDATASIZE PUSH1 0x4 PUSH2 0x3D8 JUMP JUMPDEST PUSH2 0x1D7 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x0 PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP3 AND PUSH4 0x2229F297 PUSH1 0xE2 SHL EQ DUP1 PUSH2 0x114 JUMPI POP PUSH2 0x114 DUP3 PUSH2 0x2F1 JUMP JUMPDEST SWAP1 POP JUMPDEST SWAP2 SWAP1 POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP5 AND PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 DUP2 KECCAK256 DUP1 SLOAD DUP6 SWAP2 SWAP1 DUP4 SWAP1 PUSH2 0x146 SWAP1 DUP5 SWAP1 PUSH2 0x545 JUMP JUMPDEST SWAP1 SWAP2 SSTORE POP POP PUSH1 0x1 DUP1 SLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB NOT AND CALLER OR SWAP1 SSTORE PUSH1 0x40 MLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP7 AND SWAP1 PUSH32 0xF611859DC94A66D9BEC0E66C7485098C0D5E4662896FF2F523C47F962A7ABEF SWAP1 PUSH2 0x19C SWAP1 DUP8 SWAP1 DUP8 SWAP1 DUP8 SWAP1 PUSH2 0x50F JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 LOG2 POP PUSH4 0x2229F297 PUSH1 0xE2 SHL SWAP6 SWAP5 POP POP POP POP POP JUMP JUMPDEST PUSH1 0x1 SLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB AND DUP2 JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP2 SWAP1 MSTORE SWAP1 DUP2 MSTORE PUSH1 0x40 SWAP1 KECCAK256 SLOAD DUP2 JUMP JUMPDEST CALLER PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 SWAP1 KECCAK256 SLOAD DUP2 GT ISZERO PUSH2 0x20F JUMPI PUSH1 0x40 MLOAD PUSH3 0x461BCD PUSH1 0xE5 SHL DUP2 MSTORE PUSH1 0x4 ADD PUSH2 0x206 SWAP1 PUSH2 0x4D8 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 REVERT JUMPDEST CALLER PUSH1 0x0 SWAP1 DUP2 MSTORE PUSH1 0x20 DUP2 SWAP1 MSTORE PUSH1 0x40 DUP2 KECCAK256 DUP1 SLOAD DUP4 SWAP3 SWAP1 PUSH2 0x22E SWAP1 DUP5 SWAP1 PUSH2 0x55D JUMP JUMPDEST SWAP3 POP POP DUP2 SWAP1 SSTORE POP PUSH1 0x0 DUP3 PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB AND CALLER DUP4 PUSH1 0x40 MLOAD PUSH1 0x24 ADD PUSH2 0x254 SWAP3 SWAP2 SWAP1 PUSH2 0x476 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD PUSH1 0x1F NOT DUP2 DUP5 SUB ADD DUP2 MSTORE SWAP2 DUP2 MSTORE PUSH1 0x20 DUP3 ADD DUP1 MLOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB AND PUSH4 0xA9059CBB PUSH1 0xE0 SHL OR SWAP1 MSTORE MLOAD PUSH2 0x289 SWAP2 SWAP1 PUSH2 0x429 JUMP JUMPDEST PUSH1 0x0 PUSH1 0x40 MLOAD DUP1 DUP4 SUB DUP2 PUSH1 0x0 DUP7 GAS CALL SWAP2 POP POP RETURNDATASIZE DUP1 PUSH1 0x0 DUP2 EQ PUSH2 0x2C6 JUMPI PUSH1 0x40 MLOAD SWAP2 POP PUSH1 0x1F NOT PUSH1 0x3F RETURNDATASIZE ADD AND DUP3 ADD PUSH1 0x40 MSTORE RETURNDATASIZE DUP3 MSTORE RETURNDATASIZE PUSH1 0x0 PUSH1 0x20 DUP5 ADD RETURNDATACOPY PUSH2 0x2CB JUMP JUMPDEST PUSH1 0x60 SWAP2 POP JUMPDEST POP POP SWAP1 POP DUP1 PUSH2 0x2EC JUMPI PUSH1 0x40 MLOAD PUSH3 0x461BCD PUSH1 0xE5 SHL DUP2 MSTORE PUSH1 0x4 ADD PUSH2 0x206 SWAP1 PUSH2 0x4AF JUMP JUMPDEST POP POP POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP2 AND PUSH4 0x1FFC9A7 PUSH1 0xE0 SHL EQ SWAP2 SWAP1 POP JUMP JUMPDEST DUP1 CALLDATALOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB DUP2 AND DUP2 EQ PUSH2 0x117 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 DUP5 SUB SLT ISZERO PUSH2 0x332 JUMPI DUP1 DUP2 REVERT JUMPDEST PUSH2 0x33B DUP3 PUSH2 0x30A JUMP JUMPDEST SWAP4 SWAP3 POP POP POP JUMP JUMPDEST PUSH1 0x0 DUP1 PUSH1 0x0 DUP1 PUSH1 0x0 PUSH1 0x80 DUP7 DUP9 SUB SLT ISZERO PUSH2 0x359 JUMPI DUP1 DUP2 REVERT JUMPDEST PUSH2 0x362 DUP7 PUSH2 0x30A JUMP JUMPDEST SWAP5 POP PUSH2 0x370 PUSH1 0x20 DUP8 ADD PUSH2 0x30A JUMP JUMPDEST SWAP4 POP PUSH1 0x40 DUP7 ADD CALLDATALOAD SWAP3 POP PUSH1 0x60 DUP7 ADD CALLDATALOAD PUSH8 0xFFFFFFFFFFFFFFFF DUP1 DUP3 GT ISZERO PUSH2 0x393 JUMPI DUP3 DUP4 REVERT JUMPDEST DUP2 DUP9 ADD SWAP2 POP DUP9 PUSH1 0x1F DUP4 ADD SLT PUSH2 0x3A6 JUMPI DUP3 DUP4 REVERT JUMPDEST DUP2 CALLDATALOAD DUP2 DUP2 GT ISZERO PUSH2 0x3B4 JUMPI DUP4 DUP5 REVERT JUMPDEST DUP10 PUSH1 0x20 DUP3 DUP6 ADD ADD GT ISZERO PUSH2 0x3C5 JUMPI DUP4 DUP5 REVERT JUMPDEST SWAP7 SWAP10 SWAP6 SWAP9 POP SWAP4 SWAP7 POP PUSH1 0x20 ADD SWAP5 SWAP4 SWAP3 POP POP POP JUMP JUMPDEST PUSH1 0x0 DUP1 PUSH1 0x40 DUP4 DUP6 SUB SLT ISZERO PUSH2 0x3EA JUMPI DUP2 DUP3 REVERT JUMPDEST PUSH2 0x3F3 DUP4 PUSH2 0x30A JUMP JUMPDEST SWAP5 PUSH1 0x20 SWAP4 SWAP1 SWAP4 ADD CALLDATALOAD SWAP4 POP POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 DUP5 SUB SLT ISZERO PUSH2 0x412 JUMPI DUP1 DUP2 REVERT JUMPDEST DUP2 CALLDATALOAD PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT DUP2 AND DUP2 EQ PUSH2 0x33B JUMPI DUP2 DUP3 REVERT JUMPDEST PUSH1 0x0 DUP3 MLOAD DUP2 JUMPDEST DUP2 DUP2 LT ISZERO PUSH2 0x449 JUMPI PUSH1 0x20 DUP2 DUP7 ADD DUP2 ADD MLOAD DUP6 DUP4 ADD MSTORE ADD PUSH2 0x42F JUMP JUMPDEST DUP2 DUP2 GT ISZERO PUSH2 0x457 JUMPI DUP3 DUP3 DUP6 ADD MSTORE JUMPDEST POP SWAP2 SWAP1 SWAP2 ADD SWAP3 SWAP2 POP POP JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB SWAP2 SWAP1 SWAP2 AND DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xA0 SHL SUB SWAP3 SWAP1 SWAP3 AND DUP3 MSTORE PUSH1 0x20 DUP3 ADD MSTORE PUSH1 0x40 ADD SWAP1 JUMP JUMPDEST SWAP1 ISZERO ISZERO DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x1 PUSH1 0x1 PUSH1 0xE0 SHL SUB NOT SWAP2 SWAP1 SWAP2 AND DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x20 DUP1 DUP3 MSTORE PUSH1 0xF SWAP1 DUP3 ADD MSTORE PUSH15 0x151C985B9CD9995C8819985A5B1959 PUSH1 0x8A SHL PUSH1 0x40 DUP3 ADD MSTORE PUSH1 0x60 ADD SWAP1 JUMP JUMPDEST PUSH1 0x20 DUP1 DUP3 MSTORE PUSH1 0x14 SWAP1 DUP3 ADD MSTORE PUSH20 0x125B9CDD59999A58DA595B9D0819195C1BDCDA5D PUSH1 0x62 SHL PUSH1 0x40 DUP3 ADD MSTORE PUSH1 0x60 ADD SWAP1 JUMP JUMPDEST SWAP1 DUP2 MSTORE PUSH1 0x20 ADD SWAP1 JUMP JUMPDEST PUSH1 0x0 DUP5 DUP3 MSTORE PUSH1 0x40 PUSH1 0x20 DUP4 ADD MSTORE DUP3 PUSH1 0x40 DUP4 ADD MSTORE DUP3 DUP5 PUSH1 0x60 DUP5 ADD CALLDATACOPY DUP2 DUP4 ADD PUSH1 0x60 SWAP1 DUP2 ADD SWAP2 SWAP1 SWAP2 MSTORE PUSH1 0x1F SWAP1 SWAP3 ADD PUSH1 0x1F NOT AND ADD ADD SWAP3 SWAP2 POP POP JUMP JUMPDEST PUSH1 0x0 DUP3 NOT DUP3 GT ISZERO PUSH2 0x558 JUMPI PUSH2 0x558 PUSH2 0x574 JUMP JUMPDEST POP ADD SWAP1 JUMP JUMPDEST PUSH1 0x0 DUP3 DUP3 LT ISZERO PUSH2 0x56F JUMPI PUSH2 0x56F PUSH2 0x574 JUMP JUMPDEST POP SUB SWAP1 JUMP JUMPDEST PUSH4 0x4E487B71 PUSH1 0xE0 SHL PUSH1 0x0 MSTORE PUSH1 0x11 PUSH1 0x4 MSTORE PUSH1 0x24 PUSH1 0x0 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xD5 DUP15 PUSH6 0x5A024996952A 0xE8 XOR PUSH22 0x32C9BC5E64939EEC29A7EB373B80F31B7EDA73026473 PUSH16 0x6C634300080100330000000000000000 ",
-      "sourceMap": "203:1705:60:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;528:248;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;784:568;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;438:27::-;;;:::i;:::-;;;;;;;:::i;387:44::-;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;1429:476::-;;;;;;:::i;:::-;;:::i;:::-;;528:248;629:4;-1:-1:-1;;;;;;666:49:60;;-1:-1:-1;;;666:49:60;;:102;;;732:36;756:11;732:23;:36::i;:::-;646:122;;528:248;;;;:::o;784:568::-;-1:-1:-1;;;;;1103:15:60;;950:6;1103:15;;;;;;;;;;:24;;1122:5;;1103:15;950:6;;1103:24;;1122:5;;1103:24;:::i;:::-;;;;-1:-1:-1;;1140:12:60;:25;;-1:-1:-1;;;;;;1140:25:60;1155:10;1140:25;;;1183:33;;-1:-1:-1;;;;;1183:33:60;;;;;;;1204:5;;1211:4;;;;1183:33;:::i;:::-;;;;;;;;-1:-1:-1;;;;784:568:60;;;;;;;:::o;438:27::-;;;-1:-1:-1;;;;;438:27:60;;:::o;387:44::-;;;;;;;;;;;;;;:::o;1429:476::-;1516:10;1506:9;:21;;;;;;;;;;;:31;-1:-1:-1;1506:31:60;1498:64;;;;-1:-1:-1;;;1498:64:60;;;;;;;:::i;:::-;;;;;;;;;1583:10;1573:9;:21;;;;;;;;;;:31;;1598:6;;1573:9;:31;;1598:6;;1573:31;:::i;:::-;;;;;;;;1659:12;1677:5;-1:-1:-1;;;;;1677:10:60;1790;1819:6;1702:138;;;;;;;;;:::i;:::-;;;;-1:-1:-1;;1702:138:60;;;;;;;;;;;;;;-1:-1:-1;;;;;1702:138:60;-1:-1:-1;;;1702:138:60;;;1677:174;;;1702:138;1677:174;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1658:193;;;1870:7;1862:35;;;;-1:-1:-1;;;1862:35:60;;;;;;;:::i;:::-;1429:476;;;:::o;854:157:54:-;-1:-1:-1;;;;;;963:40:54;;-1:-1:-1;;;963:40:54;854:157;;;:::o;14:175:68:-;84:20;;-1:-1:-1;;;;;133:31:68;;123:42;;113:2;;179:1;176;169:12;194:198;;306:2;294:9;285:7;281:23;277:32;274:2;;;327:6;319;312:22;274:2;355:31;376:9;355:31;:::i;:::-;345:41;264:128;-1:-1:-1;;;264:128:68:o;397:862::-;;;;;;579:3;567:9;558:7;554:23;550:33;547:2;;;601:6;593;586:22;547:2;629:31;650:9;629:31;:::i;:::-;619:41;;679:40;715:2;704:9;700:18;679:40;:::i;:::-;669:50;;766:2;755:9;751:18;738:32;728:42;;821:2;810:9;806:18;793:32;844:18;885:2;877:6;874:14;871:2;;;906:6;898;891:22;871:2;949:6;938:9;934:22;924:32;;994:7;987:4;983:2;979:13;975:27;965:2;;1021:6;1013;1006:22;965:2;1066;1053:16;1092:2;1084:6;1081:14;1078:2;;;1113:6;1105;1098:22;1078:2;1163:7;1158:2;1149:6;1145:2;1141:15;1137:24;1134:37;1131:2;;;1189:6;1181;1174:22;1131:2;537:722;;;;-1:-1:-1;537:722:68;;-1:-1:-1;1225:2:68;1217:11;;1247:6;537:722;-1:-1:-1;;;537:722:68:o;1264:266::-;;;1393:2;1381:9;1372:7;1368:23;1364:32;1361:2;;;1414:6;1406;1399:22;1361:2;1442:31;1463:9;1442:31;:::i;:::-;1432:41;1520:2;1505:18;;;;1492:32;;-1:-1:-1;;;1351:179:68:o;1535:306::-;;1646:2;1634:9;1625:7;1621:23;1617:32;1614:2;;;1667:6;1659;1652:22;1614:2;1698:23;;-1:-1:-1;;;;;;1750:32:68;;1740:43;;1730:2;;1802:6;1794;1787:22;1846:430;;2013:6;2007:13;2038:3;2050:129;2064:6;2061:1;2058:13;2050:129;;;2162:4;2146:14;;;2142:25;;2136:32;2123:11;;;2116:53;2079:12;2050:129;;;2197:6;2194:1;2191:13;2188:2;;;2232:3;2223:6;2218:3;2214:16;2207:29;2188:2;-1:-1:-1;2254:16:68;;;;;1983:293;-1:-1:-1;;1983:293:68:o;2281:203::-;-1:-1:-1;;;;;2445:32:68;;;;2427:51;;2415:2;2400:18;;2382:102::o;2489:274::-;-1:-1:-1;;;;;2681:32:68;;;;2663:51;;2745:2;2730:18;;2723:34;2651:2;2636:18;;2618:145::o;2768:187::-;2933:14;;2926:22;2908:41;;2896:2;2881:18;;2863:92::o;2960:202::-;-1:-1:-1;;;;;;3122:33:68;;;;3104:52;;3092:2;3077:18;;3059:103::o;3167:339::-;3369:2;3351:21;;;3408:2;3388:18;;;3381:30;-1:-1:-1;;;3442:2:68;3427:18;;3420:45;3497:2;3482:18;;3341:165::o;3511:344::-;3713:2;3695:21;;;3752:2;3732:18;;;3725:30;-1:-1:-1;;;3786:2:68;3771:18;;3764:50;3846:2;3831:18;;3685:170::o;3860:177::-;4006:25;;;3994:2;3979:18;;3961:76::o;4042:462::-;;4227:6;4216:9;4209:25;4270:2;4265;4254:9;4250:18;4243:30;4309:6;4304:2;4293:9;4289:18;4282:34;4366:6;4358;4353:2;4342:9;4338:18;4325:48;4393:22;;;4417:2;4389:31;;;4382:45;;;;4488:2;4467:15;;;-1:-1:-1;;4463:29:68;4448:45;4444:54;;4199:305;-1:-1:-1;;4199:305:68:o;4509:128::-;;4580:1;4576:6;4573:1;4570:13;4567:2;;;4586:18;;:::i;:::-;-1:-1:-1;4622:9:68;;4557:80::o;4642:125::-;;4710:1;4707;4704:8;4701:2;;;4715:18;;:::i;:::-;-1:-1:-1;4752:9:68;;4691:76::o;4772:127::-;4833:10;4828:3;4824:20;4821:1;4814:31;4864:4;4861:1;4854:15;4888:4;4885:1;4878:15"
+      "sourceMap": "203:1705:65:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;528:248;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;784:568;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;438:27::-;;;:::i;:::-;;;;;;;:::i;387:44::-;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;1429:476::-;;;;;;:::i;:::-;;:::i;:::-;;528:248;629:4;-1:-1:-1;;;;;;666:49:65;;-1:-1:-1;;;666:49:65;;:102;;;732:36;756:11;732:23;:36::i;:::-;646:122;;528:248;;;;:::o;784:568::-;-1:-1:-1;;;;;1103:15:65;;950:6;1103:15;;;;;;;;;;:24;;1122:5;;1103:15;950:6;;1103:24;;1122:5;;1103:24;:::i;:::-;;;;-1:-1:-1;;1140:12:65;:25;;-1:-1:-1;;;;;;1140:25:65;1155:10;1140:25;;;1183:33;;-1:-1:-1;;;;;1183:33:65;;;;;;;1204:5;;1211:4;;;;1183:33;:::i;:::-;;;;;;;;-1:-1:-1;;;;784:568:65;;;;;;;:::o;438:27::-;;;-1:-1:-1;;;;;438:27:65;;:::o;387:44::-;;;;;;;;;;;;;;:::o;1429:476::-;1516:10;1506:9;:21;;;;;;;;;;;:31;-1:-1:-1;1506:31:65;1498:64;;;;-1:-1:-1;;;1498:64:65;;;;;;;:::i;:::-;;;;;;;;;1583:10;1573:9;:21;;;;;;;;;;:31;;1598:6;;1573:9;:31;;1598:6;;1573:31;:::i;:::-;;;;;;;;1659:12;1677:5;-1:-1:-1;;;;;1677:10:65;1790;1819:6;1702:138;;;;;;;;;:::i;:::-;;;;-1:-1:-1;;1702:138:65;;;;;;;;;;;;;;-1:-1:-1;;;;;1702:138:65;-1:-1:-1;;;1702:138:65;;;1677:174;;;1702:138;1677:174;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1658:193;;;1870:7;1862:35;;;;-1:-1:-1;;;1862:35:65;;;;;;;:::i;:::-;1429:476;;;:::o;854:157:59:-;-1:-1:-1;;;;;;963:40:59;;-1:-1:-1;;;963:40:59;854:157;;;:::o;14:175:73:-;84:20;;-1:-1:-1;;;;;133:31:73;;123:42;;113:2;;179:1;176;169:12;194:198;;306:2;294:9;285:7;281:23;277:32;274:2;;;327:6;319;312:22;274:2;355:31;376:9;355:31;:::i;:::-;345:41;264:128;-1:-1:-1;;;264:128:73:o;397:862::-;;;;;;579:3;567:9;558:7;554:23;550:33;547:2;;;601:6;593;586:22;547:2;629:31;650:9;629:31;:::i;:::-;619:41;;679:40;715:2;704:9;700:18;679:40;:::i;:::-;669:50;;766:2;755:9;751:18;738:32;728:42;;821:2;810:9;806:18;793:32;844:18;885:2;877:6;874:14;871:2;;;906:6;898;891:22;871:2;949:6;938:9;934:22;924:32;;994:7;987:4;983:2;979:13;975:27;965:2;;1021:6;1013;1006:22;965:2;1066;1053:16;1092:2;1084:6;1081:14;1078:2;;;1113:6;1105;1098:22;1078:2;1163:7;1158:2;1149:6;1145:2;1141:15;1137:24;1134:37;1131:2;;;1189:6;1181;1174:22;1131:2;537:722;;;;-1:-1:-1;537:722:73;;-1:-1:-1;1225:2:73;1217:11;;1247:6;537:722;-1:-1:-1;;;537:722:73:o;1264:266::-;;;1393:2;1381:9;1372:7;1368:23;1364:32;1361:2;;;1414:6;1406;1399:22;1361:2;1442:31;1463:9;1442:31;:::i;:::-;1432:41;1520:2;1505:18;;;;1492:32;;-1:-1:-1;;;1351:179:73:o;1535:306::-;;1646:2;1634:9;1625:7;1621:23;1617:32;1614:2;;;1667:6;1659;1652:22;1614:2;1698:23;;-1:-1:-1;;;;;;1750:32:73;;1740:43;;1730:2;;1802:6;1794;1787:22;1846:430;;2013:6;2007:13;2038:3;2050:129;2064:6;2061:1;2058:13;2050:129;;;2162:4;2146:14;;;2142:25;;2136:32;2123:11;;;2116:53;2079:12;2050:129;;;2197:6;2194:1;2191:13;2188:2;;;2232:3;2223:6;2218:3;2214:16;2207:29;2188:2;-1:-1:-1;2254:16:73;;;;;1983:293;-1:-1:-1;;1983:293:73:o;2281:203::-;-1:-1:-1;;;;;2445:32:73;;;;2427:51;;2415:2;2400:18;;2382:102::o;2489:274::-;-1:-1:-1;;;;;2681:32:73;;;;2663:51;;2745:2;2730:18;;2723:34;2651:2;2636:18;;2618:145::o;2768:187::-;2933:14;;2926:22;2908:41;;2896:2;2881:18;;2863:92::o;2960:202::-;-1:-1:-1;;;;;;3122:33:73;;;;3104:52;;3092:2;3077:18;;3059:103::o;3167:339::-;3369:2;3351:21;;;3408:2;3388:18;;;3381:30;-1:-1:-1;;;3442:2:73;3427:18;;3420:45;3497:2;3482:18;;3341:165::o;3511:344::-;3713:2;3695:21;;;3752:2;3732:18;;;3725:30;-1:-1:-1;;;3786:2:73;3771:18;;3764:50;3846:2;3831:18;;3685:170::o;3860:177::-;4006:25;;;3994:2;3979:18;;3961:76::o;4042:462::-;;4227:6;4216:9;4209:25;4270:2;4265;4254:9;4250:18;4243:30;4309:6;4304:2;4293:9;4289:18;4282:34;4366:6;4358;4353:2;4342:9;4338:18;4325:48;4393:22;;;4417:2;4389:31;;;4382:45;;;;4488:2;4467:15;;;-1:-1:-1;;4463:29:73;4448:45;4444:54;;4199:305;-1:-1:-1;;4199:305:73:o;4509:128::-;;4580:1;4576:6;4573:1;4570:13;4567:2;;;4586:18;;:::i;:::-;-1:-1:-1;4622:9:73;;4557:80::o;4642:125::-;;4710:1;4707;4704:8;4701:2;;;4715:18;;:::i;:::-;-1:-1:-1;4752:9:73;;4691:76::o;4772:127::-;4833:10;4828:3;4824:20;4821:1;4814:31;4864:4;4861:1;4854:15;4888:4;4885:1;4878:15"
     },
     "gasEstimates": {
       "creation": {
@@ -3753,7 +3753,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 12839,
+        "astId": 14370,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "deposited",
         "offset": 0,
@@ -3761,7 +3761,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 12841,
+        "astId": 14372,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "tokenAddress",
         "offset": 0,
