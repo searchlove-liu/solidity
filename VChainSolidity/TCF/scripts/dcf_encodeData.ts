@@ -222,9 +222,9 @@ function encodeTransferAndCall_TCF(
 // 调用buyNFTByDCF函数调用的数据
 function encodeBuyNFTByDCF_TCF(
   tokenAddress: `0x${string}`,
-  value: bigint,
   tokenID: bigint,
   buyAmount: bigint,
+  value: bigint,
 ): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
@@ -235,7 +235,7 @@ function encodeBuyNFTByDCF_TCF(
   return data;
 }
 
-const tcf_nft = "0xe1470bd2a285530ce62d08d8c0c8242d0a330a60" as `0x${string}`;
+const tcf_nft = "0x154a835f11dbba64ab3c262a125e0e258bfcd773" as `0x${string}`;
 
 // console.log(encodeInitializeData_DCT());
 // encodeBalanceOf_TCF(dynamicAddress);
@@ -288,23 +288,12 @@ const tcf_nft = "0xe1470bd2a285530ce62d08d8c0c8242d0a330a60" as `0x${string}`;
 // encodeTransferOwnership_TCF(test_address);
 
 // balanceOf
-const balanceResultData_TCF =
-  "0x" + "0000000000000000000000000000000000000000000000000000000df8475800";
-decodeBalanceOf_TCF(balanceResultData_TCF);
+// const balanceResultData_TCF =
+//   "0x" + "0000000000000000000000000000000000000000000000000000000df8475800";
+// decodeBalanceOf_TCF(balanceResultData_TCF);
 
 // transferAndCall
 // encodeTransferAndCall_TCF(tcf_nft, 5n, 0n, 5n);
 
 // buyNFTByDCF
-// encodeBuyNFTByDCF_TCF(tcf_nft, 5n, 0n, 5n);
-// 0x6af7ec05
-// 000000000000000000000000e1470bd2a285530ce62d08d8c0c8242d0a330a60
-// 0000000000000000000000000000000000000000000000000000000000000000
-// 0000000000000000000000000000000000000000000000000000000000000001
-// 000000000000000000000000000000000000000000000000000000003b9aca00
-
-// 0x6af7ec05
-// 000000000000000000000000e1470bd2a285530ce62d08d8c0c8242d0a330a60
-// 0000000000000000000000000000000000000000000000000000000000000000
-// 0000000000000000000000000000000000000000000000000000000000000005
-// 0000000000000000000000000000000000000000000000000000000df84757f1
+// encodeBuyNFTByDCF_TCF(tcf_nft, 2n, 1n, 3n);

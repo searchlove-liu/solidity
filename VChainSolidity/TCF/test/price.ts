@@ -51,23 +51,23 @@ export function getPrices(supportedToken: `0x${string}`) {
   //   { tokenAddress: zeroAddress, amount: 1000000000n },
   //   { tokenAddress: supportedToken, amount: 1000000000n },
   // ];
-  // const NFT2prices:  [PriceType, PriceType] = [
+  // const NFT2prices: [PriceType, PriceType] = [
   //   { tokenAddress: zeroAddress, amount: 2000000000n },
   //   { tokenAddress: supportedToken, amount: 2000000000n },
   // ];
-  // const NFT3prices:  [PriceType, PriceType] = [
+  // const NFT3prices: [PriceType, PriceType] = [
   //   { tokenAddress: zeroAddress, amount: 3000000000n },
   //   { tokenAddress: supportedToken, amount: 3000000000n },
   // ];
-  // const NFT4prices:  [PriceType, PriceType] = [
+  // const NFT4prices: [PriceType, PriceType] = [
   //   { tokenAddress: zeroAddress, amount: 4000000000n },
   //   { tokenAddress: supportedToken, amount: 4000000000n },
   // ];
-  // const NFT5prices:  [PriceType, PriceType] = [
+  // const NFT5prices: [PriceType, PriceType] = [
   //   { tokenAddress: zeroAddress, amount: 5000000000n },
   //   { tokenAddress: supportedToken, amount: 5000000000n },
   // ];
-  // const NFT6prices:  [PriceType, PriceType] = [
+  // const NFT6prices: [PriceType, PriceType] = [
   //   { tokenAddress: zeroAddress, amount: 6000000000n },
   //   { tokenAddress: supportedToken, amount: 6000000000n },
   // ];
@@ -99,4 +99,41 @@ export function getTCPrices() {
     NFT5prices,
     NFT6prices,
   ];
+}
+
+export function getVoidChainPrices(supportedToken: `0x${string}`) {
+  const NFT1prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 1000000000n },
+    { tokenAddress: supportedToken, amount: 1000000000n },
+  ];
+  const NFT2prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 2000000000n },
+    { tokenAddress: supportedToken, amount: 2000000000n },
+  ];
+  const NFT3prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 3000000000n },
+    { tokenAddress: supportedToken, amount: 3000000000n },
+  ];
+  const NFT4prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 4000000000n },
+    { tokenAddress: supportedToken, amount: 4000000000n },
+  ];
+  const NFT5prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 5000000000n },
+    { tokenAddress: supportedToken, amount: 5000000000n },
+  ];
+  const NFT6prices: [PriceType, PriceType] = [
+    { tokenAddress: zeroAddress, amount: 6000000000n },
+    { tokenAddress: supportedToken, amount: 6000000000n },
+  ];
+
+  const sixNFTPrices: SixNFTPrices = [
+    NFT1prices,
+    NFT2prices,
+    NFT3prices,
+    NFT4prices,
+    NFT5prices,
+    NFT6prices,
+  ];
+  return sixNFTPrices;
 }

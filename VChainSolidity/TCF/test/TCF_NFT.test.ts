@@ -752,6 +752,472 @@ describe("TCF_NFT 合约测试", function () {
     });
   });
 
+  describe("ERC1155Supply: totalSupply / exists", function () {
+    it("buyNFTByTC mint 会增加 totalSupply，并使 exists=true", async function () {
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [0n],
+        }),
+      ).to.equal(0n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "exists",
+          args: [0n],
+        }),
+      ).to.equal(false);
+
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 2n],
+        account: namedAccounts.deployer,
+        value: 2n,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [0n],
+        }),
+      ).to.equal(2n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "exists",
+          args: [0n],
+        }),
+      ).to.equal(true);
+    });
+
+    it("同一 tokenId 多次 mint 会累加 totalSupply", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 1n],
+        account: namedAccounts.deployer,
+        value: 1n,
+      });
+
+      await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 3n],
+        account: namedAccounts.deployer,
+        value: 3n,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [0n],
+        }),
+      ).to.equal(4n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.equal(4n);
+    });
+
+    it("transferAndCall(onTransferReceived) mint 同样会增加 totalSupply", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      const tokenId = 1;
+      const buyAmount = 5;
+      const dataId = numberTo32ByteHex(tokenId);
+      const dataAmount = numberTo32ByteHex(buyAmount).slice(2);
+      const data = (dataId + dataAmount) as `0x${string}`;
+
+      // tokenId=1 对应 DCT 价格为 2；buyAmount=5 => 10
+      await env.execute(TCF1, {
+        functionName: "transferAndCall",
+        args: [TCF_NFT.address, 10n, data],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [1n],
+        }),
+      ).to.equal(5n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "exists",
+          args: [1n],
+        }),
+      ).to.equal(true);
+
+      // 未 mint 的 id 仍然不存在
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "exists",
+          args: [2n],
+        }),
+      ).to.equal(false);
+    });
+
+    it("ESafeTransferFrom 转移不会改变 totalSupply", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      // 先 mint tokenId=0 的 2 个 NFT（editionId 预计为 0、1）
+      const mintTx = await env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [0n, 2n],
+        account: namedAccounts.deployer,
+        value: 2n,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [0n],
+        }),
+      ).to.equal(2n);
+
+      // 让 NFT 过期（ESafeTransferFrom 在 MintTime 扩展里会检查有效期）
+      const equities = await env.read(TCF_NFT, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const mintBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintTx.blockNumber)),
+      });
+      const nextBlockTime = BigInt(mintBlock.timestamp) + BigInt(indate) + 20n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
+
+      // 转移两个 editionId：0、1
+      await env.execute(TCF_NFT, {
+        functionName: "ESafeTransferFrom",
+        args: [
+          namedAccounts.deployer,
+          namedAccounts.admin1,
+          0n,
+          [0n, 1n],
+          "0x" as `0x${string}`,
+        ],
+        account: namedAccounts.deployer,
+      });
+
+      // totalSupply 不变
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "totalSupply",
+          args: [0n],
+        }),
+      ).to.equal(2n);
+
+      // 余额变化正确
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.equal(0n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.admin1, 0n],
+        }),
+      ).to.equal(2n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "exists",
+          args: [0n],
+        }),
+      ).to.equal(true);
+    });
+  });
+
+  describe("safeTransferFrom(amount): 过期 NFT 按数量转移", function () {
+    async function buyByTC(
+      tokenId: bigint,
+      amount: bigint,
+      buyer: `0x${string}`,
+    ) {
+      const [err, unitPrice] = await env.read(TCF_NFT, {
+        functionName: "getNFTPrice",
+        args: [tokenId, zeroAddress],
+      });
+      expect(err).to.equal("");
+      return env.execute(TCF_NFT, {
+        functionName: "buyNFTByTC",
+        args: [tokenId, amount],
+        account: buyer,
+        value: unitPrice * amount,
+      });
+    }
+
+    it("paused 状态下调用会被阻止", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "pause",
+        args: [],
+        account: namedAccounts.deployer,
+      });
+
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 1n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("Pausable: paused");
+    });
+
+    it("未授权调用者 revert", async function () {
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 1n, "0x"],
+          account: namedAccounts.admin2,
+        }),
+      ).to.be.revertedWith("CALLER_NOT_OWNER_APPROVED");
+    });
+
+    it("to 为 0 地址 revert", async function () {
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, zeroAddress, 0n, 1n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("ZERO_ADDRESS");
+    });
+
+    it("amount=0 revert", async function () {
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 0n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("AMOUNT_ZERO");
+    });
+
+    it("tokenId 超出范围 revert", async function () {
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 6n, 1n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("TOKENID_RANGE");
+    });
+
+    it("NFT 未过期/过期数量不足时 revert NOT_ENOUGH_EXPIRED_NFT", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      await buyByTC(0n, 2n, namedAccounts.deployer);
+
+      // 不推进时间（默认仍在有效期内）
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 1n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("NOT_ENOUGH_EXPIRED_NFT");
+    });
+
+    it("过期后可以按 amount 转移（自动挑选过期 editionIds）", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      const mintTx = await buyByTC(0n, 2n, namedAccounts.deployer);
+
+      const equities = await env.read(TCF_NFT, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const mintBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintTx.blockNumber)),
+      });
+      const nextBlockTime = BigInt(mintBlock.timestamp) + BigInt(indate) + 20n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
+
+      await env.execute(TCF_NFT, {
+        functionName: "safeTransferFrom",
+        args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 2n, "0x"],
+        account: namedAccounts.deployer,
+      });
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.deployer, 0n],
+        }),
+      ).to.equal(0n);
+
+      expect(
+        await env.read(TCF_NFT, {
+          functionName: "balanceOf",
+          args: [namedAccounts.admin1, 0n],
+        }),
+      ).to.equal(2n);
+
+      expect(
+        (
+          await env.read(TCF_NFT, {
+            functionName: "ownerOf",
+            args: [0n, 0n],
+          })
+        ).toLowerCase(),
+      ).to.equal(namedAccounts.admin1);
+
+      expect(
+        (
+          await env.read(TCF_NFT, {
+            functionName: "ownerOf",
+            args: [0n, 1n],
+          })
+        ).toLowerCase(),
+      ).to.equal(namedAccounts.admin1);
+
+      const admin1Ids = await env.read(TCF_NFT, {
+        functionName: "getUserTokenIds",
+        args: [namedAccounts.admin1, 0n],
+      });
+      expect(admin1Ids).to.deep.equal([0n, 1n]);
+    });
+
+    it("获得授权的 operator 可以调用 safeTransferFrom", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      const mintTx = await buyByTC(0n, 1n, namedAccounts.deployer);
+
+      await env.execute(TCF_NFT, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin2, true],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(TCF_NFT, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const mintBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintTx.blockNumber)),
+      });
+      const nextBlockTime = BigInt(mintBlock.timestamp) + BigInt(indate) + 20n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(nextBlockTime));
+
+      await env.execute(TCF_NFT, {
+        functionName: "safeTransferFrom",
+        args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 1n, "0x"],
+        account: namedAccounts.admin2,
+      });
+
+      expect(
+        (
+          await env.read(TCF_NFT, {
+            functionName: "ownerOf",
+            args: [0n, 0n],
+          })
+        ).toLowerCase(),
+      ).to.equal(namedAccounts.admin1);
+    });
+
+    it("部分过期时：amount 超过过期数量会 revert；不超过则可转移", async function () {
+      await env.execute(TCF_NFT, {
+        functionName: "initRoot",
+        args: [namedAccounts.deployer],
+        account: namedAccounts.deployer,
+      });
+
+      const firstMint = await buyByTC(0n, 2n, namedAccounts.deployer);
+
+      const equities = await env.read(TCF_NFT, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const firstBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(firstMint.blockNumber)),
+      });
+      const t0 = BigInt(firstBlock.timestamp);
+
+      // 第二次 mint 在更晚时间 => 后两枚 NFT 不会在 t0+indate+1 时过期
+      const t1 = t0 + BigInt(indate) / 2n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(t1));
+      await buyByTC(0n, 2n, namedAccounts.deployer);
+
+      // t2：只保证第一批(edition 0,1)过期
+      const t2 = t0 + BigInt(indate) + 1n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(t2));
+
+      await expect(
+        env.execute(TCF_NFT, {
+          functionName: "safeTransferFrom",
+          args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 3n, "0x"],
+          account: namedAccounts.deployer,
+        }),
+      ).to.be.revertedWith("NOT_ENOUGH_EXPIRED_NFT");
+
+      await env.execute(TCF_NFT, {
+        functionName: "safeTransferFrom",
+        args: [namedAccounts.deployer, namedAccounts.admin1, 0n, 2n, "0x"],
+        account: namedAccounts.deployer,
+      });
+
+      const deployerIds = await env.read(TCF_NFT, {
+        functionName: "getUserTokenIds",
+        args: [namedAccounts.deployer, 0n],
+      });
+      const sorted = [...deployerIds].sort((a, b) =>
+        a < b ? -1 : a > b ? 1 : 0,
+      );
+      expect(sorted).to.deep.equal([2n, 3n]);
+
+      const admin1Ids = await env.read(TCF_NFT, {
+        functionName: "getUserTokenIds",
+        args: [namedAccounts.admin1, 0n],
+      });
+      expect(admin1Ids).to.deep.equal([0n, 1n]);
+    });
+  });
+
   // 测试使用DCT购买NFT
   describe("buyNFTByDCT, 使用 DCT 购买 NFT", function () {
     it("未初始化提款地址，购买失败", async function () {

@@ -5,6 +5,7 @@ pragma solidity ^0.8.1;
 
 import {BinaryTree} from "./extensions/binaryTree/binaryTree.sol";
 import {TCF_ERC1155} from "./extensions/ERC1155/TCF_ERC1155.sol";
+import {ERC1155Supply} from "./extensions/ERC1155/ERC1155Supply.sol";
 import {
     TCF_ERC1155MintTime
 } from "./extensions/ERC1155/TCF_ERC1155MintTime.sol";
@@ -30,6 +31,7 @@ import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
 contract TCF_NFT is
     IERC1363Receiver,
+    ERC1155Supply,
     TCF_ERC1155URIStorage,
     BinaryTree,
     Pausable
@@ -71,6 +73,17 @@ contract TCF_NFT is
         address indexed previousAddress,
         address indexed newAddress
     );
+
+    function uri(
+        uint256 tokenId
+    )
+        public
+        view
+        override(TCF_ERC1155, TCF_ERC1155URIStorage)
+        returns (string memory)
+    {
+        return TCF_ERC1155URIStorage.uri(tokenId);
+    }
 
     function buyNFTByTC(
         uint256 tokenId,
@@ -181,20 +194,47 @@ contract TCF_NFT is
         address from,
         address to,
         uint256 tokenId,
-        uint256[] calldata indexes,
+        uint256[] memory indexes,
         bytes memory data
     ) public virtual override(TCF_ERC1155) whenNotPaused {
         super.ESafeTransferFrom(from, to, tokenId, indexes, data);
+    }
+
+    // 实现safeTransferFrom函数
+    // safeTransferFrom函数也添加whenNotPaused修饰器
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        uint256 amount,
+        bytes memory data
+    ) public virtual override(TCF_ERC1155) whenNotPaused {
+        require(
+            from == _msgSender() || isApprovedForAll(from, _msgSender()),
+            "CALLER_NOT_OWNER_APPROVED"
+        );
+        require(to != address(0), "ZERO_ADDRESS");
+        require(amount > 0, "AMOUNT_ZERO");
+        require(tokenId < 6, "TOKENID_RANGE");
+        uint256[] memory indexes = _getExpiredTokenIndexes(
+            from,
+            tokenId,
+            amount
+        );
+        if (indexes.length == 0) {
+            revert("NOT_ENOUGH_EXPIRED_NFT");
+        }
+        _safeTransferFrom(from, to, tokenId, indexes, data);
     }
 
     function _safeTransferFrom(
         address from,
         address to,
         uint256 tokenId,
-        uint256[] calldata indexes,
-        bytes memory
+        uint256[] memory indexes,
+        bytes memory data
     ) internal virtual override(TCF_ERC1155MintTime, TCF_ERC1155) {
-        super._safeTransferFrom(from, to, tokenId, indexes, "");
+        super._safeTransferFrom(from, to, tokenId, indexes, data);
     }
 
     function balanceOf(
@@ -211,7 +251,7 @@ contract TCF_NFT is
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal virtual override(TCF_ERC1155) {
+    ) internal virtual override(TCF_ERC1155, ERC1155Supply) {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
@@ -233,3 +273,10 @@ contract TCF_NFT is
         _unpause();
     }
 }
+
+// 0000000000000000000000007741ba614e1a8cd096e0339fbe8d3c21f3bdc26a
+// 000000000000000000000000f6d1c29792ee0e44b1853cf1ae70b0df56febf01
+// 0000000000000000000000000000000000000000000000000000000000000000
+// 0000000000000000000000000000000000000000000000000000000000000001
+// 00000000000000000000000000000000000000000000000000000000000000a0
+// 0000000000000000000000000000000000000000000000000000000000000000

@@ -16,12 +16,17 @@ library AirdropUtils {
 
     function checkTransfer(
         address operator,
-        address to,
+        address rewardToken,
         uint256 value
     ) internal {
-        require(to.code.length != 0, "AirdropUtils: transfer to non-contract");
+        require(
+            rewardToken.code.length != 0,
+            "AirdropUtils: rewardToken non-contract"
+        );
 
-        try IERC20(to).transfer(operator, value) returns (bool success) {
+        try IERC20(rewardToken).transfer(operator, value) returns (
+            bool success
+        ) {
             if (success) {
                 emit AirdropClaimed(msg.sender, value);
             } else {
@@ -42,7 +47,7 @@ library AirdropUtils {
         address account,
         address to,
         uint256 tokenId
-    ) internal returns (uint256[] memory tokenIds) {
+    ) internal view returns (uint256[] memory tokenIds) {
         require(to.code.length != 0, "AirdropUtils: transfer to non-contract");
 
         try TCF_NFT(to).getUserTokenIds(account, tokenId) returns (
@@ -55,6 +60,46 @@ library AirdropUtils {
         } catch (bytes memory reason) {
             if (reason.length == 0) {
                 revert("AirdropUtils: getUserTokenIds failed");
+            } else {
+                assembly {
+                    revert(add(reason, 0x20), mload(reason))
+                }
+            }
+        }
+    }
+
+    function checkTotalSupply(
+        address to,
+        uint256 tokenId
+    ) internal view returns (uint256 totalSupply) {
+        require(to.code.length != 0, "AirdropUtils: transfer to non-contract");
+
+        try TCF_NFT(to).totalSupply(tokenId) returns (uint256 _totalSupply) {
+            totalSupply = _totalSupply;
+            return totalSupply;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert("AirdropUtils: totalSupply failed");
+            } else {
+                assembly {
+                    revert(add(reason, 0x20), mload(reason))
+                }
+            }
+        }
+    }
+
+    // 检查空投合约的erc20代币的余额
+    function checkAirdropBalance(
+        address to,
+        address rewardToken
+    ) internal view returns (uint256) {
+        require(rewardToken.code.length != 0, "AirdropUtils: ");
+
+        try IERC20(rewardToken).balanceOf(to) returns (uint256 balance) {
+            return balance;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert("AirdropUtils: balanceOf failed");
             } else {
                 assembly {
                     revert(add(reason, 0x20), mload(reason))

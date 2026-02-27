@@ -45,7 +45,7 @@ export declare const Artifact_Initializable: {
   "storageLayout": {
     "storage": [
       {
-        "astId": 6461,
+        "astId": 7875,
         "contract": "project/contracts/openzeppelin_l/contracts/proxy/utils/Initializable.sol:Initializable",
         "label": "_initialized",
         "offset": 0,
@@ -53,7 +53,7 @@ export declare const Artifact_Initializable: {
         "type": "t_bool"
       },
       {
-        "astId": 6464,
+        "astId": 7878,
         "contract": "project/contracts/openzeppelin_l/contracts/proxy/utils/Initializable.sol:Initializable",
         "label": "_initializing",
         "offset": 1,

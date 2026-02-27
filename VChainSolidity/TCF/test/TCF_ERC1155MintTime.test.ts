@@ -763,4 +763,189 @@ describe("TCF_ERC1155MintTime 合约测试", function () {
       ).to.equal(namedAccounts.admin2);
     });
   });
+
+  describe("testGetExpiredTokenIndexes: 对 _getExpiredTokenIndexes 进行测试", function () {
+    it("account 为 0 地址时 revert", async function () {
+      await expect(
+        env.read(test_TCF_ERC1155MintTime, {
+          functionName: "testGetExpiredTokenIndexes",
+          args: [zeroAddress, 0n, 1n],
+        }),
+      ).to.be.rejectedWith("ZERO_ADDRESS");
+    });
+
+    it("tokenId 超出范围时 revert", async function () {
+      await expect(
+        env.read(test_TCF_ERC1155MintTime, {
+          functionName: "testGetExpiredTokenIndexes",
+          args: [namedAccounts.deployer, 6n, 1n],
+        }),
+      ).to.be.rejectedWith("TOKENID_RANGE");
+    });
+
+    it("amount=0 时返回空数组", async function () {
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 2n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const indexes = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 0n],
+      });
+      expect(indexes).to.deep.equal([]);
+    });
+
+    it("ownedTokenIds 为空时返回空数组", async function () {
+      const indexes = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 1n],
+      });
+      expect(indexes).to.deep.equal([]);
+    });
+
+    it("在过期边界：timestamp == mintTime + indate 时不算过期；+1 后才算过期", async function () {
+      const mintResult = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 1n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const mintBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintResult.blockNumber)),
+      });
+      const mintTimestamp = BigInt(mintBlock.timestamp);
+
+      const boundary = mintTimestamp + BigInt(indate);
+      await networkHelpers.time.setNextBlockTimestamp(Number(boundary));
+      // 通过一笔无关 tx 确保新区块 timestamp 生效
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin1, true],
+        account: namedAccounts.deployer,
+      });
+
+      const atBoundary = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 1n],
+      });
+      expect(atBoundary).to.deep.equal([]);
+
+      await networkHelpers.time.setNextBlockTimestamp(Number(boundary + 1n));
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin1, false],
+        account: namedAccounts.deployer,
+      });
+
+      const afterBoundary = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 1n],
+      });
+      expect(afterBoundary).to.deep.equal([0n]);
+    });
+
+    it("过期 NFT 数量足够时返回对应 indexes（按 ownedTokenIds 顺序）", async function () {
+      const mintResult = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 3n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+      const mintBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(mintResult.blockNumber)),
+      });
+      const mintTimestamp = BigInt(mintBlock.timestamp);
+
+      const expiredTime = mintTimestamp + BigInt(indate) + 5n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(expiredTime));
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin1, true],
+        account: namedAccounts.deployer,
+      });
+
+      const indexes2 = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 2n],
+      });
+      expect(indexes2).to.deep.equal([0n, 1n]);
+
+      const indexes3 = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 3n],
+      });
+      expect(indexes3).to.deep.equal([0n, 1n, 2n]);
+    });
+
+    it("过期 NFT 数量不足 amount 时返回空数组（即使有部分过期）", async function () {
+      const firstMint = await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 2n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      const equities = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "getNFTEquityDetails",
+        args: [0n],
+      });
+      const indate = equities[1];
+
+      const firstBlock = await env.viem.publicClient.getBlock({
+        blockNumber: BigInt(hexToNumber(firstMint.blockNumber)),
+      });
+      const t0 = BigInt(firstBlock.timestamp);
+
+      // 第二次 mint 在更晚时间，确保“混合”过期/未过期
+      const t1 = t0 + BigInt(indate) / 2n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(t1));
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "testMint",
+        args: [namedAccounts.deployer, 0n, 2n, "0x" as `0x${string}`],
+        account: namedAccounts.deployer,
+      });
+
+      // 设置到：第一批过期、第二批未过期
+      const t2 = t0 + BigInt(indate) + 1n;
+      await networkHelpers.time.setNextBlockTimestamp(Number(t2));
+      await env.execute(test_TCF_ERC1155MintTime, {
+        functionName: "setApprovalForAll",
+        args: [namedAccounts.admin1, true],
+        account: namedAccounts.deployer,
+      });
+
+      // amount=2：足够（应返回 [0,1]）
+      const ok = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 2n],
+      });
+      expect(ok).to.deep.equal([0n, 1n]);
+
+      // amount=3：不足（只过期了2个），必须返回空数组
+      const notEnough = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 3n],
+      });
+      expect(notEnough).to.deep.equal([]);
+
+      // amount 大于持有数量，也必须返回空数组
+      const tooLarge = await env.read(test_TCF_ERC1155MintTime, {
+        functionName: "testGetExpiredTokenIndexes",
+        args: [namedAccounts.deployer, 0n, 100n],
+      });
+      expect(tooLarge).to.deep.equal([]);
+    });
+  });
 });

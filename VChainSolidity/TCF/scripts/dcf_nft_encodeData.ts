@@ -21,7 +21,7 @@ const test_address =
 const decimals = 9;
 const balanceModulo = 1000000000n;
 const dcfAddress =
-  "0xab2ef03f05cb429d8eecd8ead2512465a4c42be6" as `0x${string}`; // Replace with actual DCF contract address
+  "0x36118b12c66c4328c9a5c4b5bd6ebc87d4b442d0" as `0x${string}`; // Replace with actual DCF contract address
 
 // 编码addSupportedToken 函数调用的数据
 function encodeAddSupportedToken_TCF_NFTPrice(
@@ -42,6 +42,17 @@ function encodeGetSupportedTokens_TCF_NFTPrice(index: bigint): string {
     abi: TCF_NFT,
     functionName: "tokenAddress_array",
     args: [index],
+  });
+  console.log(data);
+  return data;
+}
+
+// 编码totalSupply 函数调用的数据
+function encodeTotalSupply_TCF_NFT(tokenId: bigint): string {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "totalSupply",
+    args: [tokenId],
   });
   console.log(data);
   return data;
@@ -168,7 +179,7 @@ function encodeSetBaseURI_TCF_NFTPrice(): string {
 function encodeEuri_TCF_NFTPrice(tokenId: bigint): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
-    functionName: "Euri",
+    functionName: "uri",
     args: [tokenId],
   });
   console.log(data);
@@ -178,7 +189,7 @@ function encodeEuri_TCF_NFTPrice(tokenId: bigint): string {
 function decodeEuri_TCF_NFTPrice(data: `0x${string}`) {
   const decoded = decodeFunctionResult({
     abi: TCF_NFT,
-    functionName: "Euri",
+    functionName: "uri",
     data: data,
   });
   console.log(decoded);
@@ -455,6 +466,21 @@ function encodeTransferOwnership_TCF_NFTPrice(newOwner: `0x${string}`): string {
   return data;
 }
 
+// 编码transfer 函数的数据
+function encodeTransfer_TCF_NFT(
+  from: `0x${string}`,
+  to: `0x${string}`,
+  tokenId: bigint,
+  amount: bigint,
+) {
+  const data = encodeFunctionData({
+    abi: TCF_NFT,
+    functionName: "safeTransferFrom",
+    args: [from, to, tokenId, amount, "0x"],
+  });
+  console.log(data);
+}
+
 // 编码addSupportedToken
 // encodeAddSupportedToken_TCF_NFTPrice(dcfAddress);
 
@@ -462,7 +488,7 @@ function encodeTransferOwnership_TCF_NFTPrice(newOwner: `0x${string}`): string {
 // encodeGetSupportedTokens_TCF_NFTPrice(0n);
 
 // 编码initPrice
-encodeInitPrice_TCF_NFTPrice(dcfAddress);
+// encodeInitPrice_TCF_NFTPrice(dcfAddress);
 
 // 编码getNFTPrice
 // encodeGetNFTPrice_TCF_NFTPrice(1n, zeroAddress);
@@ -494,7 +520,7 @@ encodeInitPrice_TCF_NFTPrice(dcfAddress);
 // encodeSetBaseURI_TCF_NFTPrice();
 
 // 编码Euri
-// encodeEuri_TCF_NFTPrice(0n);
+encodeEuri_TCF_NFTPrice(1n);
 
 // 解码Euri
 // const euri_data = ("0x" +
@@ -577,3 +603,8 @@ encodeInitPrice_TCF_NFTPrice(dcfAddress);
 
 // transferOwnership
 // encodeTransferOwnership_TCF_NFTPrice(addr_3);
+
+// totalSupply
+// encodeTotalSupply_TCF_NFT(0n);
+
+// encodeTransfer_TCF_NFT(owner, addr_3, 0n, 1n);

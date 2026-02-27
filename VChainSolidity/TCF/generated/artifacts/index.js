@@ -3,6 +3,7 @@ export {Artifact_AirdropUtils as AirdropUtils} from './AirdropUtils.js';
 export {Artifact_RewardContract as RewardContract} from './RewardContract.js';
 export {Artifact_batchURIAndId as batchURIAndId} from './batchURIAndId.js';
 export {Artifact_BinaryTree as BinaryTree} from './BinaryTree.js';
+export {Artifact_ERC1155Supply as contracts_extensions_ERC1155_ERC1155Supply_sol_ERC1155Supply} from './contracts/extensions/ERC1155/ERC1155Supply.sol/ERC1155Supply.js';
 export {Artifact_TCF_ERC1155 as TCF_ERC1155} from './TCF_ERC1155.js';
 export {Artifact_TCF_ERC1155MintTime as TCF_ERC1155MintTime} from './TCF_ERC1155MintTime.js';
 export {Artifact_TCF_ERC1155URIStorage as TCF_ERC1155URIStorage} from './TCF_ERC1155URIStorage.js';
@@ -20,7 +21,7 @@ export {Artifact_ReentrancyGuard as ReentrancyGuard} from './ReentrancyGuard.js'
 export {Artifact_ERC1155 as ERC1155} from './ERC1155.js';
 export {Artifact_ERC1155Burnable as ERC1155Burnable} from './ERC1155Burnable.js';
 export {Artifact_ERC1155Pausable as ERC1155Pausable} from './ERC1155Pausable.js';
-export {Artifact_ERC1155Supply as ERC1155Supply} from './ERC1155Supply.js';
+export {Artifact_ERC1155Supply as contracts_openzeppelin_l_contracts_token_ERC1155_extensions_ERC1155Supply_sol_ERC1155Supply} from './contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol/ERC1155Supply.js';
 export {Artifact_ERC1155URIStorage as ERC1155URIStorage} from './ERC1155URIStorage.js';
 export {Artifact_IERC1155MetadataURI as IERC1155MetadataURI} from './IERC1155MetadataURI.js';
 export {Artifact_IERC1155 as IERC1155} from './IERC1155.js';

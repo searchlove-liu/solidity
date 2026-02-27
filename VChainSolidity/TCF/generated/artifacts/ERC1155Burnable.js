@@ -432,7 +432,7 @@ export const Artifact_ERC1155Burnable = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 6461,
+        "astId": 7875,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Burnable.sol:ERC1155Burnable",
         "label": "_initialized",
         "offset": 0,
@@ -440,7 +440,7 @@ export const Artifact_ERC1155Burnable = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 6464,
+        "astId": 7878,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Burnable.sol:ERC1155Burnable",
         "label": "_initializing",
         "offset": 1,
@@ -448,7 +448,7 @@ export const Artifact_ERC1155Burnable = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 6730,
+        "astId": 8144,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Burnable.sol:ERC1155Burnable",
         "label": "_balances",
         "offset": 0,
@@ -456,7 +456,7 @@ export const Artifact_ERC1155Burnable = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))"
       },
       {
-        "astId": 6736,
+        "astId": 8150,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Burnable.sol:ERC1155Burnable",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -464,7 +464,7 @@ export const Artifact_ERC1155Burnable = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 6738,
+        "astId": 8152,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Burnable.sol:ERC1155Burnable",
         "label": "_uri",
         "offset": 0,

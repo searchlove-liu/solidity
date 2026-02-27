@@ -14,7 +14,9 @@ import {Ownable} from "../../openzeppelin_l/contracts/access/Ownable.sol";
  * _Available since v4.6._
  */
 
-//  TODO: 查看Pinata等IPFS存储服务商的使用情况
+// TODO: 查看Pinata等IPFS存储服务商的使用情况
+// TODO: 将Euri函数改为uri函数，符合ERC1155的标准
+// TODO: 设置URI事件
 
 abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, Ownable, utils {
     // using Strings for uint256;
@@ -33,7 +35,9 @@ abstract contract TCF_ERC1155URIStorage is TCF_ERC1155, Ownable, utils {
     //     return _baseURI;
     // }
 
-    function Euri(uint256 tokenId) public view virtual returns (string memory) {
+    function uri(
+        uint256 tokenId
+    ) public view virtual override(TCF_ERC1155) returns (string memory) {
         require(_initializedURIStorage == 1, "BASEURI_NOT_INITIALIZED");
         require(tokenId < 6, "TOKENID_RANGE");
         return _baseURI[tokenId];

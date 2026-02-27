@@ -586,6 +586,48 @@ describe("BinaryTree", function () {
     expect(isLeft).to.equal(true);
   });
 
+  it("getOptimalParent: prefers smaller-side subtree (tie -> left)", async function () {
+    const [deployer, leftChild, llChild, lrchild] = walletClients;
+
+    await tree.write.initRoot([deployer.account.address], {
+      account: deployer.account,
+    });
+
+    // Make root eligible so we can insert children
+    await tree.write.testMint([deployer.account.address, 0, 100, "0x"], {
+      account: deployer.account,
+    });
+
+    // Insert two children under root
+    await tree.write.insert(
+      [deployer.account.address, deployer.account.address, true],
+      { account: leftChild.account },
+    );
+
+    // Make both children eligible, but left subtree smaller => should go left
+    await tree.write.testMint([leftChild.account.address, 0, 1, "0x"], {
+      account: leftChild.account,
+    });
+
+    await tree.write.insert(
+      [leftChild.account.address, leftChild.account.address, true],
+      { account: llChild.account },
+    );
+
+    await tree.write.testMint([llChild.account.address, 0, 1, "0x"], {
+      account: llChild.account,
+    });
+
+    const [p, isLeft] = await tree.read.getOptimalParent(
+      [leftChild.account.address, zeroAddress],
+      { account: lrchild.account },
+    );
+
+    // root has no empty slot -> descend into smaller subtree (leftChild)
+    expect(normAddress(p)).to.equal(normAddress(leftChild.account.address));
+    expect(isLeft).to.equal(false);
+  });
+
   it("getOptimalParent: does not return a full node; continues searching", async function () {
     const [deployer, leftChild, rightChild, l1, l2] = walletClients;
 

@@ -2,7 +2,9 @@
 
 pragma solidity ^0.8.1;
 
-import {TCF_ERC1155MintTime} from "./../extensions/ERC1155/TCF_ERC1155MintTime.sol";
+import {
+    TCF_ERC1155MintTime
+} from "./../extensions/ERC1155/TCF_ERC1155MintTime.sol";
 
 // 对TCF_ERC1155MintTime.sol合约进行测试
 contract test_TCF_ERC1155MintTime is TCF_ERC1155MintTime {
@@ -25,5 +27,14 @@ contract test_TCF_ERC1155MintTime is TCF_ERC1155MintTime {
         bytes memory data
     ) public {
         TCF_ERC1155MintTime._safeTransferFrom(from, to, id, indexes, data);
+    }
+
+    // 测试 getExpiredTokenIndexes
+    function testGetExpiredTokenIndexes(
+        address account,
+        uint256 tokenId,
+        uint256 amount
+    ) public view returns (uint256[] memory) {
+        return _getExpiredTokenIndexes(account, tokenId, amount);
     }
 }

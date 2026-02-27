@@ -56,7 +56,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     //  * actual token type ID.
     //  */
     function uri(uint256) public view virtual override returns (string memory) {
-        revert("USE_Euri");
+        return "";
     }
 
     // owner
@@ -121,15 +121,17 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
 
     /**
      * @dev See {IERC1155-safeTransferFrom}.没有实现
+     * 原erc1155的第四个参数是amount，但是我们这个合约中，每个tokenId对应的NFT是不同的，所以第四个参数改为某类NFT下的某个NFTid号
+     *
      */
     function safeTransferFrom(
-        address,
-        address,
-        uint256,
-        uint256,
-        bytes memory
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
     ) public virtual override {
-        revert("USE_ESafeTransferFrom");
+        // revert("USE_ESafeTransferFrom");
     }
 
     /**
@@ -140,7 +142,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         address from,
         address to,
         uint256 id,
-        uint256[] calldata indexes,
+        uint256[] memory indexes,
         bytes memory data
     ) public virtual {
         require(
@@ -179,7 +181,7 @@ contract TCF_ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         address from,
         address to,
         uint256 tokenId,
-        uint256[] calldata indexes,
+        uint256[] memory indexes,
         bytes memory data
     ) internal virtual {
         require(to != address(0), "ZERO_ADDRESS");

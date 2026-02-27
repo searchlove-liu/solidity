@@ -370,24 +370,6 @@
   },
   {
     "type": "function",
-    "name": "Euri",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "tokenId"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "NFTPrice_initialized",
     "constant": true,
     "stateMutability": "view",
@@ -548,6 +530,24 @@
     "outputs": [
       {
         "type": "string"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "exists",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "id"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool"
       }
     ]
   },
@@ -1024,19 +1024,24 @@
     "payable": false,
     "inputs": [
       {
-        "type": "address"
+        "type": "address",
+        "name": "from"
       },
       {
-        "type": "address"
+        "type": "address",
+        "name": "to"
       },
       {
-        "type": "uint256"
+        "type": "uint256",
+        "name": "tokenId"
       },
       {
-        "type": "uint256"
+        "type": "uint256",
+        "name": "amount"
       },
       {
-        "type": "bytes"
+        "type": "bytes",
+        "name": "data"
       }
     ],
     "outputs": []
@@ -1152,6 +1157,24 @@
   },
   {
     "type": "function",
+    "name": "totalSupply",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "id"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "totalTreeWorth",
     "constant": true,
     "stateMutability": "view",
@@ -1192,7 +1215,8 @@
     "payable": false,
     "inputs": [
       {
-        "type": "uint256"
+        "type": "uint256",
+        "name": "tokenId"
       }
     ],
     "outputs": [

@@ -40,12 +40,41 @@ contract TCF_ERC1155MintTime is TCF_NFTPrice {
         return _ownedTokenIds[account][tokenId];
     }
 
+    // 在某个地址下，在tokenId中，查找amount个过期的NFT，返回indexes数组
+    function _getExpiredTokenIndexes(
+        address account,
+        uint256 tokenId,
+        uint256 amount
+    ) internal view returns (uint256[] memory) {
+        require(account != address(0), "ZERO_ADDRESS");
+        require(tokenId < 6, "TOKENID_RANGE");
+        uint256[] memory indexes = new uint256[](amount);
+        uint256 index = 0;
+        uint256[] memory ownedTokenIds = _ownedTokenIds[account][tokenId];
+        (, uint56 indate) = getNFTEquityDetails(tokenId);
+        for (uint256 i = 0; i < ownedTokenIds.length; i++) {
+            if (
+                block.timestamp > _mintTimes[tokenId][ownedTokenIds[i]] + indate
+            ) {
+                indexes[index++] = ownedTokenIds[i];
+                if (index == amount) break;
+            }
+        }
+        // 如果没有足够的过期NFT，返回空数组
+        if (index < amount) {
+            assembly {
+                mstore(indexes, 0)
+            }
+        }
+        return indexes;
+    }
+
     // 覆写_safeTransferFrom函数，添加对mintTimes的处理
     function _safeTransferFrom(
         address from,
         address to,
         uint256 tokenId,
-        uint256[] calldata indexes,
+        uint256[] memory indexes,
         bytes memory data
     ) internal virtual override(TCF_ERC1155) {
         // 防止后面代码发生错误，被revert不可预期的错误

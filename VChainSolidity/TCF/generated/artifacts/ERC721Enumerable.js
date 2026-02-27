@@ -490,7 +490,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 6461,
+        "astId": 7875,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_initialized",
         "offset": 0,
@@ -498,7 +498,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 6464,
+        "astId": 7878,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_initializing",
         "offset": 1,
@@ -506,7 +506,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 9930,
+        "astId": 11351,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_name",
         "offset": 0,
@@ -514,7 +514,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_string_storage"
       },
       {
-        "astId": 9932,
+        "astId": 11353,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_symbol",
         "offset": 0,
@@ -522,7 +522,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_string_storage"
       },
       {
-        "astId": 9936,
+        "astId": 11357,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_owners",
         "offset": 0,
@@ -530,7 +530,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 9940,
+        "astId": 11361,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_balances",
         "offset": 0,
@@ -538,7 +538,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 9944,
+        "astId": 11365,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_tokenApprovals",
         "offset": 0,
@@ -546,7 +546,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_address)"
       },
       {
-        "astId": 9950,
+        "astId": 11371,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -554,7 +554,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 10986,
+        "astId": 12407,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_ownedTokens",
         "offset": 0,
@@ -562,7 +562,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))"
       },
       {
-        "astId": 10990,
+        "astId": 12411,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_ownedTokensIndex",
         "offset": 0,
@@ -570,7 +570,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_uint256)"
       },
       {
-        "astId": 10993,
+        "astId": 12414,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_allTokens",
         "offset": 0,
@@ -578,7 +578,7 @@ export const Artifact_ERC721Enumerable = /** @type {const} **/ ({
         "type": "t_array(t_uint256)dyn_storage"
       },
       {
-        "astId": 10997,
+        "astId": 12418,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC721/extensions/ERC721Enumerable.sol:ERC721Enumerable",
         "label": "_allTokensIndex",
         "offset": 0,
