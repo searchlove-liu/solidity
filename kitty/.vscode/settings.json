@@ -1,0 +1,9 @@
+{
+    // Use a 0.4.x compiler for editor diagnostics because most CryptoKitties sources are `pragma solidity ^0.4.11;`.
+    // Hardhat can compile with multiple versions; many editor extensions can only validate with one at a time.
+    "solidity.defaultCompiler": "remote",
+    "solidity.compileUsingRemoteVersion": "v0.4.26+commit.4563c3fc",
+    // Keep node_modules import resolution working for common Solidity tooling.
+    "solidity.packageDefaultDependenciesDirectory": "node_modules",
+    "solidity.packageDefaultDependenciesContractsDirectory": ""
+}
