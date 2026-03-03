@@ -217,6 +217,7 @@ contract KittyBase is KittyAccessControl {
 
     // Any C-level can fix how many seconds per blocks are currently observed.
     function setSecondsPerBlock(uint256 secs) external onlyCLevel {
+        // 使用秒来比较大小
         require(secs < cooldowns[0]);
         secondsPerBlock = secs;
     }

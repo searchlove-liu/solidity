@@ -210,6 +210,9 @@ contract KittyOwnership is KittyBase, ERC721 {
     /// @dev Adapted from memcpy() by @arachnid (Nick Johnson <arachnid@notdot.net>)
     ///  This method is licenced under the Apache License.
     ///  Ref: https://github.com/Arachnid/solidity-stringutils/blob/2f6ca9accb48ae14c66f1437ec50ed19a0616f78/strings.sol
+    /// @param _dest The destination to copy to.是地址
+    /// @param _src The source to copy from.是地址
+    /// @param _len The number of bytes to copy.是长度
     function _memcpy(uint _dest, uint _src, uint _len) private view {
         // Copy word-length chunks while possible
         for (; _len >= 32; _len -= 32) {
@@ -221,6 +224,7 @@ contract KittyOwnership is KittyBase, ERC721 {
         }
 
         // Copy remaining bytes
+        // 256代表一个字节，_len是剩余字节数
         uint256 mask = 256 ** (32 - _len) - 1;
         assembly {
             let srcpart := and(mload(_src), not(mask))
@@ -236,6 +240,7 @@ contract KittyOwnership is KittyBase, ERC721 {
         bytes32[4] _rawBytes,
         uint256 _stringLength
     ) private view returns (string) {
+        // 新建一个字节长度为_stringLength的字符串
         var outputString = new string(_stringLength);
         uint256 outputPtr;
         uint256 bytesPtr;

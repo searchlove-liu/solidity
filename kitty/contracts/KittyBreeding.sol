@@ -76,7 +76,6 @@ contract KittyBreeding is KittyOwnership {
         _kitten.cooldownEndBlock = uint64(
             (cooldowns[_kitten.cooldownIndex] / secondsPerBlock) + block.number
         );
-
         // Increment the breeding count, clamping it at 13, which is the length of the
         // cooldowns array. We could check the array size dynamically, but hard-coding
         // this as a constant saves gas. Yay, Solidity!
@@ -106,6 +105,7 @@ contract KittyBreeding is KittyOwnership {
 
     /// @dev Checks to see if a given Kitty is pregnant and (if so) if the gestation
     ///  period has passed.
+    // 表示这只猫怀孕了，并且怀孕时间已经过了，可以生小猫了
     function _isReadyToGiveBirth(Kitty _matron) private view returns (bool) {
         return
             (_matron.siringWithId != 0) &&
