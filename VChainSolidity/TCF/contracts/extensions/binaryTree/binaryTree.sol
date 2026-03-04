@@ -13,6 +13,7 @@ import {TCF_ERC1155MintTime} from "./../ERC1155/TCF_ERC1155MintTime.sol";
 
 // todo:只有节点购买NFT时，才会把节点放到二叉树，防止用户不断推荐新节点，导致树过大，遍历消耗gas过高。
 // 当前只有购买NFT的节点才可以作为父节点，其实也实现了树过大的问题
+// todo：在插入节点时，从storage中读取父节点信息，保存称memory变量，减少后续函数调用时的storage读取，节省gas
 
 contract BinaryTree is TCF_ERC1155MintTime {
     struct Node {
@@ -20,6 +21,8 @@ contract BinaryTree is TCF_ERC1155MintTime {
         address left;
         address right;
         address recommender;
+        // 每个节点只接受一次最优父节点的推荐，记录是否已经接受过最优父节点的推荐，如果已经接受过，那么后续即使有更优的父节点出现，也不再接受推荐了
+        bool isOptimalRecommended;
         bool exists;
     }
 
@@ -35,6 +38,7 @@ contract BinaryTree is TCF_ERC1155MintTime {
         address indexed node,
         address indexed parent,
         address indexed recommender,
+        bool isOptimalRecommended,
         bool isLeft
     );
     // ------------------------- Root Init (Requirement #5) -------------------------
@@ -62,15 +66,22 @@ contract BinaryTree is TCF_ERC1155MintTime {
     // ------------------------- Insert (Requirement #2/#3/#4) -------------------------
     /// @notice 插入节点
     /// @dev 约束：
-    ///  - parent 必须已存在。
+    ///  - parent 必须已存在。如果父节点已经接受过一次最优推荐了，就不能再接受推荐了，无法插入（防止某个节点什么也没做，也可以获取奖励，奖励获取方会死，查看白皮书文档）。
+    /// （可以将限制修改为：如果推荐人是父节点，那么这个限制将不起作用。现在不改，这是用户的要求。）
     ///  - recommender 必须已存在。
     ///  - 若 recommender 推荐该 node，则 parent 必须在 recommender 的子树内（含 recommender 本人）。
     /// @param parent 父节点地址
     /// @param recommender 推荐人地址（必须是当前树中的某个地址）
+    /// @param isOptimalRecommended 是否采用最优推荐
     /// @param isLeft true=插入为 parent.left；false=插入为 parent.right。
     ///  如果isLeft未true，优先放在父节点的左子树下，如果左子树下有节点，则放在右子树下；反之亦然。
-    ///  我什么存在：因为如果使用推荐节点，推荐函数将返回一个父节点和isLeft参数，这样插入函数就可以直接使用。
-    function insert(address parent, address recommender, bool isLeft) external {
+    ///  我什么存在：因为如果使用推荐节点，推荐函数将返回一个父节点和isLeft参数，这样插入函数就可以直接使用。、
+    function insert(
+        address parent,
+        address recommender,
+        bool isLeft,
+        bool isOptimalRecommended
+    ) external {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         require(
             parent != address(0) && recommender != address(0),
@@ -89,6 +100,26 @@ contract BinaryTree is TCF_ERC1155MintTime {
             if (tokenId == 5) {
                 revert("PARENT_HAS_NO_NFT");
             }
+        }
+        // 检查是否采用最优推荐，如果是，那么需要检查父节点是否等于最优推荐的父节点，如果不等于，那么就说明父节点不是最优推荐的父节点，无法插入。
+        if (isOptimalRecommended) {
+            // 检查父节点是否接受过最优推荐，如果已经接受过最优推荐了，那么就不能再接受推荐了，无法插入。
+            require(
+                !_nodes[parent].isOptimalRecommended,
+                "PARENT_ALREADY_OPTIMAL_RECOMMENDED"
+            );
+            // 检查父节点是否等于最优推荐的父节点，如果不等于说明传入的参数是错误的
+            // 注释的原因：节点A和B在某个时刻都使用最优推荐（自动滑落），结果A先执行，B执行检测时，得到的最优推荐节点和原节点不一样了，导致无法插入
+            // 再次打开注释的原因：即使注释了这个检查，也无法解决A和B同时使用最优推荐导致的冲突问题
+            // TODO:这里可以增加快速检测某个节点是否为最优父节点的函数。但不是调用getOptimalParent函数，因为getOptimalParent函数本身就是一个遍历函数，可能会消耗较多gas。可以设计一个mapping，记录每个节点的最优父节点和最优父节点的isLeft参数，这样在插入时就可以快速检查传入的父节点和isLeft参数是否与记录的最优父节点和isLeft参数一致了。
+
+            (address optimalParent, bool optimalIsLeft) = getOptimalParent(
+                recommender,
+                address(0)
+            );
+            // 如果前端报这个错误，最可能得原因是：A和B同时使用最优推荐，结果A先执行了，B执行检测时，得到的最优推荐节点和原节点不一样了，导致无法插入。
+            require(optimalParent == parent, "NOT_OPTIMAL_RECOMMENDER");
+            require(optimalIsLeft == isLeft, "NOT_OPTIMAL_RECOMMENDER");
         }
 
         // Requirement #4: B 必须在以 A(recommender) 为根的子树之下
@@ -129,8 +160,18 @@ contract BinaryTree is TCF_ERC1155MintTime {
         n.left = address(0);
         n.right = address(0);
         n.recommender = recommender;
+        // 父节点接受了最优推荐，记录下来，后续即使有更优的父节点出现，也不再接受推荐了
+        if (isOptimalRecommended) {
+            _nodes[parent].isOptimalRecommended = isOptimalRecommended;
+        }
 
-        emit NodeInserted(node, parent, recommender, isLeft);
+        emit NodeInserted(
+            node,
+            parent,
+            recommender,
+            isOptimalRecommended,
+            isLeft
+        );
     }
 
     /// @dev 从 child 往上走 parent 指针，判断是否能走到 ancestor（或本身）
@@ -195,7 +236,7 @@ contract BinaryTree is TCF_ERC1155MintTime {
     function getOptimalParent(
         address recommender,
         address excludeNode
-    ) external view returns (address parent, bool isLeftBranch) {
+    ) public view returns (address parent, bool isLeftBranch) {
         require(rootInitialized, "ROOT_NOT_INITIALIZED");
         require(_nodes[recommender].exists, "RECOMMENDER_NOT_EXIST");
 
@@ -236,12 +277,38 @@ contract BinaryTree is TCF_ERC1155MintTime {
         address start,
         address excludeNode
     ) private view returns (address parent, bool isLeftBranch, bool found) {
-        if (start == address(0) || start == excludeNode) {
+        if (start == address(0)) {
             return (address(0), false, false);
         }
 
         Node storage n = _nodes[start];
         if (!n.exists) return (address(0), false, false);
+
+        // Skip excludeNode itself, but still traverse its subtree.
+        // 如果当前节点已经接受过一次最优推荐了，就直接跳过这个节点,查找他的子节点
+        if (start == excludeNode || _nodes[start].isOptimalRecommended) {
+            uint256 leftSum_ = n.left == address(0) ? 0 : _subtreeSum(n.left);
+            uint256 rightSum_ = n.right == address(0)
+                ? 0
+                : _subtreeSum(n.right);
+            bool firstIsLeft_ = leftSum_ <= rightSum_;
+
+            address firstChild_ = firstIsLeft_ ? n.left : n.right;
+            if (firstChild_ != address(0)) {
+                (parent, isLeftBranch, found) = _findRecommendedParent(
+                    firstChild_,
+                    excludeNode
+                );
+                if (found) return (parent, isLeftBranch, true);
+            }
+
+            address secondChild_ = firstIsLeft_ ? n.right : n.left;
+            if (secondChild_ != address(0)) {
+                return _findRecommendedParent(secondChild_, excludeNode);
+            }
+
+            return (address(0), false, false);
+        }
 
         uint256 leftSum = n.left == address(0) ? 0 : _subtreeSum(n.left);
         uint256 rightSum = n.right == address(0) ? 0 : _subtreeSum(n.right);

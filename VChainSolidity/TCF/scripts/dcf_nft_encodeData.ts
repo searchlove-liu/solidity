@@ -6,7 +6,7 @@ const { viem } = await network.connect({
 import { encodeFunctionData, decodeFunctionResult, zeroAddress } from "viem";
 const TCF_NFT = (await artifacts.readArtifact("TCF_NFT")).abi;
 // import { TCF_NFT } from "./abi/TCF_NFT.ts";
-import { getPrices } from "../test/price.ts";
+import { getPrices, getVoidChainPrices } from "../test/price.ts";
 import { baseURI } from "../test/baseURI.ts";
 
 const staticAddress =
@@ -21,7 +21,7 @@ const test_address =
 const decimals = 9;
 const balanceModulo = 1000000000n;
 const dcfAddress =
-  "0x36118b12c66c4328c9a5c4b5bd6ebc87d4b442d0" as `0x${string}`; // Replace with actual DCF contract address
+  "0x379fe26d48968f122a84d441022d95db1d83a112" as `0x${string}`; // Replace with actual DCF contract address
 
 // 编码addSupportedToken 函数调用的数据
 function encodeAddSupportedToken_TCF_NFTPrice(
@@ -63,7 +63,7 @@ function encodeInitPrice_TCF_NFTPrice(tokenAddress: `0x${string}`): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "initPrice",
-    args: [getPrices(tokenAddress)],
+    args: [getVoidChainPrices(tokenAddress)],
   });
   console.log(data);
   return data;
@@ -211,11 +211,12 @@ function encodeInsert_TCF_NFTPrice(
   parent: `0x${string}`,
   recommender: `0x${string}`,
   isLeft: boolean,
+  isOptimalRecommended: boolean,
 ): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "insert",
-    args: [parent, recommender, isLeft],
+    args: [parent, recommender, isLeft, isOptimalRecommended],
   });
   console.log(data);
   return data;
@@ -235,11 +236,15 @@ function encodeSetWithdrawAddress_TCF_NFTPrice(
 }
 
 // 编码buyNFTByTC函数调用的数据
-function encodeBuyNFTByTC_TCF_NFTPrice(id: bigint, buyAmount: bigint): string {
+function encodeBuyNFTByTC_TCF_NFTPrice(
+  id: bigint,
+  buyAmount: bigint,
+  value: bigint,
+): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "buyNFTByTC",
-    args: [id, buyAmount],
+    args: [id, buyAmount, value],
   });
   console.log(data);
   return data;
@@ -488,7 +493,7 @@ function encodeTransfer_TCF_NFT(
 // encodeGetSupportedTokens_TCF_NFTPrice(0n);
 
 // 编码initPrice
-// encodeInitPrice_TCF_NFTPrice(dcfAddress);
+encodeInitPrice_TCF_NFTPrice(dcfAddress);
 
 // 编码getNFTPrice
 // encodeGetNFTPrice_TCF_NFTPrice(1n, zeroAddress);
@@ -520,7 +525,7 @@ function encodeTransfer_TCF_NFT(
 // encodeSetBaseURI_TCF_NFTPrice();
 
 // 编码Euri
-encodeEuri_TCF_NFTPrice(1n);
+// encodeEuri_TCF_NFTPrice(1n);
 
 // 解码Euri
 // const euri_data = ("0x" +
@@ -531,14 +536,13 @@ encodeEuri_TCF_NFTPrice(1n);
 // encodeInitRoot_TCF_NFTPrice(owner);
 
 // 编码insert
-// encodeInsert_TCF_NFTPrice(owner, owner, true);
-// encodeInsert_TCF_NFTPrice(addr_7, owner, owner, false);
+// encodeInsert_TCF_NFTPrice(owner, owner, true, false);
 
 // 编码setWithdrawAddress
 // encodeSetWithdrawAddress_TCF_NFTPrice(owner);
 
 // 编码buyNFTByTC
-// encodeBuyNFTByTC_TCF_NFTPrice(0n, 1n);
+// encodeBuyNFTByTC_TCF_NFTPrice(0n, 1n, 1000000000n);
 
 // 编码isExist
 // encodeIsExist_TCF_NFTPrice(owner);

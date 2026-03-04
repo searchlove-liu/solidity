@@ -384,7 +384,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 7875,
+        "astId": 8027,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_initialized",
         "offset": 0,
@@ -392,7 +392,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 7878,
+        "astId": 8030,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_initializing",
         "offset": 1,
@@ -400,7 +400,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 8144,
+        "astId": 8296,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_balances",
         "offset": 0,
@@ -408,7 +408,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))"
       },
       {
-        "astId": 8150,
+        "astId": 8302,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -416,7 +416,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 8152,
+        "astId": 8304,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_uri",
         "offset": 0,
@@ -424,7 +424,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_string_storage"
       },
       {
-        "astId": 9801,
+        "astId": 9953,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_baseURI",
         "offset": 0,
@@ -432,7 +432,7 @@ export const Artifact_ERC1155URIStorage = /** @type {const} **/ ({
         "type": "t_string_storage"
       },
       {
-        "astId": 9805,
+        "astId": 9957,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol:ERC1155URIStorage",
         "label": "_tokenURIs",
         "offset": 0,

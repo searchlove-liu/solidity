@@ -14,15 +14,17 @@ import {vault} from "./extensions/vault/vault.sol";
 import {Pausable} from "./openzeppelin_l/contracts/security/Pausable.sol";
 
 // TODO: 更新了每天发送1000.但没有部署。年后进行部署
+// todo：测试提款事件
 
 contract TCF is Initializable, ERC1363, Ownable, Pausable {
     // 事件：记录接收和提取
-    // event TokensWithdrawn(
-    //     address indexed token,
-    //     address indexed from,
-    //     address indexed to,
-    //     uint256 amount
-    // );
+    event TokensWithdrawn(
+        address indexed from,
+        address indexed to,
+        uint256 awardAmount,
+        address indexed serviceChargeReceiver,
+        uint256 serviceChargeAmount
+    );
 
     event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
@@ -110,19 +112,31 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
 
     // 提取静态合约和动态合约中的代币，通过调用transferFrom函数
     // 提取静态合约和动态合约中的代币
-    // function withdrawFromStaticVault(
-    //     address to,
-    //     uint256 staticAmount
-    // ) external onlyOwner whenNotPaused {
-    //     require(staticAmount > 0, "TCF: Amount must be greater than 0");
-    //     transferFrom(address(staticVault), to, staticAmount);
-    //     emit TokensWithdrawn(
-    //         address(this),
-    //         address(staticVault),
-    //         to,
-    //         staticAmount
-    //     );
-    // }
+    // 增加手续费和手续费接收者
+    // awardAmount:是用户实际收到的奖励数量，serviceChargeAmount是用户需要支付的手续费数量，serviceChargeReceiver是手续费的接收地址
+    function withdrawAward(
+        address from,
+        address to,
+        uint256 awardAmount,
+        address serviceChargeReceiver,
+        uint256 serviceChargeAmount
+    ) external onlyOwner whenNotPaused {
+        require(awardAmount > 0, "TCF: Award amount must be greater than 0");
+        // 手续费接收地址不能为0地址
+        require(
+            serviceChargeReceiver != address(0),
+            "TCF: Service charge receiver cannot be the zero address"
+        );
+        transferFrom(from, serviceChargeReceiver, serviceChargeAmount);
+        transferFrom(from, to, awardAmount);
+        emit TokensWithdrawn(
+            from,
+            to,
+            awardAmount,
+            serviceChargeReceiver,
+            serviceChargeAmount
+        );
+    }
 
     // // 提取动态合约中的代币
     // function withdrawFromDynamicVault(

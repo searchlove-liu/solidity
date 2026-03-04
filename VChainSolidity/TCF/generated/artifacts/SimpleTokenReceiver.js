@@ -3753,7 +3753,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 15791,
+        "astId": 15943,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "deposited",
         "offset": 0,
@@ -3761,7 +3761,7 @@ export const Artifact_SimpleTokenReceiver = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 15793,
+        "astId": 15945,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "tokenAddress",
         "offset": 0,

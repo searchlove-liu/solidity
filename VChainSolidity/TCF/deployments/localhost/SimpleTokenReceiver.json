@@ -167,7 +167,7 @@
   "storageLayout": {
     "storage": [
       {
-        "astId": 14370,
+        "astId": 15943,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "deposited",
         "offset": 0,
@@ -175,7 +175,7 @@
         "type": "t_mapping(t_address,t_uint256)"
       },
       {
-        "astId": 14372,
+        "astId": 15945,
         "contract": "project/contracts/test/SimpleTokenReceiver.sol:SimpleTokenReceiver",
         "label": "tokenAddress",
         "offset": 0,
@@ -210,12 +210,12 @@
   },
   "argsData": "0x",
   "transaction": {
-    "hash": "0x6a03e132ef091210791f8d3a4da1a481ee62a30653f719f843a878681611030b",
+    "hash": "0x17ea9ae736ece05496e2e2553c1463fa3ebe228118f1be063df0aee4e0a8c7bd",
     "nonce": "0x8",
     "origin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
   },
   "receipt": {
-    "blockHash": "0x68bba117dc1bcb156840267d748f9082e5d6835f41170e681b35da1d920d55bc",
+    "blockHash": "0xd9b143ccd17ccaa4a79562263072d559bb5aaec9d96aa461972f50611359cc20",
     "blockNumber": "0x9",
     "transactionIndex": "0x0"
   }

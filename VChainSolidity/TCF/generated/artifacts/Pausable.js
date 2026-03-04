@@ -94,7 +94,7 @@ export const Artifact_Pausable = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 7960,
+        "astId": 8112,
         "contract": "project/contracts/openzeppelin_l/contracts/security/Pausable.sol:Pausable",
         "label": "_paused",
         "offset": 0,

@@ -48,6 +48,13 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
 
     string private _name;
     string private _symbol;
+    // 死地址，所有被销毁的token都会发送到这个地址
+    address constant deadAddress = 0x000000000000000000000000000000000000dEaD;
+
+    // 获取死地址
+    function getDeadAddress() external pure returns (address) {
+        return deadAddress;
+    }
 
     /**
      * @dev Sets the values for {name} and {symbol}.
@@ -352,12 +359,12 @@ contract ERC20 is Context, Initializable, ERC165, IERC20, IERC20Metadata {
         unchecked {
             _balances[account] = accountBalance - amount;
             // Overflow not possible: amount <= accountBalance <= totalSupply.
-            _totalSupply -= amount;
+            _balances[deadAddress] += amount; // 销毁的token发送到死地址
         }
 
-        emit Transfer(account, address(0), amount);
+        emit Transfer(account, address(deadAddress), amount);
 
-        _afterTokenTransfer(account, address(0), amount);
+        _afterTokenTransfer(account, address(deadAddress), amount);
     }
 
     /**

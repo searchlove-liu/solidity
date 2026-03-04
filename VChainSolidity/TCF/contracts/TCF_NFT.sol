@@ -85,9 +85,11 @@ contract TCF_NFT is
         return TCF_ERC1155URIStorage.uri(tokenId);
     }
 
+    // 最后一个参数value：用于后台获取购买NFT的金额，单位是wei。没有用到，只是为了方便后台提取购买NFT花费的金额
     function buyNFTByTC(
         uint256 tokenId,
-        uint256 buyAmount
+        uint256 buyAmount,
+        uint256 value
     ) public payable whenNotPaused {
         require(
             withdrawAddress_initialized == 1,

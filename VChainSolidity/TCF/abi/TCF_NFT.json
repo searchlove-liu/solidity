@@ -151,6 +151,11 @@
       },
       {
         "type": "bool",
+        "name": "isOptimalRecommended",
+        "indexed": false
+      },
+      {
+        "type": "bool",
         "name": "isLeft",
         "indexed": false
       }
@@ -463,6 +468,10 @@
       {
         "type": "uint256",
         "name": "buyAmount"
+      },
+      {
+        "type": "uint256",
+        "name": "value"
       }
     ],
     "outputs": []
@@ -813,6 +822,10 @@
       {
         "type": "bool",
         "name": "isLeft"
+      },
+      {
+        "type": "bool",
+        "name": "isOptimalRecommended"
       }
     ],
     "outputs": []

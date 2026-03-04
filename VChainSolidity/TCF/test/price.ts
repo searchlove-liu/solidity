@@ -83,24 +83,6 @@ export function getPrices(supportedToken: `0x${string}`) {
   return sixNFTPrices;
 }
 
-export function getTCPrices() {
-  const NFT1prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 1n }];
-  const NFT2prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 2n }];
-  const NFT3prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 3n }];
-  const NFT4prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 4n }];
-  const NFT5prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 5n }];
-  const NFT6prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 6n }];
-
-  return [
-    NFT1prices,
-    NFT2prices,
-    NFT3prices,
-    NFT4prices,
-    NFT5prices,
-    NFT6prices,
-  ];
-}
-
 export function getVoidChainPrices(supportedToken: `0x${string}`) {
   const NFT1prices: [PriceType, PriceType] = [
     { tokenAddress: zeroAddress, amount: 1000000000n },
@@ -136,4 +118,22 @@ export function getVoidChainPrices(supportedToken: `0x${string}`) {
     NFT6prices,
   ];
   return sixNFTPrices;
+}
+
+export function getTCPrices() {
+  const NFT1prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 1n }];
+  const NFT2prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 2n }];
+  const NFT3prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 3n }];
+  const NFT4prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 4n }];
+  const NFT5prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 5n }];
+  const NFT6prices: PriceType[] = [{ tokenAddress: zeroAddress, amount: 6n }];
+
+  return [
+    NFT1prices,
+    NFT2prices,
+    NFT3prices,
+    NFT4prices,
+    NFT5prices,
+    NFT6prices,
+  ];
 }

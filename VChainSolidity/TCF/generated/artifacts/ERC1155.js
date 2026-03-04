@@ -11651,7 +11651,7 @@ export const Artifact_ERC1155 = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 7875,
+        "astId": 8027,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/ERC1155.sol:ERC1155",
         "label": "_initialized",
         "offset": 0,
@@ -11659,7 +11659,7 @@ export const Artifact_ERC1155 = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 7878,
+        "astId": 8030,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/ERC1155.sol:ERC1155",
         "label": "_initializing",
         "offset": 1,
@@ -11667,7 +11667,7 @@ export const Artifact_ERC1155 = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 8144,
+        "astId": 8296,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/ERC1155.sol:ERC1155",
         "label": "_balances",
         "offset": 0,
@@ -11675,7 +11675,7 @@ export const Artifact_ERC1155 = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))"
       },
       {
-        "astId": 8150,
+        "astId": 8302,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/ERC1155.sol:ERC1155",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -11683,7 +11683,7 @@ export const Artifact_ERC1155 = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 8152,
+        "astId": 8304,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/ERC1155.sol:ERC1155",
         "label": "_uri",
         "offset": 0,

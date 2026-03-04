@@ -70,6 +70,38 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "TokensWithdrawn",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "from",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "to",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "awardAmount",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "serviceChargeReceiver",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "serviceChargeAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Transfer",
     "inputs": [
       {
@@ -265,6 +297,19 @@
     "outputs": [
       {
         "type": "bool"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getDeadAddress",
+    "constant": true,
+    "stateMutability": "pure",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address"
       }
     ]
   },
@@ -606,6 +651,35 @@
     "constant": false,
     "payable": false,
     "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "withdrawAward",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "from"
+      },
+      {
+        "type": "address",
+        "name": "to"
+      },
+      {
+        "type": "uint256",
+        "name": "awardAmount"
+      },
+      {
+        "type": "address",
+        "name": "serviceChargeReceiver"
+      },
+      {
+        "type": "uint256",
+        "name": "serviceChargeAmount"
+      }
+    ],
     "outputs": []
   }
 ]

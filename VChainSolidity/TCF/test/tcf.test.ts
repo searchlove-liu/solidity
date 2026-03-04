@@ -577,6 +577,13 @@ describe("buyNFTByDCF", function () {
       account: namedAccounts.deployer,
     });
 
+    // withdraw some tokens to buyer (deployer)
+    await env.execute(TCF1, {
+      functionName: "transferFrom",
+      args: [vault.address, namedAccounts.deployer, 10_000_000_000n],
+      account: namedAccounts.deployer,
+    });
+
     // 初始化DCF_NFT合约
     await env.execute(TCF_NFT, {
       functionName: "addSupportedToken",
@@ -626,7 +633,7 @@ describe("buyNFTByDCF", function () {
 
     await env.execute(TCF_NFT, {
       functionName: "insert",
-      args: [namedAccounts.deployer, namedAccounts.deployer, true],
+      args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
       account: namedAccounts.admin1,
     });
 
@@ -681,14 +688,234 @@ describe("buyNFTByDCF", function () {
   });
 
   it("revert: buyer has insufficient balance", async function () {
+    // 将deployer账户的余额转移到admin1，确保deployer账户没有足够的余额购买NFT
+    await env.execute(TCF1, {
+      functionName: "transfer",
+      args: [namedAccounts.admin1, 10_000_000_000n],
+      account: namedAccounts.deployer,
+    });
+
     // deployer has 0 balance after initialize (tokens are minted to contract/admin accounts)
     await expect(
       env.execute(TCF1, {
         functionName: "buyNFTByDCF",
-        args: [TCF_NFT.address, 1n, 1n, 1n],
+        args: [TCF_NFT.address, 1n, 1n, 2n],
         account: namedAccounts.deployer,
       }),
     ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
+  });
+
+  // 测试totalSupply是否等于5_200_000n * 1_000_000_000n
+  it("tcf: test contract balance", async function () {
+    const totalSupply = await env.read(TCF1, {
+      functionName: "totalSupply",
+    });
+    expect(totalSupply).to.equal(5_200_000n * 1_000_000_000n);
+  });
+
+  // 测试通过DCF购买NFT之后，totalSupply是否仍然等于5_200_000n * 1_000_000_000n
+  it("tcf: test contract balance after purchase", async function () {
+    // deployer has 0 balance after initialize (tokens are minted to contract/admin accounts)
+    await env.execute(TCF1, {
+      functionName: "buyNFTByDCF",
+      args: [TCF_NFT.address, 1n, 1n, 2n],
+      account: namedAccounts.deployer,
+    });
+
+    const totalSupply = await env.read(TCF1, {
+      functionName: "totalSupply",
+    });
+    expect(totalSupply).to.equal(5_200_000n * 1_000_000_000n);
+  });
+
+  // 测试通过DCF购买NFT之后，死地址余额是否等于购买NFT花费的余额
+  it("tcf: test burn address balance after purchase", async function () {
+    // deployer has 0 balance after initialize (tokens are minted to contract/admin accounts)
+    await env.execute(TCF1, {
+      functionName: "buyNFTByDCF",
+      args: [TCF_NFT.address, 1n, 1n, 2n],
+      account: namedAccounts.deployer,
+    });
+
+    // 获取DeadAddress地址
+    const burnAddress = await env.read(TCF1, {
+      functionName: "getDeadAddress",
+    });
+
+    expect(burnAddress).to.equal("0x000000000000000000000000000000000000dEaD");
+
+    const burnAddressBalance = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: ["0x000000000000000000000000000000000000dEaD" as `0x${string}`],
+    });
+    expect(burnAddressBalance).to.equal(2n);
+  });
+});
+
+// 测试 withdrawAward函数
+describe("withdrawAward", function () {
+  let SimpleTokenReceiver: any;
+
+  const address_3 = namedAccounts.admin1;
+  const address_7 = namedAccounts.admin2;
+
+  beforeEach(async () => {
+    ({ env, TCF1, vault, vault_copy, namedAccounts, SimpleTokenReceiver } =
+      await networkHelpers.loadFixture(deployAll));
+
+    await env.execute(TCF1, {
+      functionName: "initialize",
+      args: [vault.address, vault_copy.address, address_3, address_7],
+      account: namedAccounts.deployer,
+    });
+    // release tokens to vaults
+    await env.execute(TCF1, {
+      functionName: "releaseDailyTokens",
+      account: namedAccounts.deployer,
+    });
+
+    // withdraw some tokens to buyer (admin1)
+    await env.execute(TCF1, {
+      functionName: "transferFrom",
+      args: [vault.address, namedAccounts.admin1, 10_000_000_000n],
+      account: namedAccounts.deployer,
+    });
+
+    // 初始化DCF_NFT合约
+    await env.execute(TCF_NFT, {
+      functionName: "addSupportedToken",
+      args: [TCF1.address],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置 NFT 的 indate/ratio
+    await env.execute(TCF_NFT, {
+      functionName: "initPrice",
+      args: [getPrices(TCF1.address)],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置baseURI
+    await env.execute(TCF_NFT, {
+      functionName: "setBaseURI",
+      args: [baseURI],
+      account: namedAccounts.deployer,
+    });
+
+    // 设置提款地址
+    await env.execute(TCF_NFT, {
+      functionName: "setWithdrawAddress",
+      args: [namedAccounts.deployer],
+      account: namedAccounts.deployer,
+    });
+
+    await env.execute(TCF_NFT, {
+      functionName: "initRoot",
+      args: [namedAccounts.deployer],
+      account: namedAccounts.deployer,
+    });
+
+    // releaseDailyTokens函数调用
+    await env.execute(TCF1, {
+      functionName: "releaseDailyTokens",
+      account: namedAccounts.deployer,
+    });
+  });
+
+  it("only owner can call", async function () {
+    // 获取静态合约地址
+    const staticVault = await env.read(TCF1, {
+      functionName: "getStaticContractAddress",
+    });
+
+    await expect(
+      env.execute(TCF1, {
+        functionName: "withdrawAward",
+        args: [staticVault, namedAccounts.admin1, 2n, namedAccounts.admin2, 1n],
+        account: namedAccounts.admin1,
+      }),
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+  });
+
+  it("awardAmount must be greater than zero", async function () {
+    // 获取静态合约地址
+    const staticVault = await env.read(TCF1, {
+      functionName: "getStaticContractAddress",
+    });
+    await expect(
+      env.execute(TCF1, {
+        functionName: "withdrawAward",
+        args: [staticVault, namedAccounts.admin1, 0n, namedAccounts.admin2, 0n],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith("TCF: Award amount must be greater than 0");
+  });
+
+  it("service charge address cannot be zero address", async function () {
+    // 获取静态合约地址
+    const staticVault = await env.read(TCF1, {
+      functionName: "getStaticContractAddress",
+    });
+
+    await expect(
+      env.execute(TCF1, {
+        functionName: "withdrawAward",
+        args: [staticVault, namedAccounts.admin1, 2n, zeroAddress, 1n],
+        account: namedAccounts.deployer,
+      }),
+    ).to.be.revertedWith(
+      "TCF: Service charge receiver cannot be the zero address",
+    );
+  });
+
+  it("withdrawAward: should transfer award to receiver and service charge to service charge address", async function () {
+    // 获取静态合约地址
+    const staticVault = await env.read(TCF1, {
+      functionName: "getStaticContractAddress",
+    });
+
+    const receiver = namedAccounts.admin1;
+    const serviceChargeAddress = namedAccounts.admin2;
+    const awardAmount = 100n;
+    const serviceChargeAmount = 10n;
+
+    const receiverBalanceBefore = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [receiver],
+    });
+    const serviceChargeBalanceBefore = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [serviceChargeAddress],
+    });
+
+    await env.execute(TCF1, {
+      functionName: "withdrawAward",
+      args: [
+        staticVault,
+        receiver,
+        awardAmount - serviceChargeAmount,
+        serviceChargeAddress,
+        serviceChargeAmount,
+      ],
+      account: namedAccounts.deployer,
+    });
+
+    const receiverBalanceAfter = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [receiver],
+    });
+    const serviceChargeBalanceAfter = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [serviceChargeAddress],
+    });
+
+    expect(
+      BigInt(receiverBalanceAfter) - BigInt(receiverBalanceBefore),
+    ).to.equal(awardAmount - serviceChargeAmount);
+
+    expect(
+      BigInt(serviceChargeBalanceAfter) - BigInt(serviceChargeBalanceBefore),
+    ).to.equal(serviceChargeAmount);
   });
 });
 

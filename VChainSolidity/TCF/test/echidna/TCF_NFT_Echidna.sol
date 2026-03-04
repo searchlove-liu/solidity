@@ -48,7 +48,7 @@ contract EchidnaTCF_NFT {
         nft.setWithdrawAddress(withdraw);
 
         nft.initRoot(address(this));
-        nft.insert(address(this), address(this), true);
+        nft.insert(address(this), address(this), true, false);
     }
 
     receive() external payable {}

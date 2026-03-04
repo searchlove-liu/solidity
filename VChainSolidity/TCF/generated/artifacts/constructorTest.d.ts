@@ -171,7 +171,7 @@ export declare const Artifact_constructorTest: {
   "storageLayout": {
     "storage": [
       {
-        "astId": 15750,
+        "astId": 15902,
         "contract": "project/contracts/test.sol:constructorTest",
         "label": "value",
         "offset": 0,

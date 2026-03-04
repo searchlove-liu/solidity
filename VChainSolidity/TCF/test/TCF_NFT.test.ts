@@ -335,7 +335,7 @@ describe("TCF_NFT 合约测试", function () {
       // 将admin1插入二叉树列表
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -381,7 +381,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -431,7 +431,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -524,7 +524,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -614,7 +614,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -644,7 +644,7 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -674,13 +674,13 @@ describe("TCF_NFT 合约测试", function () {
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin2,
       });
 
@@ -1331,7 +1331,7 @@ describe("TCF_NFT 合约测试", function () {
       // 将admin1插入二叉树列表
       await env.execute(TCF_NFT, {
         functionName: "insert",
-        args: [namedAccounts.deployer, namedAccounts.deployer, true],
+        args: [namedAccounts.deployer, namedAccounts.deployer, true, false],
         account: namedAccounts.admin1,
       });
 
@@ -1681,6 +1681,34 @@ describe("TCF_NFT 合约测试", function () {
       ).to.equal(false);
     });
   });
+
+  // // 测试insert函数和getOptimalParent函数
+  // describe("二叉树结构测试", function () {
+  //   beforeEach(async function () {
+  //     await env.execute(TCF_NFT, {
+  //       functionName: "initRoot",
+  //       args: [namedAccounts.deployer],
+  //       account: namedAccounts.deployer,
+  //     });
+
+  //     // 给deployer转1000个TCF
+  //     await env.execute(TCF1, {
+  //       functionName: "transfer",
+  //       args: [namedAccounts.deployer, 1000n],
+  //       account: namedAccounts.deployer,
+  //     });
+
+  //     // 给deploy购买一个NFT，确保deployer在树中
+  //     await env.execute(TCF_NFT, {
+  //       functionName: "buyNFTByTC",
+  //       args: [0n, 1n],
+  //       account: namedAccounts.deployer,
+  //       value: 2n,
+  //     });
+  //   });
+
+  //   //
+  // });
 
   // 事件测试
   describe("事件测试", function () {

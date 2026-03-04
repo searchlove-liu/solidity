@@ -430,7 +430,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 7875,
+        "astId": 8027,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_initialized",
         "offset": 0,
@@ -438,7 +438,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 7878,
+        "astId": 8030,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_initializing",
         "offset": 1,
@@ -446,7 +446,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
         "type": "t_bool"
       },
       {
-        "astId": 8144,
+        "astId": 8296,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_balances",
         "offset": 0,
@@ -454,7 +454,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))"
       },
       {
-        "astId": 8150,
+        "astId": 8302,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_operatorApprovals",
         "offset": 0,
@@ -462,7 +462,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 8152,
+        "astId": 8304,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_uri",
         "offset": 0,
@@ -470,7 +470,7 @@ export const Artifact_ERC1155Supply = /** @type {const} **/ ({
         "type": "t_string_storage"
       },
       {
-        "astId": 9645,
+        "astId": 9797,
         "contract": "project/contracts/openzeppelin_l/contracts/token/ERC1155/extensions/ERC1155Supply.sol:ERC1155Supply",
         "label": "_totalSupply",
         "offset": 0,

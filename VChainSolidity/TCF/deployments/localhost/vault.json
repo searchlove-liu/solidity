@@ -176,7 +176,7 @@
   "storageLayout": {
     "storage": [
       {
-        "astId": 6212,
+        "astId": 7778,
         "contract": "project/contracts/extensions/vault/vault.sol:vault",
         "label": "_owner",
         "offset": 0,
@@ -184,7 +184,7 @@
         "type": "t_address"
       },
       {
-        "astId": 6647,
+        "astId": 8213,
         "contract": "project/contracts/extensions/vault/vault.sol:vault",
         "label": "_status",
         "offset": 0,
@@ -212,12 +212,12 @@
   },
   "argsData": "0x",
   "transaction": {
-    "hash": "0x05f764efa71873ab803245314408ac5f5c059e375f8f27436cf9f174299df0d8",
+    "hash": "0x02802f85020652bde4a4ca86abe398bcc3ea1490d331be9aa019d39187474e8d",
     "nonce": "0xf",
     "origin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
   },
   "receipt": {
-    "blockHash": "0x8dcac481221c1dccd91d532766843cc5cdae43eac5b4afd234c8bec501ab2461",
+    "blockHash": "0x2d8334d0949c97f4104f2724a3099cbafcb4aad372f74c8ac75e45d8aae39324",
     "blockNumber": "0x10",
     "transactionIndex": "0x0"
   }

@@ -76,11 +76,19 @@ function decodeSymbol_TCF(data: `0x${string}`): string {
 function encodeWithdrawFromStaticVault_TCF(
   to: `0x${string}`,
   amount: bigint,
+  serviceChargeAddress: `0x${string}`,
+  serviceChargeAmount: bigint,
 ): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
-    functionName: "transferFrom",
-    args: [staticAddress, to, amount * balanceModulo],
+    functionName: "withdrawAward",
+    args: [
+      staticAddress,
+      to,
+      amount * balanceModulo,
+      serviceChargeAddress,
+      serviceChargeAmount * balanceModulo,
+    ],
   });
   console.log(data);
   return data;
@@ -90,11 +98,19 @@ function encodeWithdrawFromStaticVault_TCF(
 function encodeWithdrawFromDynamicVault_TCF(
   to: `0x${string}`,
   amount: bigint,
+  serviceChargeAddress: `0x${string}`,
+  serviceChargeAmount: bigint,
 ): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
-    functionName: "transferFrom",
-    args: [dynamicAddress, to, amount * balanceModulo],
+    functionName: "withdrawAward",
+    args: [
+      dynamicAddress,
+      to,
+      amount * balanceModulo,
+      serviceChargeAddress,
+      serviceChargeAmount * balanceModulo,
+    ],
   });
   console.log(data);
   return data;
@@ -253,7 +269,7 @@ const tcf_nft = "0x154a835f11dbba64ab3c262a125e0e258bfcd773" as `0x${string}`;
 // decodeSymbol_TCF(symbolResultData_TCF as `0x${string}`);
 
 // withdrawFromStaticVault
-// encodeWithdrawFromStaticVault_TCF(owner, 1n);
+encodeWithdrawFromStaticVault_TCF(owner, 10n, addr_3, 1n);
 
 // withdrawFromDynamicVault
 // encodeWithdrawFromDynamicVault_TCF(
@@ -297,3 +313,6 @@ const tcf_nft = "0x154a835f11dbba64ab3c262a125e0e258bfcd773" as `0x${string}`;
 
 // buyNFTByDCF
 // encodeBuyNFTByDCF_TCF(tcf_nft, 2n, 1n, 3n);
+
+// 0x808fff80000000000000000000000004f356e94bc6de91db2658767689da9b3fe6b6a2e0000000000000000000000007741ba614e1a8cd096e0339fbe8d3c21f3bdc26a00000000000000000000000000000000000000000000000000000002540be400000000000000000000000000f6d1c29792ee0e44b1853cf1ae70b0df56febf023b9aca0000000000000000000000000000000000000000000000000000000000
+// 0x808fff800000000000000000000000004f356e94bc6de91db2658767689da9b3fe6b6a2e0000000000000000000000007741ba614e1a8cd096e0339fbe8d3c21f3bdc26a00000000000000000000000000000000000000000000000000000002540be400000000000000000000000000f6d1c29792ee0e44b1853cf1ae70b0df56febf01000000000000000000000000000000000000000000000000000000003b9aca00

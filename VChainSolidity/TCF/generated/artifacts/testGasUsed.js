@@ -6213,7 +6213,7 @@ export const Artifact_testGasUsed = /** @type {const} **/ ({
   "storageLayout": {
     "storage": [
       {
-        "astId": 15097,
+        "astId": 15249,
         "contract": "project/contracts/test.sol:testGasUsed",
         "label": "NFTDeadline",
         "offset": 0,
@@ -6221,7 +6221,7 @@ export const Artifact_testGasUsed = /** @type {const} **/ ({
         "type": "t_mapping(t_uint256,t_uint256)"
       },
       {
-        "astId": 15099,
+        "astId": 15251,
         "contract": "project/contracts/test.sol:testGasUsed",
         "label": "number",
         "offset": 0,
@@ -6229,7 +6229,7 @@ export const Artifact_testGasUsed = /** @type {const} **/ ({
         "type": "t_uint256"
       },
       {
-        "astId": 15103,
+        "astId": 15255,
         "contract": "project/contracts/test.sol:testGasUsed",
         "label": "supportTokenAddress",
         "offset": 0,
@@ -6237,7 +6237,7 @@ export const Artifact_testGasUsed = /** @type {const} **/ ({
         "type": "t_mapping(t_address,t_uint8)"
       },
       {
-        "astId": 15106,
+        "astId": 15258,
         "contract": "project/contracts/test.sol:testGasUsed",
         "label": "addresses",
         "offset": 0,

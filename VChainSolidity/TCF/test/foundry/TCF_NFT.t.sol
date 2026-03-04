@@ -38,7 +38,7 @@ contract TCF_NFT_Fuzz is Test {
         nft.setWithdrawAddress(address(0xBEEF));
 
         nft.initRoot(address(this));
-        nft.insert(address(this), address(this), true);
+        nft.insert(address(this), address(this), true, false);
     }
 
     function testFuzz_buyNFTByTC(uint256 buyAmount, uint256 sentValue) public {
@@ -52,11 +52,11 @@ contract TCF_NFT_Fuzz is Test {
         uint256 expected = price * buyAmount;
         if (buyAmount == 0 || sentValue != expected) {
             vm.expectRevert("INCORRECT_FUNDS");
-            nft.buyNFTByTC{value: sentValue}(0, buyAmount);
+            nft.buyNFTByTC{value: sentValue}(0, buyAmount, sentValue);
             return;
         }
 
-        nft.buyNFTByTC{value: sentValue}(0, buyAmount);
+        nft.buyNFTByTC{value: sentValue}(0, buyAmount, sentValue);
         assertEq(nft.balanceOf(alice, 0), buyAmount);
     }
 

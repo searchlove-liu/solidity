@@ -12942,7 +12942,7 @@ export declare const Artifact_test_TCF_ERC1155URIStorage: {
         "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
       },
       {
-        "astId": 7626,
+        "astId": 7778,
         "contract": "project/contracts/test/test_TCF_ERC1155URIStorage.sol:test_TCF_ERC1155URIStorage",
         "label": "_owner",
         "offset": 0,
