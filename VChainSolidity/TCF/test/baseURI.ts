@@ -1,27 +1,27 @@
 import { stringToHexString } from "./utils/stringToHex.ts";
 
 const base1Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/1.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft0.jpg",
 ) as `0x${string}`;
 
 const base2Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/2.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft1.jpg",
 ) as `0x${string}`;
 
 const base3Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/3.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft2.jpg",
 ) as `0x${string}`;
 
 const base4Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/4.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft3.jpg",
 ) as `0x${string}`;
 
 const base5Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/5.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft4.jpg",
 ) as `0x${string}`;
 
 const base6Value = stringToHexString(
-  "https://yellow-secure-silverfish-933.mypinata.cloud/ipfs/bafybeigsbb4cuqks2qdzotsyeobdbi4yfkqalcg2gzukhlneiqdbm5ovaa/6.json",
+  "https://black-major-opossum-243.mypinata.cloud/ipfs/bafybeif536vba2lmtaeaso66nplepey6zlg4p77nofftnjmpoe566zbejm/nft5.jpg",
 ) as `0x${string}`;
 
 // const base1Value = stringToHexString(

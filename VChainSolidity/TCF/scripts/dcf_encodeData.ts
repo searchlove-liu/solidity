@@ -12,8 +12,9 @@ const staticAddress =
   "0x4f356e94bc6de91db2658767689da9b3fe6b6a2e" as `0x${string}`;
 const dynamicAddress =
   "0x627f6864e78ed427f168c4a342922f860b608631" as `0x${string}`;
-const addr_3 = "0xf6d1c29792ee0e44b1853cf1ae70b0df56febf01" as `0x${string}`;
-const addr_7 = "0x76e0e1c9979bdca864e888ba89579778ad3815e5" as `0x${string}`;
+const addr_1 = "0xf8eb2d58672b1f7eb2cf89123a56107ba71f8951" as `0x${string}`;
+const addr_2 = "0x0ca07b4ba2234e6d91984054a5343792b095bdb2" as `0x${string}`;
+const addr_7 = "0x90b2e705daaba67db24ac029d6e10bb5023b83c1" as `0x${string}`;
 const owner = "0x7741ba614e1a8cd096e0339fbe8d3c21f3bdc26a" as `0x${string}`;
 const test_address =
   "0xf6d1c29792ee0e44b1853cf1ae70b0df56febf01" as `0x${string}`;
@@ -24,7 +25,7 @@ function encodeInitializeData_DCT(): string {
   const data = encodeFunctionData({
     abi: TCF_abi,
     functionName: "initialize",
-    args: [staticAddress, dynamicAddress, addr_3, addr_7],
+    args: [staticAddress, dynamicAddress, addr_1, addr_2, addr_7],
   });
   // console.log('encodeFunctionData initialize data:', data);
   return data;
@@ -253,7 +254,7 @@ function encodeBuyNFTByDCF_TCF(
 
 const tcf_nft = "0x154a835f11dbba64ab3c262a125e0e258bfcd773" as `0x${string}`;
 
-// console.log(encodeInitializeData_DCT());
+console.log(encodeInitializeData_DCT());
 // encodeBalanceOf_TCF(dynamicAddress);
 
 // name
@@ -269,7 +270,7 @@ const tcf_nft = "0x154a835f11dbba64ab3c262a125e0e258bfcd773" as `0x${string}`;
 // decodeSymbol_TCF(symbolResultData_TCF as `0x${string}`);
 
 // withdrawFromStaticVault
-encodeWithdrawFromStaticVault_TCF(owner, 10n, addr_3, 1n);
+// encodeWithdrawFromStaticVault_TCF(owner, 10n, addr_3, 1n);
 
 // withdrawFromDynamicVault
 // encodeWithdrawFromDynamicVault_TCF(

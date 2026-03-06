@@ -15,3 +15,6 @@ slither-analyzer静态分析
 部署合约使用bytecode，而不是使用deployedBytecode
 对应bytecode文件夹中，bytecode对应xxx.init.bin，deployBytecode对应xxx.deployed.bin
 bytecode是部署合约时的字节码，deployBytecode是存储在区块链上的合约的字节码。两者不相同
+
+node版本使用24.14.0
+它可以直接使用node xxx.ts

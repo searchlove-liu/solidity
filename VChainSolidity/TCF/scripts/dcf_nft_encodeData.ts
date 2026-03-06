@@ -6,7 +6,11 @@ const { viem } = await network.connect({
 import { encodeFunctionData, decodeFunctionResult, zeroAddress } from "viem";
 const TCF_NFT = (await artifacts.readArtifact("TCF_NFT")).abi;
 // import { TCF_NFT } from "./abi/TCF_NFT.ts";
-import { getPrices, getVoidChainPrices } from "../test/price.ts";
+import {
+  getPrices,
+  getVoidChainTestnetPrices,
+  getVoidChainRealnetPrices,
+} from "../test/price.ts";
 import { baseURI } from "../test/baseURI.ts";
 
 const staticAddress =
@@ -21,7 +25,7 @@ const test_address =
 const decimals = 9;
 const balanceModulo = 1000000000n;
 const dcfAddress =
-  "0x379fe26d48968f122a84d441022d95db1d83a112" as `0x${string}`; // Replace with actual DCF contract address
+  "0x53381f3cd19f03abfb6487b4eeeb85779b98c332" as `0x${string}`; // Replace with actual DCF contract address
 
 // 编码addSupportedToken 函数调用的数据
 function encodeAddSupportedToken_TCF_NFTPrice(
@@ -63,7 +67,7 @@ function encodeInitPrice_TCF_NFTPrice(tokenAddress: `0x${string}`): string {
   const data = encodeFunctionData({
     abi: TCF_NFT,
     functionName: "initPrice",
-    args: [getVoidChainPrices(tokenAddress)],
+    args: [getVoidChainRealnetPrices(tokenAddress)],
   });
   console.log(data);
   return data;

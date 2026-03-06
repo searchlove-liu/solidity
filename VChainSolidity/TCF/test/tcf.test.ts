@@ -34,6 +34,7 @@ describe("TCF", function () {
         vault_copy.address,
         namedAccounts.deployer,
         namedAccounts.deployer,
+        namedAccounts.deployer,
       ],
       account: namedAccounts.deployer,
     });
@@ -61,6 +62,7 @@ describe("TCF", function () {
         vault_copy.address,
         namedAccounts.deployer,
         namedAccounts.deployer,
+        namedAccounts.deployer,
       ],
       account: namedAccounts.deployer,
     });
@@ -75,6 +77,7 @@ describe("TCF", function () {
           vault_copy.address,
           namedAccounts.deployer,
           namedAccounts.deployer,
+          namedAccounts.deployer,
         ],
         account: namedAccounts.deployer,
       }),
@@ -83,7 +86,8 @@ describe("TCF", function () {
 });
 
 describe("test token amount", function () {
-  const address_3 = namedAccounts.admin1;
+  const address_1 = "0x0000000000000000000000000000000000000001";
+  const address_2 = namedAccounts.admin1;
   const address_7 = namedAccounts.admin2;
   const totalSupplyUnits = 5_200_000n * 1_000_000_000n;
   const percentOfSupply = (percent: bigint) =>
@@ -95,7 +99,13 @@ describe("test token amount", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_1,
+        address_2,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
   });
@@ -118,6 +128,8 @@ describe("test token amount", function () {
     ).to.equal(expectedStaticVaultAmount.toString());
   });
 
+  it("检查接收1%和2%的代币地址，是否收到了正确的数量", async function () {});
+
   // 检查动态授权额度是否等于5_200_000n * 1_000_000_000n *90 /100 * 60 /100
   it("Init the TCF,get dynamic vault amount,expect amount is equal to 2808000000000", async function () {
     const expectedDynamicVaultAmount =
@@ -132,13 +144,21 @@ describe("test token amount", function () {
   });
 
   it("Init the TCF,get owner amount,expect amount1 of address_7 is equal to 3840000,address_3 is equal to 364000", async function () {
-    const number_3 = percentOfSupply(3n);
+    const number_1 = percentOfSupply(1n);
     expect(
       await env.read(TCF1, {
         functionName: "balanceOf",
-        args: [address_3],
+        args: [address_1],
       }),
-    ).to.equal(number_3.toString());
+    ).to.equal(number_1.toString());
+
+    const number_2 = percentOfSupply(2n);
+    expect(
+      await env.read(TCF1, {
+        functionName: "balanceOf",
+        args: [address_2],
+      }),
+    ).to.equal(number_2.toString());
 
     const number_7 = percentOfSupply(7n);
     expect(
@@ -175,7 +195,13 @@ describe("test token amount", function () {
     async function initializeWithVaults() {
       await env.execute(TCF1, {
         functionName: "initialize",
-        args: [vault.address, vault_copy.address, address_3, address_7],
+        args: [
+          vault.address,
+          vault_copy.address,
+          address_1,
+          address_2,
+          address_7,
+        ],
         account: namedAccounts.deployer,
       });
     }
@@ -401,7 +427,13 @@ describe("Pause and Unpause", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_3,
+        address_3,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
   });
@@ -561,7 +593,13 @@ describe("buyNFTByDCF", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_3,
+        address_3,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
     // release tokens to vaults
@@ -765,7 +803,13 @@ describe("withdrawAward", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_3,
+        address_3,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
     // release tokens to vaults
@@ -917,6 +961,37 @@ describe("withdrawAward", function () {
       BigInt(serviceChargeBalanceAfter) - BigInt(serviceChargeBalanceBefore),
     ).to.equal(serviceChargeAmount);
   });
+
+  // 服务费地址为0，可以正常提取奖品
+  it("withdrawAward with zero service charge address: should transfer full award to receiver", async function () {
+    // 获取静态合约地址
+    const staticVault = await env.read(TCF1, {
+      functionName: "getStaticContractAddress",
+    });
+
+    const receiver = namedAccounts.admin1;
+    const awardAmount = 100n;
+
+    const receiverBalanceBefore = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [receiver],
+    });
+
+    await env.execute(TCF1, {
+      functionName: "withdrawAward",
+      args: [staticVault, receiver, awardAmount, namedAccounts.admin2, 0n],
+      account: namedAccounts.deployer,
+    });
+
+    const receiverBalanceAfter = await env.read(TCF1, {
+      functionName: "balanceOf",
+      args: [receiver],
+    });
+
+    expect(
+      BigInt(receiverBalanceAfter) - BigInt(receiverBalanceBefore),
+    ).to.equal(awardAmount);
+  });
 });
 
 // 测试事件
@@ -931,7 +1006,13 @@ describe("event", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_3,
+        address_3,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
   });
@@ -971,7 +1052,13 @@ describe("ERC20 original interface functions", function () {
 
     await env.execute(TCF1, {
       functionName: "initialize",
-      args: [vault.address, vault_copy.address, address_3, address_7],
+      args: [
+        vault.address,
+        vault_copy.address,
+        address_3,
+        address_3,
+        address_7,
+      ],
       account: namedAccounts.deployer,
     });
   });

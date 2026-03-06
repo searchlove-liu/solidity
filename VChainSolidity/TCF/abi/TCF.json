@@ -41,6 +41,33 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "NFTPurchased",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "buyer",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "nftContract",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "tokenId",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "buyAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "OwnershipTransferred",
     "inputs": [
       {
@@ -376,7 +403,11 @@
       },
       {
         "type": "address",
-        "name": "_addr_3"
+        "name": "_addr_1"
+      },
+      {
+        "type": "address",
+        "name": "_addr_2"
       },
       {
         "type": "address",

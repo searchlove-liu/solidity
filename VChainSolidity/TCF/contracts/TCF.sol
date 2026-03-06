@@ -26,6 +26,14 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
         uint256 serviceChargeAmount
     );
 
+    // 记录购买NFT事件
+    event NFTPurchased(
+        address indexed buyer,
+        address indexed nftContract,
+        uint256 tokenId,
+        uint256 buyAmount
+    );
+
     event DailyTokensReleased(address indexed operator, uint256 timeStamp);
 
     // 静态合约和动态合约
@@ -45,19 +53,13 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
     function initialize(
         address _staticVaultAddress,
         address _dynamicVaultAddress,
-        address _addr_3,
+        address _addr_1,
+        address _addr_2,
         address _addr_7
     ) external initializer onlyOwner {
-        require(_addr_3 != address(0), "TCF: addr_3 is the zero address");
+        require(_addr_1 != address(0), "TCF: addr_1 is the zero address");
+        require(_addr_2 != address(0), "TCF: addr_2 is the zero address");
         require(_addr_7 != address(0), "TCF: addr_7 is the zero address");
-        require(
-            _staticVaultAddress != address(0),
-            "TCF: staticVaultAddress is the zero address"
-        );
-        require(
-            _dynamicVaultAddress != address(0),
-            "TCF: dynamicVaultAddress is the zero address"
-        );
         require(
             _staticVaultAddress.code.length > 0,
             "TCF: staticVaultAddress is not a contract"
@@ -71,9 +73,11 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
         // 90%=4680000 代币,decimals=9,后面乘以10^9
         _mint(address(this), 4680000000000000);
         // _mint(addr_3, 156000 * 10 ** 9);
-        _mint(_addr_3, 156000000000000);
+        // 1% 给_addr_1, 2% 给_addr_2, 7% 给_addr_7
+        _mint(_addr_1, 52000000000000);
+        _mint(_addr_2, 104000000000000);
         _mint(_addr_7, 364000000000000);
-        // 4680000000000000中每天发40给静态,每天发60给动态.也就是静态最多接受4680000000000000*40/100=1872000000000000
+        // 4680000000000000中每天发400给静态,每天发600给动态.也就是静态最多接受4680000000000000*40/100=1872000000000000
         // 动态最多接受4680000000000000*60/100=2808000000000000
         // staticVault/dynamicVault授权自己未来可能收到的所有代币数量给owner,owner可以提取
         staticVault = _staticVaultAddress;
@@ -127,7 +131,9 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
             serviceChargeReceiver != address(0),
             "TCF: Service charge receiver cannot be the zero address"
         );
-        transferFrom(from, serviceChargeReceiver, serviceChargeAmount);
+        if (serviceChargeAmount > 0) {
+            transferFrom(from, serviceChargeReceiver, serviceChargeAmount);
+        }
         transferFrom(from, to, awardAmount);
         emit TokensWithdrawn(
             from,
@@ -166,6 +172,7 @@ contract TCF is Initializable, ERC1363, Ownable, Pausable {
             "TCF: transferAndCall failed"
         );
 
+        emit NFTPurchased(msg.sender, nftContract, tokenId, buyAmount);
         return true;
     }
 
